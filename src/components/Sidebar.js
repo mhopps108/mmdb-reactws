@@ -5,13 +5,16 @@ import { device } from "../devices";
 
 const Listitem = styled.div`
   padding: 5px;
-  margin: 5px;
+  & a {
+    color: #222;
+    text-decoration: none;
+  }
 `;
 
 const Listheader = styled.div`
   font-size: 20px;
-  padding: 5px;
-  margin: 5px;
+  padding: 15px 0px 5px 0;
+  //margin: 5px;
 `;
 
 export default function Sidebar({ isOpen, toggleOpen }) {
@@ -21,19 +24,29 @@ export default function Sidebar({ isOpen, toggleOpen }) {
       <CloseButton onClick={toggleOpen}>X</CloseButton>
       <div>SideDrawer</div>
       <Listheader>TMDb</Listheader>
-      {tmdblist.map(item => {
-        return <Listitem key={item}>{item}</Listitem>;
-      })}
+      <Listitem onClick={toggleOpen}>
+        <Link to={`/lists/tmdb-popular`}>Popular</Link>
+      </Listitem>
+      <Listitem onClick={toggleOpen}>
+        <Link to={`/lists/tmdb-top-rated`}>Top Rated</Link>
+      </Listitem>
+      <Listitem onClick={toggleOpen}>
+        <Link to={`/lists/tmdb-now-playing`}>Now Playing</Link>
+      </Listitem>
+      <Listitem onClick={toggleOpen}>
+        <Link to={`/lists/tmdb-upcoming`}>Upcoming</Link>
+      </Listitem>
+
       <Listheader>IMDb</Listheader>
-      {tmdblist.map(item => {
+      {tmdblist.map((item) => {
         return <Listitem key={item}>{item}</Listitem>;
       })}
       <Listheader>Trakt</Listheader>
-      {tmdblist.map(item => {
+      {tmdblist.map((item) => {
         return <Listitem key={item}>{item}</Listitem>;
       })}
       <Listheader>More</Listheader>
-      {tmdblist.map(item => {
+      {tmdblist.map((item) => {
         return <Listitem key={item}>{item}</Listitem>;
       })}
     </StyledSidebar>
@@ -63,7 +76,7 @@ const StyledSidebar = styled.div`
 
   @media ${device.max.desktop} {
     transition: transform 0.3s ease-in-out;
-    ${props =>
+    ${(props) =>
       props.isOpen
         ? css`
             transform: translateX(0);

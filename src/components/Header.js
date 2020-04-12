@@ -15,9 +15,15 @@ export default function Header({ toggleSidebar }) {
           <h3>MMDb</h3>
         </NavGroup>
         <NavGroupPages>
-          <NavLink href="_blank">List</NavLink>
-          <NavLink href="_blank">Discovery</NavLink>
-          <NavLink href="_blank">Releases</NavLink>
+          <NavLink>
+            <Link to="/list">List</Link>
+          </NavLink>
+          <NavLink>
+            <Link to="/list">Discovery</Link>
+          </NavLink>
+          <NavLink>
+            <Link to="/release-dates">Releases</Link>
+          </NavLink>
         </NavGroupPages>
         <NavGroup>
           <a href="/">

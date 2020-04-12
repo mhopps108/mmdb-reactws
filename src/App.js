@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
-import { Header, Sidebar, Toolbar, Main, MovieDetail } from "./components";
+import {
+  Header,
+  Sidebar,
+  Toolbar,
+  Main,
+  MovieDetail,
+  ReleaseDates,
+} from "./components";
 import styled, { css } from "styled-components";
 import { device } from "./devices";
 import "boxicons";
@@ -10,25 +17,20 @@ export default function App() {
   const [sidebarVisable, setSidebarVisable] = useState(false);
   const toggleSidebar = () => setSidebarVisable(!sidebarVisable);
   return (
-    // <StyledApp>
-    //   <Header toggleSidebar={toggleSidebar} />
-    //   <Toolbar />
-    //   <Sidebar isOpen={sidebarVisable} toggleOpen={toggleSidebar} />
-    //   <Main />
-    // </StyledApp>
-
     <StyledApp>
-      <Header toggleSidebar={toggleSidebar} />
       <BrowserRouter>
+        <Header toggleSidebar={toggleSidebar} />
         <Switch>
+          <Route path={"/release-dates"}>
+            {/*<Main />*/}
+            <ReleaseDates />
+          </Route>
           <Route path={"/lists/:slug"}>
             <Toolbar />
             <Sidebar isOpen={sidebarVisable} toggleOpen={toggleSidebar} />
             <Main />
           </Route>
           <Route path="/movie/:imdbId">
-            {/* <Toolbar />
-            <Sidebar isOpen={sidebarVisable} toggleOpen={toggleSidebar} /> */}
             <MovieDetail />
           </Route>
           <Route path="/">
@@ -36,6 +38,7 @@ export default function App() {
             <Sidebar isOpen={sidebarVisable} toggleOpen={toggleSidebar} />
             <Main />
           </Route>
+          {/*<Route path="/lists">*/}
         </Switch>
       </BrowserRouter>
     </StyledApp>

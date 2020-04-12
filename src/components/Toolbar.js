@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components/macro";
 
 const StyledToolbar = styled.div`
-  background-color: blue;
+  background-color: white;
   grid-area: toolbar;
   position: sticky;
   top: 55px;
