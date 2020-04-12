@@ -1,0 +1,14 @@
+https://www.imdb.com/chart/top/?ref_=nv_mv_250
+https://www.imdb.com/chart/moviemeter/?ref_=nv_mv_mpm
+https://www.imdb.com/chart/boxoffice/?ref_=nv_ch_cht
+
+https://www.imdb.com/movies-in-theaters/?ref_=nv_mv_inth
+https://www.imdb.com/movies-coming-soon/?ref_=nv_mv_cs
+https://www.imdb.com/list/ls016522954/?ref_=nv_tvv_dvd
+https://www.imdb.com/list/ls016522954/?ref_=ttls_ref_typ&sort=list_order,asc&st_dt=&mode=detail&page=1&title_type=movie
+
+https://www.imdb.com/search/title/?genres=sci-fi&explore=title_type,genres&pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=3396781f-d87f-4fac-8694-c56ce6f490fe&pf_rd_r=PBSY41PCVXTB555FYV8G&pf_rd_s=center-1&pf_rd_t=15051&pf_rd_i=genre&ref_=ft_gnr_pr1_i_2
+
+https://www.imdb.com/calendar?region=US&ref_=rlm
+
+https://www.imdb.com/news/movie/?ref_=nv_nw_mv

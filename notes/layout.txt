@@ -1,0 +1,68 @@
+
+
+--- PAGES ---
+Lists
+Discovery
+Releases
+Search
+MovieDetail
+
+--- COMPONENTS ---
+Header
+Sidebar
+Toolbar
+MovieList
+MovieDetails
+
+
+--- PAGES | COMPONENTS ---
+
+Lists
+    Nav
+    Sidebar
+    Toolbar
+    MovieList
+Discovery
+    Nav
+    Sidebar
+    Toolbar
+    MovieList
+Releases
+    Nav
+    Sidebar
+    Toolbar
+    MovieList
+Search
+    Nav
+    Sidebar
+    Toolbar
+    MovieList
+MovieDetail
+    Nav
+    Sidebar ??
+    MovieDetails
+
+
+--- GRID ---
+
+MovieLists - Grids
+
+- 350 - 900 px -
+navbar
+toolbar
+main
+- 900+ px -
+navbar navbar
+sidebar toolbar
+sidebar main
+
+MovieDetail - Grids
+- 350 - 900 px -
+navbar
+main
+- 900+ px -
+navbar navbar
+sidebar main
+
+
+

@@ -47,6 +47,7 @@ const StyledHeader = styled.div`
   position: sticky;
   top: 0;
   width: 100%;
+  z-index: 10;
 `;
 
 const Navbar = styled.nav`

@@ -18,6 +18,12 @@ export default function App() {
   const toggleSidebar = () => setSidebarVisable(!sidebarVisable);
   return (
     <StyledApp>
+      {/*<BrowserRouter>*/}
+      {/*  <Header toggleSidebar={toggleSidebar} />*/}
+      {/*  <Switch>*/}
+      {/*    <Route path="/"></Route>*/}
+      {/*  </Switch>*/}
+      {/*</BrowserRouter>*/}
       <BrowserRouter>
         <Header toggleSidebar={toggleSidebar} />
         <Switch>

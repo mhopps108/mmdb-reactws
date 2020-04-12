@@ -13,9 +13,58 @@ const Listitem = styled.div`
 
 const Listheader = styled.div`
   font-size: 20px;
-  padding: 15px 0px 5px 0;
+  //padding: 10px 0px 5px 0;
   //margin: 5px;
 `;
+
+const tmdbLinks = [
+  {
+    name: "Popular",
+    path: "/lists/tmdb-popular",
+  },
+  {
+    name: "Top Rated",
+    path: "/lists/tmdb-top-rated",
+  },
+  {
+    name: "Now Playing",
+    path: "/lists/tmdb-now-playing",
+  },
+  {
+    name: "Upcoming",
+    path: "/lists/tmdb-upcoming",
+  },
+];
+
+const releaseDateLinks = [
+  {
+    name: "Theatrical Releases",
+    path: "/releases-dates",
+  },
+  {
+    name: "Digital Releases",
+    path: "/releases-dates",
+  },
+  {
+    name: "BluRay Releases",
+    path: "/releases-dates",
+  },
+];
+
+const discoveryLinks = [
+  {
+    name: "Top Comedies",
+    path: "/lists/tmdb-now-playing",
+  },
+  {
+    name: "Top Rated Kids Movies",
+    path: "/lists/tmdb-now-playing",
+  },
+  {
+    name: "Best Family Movies",
+    path: "/lists/tmdb-now-playing",
+  },
+];
 
 export default function Sidebar({ isOpen, toggleOpen }) {
   const tmdblist = ["Popular", "New Releases", "Upcoming", "Top Rated"];
@@ -23,20 +72,15 @@ export default function Sidebar({ isOpen, toggleOpen }) {
     <StyledSidebar isOpen={isOpen}>
       <CloseButton onClick={toggleOpen}>X</CloseButton>
       <div>SideDrawer</div>
-      <Listheader>TMDb</Listheader>
-      <Listitem onClick={toggleOpen}>
-        <Link to={`/lists/tmdb-popular`}>Popular</Link>
-      </Listitem>
-      <Listitem onClick={toggleOpen}>
-        <Link to={`/lists/tmdb-top-rated`}>Top Rated</Link>
-      </Listitem>
-      <Listitem onClick={toggleOpen}>
-        <Link to={`/lists/tmdb-now-playing`}>Now Playing</Link>
-      </Listitem>
-      <Listitem onClick={toggleOpen}>
-        <Link to={`/lists/tmdb-upcoming`}>Upcoming</Link>
-      </Listitem>
 
+      <Listheader>TMDb</Listheader>
+      {tmdbLinks.map((item, index) => {
+        return (
+          <Listitem onClick={toggleOpen} key={index}>
+            <Link to={item.path}>{item.name}</Link>
+          </Listitem>
+        );
+      })}
       <Listheader>IMDb</Listheader>
       {tmdblist.map((item) => {
         return <Listitem key={item}>{item}</Listitem>;
@@ -45,9 +89,21 @@ export default function Sidebar({ isOpen, toggleOpen }) {
       {tmdblist.map((item) => {
         return <Listitem key={item}>{item}</Listitem>;
       })}
-      <Listheader>More</Listheader>
-      {tmdblist.map((item) => {
-        return <Listitem key={item}>{item}</Listitem>;
+      <Listheader>Releases</Listheader>
+      {releaseDateLinks.map((item, index) => {
+        return (
+          <Listitem onClick={toggleOpen} key={index}>
+            <Link to={item.path}>{item.name}</Link>
+          </Listitem>
+        );
+      })}
+      <Listheader>Discovery</Listheader>
+      {discoveryLinks.map((item, index) => {
+        return (
+          <Listitem onClick={toggleOpen} key={index}>
+            <Link to={item.path}>{item.name}</Link>
+          </Listitem>
+        );
       })}
     </StyledSidebar>
   );
@@ -70,7 +126,7 @@ const StyledSidebar = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-  padding: 32px 16px;
+  padding: 20px 16px;
   position: fixed;
   top: 55px;
 
