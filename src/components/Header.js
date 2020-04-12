@@ -86,12 +86,17 @@ const NavGroupPages = styled(NavGroup)`
   }
 `;
 
-const NavLink = styled.a`
-  color: #ccc;
+const NavLink = styled.div`
   font-size: 1rem;
   margin-right: 8px;
   padding: 4px 8px;
   border-radius: 5px;
+  & a {
+    color: #ccc;
+  }
+  & a:hover {
+    color: green;
+  }
 
   @media ${device.min.tablet} {
     font-size: 1.3rem;
