@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
-// import ReactDOM from "react-dom";
 import { Link, useRouteMatch, useParams } from "react-router-dom";
-
-import { useDataApi } from "./useDataApi";
+import { useDataApi } from "../useDataApi";
 import MovieListItem from "./MovieListItem";
 
 function List() {
@@ -29,7 +27,7 @@ function List() {
         // background: "linear-gradient(0deg,#333 0%, #111 90%)",
         background: "linear-gradient(to bottom, #232526, #414345)",
         // background: ;
-        color: "white"
+        color: "white",
       }}
     >
       <div className="row sticky-top">
@@ -41,7 +39,7 @@ function List() {
             backgroundColor: "#efefef",
             color: "#14181c",
             boxShadow:
-              "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2)"
+              "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2)",
           }}
         >
           <div>
@@ -55,7 +53,7 @@ function List() {
       {isLoading && <p>Loading movies...</p>}
       {!isLoading && data && (
         <div className="row mx-auto">
-          {(movielistitems || []).map(movie => (
+          {(movielistitems || []).map((movie) => (
             <div className="col-xs-12 col-md-6 p-1 mb-2">
               <MovieListItem key={movie.movie.imdb_id} movie={movie.movie} />
             </div>
