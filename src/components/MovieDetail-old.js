@@ -4,16 +4,53 @@ import { useDataApi } from "../useDataApi";
 import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
 import "boxicons";
-import {
-  Flex,
-  StyledMovieDetail,
-  MDBasics,
-  BackdropImage,
-  PosterImage,
-  Title,
-  StyledBasics,
-  Info,
-} from "./MovieDetailStyled";
+
+const Flex = styled.div`
+  display: flex;
+  flex-direction: ${(props) => (props.column ? "column" : "row")};
+  width: 100%;
+`;
+
+const MovieDetailWrap = styled.div`
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+`;
+
+const BackdropImage = styled.div`
+  width: 100%;
+  height: 300px;
+  background-image: url(${(props) => props.url});
+  background-position: center 25%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: inset 0px -40px 20px 2px rgba(0, 0, 0, 0.85);
+`;
+
+const BasicsWrap = styled.div`
+  display: flex;
+  //margin-top: -45px;
+`;
+
+const PosterImage = styled.div`
+  width: 120px;
+  height: 180px;
+  background-image: url(${(props) => props.url});
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 4px;
+  border: 1px solid #555;
+`;
+
+const Title = styled.h1`
+  font-size: 24px;
+`;
+
+export { Flex, MovieDetailWrap, BackdropImage, BasicsWrap, PosterImage, Title };
 
 export default function MovieDetail() {
   let { imdbId } = useParams();
@@ -31,28 +68,37 @@ export default function MovieDetail() {
   }, [state, imdbId]);
 
   return (
-    <StyledMovieDetail>
+    <MovieDetailWrap>
       {isError && <p>Error</p>}
       {isLoading && <p>Loading movies...</p>}
       {!isLoading && data && (
         <>
           <BackdropImage url={data.backdrop_url} />
           <Basics data={data} />
+          <Ratings data={data} />
+          <ReleaseDates data={data} />
+          <Overview data={data} />
+          <Trailer data={data} />
+          <Similar data={data} />
+          <Recommended data={data} />
+          <Credits data={data} />
+          <ExternalLinks data={data} />
 
-          {/*<BackdropImage url={data.backdrop_url} />*/}
-          {/*<Basics data={data} />*/}
-          {/*<Ratings data={data} />*/}
-          {/*<ReleaseDates data={data} />*/}
-          {/*<Overview data={data} />*/}
-          {/*<Trailer data={data} />*/}
-          {/*<Similar data={data} />*/}
-          {/*<Recommended data={data} />*/}
-          {/*<Credits data={data} />*/}
-          {/*<ExternalLinks data={data} />*/}
-          {/*<div className="col-12 d-flex pl-4 pb-5 flex-column"></div>*/}
+          {/*
+          <Ratings data={data} />
+          <ReleaseDates data={data} />
+          <Overview data={data} />
+          <Trailer data={data} />
+          <Similar data={data} />
+          <Recommended data={data} />
+          <Credits data={data} />
+          <ExternalLinks data={data} />
+
+          <div className="col-12 d-flex pl-4 pb-5 flex-column"></div>
+          */}
         </>
       )}
-    </StyledMovieDetail>
+    </MovieDetailWrap>
   );
 }
 
@@ -66,27 +112,28 @@ function Basics({ data }) {
     budget,
     revenue,
     poster_url,
-    backdrop_url,
   } = data;
 
   return (
-    <MDBasics>
-      <PosterImage src={poster_url} />
-      <StyledBasics>
+    <BasicsWrap>
+      <PosterImage url={poster_url} />
+      <Flex column>
         <Title>{title}</Title>
-        <Info>
-          {year && <div>{year}</div>}
-          {runtime && <div>{runtime}m</div>}
-          {certification && <div>{certification}</div>}
-        </Info>
-        <Info>
-          {genres &&
-            genres.map((genre, index) => {
-              return <div key={index}>{genre}</div>;
-            })}
-        </Info>
-      </StyledBasics>
-    </MDBasics>
+        <Flex column>
+          <Flex>
+            {year && <div>{year}</div>}
+            {runtime && <div>{runtime}m</div>}
+            {certification && <div>{certification}</div>}
+          </Flex>
+          <Flex>
+            {genres &&
+              genres.map((genre, index) => {
+                return <div key={index}>{genre}</div>;
+              })}
+          </Flex>
+        </Flex>
+      </Flex>
+    </BasicsWrap>
   );
 }
 
