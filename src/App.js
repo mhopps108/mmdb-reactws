@@ -6,7 +6,11 @@ import styled, { css } from "styled-components";
 
 export default function App() {
   const [sidebarVisible, setSidebarVisible] = useState(false);
-  const toggleSidebar = () => setSidebarVisible(!sidebarVisible);
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+
+    console.log(`sidebar button clicked - (${sidebarVisible})`);
+  };
   return (
     <StyledApp>
       <BrowserRouter>
@@ -40,6 +44,7 @@ export default function App() {
 
 const StyledApp = styled.div`
   max-width: 1000px;
+  height: 100%;
   //display: grid;
   //grid-template-areas: "page";
   //grid-template-columns: 1fr;

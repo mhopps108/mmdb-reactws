@@ -27,8 +27,9 @@ export default function List({ sidebarVisible, toggleSidebar }) {
   return (
     <StyledList>
       <Header toggleSidebar={toggleSidebar} />
-      <Toolbar listData={data} />
       <Sidebar isOpen={sidebarVisible} toggleOpen={toggleSidebar} />
+      <Toolbar listData={data} />
+
       {/*<MovieList movies={results} isLoading={isLoading} isError={isError} />*/}
       <MovieList
         movies={(data?.movielistitems || []).map((item) => item.movie)}
@@ -41,13 +42,14 @@ export default function List({ sidebarVisible, toggleSidebar }) {
 
 const StyledList = styled.div`
   max-width: 1000px;
+  height: 100%;
   display: grid;
   grid-template-areas:
     "header"
     "toolbar"
     "main";
   grid-template-columns: 1fr;
-  grid-template-rows: 55px 45px 1fr;
+  grid-template-rows: 55px auto 1fr;
   margin: 0 auto;
 
   @media ${device.min.desktop} {
@@ -56,6 +58,6 @@ const StyledList = styled.div`
       "sidebar toolbar"
       "sidebar main";
     grid-template-columns: 200px 1fr;
-    grid-template-rows: 55px 45px 1fr;
+    grid-template-rows: 55px auto 1fr;
   }
 `;

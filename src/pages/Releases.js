@@ -6,7 +6,6 @@ import { useDataApi } from "../useDataApi";
 import { device } from "../devices";
 import moment from "moment";
 import twix from "twix";
-// import MovieListItem from "../components/MovieListItem";
 
 const twixDateString = (start, end) => {
   return moment(start).twix(end, { allDay: true }).format();
@@ -35,7 +34,7 @@ export default function Releases({ sidebarVisible, toggleSidebar }) {
     `&digital_release__lt=${endOfWeek(startDate).format("YYYY-MM-DD")}`;
   const [state, setUrl] = useDataApi(listUrl, []);
   const { data, isLoading, isError } = state;
-  const { count, results, next, previous } = data;
+  // const { count, results, next, previous } = data;
 
   const dateFormated = twixDateString(startDate, endOfWeek(startDate));
 
@@ -46,7 +45,6 @@ export default function Releases({ sidebarVisible, toggleSidebar }) {
   const nextWeek = () => pushWeek(moment(startDate).add(7, "d"));
 
   const listData = { movie_count: data?.count, name: "Digital Releases" };
-
   const dateData = {
     prevWeek: prevWeek,
     nextWeek: nextWeek,
@@ -84,7 +82,7 @@ const StyledReleases = styled.div`
     "toolbar"
     "main";
   grid-template-columns: 1fr;
-  grid-template-rows: 55px 90px 1fr;
+  grid-template-rows: 55px auto 1fr;
   margin: 0 auto;
 
   @media ${device.min.desktop} {
@@ -93,6 +91,6 @@ const StyledReleases = styled.div`
       "sidebar toolbar"
       "sidebar main";
     grid-template-columns: 200px 1fr;
-    grid-template-rows: 55px 90px 1fr;
+    grid-template-rows: 55px auto 1fr;
   }
 `;

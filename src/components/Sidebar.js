@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Link, useRouteMatch, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
 
@@ -121,7 +121,7 @@ const CloseButton = styled.button`
 
 const StyledSidebar = styled.div`
   background: white;
-  height: calc(100vh - 55px);
+  //height: calc(100vh - 55px);
   width: 200px;
   display: flex;
   flex-direction: column;

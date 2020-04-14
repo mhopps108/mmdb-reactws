@@ -8,10 +8,12 @@ export default function Header({ toggleSidebar }) {
   return (
     <StyledHeader>
       <Navbar>
+        <button onClick={toggleSidebar}>side</button>
         <NavGroup>
-          <button onClick={toggleSidebar}>
-            <box-icon name="menu" color="white" />
-          </button>
+          {/*<button onClick={toggleSidebar}>*/}
+          {/*  side*/}
+          {/*  /!*<box-icon name="menu" color="white" />*!/*/}
+          {/*</button>*/}
           <h3>MMDb</h3>
         </NavGroup>
         <NavGroupPages>
@@ -33,8 +35,8 @@ export default function Header({ toggleSidebar }) {
             <box-icon name="dots-vertical-rounded" color="white" />
           </a>
           {/* <a href="/">
-            <box-icon name="cog" color="white" />
-          </a> */}
+          <box-icon name="cog" color="white" />
+        </a> */}
         </NavGroup>
       </Navbar>
     </StyledHeader>
@@ -47,7 +49,7 @@ const StyledHeader = styled.div`
   position: sticky;
   top: 0;
   width: 100%;
-  z-index: 10;
+  //z-index: 10;
 `;
 
 const Navbar = styled.nav`

@@ -1,13 +1,44 @@
 import React from "react";
 import styled from "styled-components/macro";
+import { device } from "../devices";
+import { Link } from "react-router-dom";
 
 const StyledToolbar = styled.div`
   grid-area: toolbar;
   background-color: white;
+  color: #333;
   position: sticky;
   top: 55px;
   display: flex;
   flex-direction: column;
+  padding: 8px 16px;
+  box-shadow: 0px 5px 25px 6px rgba(0, 0, 0, 0.3);
+
+  @media ${device.min.tablet} {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`;
+
+const ToolbarItem = styled.div`
+  display: flex;
+  flex-direction: row;
+  max-width: 100%;
+  justify-content: space-between;
+  p,
+  button {
+    font-size: 1.2rem;
+  }
+`;
+
+const ToolbarButton = styled.button`
+  border: none;
+  background: none;
+  color: #333;
+  & a {
+    color: #333;
+    text-decoration: none;
+  }
 `;
 
 export default function Toolbar({ listData, dateData = null }) {
@@ -16,15 +47,18 @@ export default function Toolbar({ listData, dateData = null }) {
   // console.log("dateString", dateString);
   return (
     <StyledToolbar>
-      <div>
-        {name} - #{movie_count}
-      </div>
+      <ToolbarItem>
+        <p>{name}</p>
+        <p>#{movie_count}</p>
+      </ToolbarItem>
       {dateData && (
-        <div>
-          <button onClick={dateData.prevWeek}>{"<"}</button>
-          <button onClick={dateData.thisWeek}>{dateData.dateString}</button>
-          <button onClick={dateData.nextWeek}>{">"}</button>
-        </div>
+        <ToolbarItem>
+          <ToolbarButton onClick={dateData.prevWeek}>{"<"}</ToolbarButton>
+          <ToolbarButton onClick={dateData.thisWeek}>
+            <Link to="/release-dates">{dateData.dateString}</Link>
+          </ToolbarButton>
+          <ToolbarButton onClick={dateData.nextWeek}>{">"}</ToolbarButton>
+        </ToolbarItem>
       )}
     </StyledToolbar>
   );
