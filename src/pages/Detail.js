@@ -1,27 +1,23 @@
 import React, { useState } from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
-import {
-  Header,
-  Sidebar,
-  Toolbar,
-  Main,
-  // MovieDetail as MD,
-} from "../components";
+import { Header, Sidebar, MovieDetail } from "../components";
 import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
 
-export default function MovieDetail({ sidebarVisible, toggleSidebar }) {
+export default function Detail({ sidebarVisible, toggleSidebar }) {
   return (
-    <StyledMovieDetail>
+    <StyledDetail>
       <Header toggleSidebar={toggleSidebar} />
-      <Sidebar isOpen={sidebarVisible} toggleOpen={toggleSidebar} />
-      {/*<MD />*/}
-    </StyledMovieDetail>
+      {/*<Sidebar isOpen={sidebarVisible} toggleOpen={toggleSidebar} />*/}
+      <MovieDetail />
+    </StyledDetail>
   );
 }
 
-const StyledMovieDetail = styled.div`
+const StyledDetail = styled.div`
   max-width: 1000px;
+  width: 100%;
+  height: 100%;
   display: grid;
   grid-template-areas:
     "header"

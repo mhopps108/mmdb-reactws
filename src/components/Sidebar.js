@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import styled, { css } from "styled-components/macro";
+import styled, { css } from "styled-components";
 import { device } from "../devices";
 
 const Listitem = styled.div`
@@ -121,7 +121,7 @@ const CloseButton = styled.button`
 
 const StyledSidebar = styled.div`
   background: white;
-  //height: calc(100vh - 55px);
+  height: calc(100vh - 55px);
   width: 200px;
   display: flex;
   flex-direction: column;
@@ -129,6 +129,7 @@ const StyledSidebar = styled.div`
   padding: 20px 16px;
   position: fixed;
   top: 55px;
+  z-index: 100;
 
   @media ${device.max.desktop} {
     transition: transform 0.3s ease-in-out;

@@ -8,12 +8,12 @@ export default function Header({ toggleSidebar }) {
   return (
     <StyledHeader>
       <Navbar>
-        <button onClick={toggleSidebar}>side</button>
+        {/*<button onClick={toggleSidebar}>side</button>*/}
         <NavGroup>
-          {/*<button onClick={toggleSidebar}>*/}
-          {/*  side*/}
-          {/*  /!*<box-icon name="menu" color="white" />*!/*/}
-          {/*</button>*/}
+          <button onClick={toggleSidebar}>
+            Side
+            {/*<box-icon name="menu" color="white" />*/}
+          </button>
           <h3>MMDb</h3>
         </NavGroup>
         <NavGroupPages>
@@ -73,6 +73,7 @@ const NavGroup = styled.div`
     background-color: transparent;
     border: none;
     font-size: 1.1rem;
+    color: white;
   }
   & h3 {
     padding: 0;

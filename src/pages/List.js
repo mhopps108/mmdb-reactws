@@ -13,8 +13,6 @@ export default function List({ sidebarVisible, toggleSidebar }) {
   const { data, isLoading, isError } = state;
   // const { name, source, movie_count, movielistitems } = data;
 
-  // const results = () => (data?.movielistitems || []).map((item) => item.movie);
-
   useEffect(() => {
     setUrl(listUrl);
   }, [slug, listUrl, setUrl]);
@@ -29,8 +27,6 @@ export default function List({ sidebarVisible, toggleSidebar }) {
       <Header toggleSidebar={toggleSidebar} />
       <Sidebar isOpen={sidebarVisible} toggleOpen={toggleSidebar} />
       <Toolbar listData={data} />
-
-      {/*<MovieList movies={results} isLoading={isLoading} isError={isError} />*/}
       <MovieList
         movies={(data?.movielistitems || []).map((item) => item.movie)}
         isLoading={isLoading}

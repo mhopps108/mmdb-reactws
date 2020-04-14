@@ -1,5 +1,5 @@
 import List from "./List";
-import MovieDetail from "./MovieDetail";
+import Detail from "./Detail";
 import Releases from "./Releases";
 
-export { List, Releases, MovieDetail };
+export { List, Releases, Detail };
