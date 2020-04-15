@@ -7,12 +7,21 @@ import "boxicons";
 import {
   Flex,
   StyledMovieDetail,
-  MDBasics,
+  MDBasicsWrap,
   BackdropImage,
   PosterImage,
   Title,
-  StyledBasics,
-  Info,
+  MDBasics,
+  InfoRow,
+  BorderedTag,
+  StyledRatings,
+  StyledRating,
+  Small,
+  RatingAvg,
+  SectionHeader,
+  MainWrap,
+  SectionWrap,
+  StyledReleaseDate,
 } from "./MovieDetailStyled";
 
 export default function MovieDetail() {
@@ -38,6 +47,16 @@ export default function MovieDetail() {
         <>
           <BackdropImage url={data.backdrop_url} />
           <Basics data={data} />
+          <MainWrap>
+            <Ratings data={data} />
+            <ReleaseDates data={data} />
+            <Overview data={data} />
+            <Trailer data={data} />
+            {/*<Similar data={data} />*/}
+            {/*<Recommended data={data} />*/}
+            {/*<Credits data={data} />*/}
+            <ExternalLinks data={data} />
+          </MainWrap>
 
           {/*<BackdropImage url={data.backdrop_url} />*/}
           {/*<Basics data={data} />*/}
@@ -66,27 +85,26 @@ function Basics({ data }) {
     budget,
     revenue,
     poster_url,
-    backdrop_url,
   } = data;
 
   return (
-    <MDBasics>
+    <MDBasicsWrap>
       <PosterImage src={poster_url} />
-      <StyledBasics>
+      <MDBasics>
         <Title>{title}</Title>
-        <Info>
+        <InfoRow>
           {year && <div>{year}</div>}
           {runtime && <div>{runtime}m</div>}
           {certification && <div>{certification}</div>}
-        </Info>
-        <Info>
+        </InfoRow>
+        <InfoRow>
           {genres &&
             genres.map((genre, index) => {
               return <div key={index}>{genre}</div>;
             })}
-        </Info>
-      </StyledBasics>
-    </MDBasics>
+        </InfoRow>
+      </MDBasics>
+    </MDBasicsWrap>
   );
 }
 
@@ -99,65 +117,28 @@ function Ratings({ data }) {
   } = data;
 
   return (
-    <>
-      <h4 className="detail-section-header">Ratings</h4>
+    <SectionWrap>
+      <SectionHeader>Ratings</SectionHeader>
+      <StyledRatings>
+        <StyledRating>
+          <BorderedTag>IMDb</BorderedTag>
+          <RatingAvg>
+            {imdb_rating_avg}
+            <Small>/10</Small>
+          </RatingAvg>
+          <Small>{`${imdb_rating_count} votes`}</Small>
+        </StyledRating>
 
-      <div className="d-flex flex-row" style={{ fontSize: "1rem" }}>
-        <div className="d-flex w-50 p-0 mb-3 m-0 align-items-center">
-          <div
-            className="mr-2"
-            style={{
-              color: "#ccc",
-              backgroud: "#222",
-              border: "1px solid #444",
-              borderRadius: "5px",
-              padding: "6px 8px",
-            }}
-          >
-            IMDb
-          </div>
-          <div className="d-flex flex-column">
-            <div className="d-flex flex-row align-items-center" style={{}}>
-              {imdb_rating_avg}
-              <div className="ml-1" style={{ fontSize: "0.7rem" }}>
-                /10
-              </div>
-            </div>
-
-            <div classname="" style={{ color: "#aaa", fontSize: "0.75rem" }}>
-              {`${imdb_rating_count} votes`}
-            </div>
-          </div>
-        </div>
-
-        <div className="d-flex w-50 p-0 mb-3 m-0 align-items-center">
-          <div
-            className="mr-2"
-            style={{
-              color: "#ccc",
-              backgroud: "#222",
-              border: "1px solid #444",
-              borderRadius: "5px",
-              padding: "6px 5px",
-            }}
-          >
-            TMDb
-          </div>
-          <div className="d-flex flex-column">
-            <div className="d-flex flex-row align-items-center" style={{}}>
-              {tmdb_rating_avg}
-              <div className="ml-1" style={{ fontSize: "0.7rem" }}>
-                /10
-              </div>
-            </div>
-
-            <div classname="" style={{ fontSize: "0.75rem" }}>
-              {`${tmdb_rating_count} votes`}
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+        <StyledRating>
+          <BorderedTag>TMDb</BorderedTag>
+          <RatingAvg>
+            {tmdb_rating_avg}
+            <Small>/10</Small>
+          </RatingAvg>
+          <Small>{`${tmdb_rating_count} votes`}</Small>
+        </StyledRating>
+      </StyledRatings>
+    </SectionWrap>
   );
 }
 
@@ -169,79 +150,46 @@ function ReleaseDates({ data }) {
     tv_release,
   } = data;
 
-  // const Release = rd => {
-  //   return <div>{rd}</div>;
-  // };
-
   return (
-    <>
-      <h4 className="detail-section-header">Release Dates</h4>
-      <div>
-        {theatrical_release && (
-          <div className="d-flex align-items-center mb-3">
-            <div
-              className="mr-2"
-              style={{
-                color: "#ccc",
-                backgroud: "#222",
-                border: "1px solid #444",
-                borderRadius: "5px",
-                padding: "2px 5px",
-              }}
-            >
-              Theatrical
-            </div>
-            {new Date(theatrical_release).toDateString()}
-          </div>
-        )}
-        {digital_release && (
-          <div className="d-flex align-items-center mb-3">
-            <div
-              className="mr-2"
-              style={{
-                color: "#ccc",
-                backgroud: "#222",
-                border: "1px solid #444",
-                borderRadius: "5px",
-                padding: "2px 17px",
-              }}
-            >
-              Digital
-            </div>
-            {new Date(digital_release).toDateString()}
-          </div>
-        )}
-        {physical_release && (
-          <div className="d-flex align-items-center mb-3">
-            <div
-              className="mr-2"
-              style={{
-                color: "#ccc",
-                backgroud: "#222",
-                border: "1px solid #444",
-                borderRadius: "5px",
-                padding: "2px 12px",
-              }}
-            >
-              Physical
-            </div>
-            {new Date(physical_release).toDateString()}
-          </div>
-        )}
-        {tv_release && <div>TV: {tv_release}</div>}
-      </div>
-    </>
+    <SectionWrap>
+      <SectionHeader>Release Dates</SectionHeader>
+
+      {theatrical_release && (
+        <StyledReleaseDate>
+          <BorderedTag>Theatrical</BorderedTag>
+          {new Date(theatrical_release).toDateString()}
+        </StyledReleaseDate>
+      )}
+      {digital_release && (
+        <StyledReleaseDate>
+          <BorderedTag>Digital</BorderedTag>
+          {new Date(digital_release).toDateString()}
+        </StyledReleaseDate>
+      )}
+      {physical_release && (
+        <StyledReleaseDate>
+          <BorderedTag>Physical</BorderedTag>
+          {new Date(physical_release).toDateString()}
+        </StyledReleaseDate>
+      )}
+      {tv_release && (
+        <StyledReleaseDate>
+          <BorderedTag>TV</BorderedTag>
+          {new Date(tv_release).toDateString()}
+        </StyledReleaseDate>
+      )}
+    </SectionWrap>
   );
 }
 
 function Overview({ data }) {
   const { overview, tagline } = data;
   return (
-    <>
-      <h4 className="detail-section-header">Overview</h4>
+    <SectionWrap>
+      <SectionHeader>Overview</SectionHeader>
       {/* {tagline && <small style={{ textAlign: "center" }}>{tagline}</small>} */}
       {overview && <p style={{}}>{overview}</p>}
-    </>
+    </SectionWrap>
   );
 }
 
@@ -250,8 +198,8 @@ function Trailer({ data }) {
   const youtube_src = `${trailer_url}?controls=1`;
 
   return (
-    <>
-      <h4 className="detail-section-header">Trailer</h4>
+    <SectionWrap>
+      <SectionHeader>Trailer</SectionHeader>
       {trailer_url && (
         <div class="embed-responsive embed-responsive-16by9">
           <iframe
@@ -261,7 +209,7 @@ function Trailer({ data }) {
           />
         </div>
       )}
-    </>
+    </SectionWrap>
   );
 }
 
