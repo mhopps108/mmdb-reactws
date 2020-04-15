@@ -187,7 +187,7 @@ function Overview({ data }) {
     <StyledOverviewWrap>
       <SectionHeader>Overview</SectionHeader>
       {/* {tagline && <small style={{ textAlign: "center" }}>{tagline}</small>} */}
-      {overview && <p style={{}}>{overview}</p>}
+      {overview && <p>{overview}</p>}
     </StyledOverviewWrap>
   );
 }

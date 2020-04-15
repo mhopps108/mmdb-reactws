@@ -13,6 +13,9 @@ export const Flex = styled.div`
 
 export const SectionWrap = styled.div`
   margin-bottom: 20px;
+  //box-shadow: 0 0 15px 5px #fff;
+  //padding: 8px;
+  //background-color: #eee;
 `;
 
 export const SectionHeader = styled.h3`
@@ -48,6 +51,7 @@ export const StyledMovieDetail = styled.div`
   max-width: 100%;
   height: 100%;
   color: #333;
+  //background-color: #eee;
 `;
 
 export const BackdropImage = styled.div`
@@ -187,8 +191,7 @@ export const StyledReleaseDatesWrap = styled(SectionWrap)`
   grid-area: releasedates;
 `;
 
-export const StyledReleaseDate = styled(SectionWrap)`
-  grid-area: releases;
+export const StyledReleaseDate = styled.div`
   display: flex;
   flex-direction: row;
   margin-bottom: 8px;
@@ -201,6 +204,9 @@ export const StyledReleaseDate = styled(SectionWrap)`
 
 export const StyledOverviewWrap = styled(SectionWrap)`
   grid-area: overview;
+  p {
+    line-height: 1.4rem;
+  }
 `;
 
 // --- --- --- --- --- --- //
