@@ -20,8 +20,20 @@ import {
   RatingAvg,
   SectionHeader,
   MainWrap,
-  SectionWrap,
   StyledReleaseDate,
+  StyledRatingsWrap,
+  StyledReleaseDatesWrap,
+  StyledOverviewWrap,
+  StyledTrailerWrap,
+  StyledSimilarWrap,
+  HorizontalScroll,
+  ScrollPoster,
+  ScrollPosterTag,
+  HorizontalScrollItem,
+  StyledRecommendedWrap,
+  StyledCreditsWrap,
+  ScrollCreditPoster,
+  ScrollCreditPosterTag,
 } from "./MovieDetailStyled";
 
 export default function MovieDetail() {
@@ -52,23 +64,11 @@ export default function MovieDetail() {
             <ReleaseDates data={data} />
             <Overview data={data} />
             <Trailer data={data} />
-            {/*<Similar data={data} />*/}
-            {/*<Recommended data={data} />*/}
-            {/*<Credits data={data} />*/}
-            <ExternalLinks data={data} />
+            <Credits data={data} />
+            <Similar data={data} />
+            <Recommended data={data} />
+            {/*<ExternalLinks data={data} />*/}
           </MainWrap>
-
-          {/*<BackdropImage url={data.backdrop_url} />*/}
-          {/*<Basics data={data} />*/}
-          {/*<Ratings data={data} />*/}
-          {/*<ReleaseDates data={data} />*/}
-          {/*<Overview data={data} />*/}
-          {/*<Trailer data={data} />*/}
-          {/*<Similar data={data} />*/}
-          {/*<Recommended data={data} />*/}
-          {/*<Credits data={data} />*/}
-          {/*<ExternalLinks data={data} />*/}
-          {/*<div className="col-12 d-flex pl-4 pb-5 flex-column"></div>*/}
         </>
       )}
     </StyledMovieDetail>
@@ -117,7 +117,7 @@ function Ratings({ data }) {
   } = data;
 
   return (
-    <SectionWrap>
+    <StyledRatingsWrap>
       <SectionHeader>Ratings</SectionHeader>
       <StyledRatings>
         <StyledRating>
@@ -138,7 +138,7 @@ function Ratings({ data }) {
           <Small>{`${tmdb_rating_count} votes`}</Small>
         </StyledRating>
       </StyledRatings>
-    </SectionWrap>
+    </StyledRatingsWrap>
   );
 }
 
@@ -151,9 +151,8 @@ function ReleaseDates({ data }) {
   } = data;
 
   return (
-    <SectionWrap>
+    <StyledReleaseDatesWrap>
       <SectionHeader>Release Dates</SectionHeader>
-
       {theatrical_release && (
         <StyledReleaseDate>
           <BorderedTag>Theatrical</BorderedTag>
@@ -178,18 +177,18 @@ function ReleaseDates({ data }) {
           {new Date(tv_release).toDateString()}
         </StyledReleaseDate>
       )}
-    </SectionWrap>
+    </StyledReleaseDatesWrap>
   );
 }
 
 function Overview({ data }) {
   const { overview, tagline } = data;
   return (
-    <SectionWrap>
+    <StyledOverviewWrap>
       <SectionHeader>Overview</SectionHeader>
       {/* {tagline && <small style={{ textAlign: "center" }}>{tagline}</small>} */}
       {overview && <p style={{}}>{overview}</p>}
-    </SectionWrap>
+    </StyledOverviewWrap>
   );
 }
 
@@ -198,7 +197,7 @@ function Trailer({ data }) {
   const youtube_src = `${trailer_url}?controls=1`;
 
   return (
-    <SectionWrap>
+    <StyledTrailerWrap>
       <SectionHeader>Trailer</SectionHeader>
       {trailer_url && (
         <div class="embed-responsive embed-responsive-16by9">
@@ -209,165 +208,75 @@ function Trailer({ data }) {
           />
         </div>
       )}
-    </SectionWrap>
+    </StyledTrailerWrap>
   );
 }
 
 function Similar({ data }) {
   const { similar } = data;
   return (
-    <>
-      <h4 className="detail-section-header">Similar</h4>
-
-      <div className="d-flex align-content-center flex-nowrap overflow-auto">
+    <StyledSimilarWrap>
+      <SectionHeader>Similar</SectionHeader>
+      <HorizontalScroll>
         {similar &&
           similar.map((item) => {
             const { imdb_id, title, poster_url } = item;
             return (
-              <Link to={`/movie/${imdb_id}`} key={imdb_id}>
-                <div className="d-flex flex-column mr-2">
-                  <img
-                    style={{
-                      minWidth: "80px",
-                      height: "120px",
-                      borderRadius: "4px",
-                      border: "1px solid #555",
-                    }}
-                    src={poster_url}
-                    class="img-fluid"
-                    alt={title}
-                  />
-                  <p
-                    style={{
-                      fontSize: "0.75rem",
-                      overflow: "hidden",
-                      lineHeight: "1.2em",
-                      height: "2.4em",
-                      color: "#cdcdcd",
-                    }}
-                    className="my-1"
-                  >
-                    {title}
-                  </p>
-                </div>
-              </Link>
+              <HorizontalScrollItem>
+                <Link to={`/movie/${imdb_id}`} key={imdb_id}>
+                  <ScrollPoster src={poster_url} alt={title} />
+                  <ScrollPosterTag>{title}</ScrollPosterTag>
+                </Link>
+              </HorizontalScrollItem>
             );
           })}
-      </div>
-    </>
+      </HorizontalScroll>
+    </StyledSimilarWrap>
   );
 }
 
 function Recommended({ data }) {
   const { recommended } = data;
   return (
-    <>
-      <h4 className="detail-section-header">Recommended</h4>
-
-      <div className="d-flex align-content-center flex-nowrap overflow-auto">
+    <StyledRecommendedWrap>
+      <SectionHeader>Recommended</SectionHeader>
+      <HorizontalScroll>
         {recommended &&
           recommended.map((item) => {
             const { imdb_id, title, poster_url } = item;
             return (
-              <Link to={`/movie/${imdb_id}`} key={imdb_id}>
-                <div className="d-flex flex-column mr-2">
-                  <img
-                    style={{
-                      minWidth: "80px",
-                      height: "120px",
-                      borderRadius: "4px",
-                      border: "1px solid #555",
-                    }}
-                    src={poster_url}
-                    class="img-fluid"
-                    alt={title}
-                  />
-                  <p
-                    style={{
-                      fontSize: "0.75rem",
-                      overflow: "hidden",
-                      lineHeight: "1.2em",
-                      height: "2.4em",
-                      color: "#cdcdcd",
-                    }}
-                    className="my-1"
-                  >
-                    {title}
-                  </p>
-                </div>
-              </Link>
+              <HorizontalScrollItem>
+                <Link to={`/movie/${imdb_id}`} key={imdb_id}>
+                  <ScrollPoster src={poster_url} alt={title} />
+                  <ScrollPosterTag>{title}</ScrollPosterTag>
+                </Link>
+              </HorizontalScrollItem>
             );
           })}
-      </div>
-    </>
+      </HorizontalScroll>
+    </StyledRecommendedWrap>
   );
 }
 
 function Credits({ data }) {
   const { credits } = data;
   return (
-    <>
-      <h4 className="detail-section-header">Credits</h4>
-      <div style={{ height: "200px" }}>
-        <ul
-          style={{
-            listStyleType: "none",
-            height: "100%",
-            padding: "0px 10px 16px 0px",
-            cursor: "pointer",
-            overflowX: "auto",
-            overflowY: "hidden",
-            whiteSpace: "nowrap",
-            display: "flex",
-            boxShadow: "inset -20px 0px 20px 2px rgba(0,0,0,0.85)",
-            zIndex: "5",
-          }}
-        >
-          {credits &&
-            credits.map((item, index) => {
-              const { order, character, actor } = item;
-              return (
-                <li
-                  key={index}
-                  style={{
-                    padding: "0px 10px 0px 0px",
-                    width: "80px",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "67px",
-                      height: "100px",
-                      backgroundImage: `url(${actor.profile_url})`,
-                      // objectFit: "contain"
-                      backgroundPosition: "center",
-                      backgroundSize: "cover",
-                      backgroundRepeat: "no-repeat",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                    }}
-                  />
-                  <div
-                    style={{
-                      overflow: "hidden",
-                      lineHeight: "1.2em",
-                      height: "4.8em",
-                      whiteSpace: "normal",
-                    }}
-                  >
-                    <p className="p-0 m-0" style={{ fontSize: "0.75rem" }}>
-                      {actor.name}
-                    </p>
-                    <p className="p-0 m-0" style={{ fontSize: "0.65rem" }}>
-                      {character}
-                    </p>
-                  </div>
-                </li>
-              );
-            })}
-        </ul>
-      </div>
-    </>
+    <StyledCreditsWrap>
+      <SectionHeader>Credits</SectionHeader>
+      <HorizontalScroll>
+        {credits &&
+          credits.map((item) => {
+            const { order, character, actor } = item;
+            return (
+              <HorizontalScrollItem>
+                <ScrollCreditPoster src={actor.profile_url} alt={actor.name} />
+                <ScrollCreditPosterTag>{actor.name}</ScrollCreditPosterTag>
+                <ScrollCreditPosterTag>{character}</ScrollCreditPosterTag>
+              </HorizontalScrollItem>
+            );
+          })}
+      </HorizontalScroll>
+    </StyledCreditsWrap>
   );
 }
 

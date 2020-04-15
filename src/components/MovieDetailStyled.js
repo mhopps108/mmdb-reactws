@@ -1,6 +1,10 @@
 import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
 
+// --- --- --- --- --- --- //
+//   Components            //
+// --- --- --- --- --- --- //
+
 export const Flex = styled.div`
   display: flex;
   flex-direction: ${(props) => (props.column ? "column" : "row")};
@@ -8,9 +12,7 @@ export const Flex = styled.div`
 `;
 
 export const SectionWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 20px;
+  margin-bottom: 20px;
 `;
 
 export const SectionHeader = styled.h3`
@@ -18,14 +20,11 @@ export const SectionHeader = styled.h3`
   margin-bottom: 10px;
 `;
 
-export const MainWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 15px;
-`;
-
 export const BorderedTag = styled.div`
-  border: 1px solid #444;
+  border: 1px solid #777;
+  color: #333;
+  font-weight: 300;
+  font-size: 0.9rem;
   border-radius: 5px;
   width: 90px;
   text-align: center;
@@ -36,6 +35,10 @@ export const BorderedTag = styled.div`
 export const Small = styled.div`
   font-size: 0.85rem;
 `;
+
+// --- --- --- --- --- --- //
+//   Movie Detail Wrap     //
+// --- --- --- --- --- --- //
 
 export const StyledMovieDetail = styled.div`
   grid-area: main;
@@ -65,7 +68,10 @@ export const BackdropImage = styled.div`
   }
 `;
 
-// --- MDBasics --- //
+// --- --- --- --- --- --- //
+//   MDBasics              //
+// --- --- --- --- --- --- //
+
 export const MDBasicsWrap = styled.div`
   display: flex;
   flex-direction: row;
@@ -115,7 +121,46 @@ export const Title = styled.h1`
   }
 `;
 
-// --- Ratings --- //
+// --- --- --- --- --- --- //
+//   Main Grid Wrap        //
+// --- --- --- --- --- --- //
+
+export const MainWrap = styled.div`
+  padding: 15px 25px;
+
+  display: grid;
+  grid-template-areas:
+    "ratings"
+    "releasedates"
+    "overview"
+    "trailer"
+    "credits"
+    "similar"
+    "recommended";
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  grid-gap: 20px;
+
+  @media ${device.min.tablet} {
+    grid-template-areas:
+      "ratings overview"
+      "releasedates overview"
+      "trailer credits"
+      "similar similar"
+      "recommended recommended";
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+  }
+`;
+
+// --- --- --- --- --- --- //
+//   Ratings               //
+// --- --- --- --- --- --- //
+
+export const StyledRatingsWrap = styled(SectionWrap)`
+  grid-area: ratings;
+`;
+
 export const StyledRatings = styled.div`
   display: flex;
   flex-direction: column;
@@ -134,12 +179,105 @@ export const RatingAvg = styled.div`
   margin-right: 5px;
 `;
 
-// --- Release Dates --- //
-export const StyledReleaseDate = styled.div`
+// --- --- --- --- --- --- //
+//   Release Dates         //
+// --- --- --- --- --- --- //
+
+export const StyledReleaseDatesWrap = styled(SectionWrap)`
+  grid-area: releasedates;
+`;
+
+export const StyledReleaseDate = styled(SectionWrap)`
+  grid-area: releases;
   display: flex;
   flex-direction: row;
   margin-bottom: 8px;
-  //width: 75%;
-  //justify-content: space-between;
   align-items: center;
+`;
+
+// --- --- --- --- --- --- //
+//   Overview              //
+// --- --- --- --- --- --- //
+
+export const StyledOverviewWrap = styled(SectionWrap)`
+  grid-area: overview;
+`;
+
+// --- --- --- --- --- --- //
+//   Trailer               //
+// --- --- --- --- --- --- //
+
+export const StyledTrailerWrap = styled(SectionWrap)`
+  grid-area: trailer;
+`;
+
+// --- --- --- --- --- --- //
+//   Credits               //
+// --- --- --- --- --- --- //
+
+export const StyledCreditsWrap = styled(SectionWrap)`
+  grid-area: credits;
+  overflow: hidden;
+`;
+
+export const ScrollCreditPoster = styled.img`
+  display: flex;
+  width: 67px;
+  height: 100px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #555;
+`;
+
+export const ScrollCreditPosterTag = styled.p`
+  font-size: 0.75rem;
+  overflow: hidden;
+  line-height: 1rem;
+  height: 2rem;
+`;
+
+// --- --- --- --- --- --- //
+//  Similar / Recommended  //
+// --- --- --- --- --- --- //
+
+export const StyledSimilarWrap = styled(SectionWrap)`
+  grid-area: similar;
+  overflow: hidden;
+`;
+
+export const StyledRecommendedWrap = styled(SectionWrap)`
+  grid-area: recommended;
+  overflow: hidden;
+`;
+
+export const HorizontalScroll = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
+`;
+
+export const HorizontalScrollItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-right: 8px;
+  a {
+    text-decoration: none;
+    color: #333;
+  }
+`;
+
+export const ScrollPoster = styled.img`
+  display: flex;
+  width: 80px;
+  height: 120px;
+  border-radius: 4px;
+  border: 1px solid #555;
+`;
+
+export const ScrollPosterTag = styled.p`
+  font-size: 0.75rem;
+  overflow: hidden;
+  line-height: 1rem;
+  height: 2rem;
 `;
