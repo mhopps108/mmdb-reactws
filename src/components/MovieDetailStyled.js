@@ -147,9 +147,9 @@ export const MainWrap = styled.div`
 
   @media ${device.min.tablet} {
     grid-template-areas:
-      "ratings overview"
-      "releasedates overview"
-      "trailer credits"
+      "ratings releasedates"
+      "overview trailer"
+      "credits credits"
       "similar similar"
       "recommended recommended";
     grid-template-columns: 1fr 1fr;
