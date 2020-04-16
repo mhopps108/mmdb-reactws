@@ -20,7 +20,7 @@ const Poster = styled.div`
   min-width: 80px;
   /* height: 138px; */
   height: 100%;
-  background-image: url(${props => props.url});
+  background-image: url(${(props) => props.url});
   // objectFit: contain;
   background-position: center;
   background-size: cover;
@@ -43,10 +43,10 @@ const Title = styled.h6`
   font-size: 1.1rem;
   color: #555;
   overflow: hidden;
-  line-height: 1.2em;
-  max-height: 2.4em;
+  line-height: 1.2rem;
+  //max-height: 2.3rem;
   white-space: normal;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   & a {
     text-decoration: none;
     color: #222;
@@ -79,7 +79,7 @@ function MovieListItem({ movie }) {
     certification,
     imdb_rating_avg,
     genres,
-    poster_url
+    poster_url,
   } = movie;
 
   return (
@@ -105,7 +105,7 @@ function MovieListItem({ movie }) {
             </DetailRow>
             <DetailRow>
               {genres &&
-                genres.map(genre => {
+                genres.map((genre) => {
                   return <DetailItem>{genre}</DetailItem>;
                 })}
             </DetailRow>

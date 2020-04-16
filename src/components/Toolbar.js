@@ -12,7 +12,7 @@ const StyledToolbar = styled.div`
   display: flex;
   flex-direction: column;
   padding: 8px 16px;
-  box-shadow: 0px 5px 25px 6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 5px 25px 6px rgba(0, 0, 0, 0.2);
 
   @media ${device.min.tablet} {
     flex-direction: row;
@@ -23,7 +23,8 @@ const StyledToolbar = styled.div`
 const ToolbarItem = styled.div`
   display: flex;
   flex-direction: row;
-  max-width: 100%;
+  //max-width: 100%;
+  width: 100%;
   justify-content: space-between;
   p,
   button {
@@ -41,15 +42,26 @@ const ToolbarButton = styled.button`
   }
 `;
 
+const ListName = styled.p`
+  font-size: 1.1rem;
+`;
+
+const MovieCountTag = styled.div`
+  border: 1px solid #777;
+  color: #333;
+  font-weight: 300;
+  border-radius: 5px;
+  text-align: center;
+  padding: 2px 5px;
+`;
+
 export default function Toolbar({ listData, dateData = null }) {
   const { name, source, movie_count } = listData;
-  // const { prevWeek, nextWeek, thisWeek, dateString } = dateData;
-  // console.log("dateString", dateString);
   return (
     <StyledToolbar>
       <ToolbarItem>
-        <p>{name}</p>
-        <p>#{movie_count}</p>
+        <ListName>{name}</ListName>
+        <MovieCountTag>{movie_count}</MovieCountTag>
       </ToolbarItem>
       {dateData && (
         <ToolbarItem>
@@ -63,35 +75,3 @@ export default function Toolbar({ listData, dateData = null }) {
     </StyledToolbar>
   );
 }
-
-// <div className="row sticky-top">
-//   <div
-//       className="col-12 d-flex justify-content-between align-items-center py-1 px-2 mb-2"
-//       style={{
-//         fontSize: "1.25rem",
-//         fontWeight: 600,
-//         backgroundColor: "#efefef",
-//         color: "#14181c",
-//         boxShadow:
-//             "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2)",
-//       }}
-//   >
-//     <div>Release Dates</div>
-//     <div>
-//       <div className="btn" style={{ border: "none" }} onClick={prevWeek}>
-//         {"<"}
-//       </div>
-//       <div
-//           className="btn"
-//           style={{ border: "none", fontSize: "1.1rem", fontWeight: 500 }}
-//           onClick={() => pushWeek(startOfWeek())}
-//       >
-//         {twixDateString(startOfWeek(startDate), endOfWeek(startDate))}
-//       </div>
-//       <div className="btn" style={{ border: "none" }} onClick={nextWeek}>
-//         {">"}
-//       </div>
-//     </div>
-//     <div>#{count}</div>
-//   </div>
-// </div>
