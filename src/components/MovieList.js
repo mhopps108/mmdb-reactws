@@ -29,7 +29,8 @@ const StyledMovieList = styled.div`
 const MovieListLayout = styled.div`
   display: grid;
   grid-gap: 10px;
-  grid-template-columns: repeat(auto-fill, minmax(333px, 1fr));
+  //grid-template-columns: repeat(auto-fill, minmax(333px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   justify-content: center;
   padding: 10px;
 `;

@@ -53,7 +53,7 @@ const discoveryLinks = [
 ];
 
 const Listitem = styled.div`
-  padding: 5px;
+  padding-bottom: 5px;
   & a {
     color: #222;
     text-decoration: none;
@@ -70,8 +70,9 @@ const ListSection = styled.div`
   display: flex;
   flex-direction: column;
   //width: 100%;
-  max-width: 50%;
-  margin: 10px;
+  //max-width: 50%;
+  width: 200px;
+  //margin: 10px;
 `;
 
 const StyledNavMenu = styled.div`
@@ -81,11 +82,13 @@ const StyledNavMenu = styled.div`
   //height: 400px;
   width: 100%;
   max-width: 1000px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-content: space-around;
-  //overflow-y: scroll;
+
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  //grid-template-columns: repeat(auto-fill, 200px);
+  //justify-content: center;
+
   padding: 20px 16px;
   position: fixed;
 

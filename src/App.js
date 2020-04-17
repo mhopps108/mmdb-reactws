@@ -18,7 +18,7 @@ export default function App() {
     <StyledApp>
       <BrowserRouter>
         <Switch>
-          <Route path={"/"}>
+          <Route exact path={"/"}>
             <List
               sidebarVisible={sidebarVisible}
               toggleSidebar={toggleSidebar}

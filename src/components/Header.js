@@ -14,7 +14,7 @@ export default function Header({ toggleSidebar, toggleNavMenu }) {
         </NavGroup>
         <NavGroupPages>
           <NavLink>
-            <Link to="/list">List</Link>
+            <Link to="/lists/tmdb-popular">List</Link>
           </NavLink>
           <NavLink>
             <Link to="/release-dates">Releases</Link>
