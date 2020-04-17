@@ -131,6 +131,8 @@ export const Title = styled.h1`
 
 export const MainWrap = styled.div`
   padding: 15px 25px;
+  //background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+  //background: white;
 
   display: grid;
   grid-template-areas:

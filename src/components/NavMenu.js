@@ -76,8 +76,21 @@ const ListSection = styled.div`
 `;
 
 const StyledNavMenu = styled.div`
-  border: 1px solid red;
-  background: lightblue;
+  border: 4px solid #333;
+  //background: #ddd;
+  //background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+  //background-image: linear-gradient(to top, #a3bded 0%, #6991c7 100%);
+  //background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+  background-image: linear-gradient(to top, #4481eb 0%, #04befe 100%);
+  //background-image: linear-gradient(
+  //  to top,
+  //  #1e3c72 0%,
+  //  #1e3c72 1%,
+  //  #2a5298 100%
+  //);
+  //background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+  color: white;
+
   max-height: calc(100vh - 55px);
   //height: 400px;
   width: 100%;

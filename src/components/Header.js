@@ -4,22 +4,40 @@ import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
 import "boxicons";
 
+const StyledBrand = styled.h1`
+  font-size: 1.75rem;
+  margin-left: 8px;
+
+  background-image: linear-gradient(to top, #4481eb 0%, #04befe 100%);
+  //background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+  //background: -webkit-linear-gradient(#eee, #333);
+  //background-image: linear-gradient(
+  //  -225deg,
+  //  #22e1ff 0%,
+  //  #1d8fe1 48%,
+  //  #625eb1 100%
+  //);
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+`;
+
 export default function Header({ toggleSidebar, toggleNavMenu }) {
   return (
     <StyledHeader>
       <Navbar>
         <NavGroup>
           {/*<button onClick={toggleSidebar}>Side</button>*/}
-          <h3 style={{ marginLeft: "5px" }}>MMDb</h3>
+          <StyledBrand>MMDb</StyledBrand>
         </NavGroup>
-        <NavGroupPages>
-          <NavLink>
-            <Link to="/lists/tmdb-popular">List</Link>
-          </NavLink>
-          <NavLink>
-            <Link to="/release-dates">Releases</Link>
-          </NavLink>
-        </NavGroupPages>
+        {/*<NavGroupPages>*/}
+        {/*  <NavLink>*/}
+        {/*    <Link to="/lists/tmdb-popular">List</Link>*/}
+        {/*  </NavLink>*/}
+        {/*  <NavLink>*/}
+        {/*    <Link to="/release-dates">Releases</Link>*/}
+        {/*  </NavLink>*/}
+        {/*</NavGroupPages>*/}
 
         <NavGroup>
           <button
@@ -42,6 +60,7 @@ export default function Header({ toggleSidebar, toggleNavMenu }) {
 
 const StyledHeader = styled.div`
   background-color: #222;
+  //background-color: #111;
   grid-area: header;
   position: sticky;
   top: 0;
