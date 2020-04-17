@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouteMatch, useParams, useHistory } from "react-router-dom";
-import { Header, Sidebar, Toolbar, MovieList } from "../components";
+import { Header, Sidebar, Toolbar, MovieList, NavMenu } from "../components";
 import styled, { css } from "styled-components/macro";
 import { useDataApi } from "../useDataApi";
 import { device } from "../devices";
@@ -19,7 +19,12 @@ const endOfWeek = (date) => {
   return (moment(date) || moment()).endOf("week");
 };
 
-export default function Releases({ sidebarVisible, toggleSidebar }) {
+export default function Releases({
+  sidebarVisible,
+  toggleSidebar,
+  navMenuVisible,
+  toggleNavMenu,
+}) {
   let history = useHistory();
   let match = useRouteMatch("/release-dates/:week");
   const startWeek = (match) => {
@@ -62,8 +67,9 @@ export default function Releases({ sidebarVisible, toggleSidebar }) {
 
   return (
     <StyledReleases>
-      <Header toggleSidebar={toggleSidebar} />
+      <Header toggleSidebar={toggleSidebar} toggleNavMenu={toggleNavMenu} />
       <Toolbar listData={listData} dateData={dateData} />
+      <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
       <Sidebar isOpen={sidebarVisible} toggleOpen={toggleSidebar} />
       <MovieList
         movies={data?.results}

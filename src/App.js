@@ -38,10 +38,15 @@ export default function App() {
             <Releases
               sidebarVisible={sidebarVisible}
               toggleSidebar={toggleSidebar}
+              navMenuVisible={navMenuVisible}
+              toggleNavMenu={toggleNavMenu}
             />
           </Route>
           <Route path="/movie/:imdbId">
-            <Detail />
+            <Detail
+              navMenuVisible={navMenuVisible}
+              toggleNavMenu={toggleNavMenu}
+            />
           </Route>
         </Switch>
       </BrowserRouter>

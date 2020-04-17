@@ -25,30 +25,30 @@ const tmdbLinks = [
 const releaseDateLinks = [
   {
     name: "Theatrical Releases",
-    path: "/releases-dates",
+    path: "/release-dates",
   },
   {
     name: "Digital Releases",
-    path: "/releases-dates",
+    path: "/release-dates",
   },
   {
     name: "BluRay Releases",
-    path: "/releases-dates",
+    path: "/release-dates",
   },
 ];
 
 const discoveryLinks = [
   {
     name: "Top Comedies",
-    path: "/lists/tmdb-now-playing",
+    path: "/release-dates",
   },
   {
     name: "Top Rated Kids Movies",
-    path: "/lists/tmdb-now-playing",
+    path: "/release-dates",
   },
   {
     name: "Best Family Movies",
-    path: "/lists/tmdb-now-playing",
+    path: "/release-dates",
   },
 ];
 
