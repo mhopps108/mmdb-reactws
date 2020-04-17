@@ -200,12 +200,8 @@ function Trailer({ data }) {
     <StyledTrailerWrap>
       <SectionHeader>Trailer</SectionHeader>
       {trailer_url && (
-        <div class="embed-responsive embed-responsive-16by9">
-          <iframe
-            class="embed-responsive-item"
-            title={title}
-            src={youtube_src}
-          />
+        <div>
+          <iframe title={title} src={youtube_src} />
         </div>
       )}
     </StyledTrailerWrap>
@@ -222,7 +218,7 @@ function Similar({ data }) {
           similar.map((item) => {
             const { imdb_id, title, poster_url } = item;
             return (
-              <HorizontalScrollItem>
+              <HorizontalScrollItem key={imdb_id}>
                 <Link to={`/movie/${imdb_id}`} key={imdb_id}>
                   <ScrollPoster src={poster_url} alt={title} />
                   <ScrollPosterTag>{title}</ScrollPosterTag>
@@ -245,7 +241,7 @@ function Recommended({ data }) {
           recommended.map((item) => {
             const { imdb_id, title, poster_url } = item;
             return (
-              <HorizontalScrollItem>
+              <HorizontalScrollItem key={imdb_id}>
                 <Link to={`/movie/${imdb_id}`} key={imdb_id}>
                   <ScrollPoster src={poster_url} alt={title} />
                   <ScrollPosterTag>{title}</ScrollPosterTag>
@@ -265,10 +261,10 @@ function Credits({ data }) {
       <SectionHeader>Credits</SectionHeader>
       <HorizontalScroll>
         {credits &&
-          credits.map((item) => {
+          credits.map((item, index) => {
             const { order, character, actor } = item;
             return (
-              <HorizontalScrollItem>
+              <HorizontalScrollItem key={index}>
                 <ScrollCreditPoster src={actor.profile_url} alt={actor.name} />
                 <ScrollCreditPosterTag>{actor.name}</ScrollCreditPosterTag>
                 <ScrollCreditPosterTag>{character}</ScrollCreditPosterTag>

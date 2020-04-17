@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+// import { useParam } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { Header, Sidebar, Toolbar, Main, MovieList } from "../components";
+import { Header, Sidebar, Toolbar, MovieList, NavMenu } from "../components";
 import styled, { css } from "styled-components/macro";
 import { useDataApi } from "../useDataApi";
 import { device } from "../devices";
 
-export default function List({ sidebarVisible, toggleSidebar }) {
+export default function List({
+  sidebarVisible,
+  toggleSidebar,
+  navMenuVisible,
+  toggleNavMenu,
+}) {
+  // export default function List(props) {
   let { slug } = useParams();
   slug = slug || "tmdb-popular";
   const listUrl = `https://www.matthewhopps.com/api/list/${slug}/`;
@@ -24,8 +31,9 @@ export default function List({ sidebarVisible, toggleSidebar }) {
 
   return (
     <StyledList>
-      <Header toggleSidebar={toggleSidebar} />
-      <Sidebar isOpen={sidebarVisible} toggleOpen={toggleSidebar} />
+      <Header toggleSidebar={toggleSidebar} toggleNavMenu={toggleNavMenu} />
+      <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
+      {/*<Sidebar isOpen={sidebarVisible} toggleOpen={toggleSidebar} />*/}
       <Toolbar listData={data} />
       <MovieList
         movies={(data?.movielistitems || []).map((item) => item.movie)}
@@ -48,12 +56,12 @@ const StyledList = styled.div`
   grid-template-rows: 55px auto 1fr;
   margin: 0 auto;
 
-  @media ${device.min.desktop} {
-    grid-template-areas:
-      "header header"
-      "sidebar toolbar"
-      "sidebar main";
-    grid-template-columns: 200px 1fr;
-    grid-template-rows: 55px auto 1fr;
-  }
+  // @media ${device.min.desktop} {
+  //   grid-template-areas:
+  //     "header header"
+  //     "sidebar toolbar"
+  //     "sidebar main";
+  //   grid-template-columns: 200px 1fr;
+  //   grid-template-rows: 55px auto 1fr;
+  // }
 `;

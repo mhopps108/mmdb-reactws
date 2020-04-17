@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Route, Link, useRouteMatch, useParams } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
 import "boxicons";
 
-export default function Header({ toggleSidebar }) {
+export default function Header({ toggleSidebar, toggleNavMenu }) {
   return (
     <StyledHeader>
       <Navbar>
         <NavGroup>
-          <button onClick={toggleSidebar}>Side</button>
-          <h3>MMDb</h3>
+          {/*<button onClick={toggleSidebar}>Side</button>*/}
+          <h3 style={{ marginLeft: "5px" }}>MMDb</h3>
         </NavGroup>
         <NavGroupPages>
           <NavLink>
@@ -20,8 +20,20 @@ export default function Header({ toggleSidebar }) {
             <Link to="/release-dates">Releases</Link>
           </NavLink>
         </NavGroupPages>
+
         <NavGroup>
-          <a href="/">Search</a>
+          <button
+            style={{
+              border: "1px solid black",
+              padding: "2px 5px",
+              marginRight: " 5px",
+              borderRadius: "5px",
+              background: "white",
+            }}
+            onClick={toggleNavMenu}
+          >
+            Menu
+          </button>
         </NavGroup>
       </Navbar>
     </StyledHeader>
@@ -34,7 +46,7 @@ const StyledHeader = styled.div`
   position: sticky;
   top: 0;
   width: 100%;
-  //z-index: 10;
+  z-index: 100;
 `;
 
 const Navbar = styled.nav`

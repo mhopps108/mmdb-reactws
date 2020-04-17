@@ -43,13 +43,14 @@ const ToolbarButton = styled.button`
 `;
 
 const ListName = styled.p`
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
 `;
 
 const MovieCountTag = styled.div`
   border: 1px solid #777;
   color: #333;
-  font-weight: 300;
+  font-weight: 600;
   border-radius: 5px;
   text-align: center;
   padding: 2px 5px;

@@ -81,30 +81,30 @@ export default function Sidebar({ isOpen, toggleOpen }) {
           </Listitem>
         );
       })}
-      <Listheader>IMDb</Listheader>
-      {tmdblist.map((item) => {
-        return <Listitem key={item}>{item}</Listitem>;
-      })}
-      <Listheader>Trakt</Listheader>
-      {tmdblist.map((item) => {
-        return <Listitem key={item}>{item}</Listitem>;
-      })}
-      <Listheader>Releases</Listheader>
-      {releaseDateLinks.map((item, index) => {
-        return (
-          <Listitem onClick={toggleOpen} key={index}>
-            <Link to={item.path}>{item.name}</Link>
-          </Listitem>
-        );
-      })}
-      <Listheader>Discovery</Listheader>
-      {discoveryLinks.map((item, index) => {
-        return (
-          <Listitem onClick={toggleOpen} key={index}>
-            <Link to={item.path}>{item.name}</Link>
-          </Listitem>
-        );
-      })}
+      {/*<Listheader>IMDb</Listheader>*/}
+      {/*{tmdblist.map((item) => {*/}
+      {/*  return <Listitem key={item}>{item}</Listitem>;*/}
+      {/*})}*/}
+      {/*<Listheader>Trakt</Listheader>*/}
+      {/*{tmdblist.map((item) => {*/}
+      {/*  return <Listitem key={item}>{item}</Listitem>;*/}
+      {/*})}*/}
+      {/*<Listheader>Releases</Listheader>*/}
+      {/*{releaseDateLinks.map((item, index) => {*/}
+      {/*  return (*/}
+      {/*    <Listitem onClick={toggleOpen} key={index}>*/}
+      {/*      <Link to={item.path}>{item.name}</Link>*/}
+      {/*    </Listitem>*/}
+      {/*  );*/}
+      {/*})}*/}
+      {/*<Listheader>Discovery</Listheader>*/}
+      {/*{discoveryLinks.map((item, index) => {*/}
+      {/*  return (*/}
+      {/*    <Listitem onClick={toggleOpen} key={index}>*/}
+      {/*      <Link to={item.path}>{item.name}</Link>*/}
+      {/*    </Listitem>*/}
+      {/*  );*/}
+      {/*})}*/}
     </StyledSidebar>
   );
 }

@@ -43,10 +43,11 @@ const Title = styled.h6`
   font-size: 1.1rem;
   color: #555;
   overflow: hidden;
-  line-height: 1.2rem;
-  //max-height: 2.3rem;
+  line-height: 1.25rem;
+  max-height: 2.5rem;
   white-space: normal;
-  margin-bottom: 15px;
+  //padding: 1px;
+  margin-bottom: 12px;
   & a {
     text-decoration: none;
     color: #222;
@@ -105,8 +106,8 @@ function MovieListItem({ movie }) {
             </DetailRow>
             <DetailRow>
               {genres &&
-                genres.map((genre) => {
-                  return <DetailItem>{genre}</DetailItem>;
+                genres.map((genre, index) => {
+                  return <DetailItem key={index}>{genre}</DetailItem>;
                 })}
             </DetailRow>
           </Details>
