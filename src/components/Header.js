@@ -7,8 +7,9 @@ import "boxicons";
 const StyledBrand = styled.h1`
   font-size: 1.75rem;
   margin-left: 8px;
-
-  background-image: linear-gradient(to top, #4481eb 0%, #04befe 100%);
+  background: #2162a4;
+  //background-image: linear-gradient(to top, #4481eb 0%, #04befe 100%);
+  //background: #158cba;
   //background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
   //background: -webkit-linear-gradient(#eee, #333);
   //background-image: linear-gradient(
@@ -28,7 +29,11 @@ export default function Header({ toggleSidebar, toggleNavMenu }) {
       <Navbar>
         <NavGroup>
           {/*<button onClick={toggleSidebar}>Side</button>*/}
-          <StyledBrand>MMDb</StyledBrand>
+          <StyledBrand>
+            {/*<NavLink>*/}
+            <Link to="/">MMDb</Link>
+            {/*</NavLink>*/}
+          </StyledBrand>
         </NavGroup>
         {/*<NavGroupPages>*/}
         {/*  <NavLink>*/}

@@ -22,6 +22,7 @@ const StyledMovieList = styled.div`
   grid-area: main;
   background-color: lightgray;
   display: grid;
+  box-shadow: 0 0 25px 20px lightgrey;
   //height: calc(100vh - 100px);
   //overflow: scroll;
 `;

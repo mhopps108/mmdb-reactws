@@ -4,70 +4,75 @@ import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
 
 const StyledMovieListItem = styled.div`
-  display: flex;
-  padding: 4px;
   background: white;
-  /* height: 150px; */
-  height: 125px;
-  /* min-width: 350px; */
   max-width: 400px;
+  height: 128px;
   border-radius: 4px;
   border: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
-const Poster = styled.div`
-  /* min-width: 92px; */
-  min-width: 80px;
-  /* height: 138px; */
-  height: 100%;
-  background-image: url(${(props) => props.url});
-  // objectFit: contain;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-`;
-
-// className="w-100 pl-3 pt-1 "
-const DetailsWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
+const MovieListItemLayout = styled.div`
+  display: grid;
+  grid-template-areas:
+    "poster ..."
+    "poster title"
+    "poster infotoprow"
+    "poster infobottomrow"
+    "poster ...";
+  grid-template-columns: 80px 1fr;
+  grid-template-rows: 1fr 2fr 1fr 1fr 1fr;
+  grid-column-gap: 15px;
   width: 100%;
-  /* margin: 10px; */
-  padding: 8px;
+  height: 100%;
+`;
+
+const Poster = styled.img`
+  grid-area: poster;
+  width: 80px;
+  height: 120px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin-left: 4px;
+  align-self: center;
 `;
 
 const Title = styled.h6`
+  grid-area: title;
   font-size: 1.1rem;
-  color: #555;
+  color: #444;
   overflow: hidden;
   line-height: 1.25rem;
   max-height: 2.5rem;
   white-space: normal;
+  align-self: center;
   //padding: 1px;
   margin-bottom: 12px;
   & a {
     text-decoration: none;
     color: #222;
   }
+  width: 100%;
 `;
 
-const Details = styled.div`
+const InfoRow = styled.div`
   display: flex;
-  flex-direction: column;
+  //margin-bottom: 8px;
   color: grey;
   font-size: 0.8rem;
+  //height: 100%;
+  //align-self: center;
+  width: 100%;
 `;
 
-const DetailRow = styled.div`
-  display: flex;
-  /* padding: 8px 0; */
-  margin-bottom: 8px;
+const InfoTopRow = styled(InfoRow)`
+  grid-area: infotoprow;
 `;
 
-const DetailItem = styled.p`
+const InfoBottomRow = styled(InfoRow)`
+  grid-area: infobottomrow;
+`;
+
+const InfoItem = styled.div`
   padding-right: 12px;
 `;
 
@@ -84,36 +89,32 @@ function MovieListItem({ movie }) {
   } = movie;
 
   return (
-    <>
-      <StyledMovieListItem>
-        <Poster url={poster_url} />
-        <DetailsWrap>
-          <Title>
-            <Link to={`/movie/${imdb_id}`}>{title}</Link>
-          </Title>
-          <Details>
-            <DetailRow>
-              <DetailItem>{year}</DetailItem>
-              <DetailItem>
-                {runtime}
-                <small> mins</small>
-              </DetailItem>
-              <DetailItem>{certification}</DetailItem>
-              <DetailItem>
-                {imdb_rating_avg}
-                <small> /10</small>
-              </DetailItem>
-            </DetailRow>
-            <DetailRow>
-              {genres &&
-                genres.map((genre, index) => {
-                  return <DetailItem key={index}>{genre}</DetailItem>;
-                })}
-            </DetailRow>
-          </Details>
-        </DetailsWrap>
-      </StyledMovieListItem>
-    </>
+    <StyledMovieListItem>
+      <MovieListItemLayout>
+        <Poster src={poster_url} />
+        <Title>
+          <Link to={`/movie/${imdb_id}`}>{title}</Link>
+        </Title>
+        <InfoTopRow>
+          <InfoItem>{year}</InfoItem>
+          <InfoItem>
+            {runtime}
+            <small> mins</small>
+          </InfoItem>
+          <InfoItem>{certification}</InfoItem>
+          <InfoItem>
+            {imdb_rating_avg}
+            <small> /10</small>
+          </InfoItem>
+        </InfoTopRow>
+        <InfoBottomRow>
+          {genres &&
+            genres.map((genre, index) => {
+              return <InfoItem key={index}>{genre}</InfoItem>;
+            })}
+        </InfoBottomRow>
+      </MovieListItemLayout>
+    </StyledMovieListItem>
   );
 }
 

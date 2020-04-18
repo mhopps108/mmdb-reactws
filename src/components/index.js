@@ -4,5 +4,14 @@ import Toolbar from "./Toolbar";
 import MovieList from "./MovieList";
 import MovieDetail from "./MovieDetail";
 import NavMenu from "./NavMenu";
+import MoviePosterList from "./MoviePosterList";
 
-export { Header, Sidebar, Toolbar, MovieList, MovieDetail, NavMenu };
+export {
+  Header,
+  Sidebar,
+  Toolbar,
+  MovieList,
+  MoviePosterList,
+  MovieDetail,
+  NavMenu,
+};

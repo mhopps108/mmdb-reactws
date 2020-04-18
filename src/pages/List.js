@@ -1,7 +1,14 @@
 import React, { useEffect } from "react";
 // import { useParam } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { Header, Sidebar, Toolbar, MovieList, NavMenu } from "../components";
+import {
+  Header,
+  Sidebar,
+  Toolbar,
+  MovieList,
+  MoviePosterList,
+  NavMenu,
+} from "../components";
 import styled, { css } from "styled-components/macro";
 import { useDataApi } from "../useDataApi";
 import { device } from "../devices";
@@ -11,6 +18,7 @@ export default function List({
   toggleSidebar,
   navMenuVisible,
   toggleNavMenu,
+  view = "list",
 }) {
   // export default function List(props) {
   let { slug } = useParams();
@@ -35,11 +43,20 @@ export default function List({
       <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
       {/*<Sidebar isOpen={sidebarVisible} toggleOpen={toggleSidebar} />*/}
       <Toolbar listData={data} />
-      <MovieList
-        movies={(data?.movielistitems || []).map((item) => item.movie)}
-        isLoading={isLoading}
-        isError={isError}
-      />
+      {view === "poster" && (
+        <MoviePosterList
+          movies={(data?.movielistitems || []).map((item) => item.movie)}
+          isLoading={isLoading}
+          isError={isError}
+        />
+      )}
+      {view === "list" && (
+        <MovieList
+          movies={(data?.movielistitems || []).map((item) => item.movie)}
+          isLoading={isLoading}
+          isError={isError}
+        />
+      )}
     </StyledList>
   );
 }

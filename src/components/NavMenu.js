@@ -77,18 +77,7 @@ const ListSection = styled.div`
 
 const StyledNavMenu = styled.div`
   border: 4px solid #333;
-  //background: #ddd;
-  //background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
-  //background-image: linear-gradient(to top, #a3bded 0%, #6991c7 100%);
-  //background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
-  background-image: linear-gradient(to top, #4481eb 0%, #04befe 100%);
-  //background-image: linear-gradient(
-  //  to top,
-  //  #1e3c72 0%,
-  //  #1e3c72 1%,
-  //  #2a5298 100%
-  //);
-  //background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+  background: #2162a4;
   color: white;
 
   max-height: calc(100vh - 55px);
@@ -99,7 +88,6 @@ const StyledNavMenu = styled.div`
   display: grid;
   grid-gap: 10px;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  //grid-template-columns: repeat(auto-fill, 200px);
   //justify-content: center;
 
   padding: 20px 16px;
