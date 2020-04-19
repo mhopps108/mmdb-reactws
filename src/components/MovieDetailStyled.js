@@ -66,6 +66,8 @@ export const BackdropImage = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   box-shadow: inset 0px -40px 20px 2px rgba(0, 0, 0, 0.85);
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
 
   @media ${device.min.small} {
     height: 300px;
@@ -82,6 +84,8 @@ export const MDBasicsWrap = styled.div`
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.6);
   color: #ddd;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
 
   @media ${device.min.small} {
     padding: 15px 25px;

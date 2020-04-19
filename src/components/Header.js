@@ -65,7 +65,6 @@ export default function Header({ toggleSidebar, toggleNavMenu }) {
 
 const StyledHeader = styled.div`
   background-color: #222;
-  //background-color: #111;
   grid-area: header;
   position: sticky;
   top: 0;

@@ -41,7 +41,6 @@ export default function List({
     <StyledList>
       <Header toggleSidebar={toggleSidebar} toggleNavMenu={toggleNavMenu} />
       <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
-      {/*<Sidebar isOpen={sidebarVisible} toggleOpen={toggleSidebar} />*/}
       <Toolbar listData={data} />
       {view === "poster" && (
         <MoviePosterList

@@ -68,9 +68,9 @@ export default function Releases({
   return (
     <StyledReleases>
       <Header toggleSidebar={toggleSidebar} toggleNavMenu={toggleNavMenu} />
-      <Toolbar listData={listData} dateData={dateData} />
       <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
-      <Sidebar isOpen={sidebarVisible} toggleOpen={toggleSidebar} />
+      <Toolbar listData={listData} dateData={dateData} />
+      {/*<Sidebar isOpen={sidebarVisible} toggleOpen={toggleSidebar} />*/}
       <MovieList
         movies={data?.results}
         isLoading={isLoading}

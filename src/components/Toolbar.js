@@ -8,11 +8,14 @@ const StyledToolbar = styled.div`
   background-color: white;
   color: #333;
   position: sticky;
+  min-height: 40px;
   top: 55px;
   display: flex;
   flex-direction: column;
   padding: 8px 16px;
-  box-shadow: 0px 5px 25px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 25px 6px rgba(0, 0, 0, 0.2);
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 
   @media ${device.min.tablet} {
     flex-direction: row;
@@ -23,7 +26,6 @@ const StyledToolbar = styled.div`
 const ToolbarItem = styled.div`
   display: flex;
   flex-direction: row;
-  //max-width: 100%;
   width: 100%;
   justify-content: space-between;
   p,
@@ -61,8 +63,8 @@ export default function Toolbar({ listData, dateData = null }) {
   return (
     <StyledToolbar>
       <ToolbarItem>
-        <ListName>{name}</ListName>
-        <MovieCountTag>{movie_count}</MovieCountTag>
+        <ListName>{name || "Loading..."}</ListName>
+        <MovieCountTag>{movie_count || "#"}</MovieCountTag>
       </ToolbarItem>
       {dateData && (
         <ToolbarItem>

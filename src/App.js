@@ -12,7 +12,6 @@ export default function App() {
     console.log(`App.js: toogleNavMenu Clicked (${navMenuVisible})`);
     setNavMenuVisible(!navMenuVisible);
   };
-  console.log(`App: toggleNavMenu (${toggleNavMenu})`);
 
   return (
     <StyledApp>

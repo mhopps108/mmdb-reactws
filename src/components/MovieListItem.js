@@ -13,68 +13,85 @@ const StyledMovieListItem = styled.div`
 
 const MovieListItemLayout = styled.div`
   display: grid;
-  grid-template-areas:
-    "poster ..."
-    "poster title"
-    "poster infotoprow"
-    "poster infobottomrow"
-    "poster ...";
-  grid-template-columns: 80px 1fr;
-  grid-template-rows: 1fr 2fr 1fr 1fr 1fr;
-  grid-column-gap: 15px;
+  grid-template-areas: "poster infowrap";
+  grid-template-columns: 85px 1fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 10px;
   width: 100%;
   height: 100%;
 `;
 
 const Poster = styled.img`
   grid-area: poster;
+  align-self: center;
+  margin-left: 5px;
   width: 80px;
   height: 120px;
   border-radius: 4px;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  margin-left: 4px;
-  align-self: center;
 `;
 
-const Title = styled.h6`
-  grid-area: title;
+const InfoWrap = styled.div`
+  grid-area: infowrap;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px 4px;
+`;
+
+const Title = styled.h3`
   font-size: 1.1rem;
-  color: #444;
-  overflow: hidden;
   line-height: 1.25rem;
   max-height: 2.5rem;
+  overflow: hidden;
   white-space: normal;
-  align-self: center;
-  //padding: 1px;
   margin-bottom: 12px;
   & a {
     text-decoration: none;
-    color: #222;
+    color: #333;
   }
-  width: 100%;
 `;
 
 const InfoRow = styled.div`
   display: flex;
-  //margin-bottom: 8px;
   color: grey;
+  margin-bottom: 8px;
   font-size: 0.8rem;
-  //height: 100%;
-  //align-self: center;
-  width: 100%;
-`;
-
-const InfoTopRow = styled(InfoRow)`
-  grid-area: infotoprow;
-`;
-
-const InfoBottomRow = styled(InfoRow)`
-  grid-area: infobottomrow;
 `;
 
 const InfoItem = styled.div`
   padding-right: 12px;
 `;
+
+const InfoList = ({ year, runtime, certification, imdb_rating_avg }) => {
+  return (
+    <>
+      {year && <InfoItem>{year}</InfoItem>}
+      {runtime && (
+        <InfoItem>
+          {runtime}
+          <small> mins</small>
+        </InfoItem>
+      )}
+      {certification && <InfoItem>{certification}</InfoItem>}
+      {imdb_rating_avg && (
+        <InfoItem>
+          {imdb_rating_avg}
+          <small> /10</small>
+        </InfoItem>
+      )}
+    </>
+  );
+};
+
+const GenreList = ({ genres }) => {
+  return genres.splice(0, 3).map((genre, index) => {
+    if (genre === "Science Fiction") {
+      genre = "Sci-Fi";
+    }
+    return <InfoItem key={index}>{genre}</InfoItem>;
+  });
+};
 
 function MovieListItem({ movie }) {
   const {
@@ -92,27 +109,20 @@ function MovieListItem({ movie }) {
     <StyledMovieListItem>
       <MovieListItemLayout>
         <Poster src={poster_url} />
-        <Title>
-          <Link to={`/movie/${imdb_id}`}>{title}</Link>
-        </Title>
-        <InfoTopRow>
-          <InfoItem>{year}</InfoItem>
-          <InfoItem>
-            {runtime}
-            <small> mins</small>
-          </InfoItem>
-          <InfoItem>{certification}</InfoItem>
-          <InfoItem>
-            {imdb_rating_avg}
-            <small> /10</small>
-          </InfoItem>
-        </InfoTopRow>
-        <InfoBottomRow>
-          {genres &&
-            genres.map((genre, index) => {
-              return <InfoItem key={index}>{genre}</InfoItem>;
-            })}
-        </InfoBottomRow>
+        <InfoWrap>
+          <Title>
+            <Link to={`/movie/${imdb_id}`}>{title}</Link>
+          </Title>
+          <InfoRow>
+            <InfoList
+              year={year}
+              runtime={runtime}
+              certification={certification}
+              imdb_rating_avg={imdb_rating_avg}
+            />
+          </InfoRow>
+          <InfoRow>{genres && <GenreList genres={genres} />}</InfoRow>
+        </InfoWrap>
       </MovieListItemLayout>
     </StyledMovieListItem>
   );
