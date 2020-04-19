@@ -16,7 +16,7 @@ import {
   BorderedTag,
   StyledRatings,
   StyledRating,
-  Small,
+  Smaller,
   RatingAvg,
   SectionHeader,
   MainWrap,
@@ -94,8 +94,8 @@ function Basics({ data }) {
         <Title>{title}</Title>
         <InfoRow>
           {year && <div>{year}</div>}
-          {runtime && <div>{runtime}m</div>}
-          {certification && <div>{certification}</div>}
+          <div>{runtime || "0"} min</div>
+          <div>{certification || "No Rating"}</div>
         </InfoRow>
         <InfoRow>
           {genres &&
@@ -123,19 +123,19 @@ function Ratings({ data }) {
         <StyledRating>
           <BorderedTag>IMDb</BorderedTag>
           <RatingAvg>
-            {imdb_rating_avg}
-            <Small>/10</Small>
+            {imdb_rating_avg || "0.0"}
+            {"/10"}
           </RatingAvg>
-          <Small>{`${imdb_rating_count} votes`}</Small>
+          <Smaller>{`${imdb_rating_count || "0"} votes`}</Smaller>
         </StyledRating>
 
         <StyledRating>
           <BorderedTag>TMDb</BorderedTag>
           <RatingAvg>
-            {tmdb_rating_avg}
-            <Small>/10</Small>
+            {tmdb_rating_avg || "0.0"}
+            <Smaller>/10</Smaller>
           </RatingAvg>
-          <Small>{`${tmdb_rating_count} votes`}</Small>
+          <Smaller>{`${tmdb_rating_count || "0"} votes`}</Smaller>
         </StyledRating>
       </StyledRatings>
     </StyledRatingsWrap>
@@ -150,33 +150,25 @@ function ReleaseDates({ data }) {
     tv_release,
   } = data;
 
+  const ReleaseDate = ({ label, releaseDate }) => {
+    if (!releaseDate) return null;
+    return (
+      releaseDate && (
+        <StyledReleaseDate>
+          <BorderedTag>{label}</BorderedTag>
+          {new Date(releaseDate).toDateString()}
+        </StyledReleaseDate>
+      )
+    );
+  };
+
   return (
     <StyledReleaseDatesWrap>
       <SectionHeader>Release Dates</SectionHeader>
-      {theatrical_release && (
-        <StyledReleaseDate>
-          <BorderedTag>Theatrical</BorderedTag>
-          {new Date(theatrical_release).toDateString()}
-        </StyledReleaseDate>
-      )}
-      {digital_release && (
-        <StyledReleaseDate>
-          <BorderedTag>Digital</BorderedTag>
-          {new Date(digital_release).toDateString()}
-        </StyledReleaseDate>
-      )}
-      {physical_release && (
-        <StyledReleaseDate>
-          <BorderedTag>Physical</BorderedTag>
-          {new Date(physical_release).toDateString()}
-        </StyledReleaseDate>
-      )}
-      {tv_release && (
-        <StyledReleaseDate>
-          <BorderedTag>TV</BorderedTag>
-          {new Date(tv_release).toDateString()}
-        </StyledReleaseDate>
-      )}
+      <ReleaseDate label="Theatrical" releaseDate={theatrical_release} />
+      <ReleaseDate label="Digital" releaseDate={digital_release} />
+      <ReleaseDate label="Physical" releaseDate={physical_release} />
+      <ReleaseDate label="TV" releaseDate={tv_release} />
     </StyledReleaseDatesWrap>
   );
 }
@@ -195,13 +187,12 @@ function Overview({ data }) {
 function Trailer({ data }) {
   const { trailer_url, title } = data;
   const youtube_src = `${trailer_url}?controls=1`;
-
-  return (
+  return !trailer_url ? null : (
     <StyledTrailerWrap>
       <SectionHeader>Trailer</SectionHeader>
       {trailer_url && (
         <div>
-          <iframe title={title} src={youtube_src} />
+          <iframe title={title} src={youtube_src} allowFullScreen />
         </div>
       )}
     </StyledTrailerWrap>
@@ -210,7 +201,7 @@ function Trailer({ data }) {
 
 function Similar({ data }) {
   const { similar } = data;
-  return (
+  return !similar || similar.length === 0 ? null : (
     <StyledSimilarWrap>
       <SectionHeader>Similar</SectionHeader>
       <HorizontalScroll>
@@ -233,7 +224,7 @@ function Similar({ data }) {
 
 function Recommended({ data }) {
   const { recommended } = data;
-  return (
+  return !recommended || recommended.length === 0 ? null : (
     <StyledRecommendedWrap>
       <SectionHeader>Recommended</SectionHeader>
       <HorizontalScroll>

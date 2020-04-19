@@ -16,7 +16,7 @@ const MovieListItemLayout = styled.div`
   grid-template-areas: "poster infowrap";
   grid-template-columns: 85px 1fr;
   grid-template-rows: 1fr;
-  grid-column-gap: 10px;
+  grid-column-gap: 8px;
   width: 100%;
   height: 100%;
 `;
@@ -57,6 +57,7 @@ const InfoRow = styled.div`
   color: grey;
   margin-bottom: 8px;
   font-size: 0.8rem;
+  padding-left: 4px;
 `;
 
 const InfoItem = styled.div`
@@ -67,19 +68,17 @@ const InfoList = ({ year, runtime, certification, imdb_rating_avg }) => {
   return (
     <>
       {year && <InfoItem>{year}</InfoItem>}
-      {runtime && (
-        <InfoItem>
-          {runtime}
-          <small> mins</small>
-        </InfoItem>
-      )}
-      {certification && <InfoItem>{certification}</InfoItem>}
-      {imdb_rating_avg && (
-        <InfoItem>
-          {imdb_rating_avg}
-          <small> /10</small>
-        </InfoItem>
-      )}
+      <InfoItem>
+        {runtime || "0"}
+        <small> mins</small>
+      </InfoItem>
+
+      <InfoItem>{certification || "-"}</InfoItem>
+
+      <InfoItem>
+        {imdb_rating_avg || "0.0"}
+        <small> /10</small>
+      </InfoItem>
     </>
   );
 };

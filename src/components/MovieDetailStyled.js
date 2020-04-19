@@ -20,7 +20,7 @@ export const SectionWrap = styled.div`
 
 export const SectionHeader = styled.h3`
   font-size: 1.2rem;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 `;
 
 export const BorderedTag = styled.div`
@@ -35,8 +35,8 @@ export const BorderedTag = styled.div`
   margin-right: 10px;
 `;
 
-export const Small = styled.div`
-  font-size: 0.85rem;
+export const Smaller = styled.div`
+  font-size: 0.8rem;
 `;
 
 // --- --- --- --- --- --- //
@@ -180,7 +180,8 @@ export const StyledRating = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-  margin-bottom: 8px;
+  margin-bottom: 14px;
+  font-size: 1.1rem;
 `;
 
 export const RatingAvg = styled.div`
