@@ -5,6 +5,7 @@ import MovieList from "./MovieList";
 import MovieDetail from "./MovieDetail";
 import NavMenu from "./NavMenu";
 import MoviePosterList from "./MoviePosterList";
+import DiscoveryMenu from "./DiscoverMenu";
 
 export {
   Header,
@@ -14,4 +15,5 @@ export {
   MoviePosterList,
   MovieDetail,
   NavMenu,
+  DiscoveryMenu,
 };

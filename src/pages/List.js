@@ -20,7 +20,6 @@ export default function List({
   toggleNavMenu,
   view = "list",
 }) {
-  // export default function List(props) {
   let { slug } = useParams();
   slug = slug || "tmdb-popular";
   const listUrl = `https://www.matthewhopps.com/api/list/${slug}/`;

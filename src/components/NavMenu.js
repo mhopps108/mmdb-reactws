@@ -40,15 +40,15 @@ const releaseDateLinks = [
 const discoveryLinks = [
   {
     name: "Top Comedies",
-    path: "/release-dates",
+    path: "/discovery",
   },
   {
     name: "Top Rated Kids Movies",
-    path: "/release-dates",
+    path: "/discovery",
   },
   {
     name: "Best Family Movies",
-    path: "/release-dates",
+    path: "/discovery",
   },
 ];
 

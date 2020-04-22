@@ -7,6 +7,9 @@ import { device } from "../devices";
 import moment from "moment";
 import twix from "twix";
 
+// Todo: useReducer
+// NextWeek, PrevWeek, ThisWeek,
+
 const twixDateString = (start, end) => {
   return moment(start).twix(end, { allDay: true }).format();
 };
