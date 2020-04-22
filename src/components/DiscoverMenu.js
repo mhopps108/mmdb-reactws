@@ -71,16 +71,71 @@ const Checkbox = ({ name, label, checked = false, onChange }) => {
   );
 };
 
+/*
+        1: Thriller
+        2: Crime
+        3: Music
+        4: Romance
+        5: Fantasy
+        6: Film-Noir
+        7: Adult
+        8: Western
+        9: Comedy
+        10: Sport
+        11: Action
+        12: Musical
+        13: Short
+        14: Mystery
+        15: Game-Show
+        16: Adventure
+        17: Sci-Fi
+        18: Documentary
+        19: Animation
+        20: Family
+        21: Drama
+        22: Talk-Show
+        23: Reality-TV
+        24: War
+        25: Horror
+        26: News
+        27: History
+        28: Biography
+
+
+
+ */
+
 const genreOptions = [
-  { name: "adventure", label: "Adventure" },
+  { name: "sport", label: "Sport" },
   { name: "comedy", label: "Comedy" },
+  { name: "western", label: "Western" },
+  { name: "adult", label: "Adult" },
+  { name: "film-noir", label: "Film-Noir" },
+  { name: "fantasy", label: "Fantasy" },
+  { name: "romance", label: "Romance" },
+  { name: "music", label: "Music" },
+  { name: "thriller", label: "Thriller" },
+  { name: "crime", label: "Crime" },
+
+  { name: "adventure", label: "Adventure" },
+  { name: "game-show", label: "Game-Show" },
+  { name: "mystery", label: "Mystery" },
+  { name: "short", label: "Short" },
+  { name: "musical", label: "Musical" },
   { name: "action", label: "Action" },
-  { name: "adventure2", label: "Adventure" },
-  { name: "comedy2", label: "Comedy" },
-  { name: "action2", label: "Action" },
-  { name: "adventure3", label: "Adventure" },
-  { name: "comedy3", label: "Comedy" },
-  { name: "action3", label: "Action" },
+  { name: "biography", label: "Biography" },
+  { name: "history", label: "History" },
+  { name: "news", label: "News" },
+  { name: "horror", label: "Horror" },
+
+  { name: "war", label: "War" },
+  { name: "reality-tv", label: "Reality-TV" },
+  { name: "talk-Show", label: "Talk-Show" },
+  { name: "drama", label: "Drama" },
+  { name: "family", label: "Family" },
+  { name: "animation", label: "Animation" },
+  { name: "documentary", label: "Documentary" },
+  { name: "sci-fi", label: "Sci-Fi" },
 ];
 
 export default function DiscoveryMenu({ isOpen, toggleOpen }) {
