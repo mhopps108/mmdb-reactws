@@ -1,46 +1,56 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
 
-const StyledDiscoveryMenu = styled.div`
-  border: 4px solid #333;
-  background: #2162a4;
-  //color: white;
-
-  max-height: calc(100vh - 55px);
-  height: 400px;
+const FakeSlider = styled.div`
+  height: 2px;
   width: 100%;
-  max-width: 1000px;
+  border: 1px solid white;
+  margin: 30px 0px;
+`;
 
+const FlexContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+
+const Wrap = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const StyledDiscoveryMenu = styled.div`
+  border: 2px solid #333;
+  background: #2162a4;
+  max-height: calc(100vh - 55px);
+  width: 100%;
+  max-width: 600px;
   //display: grid;
   //grid-gap: 10px;
   //grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   //justify-content: center;
   display: flex;
   flex-direction: column;
-
   padding: 20px 16px;
   position: fixed;
+  bottom: 0;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  z-index: 99;
+  transform: translateY(0%);
 
-  top: 55px;
-  //left: 0;
-  //right: 0;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-
-  z-index: -10;
+  //z-index: -10;
   transition: transform 0.3s ease-in-out;
   ${(props) =>
     props.isOpen
       ? css`
-          //transform: translateY(-200%);
-          z-index: 99;
-          transform: translateY(0%);
+          //z-index: 99;
+          //transform: translateY(0%);
         `
       : css`
-          //transform: translateY(0%);
-          transform: translateY(-100%);
+          //transform: translateY(100%);
         `}
 `;
 
@@ -51,59 +61,174 @@ const CloseButton = styled.button`
   //right: 20px;
 `;
 
+/*--- PARTS ---*/
+
+const FilterHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  border-bottom: 2px solid #222;
+  padding: 10px -15px;
+  margin-bottom: 10px;
+`;
+
 const GenreOptions = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const Checkbox = ({ name, label, checked = false, onChange }) => {
-  // console.log("Checkbox: ", name, checked);
+/*--- SECTION ---*/
+
+const SectionTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  width: 100%;
+`;
+
+const SectionHeader = styled.p`
+  color: lightgray;
+  font-size: 1rem;
+`;
+
+const SectionButton = styled.button`
+  border: 1px lightgray;
+  background: white;
+  color: #2162a4;
+  padding: 2px 4px;
+  border-radius: 4px;
+`;
+
+/*--- CHECKBOX ---*/
+
+const StyledCheckButton = styled.button`
+  color: ${(props) => (props.checked ? "#2162a4" : "#2162a4")};
+  background: ${(props) => (props.checked ? "lightgray" : "white")};
+  padding: 4px 8px;
+  margin: 2px 4px;
+  border-radius: 4px;
+  //&:active {
+  //  text-decoration: none;
+  //}
+`;
+
+const CheckButton = ({ name, label, onClick, checked = false }) => {
   return (
-    <label key={name}>
-      <input
-        type="checkbox"
-        name={name}
-        checked={checked}
-        onChange={onChange}
-      />
+    <StyledCheckButton
+      name={name}
+      onClick={onClick}
+      checked={checked}
+      type="button"
+    >
       {label}
-    </label>
+    </StyledCheckButton>
   );
 };
 
-/*
-        1: Thriller
-        2: Crime
-        3: Music
-        4: Romance
-        5: Fantasy
-        6: Film-Noir
-        7: Adult
-        8: Western
-        9: Comedy
-        10: Sport
-        11: Action
-        12: Musical
-        13: Short
-        14: Mystery
-        15: Game-Show
-        16: Adventure
-        17: Sci-Fi
-        18: Documentary
-        19: Animation
-        20: Family
-        21: Drama
-        22: Talk-Show
-        23: Reality-TV
-        24: War
-        25: Horror
-        26: News
-        27: History
-        28: Biography
+export default function DiscoveryMenu({ isOpen, toggleOpen }) {
+  console.log(`DISCOVER-MENU: rendered - isOpen (${isOpen})`);
+  const [checkedItems, setCheckedItems] = useState([]);
+  const [certSelected, setCertSelected] = useState([]);
 
+  const toggleSelectCert = () => {
+    if (certSelected.length === 0) {
+      setCertSelected(certOptions.map((item) => item.name));
+    } else {
+      setCertSelected([]);
+    }
+  };
 
+  const handleCertChange = (event) => {
+    const btnName = event.target.name;
+    if (certSelected.includes(btnName)) {
+      setCertSelected(certSelected.filter((item) => item !== btnName));
+    } else {
+      setCertSelected([...certSelected, btnName]);
+    }
+  };
 
- */
+  const toggleSelectGenres = () => {
+    if (checkedItems.length === 0) {
+      setCheckedItems(genreOptions.map((item) => item.name));
+    } else {
+      setCheckedItems([]);
+    }
+  };
+
+  const handleChange = (event) => {
+    console.log("button clicked");
+    console.log(event);
+    console.log(event.target.name);
+    const btnName = event.target.name;
+    if (checkedItems.includes(btnName)) {
+      setCheckedItems(checkedItems.filter((item) => item !== btnName));
+    } else {
+      setCheckedItems([...checkedItems, btnName]);
+    }
+  };
+
+  useEffect(() => {
+    console.log("Selected Certs: ");
+    console.log(certSelected);
+    console.log("Selected Genres: ");
+    console.log(checkedItems);
+  }, [certSelected, checkedItems]);
+
+  return (
+    <Wrap>
+      <StyledDiscoveryMenu isOpen={isOpen}>
+        <FilterHeader>
+          <SectionTop>
+            <CloseButton onClick={toggleOpen}>X</CloseButton>
+            <SectionHeader>Discovery Menu</SectionHeader>
+            <CloseButton onClick={toggleOpen}>X</CloseButton>
+          </SectionTop>
+        </FilterHeader>
+
+        <GenreOptions>
+          <SectionTop>
+            <SectionHeader>Genres</SectionHeader>
+            <SectionButton onClick={toggleSelectCert}>
+              {certSelected.length === 0 ? "Select All" : "Clear"}
+            </SectionButton>
+          </SectionTop>
+          <FlexContainer>
+            {certOptions.map((item) => (
+              <CheckButton
+                key={item.name}
+                name={item.name}
+                label={item.label}
+                onClick={handleCertChange}
+                checked={certSelected.includes(item.name)}
+              />
+            ))}
+          </FlexContainer>
+        </GenreOptions>
+        <GenreOptions>
+          <SectionTop>
+            <SectionHeader>Genres</SectionHeader>
+            <SectionButton onClick={toggleSelectGenres}>
+              {checkedItems.length === 0 ? "Select All" : "Clear"}
+            </SectionButton>
+          </SectionTop>
+          <FlexContainer>
+            {genreOptions.map((item) => (
+              <CheckButton
+                key={item.name}
+                name={item.name}
+                label={item.label}
+                onClick={handleChange}
+                checked={checkedItems.includes(item.name)}
+              />
+            ))}
+          </FlexContainer>
+        </GenreOptions>
+        <FakeSlider />
+        <FakeSlider />
+        <FakeSlider />
+      </StyledDiscoveryMenu>
+    </Wrap>
+  );
+}
 
 const genreOptions = [
   { name: "sport", label: "Sport" },
@@ -138,63 +263,10 @@ const genreOptions = [
   { name: "sci-fi", label: "Sci-Fi" },
 ];
 
-export default function DiscoveryMenu({ isOpen, toggleOpen }) {
-  console.log(`DISCOVER-MENU: rendered - isOpen (${isOpen})`);
-  // const [checkedItems, setCheckedItems] = useState({});
-  const [checkedItems, setCheckedItems] = useState([]);
-
-  const selectAll = () => {
-    setCheckedItems(genreOptions.map((item) => item.name));
-  };
-
-  const deselectAll = () => {
-    setCheckedItems([]);
-  };
-
-  const handleChange = (event) => {
-    const checkboxName = event.target.name;
-    if (event.target.checked) {
-      setCheckedItems([...checkedItems, checkboxName]);
-    } else {
-      setCheckedItems(checkedItems.filter((item) => item !== checkboxName));
-    }
-  };
-
-  useEffect(() => {
-    console.log("checkedItems: ");
-    console.log(checkedItems);
-  }, [checkedItems]);
-
-  return (
-    <StyledDiscoveryMenu isOpen={isOpen}>
-      <div>
-        <CloseButton onClick={toggleOpen}>X</CloseButton>
-        <div>Discovery Menu</div>
-      </div>
-
-      <GenreOptions>
-        <p>Genres:</p>
-        <Checkbox
-          name={"selectAll"}
-          label={"Select All"}
-          // checked={checkedItems.includes(item.name)}
-          onChange={selectAll}
-        />
-        <Checkbox
-          name={"removeAll"}
-          label={"Remove All"}
-          // checked={checkedItems.includes(item.name)}
-          onChange={deselectAll}
-        />
-        {genreOptions.map((item) => (
-          <Checkbox
-            name={item.name}
-            label={item.label}
-            checked={checkedItems.includes(item.name)}
-            onChange={handleChange}
-          />
-        ))}
-      </GenreOptions>
-    </StyledDiscoveryMenu>
-  );
-}
+const certOptions = [
+  { name: "g", label: "G" },
+  { name: "pg", label: "PG" },
+  { name: "pg-13", label: "PG-13" },
+  { name: "r", label: "R" },
+  { name: "unrated", label: "Unrated" },
+];
