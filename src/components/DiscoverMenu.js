@@ -2,13 +2,9 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
-
-const FakeSlider = styled.div`
-  height: 2px;
-  width: 100%;
-  border: 1px solid white;
-  margin: 30px 0px;
-`;
+import { RangeSlider, Slider } from "@blueprintjs/core";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+import "@blueprintjs/core/lib/css/blueprint.css";
 
 const FlexContainer = styled.div`
   display: flex;
@@ -16,31 +12,32 @@ const FlexContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const Wrap = styled.div`
+const CenterContentWrap = styled.div`
   display: flex;
   justify-content: center;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
 `;
 
 const StyledDiscoveryMenu = styled.div`
   border: 2px solid #333;
-  background: #2162a4;
+  //background: #2162a4;
   max-height: calc(100vh - 55px);
   width: 100%;
   max-width: 600px;
-  //display: grid;
-  //grid-gap: 10px;
-  //grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  //justify-content: center;
-  display: flex;
-  flex-direction: column;
-  padding: 20px 16px;
   position: fixed;
   bottom: 0;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   z-index: 99;
-  transform: translateY(0%);
+  background: white;
 
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px;
+
+  transform: translateY(0%);
   //z-index: -10;
   transition: transform 0.3s ease-in-out;
   ${(props) =>
@@ -85,9 +82,17 @@ const SectionTop = styled.div`
   width: 100%;
 `;
 
+const FilterTitle = styled.h3`
+  color: #2162a4;
+  font-size: 1.3rem;
+  font-weight: 700;
+`;
+
 const SectionHeader = styled.p`
-  color: lightgray;
-  font-size: 1rem;
+  color: #2162a4;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-top: 20px;
 `;
 
 const SectionButton = styled.button`
@@ -101,11 +106,12 @@ const SectionButton = styled.button`
 /*--- CHECKBOX ---*/
 
 const StyledCheckButton = styled.button`
-  color: ${(props) => (props.checked ? "#2162a4" : "#2162a4")};
-  background: ${(props) => (props.checked ? "lightgray" : "white")};
+  color: ${(props) => (props.checked ? "white" : "#2162a4")};
+  background: ${(props) => (props.checked ? "#2162a4" : "white")};
   padding: 4px 8px;
   margin: 2px 4px;
   border-radius: 4px;
+  border: 1px solid lightgray;
   //&:active {
   //  text-decoration: none;
   //}
@@ -124,10 +130,27 @@ const CheckButton = ({ name, label, onClick, checked = false }) => {
   );
 };
 
+/*--- RANGE SLIDER ---*/
+
+const RangeSliderWrap = styled.div`
+  background: white;
+
+  & .bp3-slider-progress.bp3-intent-primary {
+    background: #2162a4;
+  }
+`;
+
+/*--- -------------- ---*/
+/*--- DISCOVERY MENU ---*/
+/*--- -------------- ---*/
+
 export default function DiscoveryMenu({ isOpen, toggleOpen }) {
-  console.log(`DISCOVER-MENU: rendered - isOpen (${isOpen})`);
+  // console.log(`DISCOVER-MENU: rendered - isOpen (${isOpen})`);
   const [checkedItems, setCheckedItems] = useState([]);
   const [certSelected, setCertSelected] = useState([]);
+  const [ratingRange, setRatingRange] = useState([5, 10]);
+  const [minVotes, setMinVotes] = useState(0);
+  const [yearRange, setYearRange] = useState([1900, 2025]);
 
   const toggleSelectCert = () => {
     if (certSelected.length === 0) {
@@ -166,6 +189,12 @@ export default function DiscoveryMenu({ isOpen, toggleOpen }) {
     }
   };
 
+  const printOn = (val) => {
+    // console.log(`slide-value: ${val[0]} - ${val[1]}`);
+    console.log(`slide-value: ${val}`);
+    // setRatingRange(val);
+  };
+
   useEffect(() => {
     console.log("Selected Certs: ");
     console.log(certSelected);
@@ -174,12 +203,12 @@ export default function DiscoveryMenu({ isOpen, toggleOpen }) {
   }, [certSelected, checkedItems]);
 
   return (
-    <Wrap>
+    <CenterContentWrap>
       <StyledDiscoveryMenu isOpen={isOpen}>
         <FilterHeader>
           <SectionTop>
             <CloseButton onClick={toggleOpen}>X</CloseButton>
-            <SectionHeader>Discovery Menu</SectionHeader>
+            <FilterTitle>Discovery Menu</FilterTitle>
             <CloseButton onClick={toggleOpen}>X</CloseButton>
           </SectionTop>
         </FilterHeader>
@@ -222,11 +251,47 @@ export default function DiscoveryMenu({ isOpen, toggleOpen }) {
             ))}
           </FlexContainer>
         </GenreOptions>
-        <FakeSlider />
-        <FakeSlider />
-        <FakeSlider />
+
+        <RangeSliderWrap>
+          <SectionHeader>IMDb Rating Average</SectionHeader>
+          <RangeSlider
+            min={0}
+            max={10}
+            stepSize={0.5}
+            labelStepSize={1}
+            onChange={printOn}
+            onRelease={printOn}
+            value={ratingRange}
+          />
+        </RangeSliderWrap>
+        {/*<RangeSliderWrap>*/}
+        <div>
+          <SectionHeader>IMDb Rating Count</SectionHeader>
+          <Slider
+            min={0}
+            max={5000}
+            stepSize={100}
+            labelStepSize={1000}
+            onChange={printOn}
+            onRelease={printOn}
+            value={minVotes}
+          />
+        </div>
+        {/*</RangeSliderWrap>*/}
+        <RangeSliderWrap>
+          <SectionHeader>Year</SectionHeader>
+          <RangeSlider
+            min={1900}
+            max={2025}
+            stepSize={1}
+            labelStepSize={25}
+            onChange={printOn}
+            onRelease={printOn}
+            value={yearRange}
+          />
+        </RangeSliderWrap>
       </StyledDiscoveryMenu>
-    </Wrap>
+    </CenterContentWrap>
   );
 }
 

@@ -21,11 +21,16 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
     console.log(`DISCOVER: toggleMenu Clicked - isOpen (${menuOpen})`);
   };
 
+  const listData = {
+    name: "Discovery",
+    movie_count: "0",
+  };
+
   return (
     <StyledDiscover>
       <Header toggleNavMenu={toggleNavMenu} />
       <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
-      {/*<Toolbar listData={{}} />*/}
+      <Toolbar listData={listData} />
       <div>
         <button onClick={toggleMenu}>Filters</button>
       </div>

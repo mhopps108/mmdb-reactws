@@ -1,5 +1,5 @@
 import Header from "./Header";
-import Sidebar from "./Sidebar";
+import Sidebar from "../old-other/Sidebar";
 import Toolbar from "./Toolbar";
 import MovieList from "./MovieList";
 import MovieDetail from "./MovieDetail";
