@@ -54,6 +54,7 @@ const discoveryLinks = [
 
 const Listitem = styled.div`
   padding-bottom: 5px;
+  color: #222;
   & a {
     color: #222;
     text-decoration: none;
@@ -64,6 +65,7 @@ const Listheader = styled.div`
   font-size: 20px;
   //padding: 10px 0px 5px 0;
   //margin: 5px;
+  margin-bottom: 5px;
 `;
 
 const ListSection = styled.div`
@@ -76,9 +78,13 @@ const ListSection = styled.div`
 `;
 
 const StyledNavMenu = styled.div`
-  border: 4px solid #333;
-  background: #2162a4;
-  color: white;
+  border: 2px solid #333;
+  //background: #2162a4;
+  //color: white;
+  background: #fff;
+  color: #2162a4;
+  //-webkit-box-shadow: inset 0 10px 25px 4px rgba(0, 0, 0, 0.37);
+  //box-shadow: inset 0 10px 25px 4px rgba(0, 0, 0, 0.3);
 
   max-height: calc(100vh - 55px);
   //height: 400px;
