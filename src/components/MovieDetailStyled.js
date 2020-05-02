@@ -1,10 +1,6 @@
 import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
 
-// --- --- --- --- --- --- //
-//   Components            //
-// --- --- --- --- --- --- //
-
 export const Flex = styled.div`
   display: flex;
   flex-direction: ${(props) => (props.column ? "column" : "row")};

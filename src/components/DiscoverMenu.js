@@ -1,121 +1,25 @@
-import React, { useEffect, useState } from "react";
-import Select from "react-select";
-import styled, { css } from "styled-components/macro";
-import { device } from "../devices";
+import React, { useEffect, useState, useReducer } from "react";
+// import Select from "react-select";
+// import styled, { css } from "styled-components/macro";
+// import { device } from "../devices";
 import { RangeSlider, Slider } from "@blueprintjs/core";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import "@blueprintjs/core/lib/css/blueprint.css";
 
-const FlexContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-`;
-
-const CenterContentWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-`;
-
-const StyledDiscoveryMenu = styled.div`
-  border: 2px solid #333;
-  //background: #2162a4;
-  max-height: calc(100vh - 55px);
-  width: 100%;
-  max-width: 600px;
-  position: fixed;
-  bottom: 0;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  z-index: 99;
-  background: white;
-
-  display: flex;
-  flex-direction: column;
-  padding: 20px 16px;
-
-  transform: translateY(0%);
-  //z-index: -10;
-  transition: transform 0.3s ease-in-out;
-  ${(props) =>
-    props.isOpen
-      ? css`
-          //z-index: 99;
-          //transform: translateY(0%);
-        `
-      : css`
-          //transform: translateY(100%);
-        `}
-`;
-
-const CloseButton = styled.button`
-  //position: relative;
-  height: 20px;
-  //top: 20px;
-  //right: 20px;
-`;
-
-/*--- PARTS ---*/
-
-const FilterHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  border-bottom: 2px solid #222;
-  padding: 10px -15px;
-  margin-bottom: 10px;
-`;
-
-const GenreOptions = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-/*--- SECTION ---*/
-
-const SectionTop = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 12px;
-  width: 100%;
-`;
-
-const FilterTitle = styled.h3`
-  color: #2162a4;
-  font-size: 1.3rem;
-  font-weight: 700;
-`;
-
-const SectionHeader = styled.p`
-  color: #2162a4;
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin-top: 20px;
-`;
-
-const SectionButton = styled.button`
-  border: 1px lightgray;
-  background: white;
-  color: #2162a4;
-  padding: 2px 4px;
-  border-radius: 4px;
-`;
-
-/*--- CHECKBOX ---*/
-
-const StyledCheckButton = styled.button`
-  color: ${(props) => (props.checked ? "white" : "#2162a4")};
-  background: ${(props) => (props.checked ? "#2162a4" : "white")};
-  padding: 4px 8px;
-  margin: 2px 4px;
-  border-radius: 4px;
-  border: 1px solid lightgray;
-  //&:active {
-  //  text-decoration: none;
-  //}
-`;
+import {
+  FlexContainer,
+  CenterContentWrap,
+  StyledDiscoveryMenu,
+  CloseButton,
+  FilterHeader,
+  GenreOptions,
+  SectionTop,
+  FilterTitle,
+  SectionHeader,
+  SectionButton,
+  StyledCheckButton,
+  RangeSliderWrap,
+} from "../styled/DiscoverMenuStyled";
 
 const CheckButton = ({ name, label, onClick, checked = false }) => {
   return (
@@ -130,77 +34,103 @@ const CheckButton = ({ name, label, onClick, checked = false }) => {
   );
 };
 
-/*--- RANGE SLIDER ---*/
+const initFilterState = {
+  genres: [],
+  certs: [],
+  ratings: [],
+  votes: 0,
+  years: [],
+};
 
-const RangeSliderWrap = styled.div`
-  background: white;
-
-  & .bp3-slider-progress.bp3-intent-primary {
-    background: #2162a4;
+const filterReducer = (state, action) => {
+  switch (action.type) {
+    case "APPLY":
+      return {
+        ...state,
+        genres: action.payload.genres,
+        certs: action.payload.certs,
+        ratings: action.payload.ratings,
+        votes: action.payload.votes,
+        years: action.payload.years,
+      };
+    case "RESET":
+      return { ...initFilterState };
+    case "SET_GENRES":
+      return {
+        ...state,
+        genres: action.payload,
+      };
+    default:
+      throw new Error();
   }
-`;
-
-/*--- -------------- ---*/
-/*--- DISCOVERY MENU ---*/
-/*--- -------------- ---*/
+};
 
 export default function DiscoveryMenu({ isOpen, toggleOpen }) {
   // console.log(`DISCOVER-MENU: rendered - isOpen (${isOpen})`);
-  const [checkedItems, setCheckedItems] = useState([]);
-  const [certSelected, setCertSelected] = useState([]);
-  const [ratingRange, setRatingRange] = useState([5, 10]);
+  const [certsChecked, setCertsChecked] = useState([]);
+  const [genresChecked, setGenresChecked] = useState([]);
+
+  const [ratingRange, setRatingRange] = useState([0, 10]);
   const [minVotes, setMinVotes] = useState(0);
   const [yearRange, setYearRange] = useState([1900, 2025]);
 
-  const toggleSelectCert = () => {
-    if (certSelected.length === 0) {
-      setCertSelected(certOptions.map((item) => item.name));
+  const [state, dispatch] = useReducer(filterReducer, initFilterState);
+
+  const toggleAllCerts = () => {
+    if (certsChecked.length === 0) {
+      setCertsChecked(certOptions.map((item) => item.name));
     } else {
-      setCertSelected([]);
+      setCertsChecked([]);
     }
   };
 
   const handleCertChange = (event) => {
     const btnName = event.target.name;
-    if (certSelected.includes(btnName)) {
-      setCertSelected(certSelected.filter((item) => item !== btnName));
+    if (certsChecked.includes(btnName)) {
+      setCertsChecked(certsChecked.filter((item) => item !== btnName));
     } else {
-      setCertSelected([...certSelected, btnName]);
+      setCertsChecked([...certsChecked, btnName]);
     }
   };
 
-  const toggleSelectGenres = () => {
-    if (checkedItems.length === 0) {
-      setCheckedItems(genreOptions.map((item) => item.name));
+  const toggleAllGenres = () => {
+    if (genresChecked.length === 0) {
+      setGenresChecked(genreOptions.map((item) => item.name));
     } else {
-      setCheckedItems([]);
+      setGenresChecked([]);
     }
   };
 
-  const handleChange = (event) => {
-    console.log("button clicked");
-    console.log(event);
-    console.log(event.target.name);
+  const toggleGenre = (event) => {
     const btnName = event.target.name;
-    if (checkedItems.includes(btnName)) {
-      setCheckedItems(checkedItems.filter((item) => item !== btnName));
+    if (genresChecked.includes(btnName)) {
+      setGenresChecked(genresChecked.filter((item) => item !== btnName));
     } else {
-      setCheckedItems([...checkedItems, btnName]);
+      setGenresChecked([...genresChecked, btnName]);
     }
   };
 
-  const printOn = (val) => {
-    // console.log(`slide-value: ${val[0]} - ${val[1]}`);
-    console.log(`slide-value: ${val}`);
-    // setRatingRange(val);
+  const onRatingChange = (val) => {
+    setRatingRange(val);
+    console.log(`rating: ${val}`);
+  };
+
+  const onMinVotesChange = (val) => {
+    setMinVotes(val);
+    console.log(`votes: ${val}`);
+  };
+
+  const onYearChange = (val) => {
+    setYearRange(val);
+    console.log(`year: ${val}`);
   };
 
   useEffect(() => {
     console.log("Selected Certs: ");
-    console.log(certSelected);
+    console.log(certsChecked);
     console.log("Selected Genres: ");
-    console.log(checkedItems);
-  }, [certSelected, checkedItems]);
+    console.log(genresChecked);
+  }, [certsChecked, genresChecked]);
 
   return (
     <CenterContentWrap>
@@ -212,46 +142,47 @@ export default function DiscoveryMenu({ isOpen, toggleOpen }) {
             <CloseButton onClick={toggleOpen}>X</CloseButton>
           </SectionTop>
         </FilterHeader>
-
+        {/*Certs--START*/}
         <GenreOptions>
           <SectionTop>
-            <SectionHeader>Genres</SectionHeader>
-            <SectionButton onClick={toggleSelectCert}>
-              {certSelected.length === 0 ? "Select All" : "Clear"}
+            <SectionHeader>Age Rating</SectionHeader>
+            <SectionButton onClick={toggleAllCerts}>
+              {certsChecked.length === 0 ? "Select All" : "Clear"}
             </SectionButton>
           </SectionTop>
           <FlexContainer>
-            {certOptions.map((item) => (
+            {certOptions.map(({ name, label }) => (
               <CheckButton
-                key={item.name}
-                name={item.name}
-                label={item.label}
+                key={name}
+                name={name}
+                label={label}
                 onClick={handleCertChange}
-                checked={certSelected.includes(item.name)}
+                checked={certsChecked.includes(name)}
               />
             ))}
           </FlexContainer>
         </GenreOptions>
+        {/*Genres--START*/}
         <GenreOptions>
           <SectionTop>
             <SectionHeader>Genres</SectionHeader>
-            <SectionButton onClick={toggleSelectGenres}>
-              {checkedItems.length === 0 ? "Select All" : "Clear"}
+            <SectionButton onClick={toggleAllGenres}>
+              {genresChecked.length === 0 ? "Select All" : "Clear"}
             </SectionButton>
           </SectionTop>
           <FlexContainer>
-            {genreOptions.map((item) => (
+            {genreOptions.map(({ name, label }) => (
               <CheckButton
-                key={item.name}
-                name={item.name}
-                label={item.label}
-                onClick={handleChange}
-                checked={checkedItems.includes(item.name)}
+                key={name}
+                name={name}
+                label={label}
+                onClick={toggleGenre}
+                checked={genresChecked.includes(name)}
               />
             ))}
           </FlexContainer>
         </GenreOptions>
-
+        {/*Rating--START*/}
         <RangeSliderWrap>
           <SectionHeader>IMDb Rating Average</SectionHeader>
           <RangeSlider
@@ -259,12 +190,11 @@ export default function DiscoveryMenu({ isOpen, toggleOpen }) {
             max={10}
             stepSize={0.5}
             labelStepSize={1}
-            onChange={printOn}
-            onRelease={printOn}
+            onChange={onRatingChange}
             value={ratingRange}
           />
         </RangeSliderWrap>
-        {/*<RangeSliderWrap>*/}
+        {/*RatingCount--START*/}
         <div>
           <SectionHeader>IMDb Rating Count</SectionHeader>
           <Slider
@@ -272,12 +202,11 @@ export default function DiscoveryMenu({ isOpen, toggleOpen }) {
             max={5000}
             stepSize={100}
             labelStepSize={1000}
-            onChange={printOn}
-            onRelease={printOn}
+            onChange={onMinVotesChange}
             value={minVotes}
           />
         </div>
-        {/*</RangeSliderWrap>*/}
+        {/*Year--START*/}
         <RangeSliderWrap>
           <SectionHeader>Year</SectionHeader>
           <RangeSlider
@@ -285,8 +214,7 @@ export default function DiscoveryMenu({ isOpen, toggleOpen }) {
             max={2025}
             stepSize={1}
             labelStepSize={25}
-            onChange={printOn}
-            onRelease={printOn}
+            onChange={onYearChange}
             value={yearRange}
           />
         </RangeSliderWrap>
