@@ -26,17 +26,17 @@ export const StyledDiscoveryMenu = styled.div`
   flex-direction: column;
   padding: 20px 16px;
 
-  transform: translateY(0%);
+  //transform: translateY(0%);
   //z-index: -10;
   transition: transform 0.3s ease-in-out;
   ${(props) =>
     props.isOpen
       ? css`
-          //z-index: 99;
-          //transform: translateY(0%);
+          z-index: 99;
+          transform: translateY(0%);
         `
       : css`
-          //transform: translateY(100%);
+          transform: translateY(100%);
         `}
 `;
 
@@ -68,7 +68,7 @@ export const FilterTitle = styled.h3`
 export const SectionTop = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 15px 0px;
+  margin: 15px 0;
   width: 100%;
 `;
 

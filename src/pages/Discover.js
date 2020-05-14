@@ -8,6 +8,7 @@ import {
   MoviePosterList,
   NavMenu,
   DiscoveryMenu,
+  FilterMenu,
 } from "../components";
 import styled, { css } from "styled-components/macro";
 import { useDataApi } from "../useDataApi";
@@ -15,11 +16,10 @@ import { device } from "../devices";
 
 export default function Discover({ navMenuVisible, toggleNavMenu }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-    console.log(`DISCOVER: toggleMenu Clicked - isOpen (${menuOpen})`);
-  };
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const toggleShowFilters = () => setShowFilters(!showFilters);
 
   const listData = {
     name: "Discovery",
@@ -31,9 +31,13 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
       <Header toggleNavMenu={toggleNavMenu} />
       <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
       <Toolbar listData={listData} />
-      <div>
-        <button onClick={toggleMenu}>Filters</button>
+      <div style={{ marginTop: "30px", background: "blue", height: "30px" }}>
+        <button onClick={toggleShowFilters}>{`Filters ${showFilters}`}</button>
       </div>
+      <FilterMenu isOpen={showFilters} toggleOpen={toggleShowFilters} />
+      {/*<div>*/}
+      {/*  <button onClick={toggleMenu}>Filters</button>*/}
+      {/*</div>*/}
       <MovieList
         movies={[].map((item) => item.movie)}
         isLoading={false}

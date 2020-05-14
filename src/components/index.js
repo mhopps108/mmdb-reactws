@@ -7,6 +7,7 @@ import NavMenu from "./NavMenu";
 import MoviePosterList from "./MoviePosterList";
 import DiscoveryMenu from "./DiscoverMenu";
 import CheckButtonGroup from "./CheckButtonGroup";
+import FilterMenu from "./FilterMenu";
 
 export {
   Header,
@@ -18,4 +19,5 @@ export {
   NavMenu,
   DiscoveryMenu,
   CheckButtonGroup,
+  FilterMenu,
 };
