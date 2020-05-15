@@ -17,6 +17,21 @@ export const FilterMenuContentWrap = styled.div`
   width: 100%;
   transition: opacity 250ms ease 0s;
   opacity: ${(props) => (props.isOpen ? 1 : 0)};
+
+  display: flex;
+  flex-direction: column;
+
+  @media ${device.min.tablet} {
+    flex-direction: row;
+  }
+`;
+
+export const FilterSection = styled.div`
+  width: 100%;
+  padding: 0 15px;
+  @media ${device.min.tablet} {
+    width: 50%;
+  }
 `;
 
 export const CheckBoxesWrap = styled.div``;

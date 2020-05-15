@@ -11,6 +11,9 @@ import {
   FilterMenuContentWrap,
   RangeSliderWrap,
   SectionHeader,
+  CheckBoxesWrap,
+  SliderWrap,
+  FilterSection,
 } from "../styled/FilterMenuStyled";
 
 const initFilterState = {
@@ -73,68 +76,56 @@ export default function FilterMenu({ isOpen, toggleOpen }) {
   return (
     <FilterMenuWrap isOpen={isOpen}>
       <FilterMenuContentWrap isOpen={isOpen}>
-        <RangeSliderWrap>
-          <SectionHeader>IMDb Rating Average</SectionHeader>
-          <RangeSlider
-            min={0}
-            max={10}
-            stepSize={0.5}
-            labelStepSize={1}
-            onChange={onRatingChange}
-            value={state.ratings}
+        <FilterSection>
+          <CheckButtonGroup
+            sectionName="Age Rating"
+            options={certOptions}
+            checked={state.certs}
+            setChecked={setCertsChecked}
           />
-        </RangeSliderWrap>
-
-        <div>
-          <SectionHeader>IMDb Rating Count</SectionHeader>
-          {/*<input*/}
-          {/*  value={minVotes}*/}
-          {/*  onFocus={(e) => e.preventDefault()}*/}
-          {/*  name="minvotes"*/}
-          {/*  onChange={onMinVotesChange}*/}
-          {/*/>*/}
-          <Slider
-            min={0}
-            max={5000}
-            stepSize={100}
-            labelStepSize={1000}
-            onChange={onMinVotesChange}
-            value={state.votes}
+          <CheckButtonGroup
+            sectionName="Genres"
+            options={genreOptions}
+            checked={state.genres}
+            setChecked={setGenresChecked}
           />
-        </div>
-
-        <RangeSliderWrap>
-          <SectionHeader>Year</SectionHeader>
-          <RangeSlider
-            min={1900}
-            max={2025}
-            stepSize={1}
-            labelStepSize={25}
-            onChange={onYearChange}
-            value={state.years}
-          />
-        </RangeSliderWrap>
-
-        <CheckButtonGroup
-          sectionName="Age Rating"
-          options={certOptions}
-          checked={state.certs}
-          setChecked={setCertsChecked}
-        />
-
-        <CheckButtonGroup
-          sectionName="Genres"
-          options={genreOptions}
-          checked={state.genres}
-          setChecked={setGenresChecked}
-        />
+        </FilterSection>
+        <FilterSection>
+          <RangeSliderWrap>
+            <SectionHeader>IMDb Rating Average</SectionHeader>
+            <RangeSlider
+              min={0}
+              max={10}
+              stepSize={0.5}
+              labelStepSize={1}
+              onChange={onRatingChange}
+              value={state.ratings}
+            />
+          </RangeSliderWrap>
+          <RangeSliderWrap>
+            <SectionHeader>IMDb Rating Count</SectionHeader>
+            <Slider
+              min={0}
+              max={5000}
+              // stepSize={100}
+              labelStepSize={1000}
+              onChange={onMinVotesChange}
+              value={state.votes}
+            />
+          </RangeSliderWrap>
+          <RangeSliderWrap>
+            <SectionHeader>Year</SectionHeader>
+            <RangeSlider
+              min={1900}
+              max={2025}
+              stepSize={1}
+              labelStepSize={25}
+              onChange={onYearChange}
+              value={state.years}
+            />
+          </RangeSliderWrap>
+        </FilterSection>
       </FilterMenuContentWrap>
     </FilterMenuWrap>
-    // <FilterWrap height>
-    //   <FilterContent opacity>
-    //     <RangeWrap />
-    //     <CheckButtons />
-    //   </FilterContent>
-    // </FilterWrap>
   );
 }

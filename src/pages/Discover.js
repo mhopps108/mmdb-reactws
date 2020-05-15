@@ -35,9 +35,9 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
         <button onClick={toggleShowFilters}>{`Filters ${showFilters}`}</button>
       </div>
       <FilterMenu isOpen={showFilters} toggleOpen={toggleShowFilters} />
-      {/*<div>*/}
-      {/*  <button onClick={toggleMenu}>Filters</button>*/}
-      {/*</div>*/}
+      <div>
+        <button onClick={toggleMenu}>Filters</button>
+      </div>
       <MovieList
         movies={[].map((item) => item.movie)}
         isLoading={false}
