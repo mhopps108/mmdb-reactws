@@ -2,7 +2,7 @@ import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
 
 export const FilterMenuWrap = styled.div`
-  border: 1px solid green;
+  //border: 1px solid green;
   background: white;
   color: white;
   //height: 0;
@@ -12,7 +12,7 @@ export const FilterMenuWrap = styled.div`
 `;
 
 export const FilterMenuContentWrap = styled.div`
-  border: 1px solid red;
+  //border: 1px solid red;
   padding: 20px 30px;
   width: 100%;
   transition: opacity 250ms ease 0s;

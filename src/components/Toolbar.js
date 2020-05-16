@@ -59,13 +59,19 @@ const MovieCountTag = styled.div`
   padding: 2px 5px;
 `;
 
-export default function Toolbar({ listData, dateData = null }) {
+export default function Toolbar({
+  listData,
+  dateData = null,
+  filter = null,
+  children,
+}) {
   const { name, source, movie_count } = listData;
   return (
     <StyledToolbar>
       <ToolbarItem>
         <ListName>{name || "Loading..."}</ListName>
         <MovieCountTag>{movie_count || "#"}</MovieCountTag>
+        {filter && <button onClick={filter}>Filter</button>}
       </ToolbarItem>
       {dateData && (
         <ToolbarItem>
@@ -76,6 +82,7 @@ export default function Toolbar({ listData, dateData = null }) {
           <ToolbarButton onClick={dateData.nextWeek}>{">"}</ToolbarButton>
         </ToolbarItem>
       )}
+      {children}
     </StyledToolbar>
   );
 }

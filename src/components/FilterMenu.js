@@ -16,12 +16,15 @@ import {
   FilterSection,
 } from "../styled/FilterMenuStyled";
 
+import { discoveryQueryString } from "../api";
+
 const initFilterState = {
+  orderby: "-imdb_rating_avg,-imdb_rating_count",
   genres: [],
   certs: [],
   ratings: [0, 10],
   votes: 0,
-  years: [1900, 2025],
+  years: [1890, 2030],
 };
 
 const filterReducer = (state, action) => {
@@ -43,7 +46,7 @@ const filterReducer = (state, action) => {
   }
 };
 
-export default function FilterMenu({ isOpen, toggleOpen }) {
+export default function FilterMenu({ isOpen, toggleOpen, setQuery }) {
   console.log(`FILTER-MENU: rendered - isOpen (${isOpen})`);
   const [state, dispatch] = useReducer(filterReducer, initFilterState);
 
@@ -71,6 +74,9 @@ export default function FilterMenu({ isOpen, toggleOpen }) {
 
   useEffect(() => {
     console.dir(`filter_state`, state);
+    const queryString = discoveryQueryString(state);
+    console.log(`queryString = ${queryString}`);
+    setQuery(queryString);
   }, [state]);
 
   return (
@@ -85,7 +91,7 @@ export default function FilterMenu({ isOpen, toggleOpen }) {
           />
           <CheckButtonGroup
             sectionName="Genres"
-            options={genreOptions}
+            options={genreOptions.sort()}
             checked={state.genres}
             setChecked={setGenresChecked}
           />
@@ -116,8 +122,8 @@ export default function FilterMenu({ isOpen, toggleOpen }) {
           <RangeSliderWrap>
             <SectionHeader>Year</SectionHeader>
             <RangeSlider
-              min={1900}
-              max={2025}
+              min={initFilterState.years[0]}
+              max={initFilterState.years[1]}
               stepSize={1}
               labelStepSize={25}
               onChange={onYearChange}

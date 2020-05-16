@@ -17,31 +17,54 @@ import { device } from "../devices";
 export default function Discover({ navMenuVisible, toggleNavMenu }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [queryString, setQueryString] = useState("");
+
+  const listUrl = `https://www.matthewhopps.com/api/movie?${queryString}`;
+  const [state, setUrl] = useDataApi(listUrl, []);
+  const { data, isLoading, isError } = state;
+  // const { name, source, movie_count, movielistitems } = data;
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const toggleShowFilters = () => setShowFilters(!showFilters);
 
+  useEffect(() => {
+    setUrl(listUrl);
+  }, [queryString, listUrl, setUrl]);
+
+  useEffect(() => {
+    console.log(`Discovery state data`);
+    console.log(state);
+    console.log(queryString);
+  }, [state, queryString]);
+
   const listData = {
     name: "Discovery",
-    movie_count: "0",
+    movie_count: data?.count || "-",
   };
 
   return (
     <StyledDiscover>
       <Header toggleNavMenu={toggleNavMenu} />
       <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
-      <Toolbar listData={listData} />
-      <div style={{ marginTop: "30px", background: "blue", height: "30px" }}>
-        <button onClick={toggleShowFilters}>{`Filters ${showFilters}`}</button>
-      </div>
-      <FilterMenu isOpen={showFilters} toggleOpen={toggleShowFilters} />
+      {/*<Toolbar listData={listData} />*/}
+      <Toolbar listData={listData} filter={toggleShowFilters}>
+        <FilterMenu
+          isOpen={showFilters}
+          toggleOpen={toggleShowFilters}
+          setQuery={setQueryString}
+        />
+      </Toolbar>
+      {/*<div style={{ marginTop: "30px", background: "blue", height: "30px" }}>*/}
+      {/*  <button onClick={toggleShowFilters}>{`Filters ${showFilters}`}</button>*/}
+      {/*</div>*/}
+
       <div>
-        <button onClick={toggleMenu}>Filters</button>
+        <p>{queryString}</p>
       </div>
       <MovieList
-        movies={[].map((item) => item.movie)}
-        isLoading={false}
-        isError={false}
+        movies={data?.results}
+        isLoading={isLoading}
+        isError={isError}
       />
       <DiscoveryMenu isOpen={menuOpen} toggleOpen={toggleMenu} />
     </StyledDiscover>
