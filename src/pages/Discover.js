@@ -22,7 +22,6 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
   const listUrl = `https://www.matthewhopps.com/api/movie?${queryString}`;
   const [state, setUrl] = useDataApi(listUrl, []);
   const { data, isLoading, isError } = state;
-  // const { name, source, movie_count, movielistitems } = data;
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const toggleShowFilters = () => setShowFilters(!showFilters);
@@ -46,7 +45,6 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
     <StyledDiscover>
       <Header toggleNavMenu={toggleNavMenu} />
       <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
-      {/*<Toolbar listData={listData} />*/}
       <Toolbar listData={listData} filter={toggleShowFilters}>
         <FilterMenu
           isOpen={showFilters}
@@ -54,13 +52,6 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
           setQuery={setQueryString}
         />
       </Toolbar>
-      {/*<div style={{ marginTop: "30px", background: "blue", height: "30px" }}>*/}
-      {/*  <button onClick={toggleShowFilters}>{`Filters ${showFilters}`}</button>*/}
-      {/*</div>*/}
-
-      <div>
-        <p>{queryString}</p>
-      </div>
       <MovieList
         movies={data?.results}
         isLoading={isLoading}

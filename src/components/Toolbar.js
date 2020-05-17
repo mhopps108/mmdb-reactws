@@ -16,10 +16,11 @@ const StyledToolbar = styled.div`
   box-shadow: 0 5px 25px 6px rgba(0, 0, 0, 0.2);
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
+  max-width: 1000px;
 
   @media ${device.min.tablet} {
-    flex-direction: row;
-    justify-content: space-between;
+    //flex-direction: row;
+    //justify-content: space-between;
   }
 `;
 

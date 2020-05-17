@@ -1,6 +1,23 @@
 import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
 
+export const ApplyButtonWrap = styled.div`
+  width: 100%;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+`;
+
+export const ApplyButton = styled.button`
+  background: #2162a4;
+  color: white;
+  width: 200px;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 5px;
+  padding: 8px;
+`;
+
 export const FilterMenuWrap = styled.div`
   //border: 1px solid green;
   background: white;
@@ -8,14 +25,15 @@ export const FilterMenuWrap = styled.div`
   //height: 0;
   width: 100%;
   transition: max-height 250ms linear;
-  max-height: ${(props) => (props.isOpen ? "600px" : 0)};
+  max-height: ${(props) => (props.isOpen ? "700px" : 0)};
+  z-index: ${(props) => (props.isOpen ? 2 : -1)};
 `;
 
 export const FilterMenuContentWrap = styled.div`
   //border: 1px solid red;
   padding: 20px 30px;
   width: 100%;
-  transition: opacity 250ms ease 0s;
+  transition: opacity 200ms ease 0s;
   opacity: ${(props) => (props.isOpen ? 1 : 0)};
 
   display: flex;

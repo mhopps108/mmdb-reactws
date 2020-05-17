@@ -14,6 +14,8 @@ import {
   CheckBoxesWrap,
   SliderWrap,
   FilterSection,
+  ApplyButton,
+  ApplyButtonWrap,
 } from "../styled/FilterMenuStyled";
 
 import { discoveryQueryString } from "../api";
@@ -72,12 +74,14 @@ export default function FilterMenu({ isOpen, toggleOpen, setQuery }) {
     dispatch({ type: "SET_YEARS", payload: val });
   };
 
+  const onApplyFilters = () => setQuery(discoveryQueryString(state));
+
   useEffect(() => {
     console.dir(`filter_state`, state);
     const queryString = discoveryQueryString(state);
     console.log(`queryString = ${queryString}`);
     setQuery(queryString);
-  }, [state]);
+  }, []);
 
   return (
     <FilterMenuWrap isOpen={isOpen}>
@@ -131,6 +135,9 @@ export default function FilterMenu({ isOpen, toggleOpen, setQuery }) {
             />
           </RangeSliderWrap>
         </FilterSection>
+        <ApplyButtonWrap>
+          <ApplyButton onClick={onApplyFilters}>Apply Filters</ApplyButton>
+        </ApplyButtonWrap>
       </FilterMenuContentWrap>
     </FilterMenuWrap>
   );
