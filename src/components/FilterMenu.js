@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useReducer } from "react";
+import { useParams, Link, useLocation } from "react-router-dom";
 // import Select from "react-select";
 import { RangeSlider, Slider } from "@blueprintjs/core";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
@@ -48,39 +49,46 @@ const filterReducer = (state, action) => {
   }
 };
 
-export default function FilterMenu({ isOpen, toggleOpen, setQuery }) {
+export default function FilterMenu({
+  isOpen,
+  toggleOpen,
+  onApplyFilters,
+  setQuery,
+  filterState = null,
+}) {
   console.log(`FILTER-MENU: rendered - isOpen (${isOpen})`);
-  const [state, dispatch] = useReducer(filterReducer, initFilterState);
+  console.log("filterState--FILTERMENU: ", filterState);
+  const initState = filterState || initFilterState;
+  const [state, dispatch] = useReducer(filterReducer, initState);
+  const [queryLink, setQueryLink] = useState("");
 
   const onReset = () => dispatch({ type: "FILTER_RESET" });
 
-  const setCertsChecked = (checked) => {
+  const setCertsChecked = (checked) =>
     dispatch({ type: "SET_CERTS", payload: checked });
-  };
 
-  const setGenresChecked = (checked) => {
+  const setGenresChecked = (checked) =>
     dispatch({ type: "SET_GENRES", payload: checked });
-  };
 
-  const onRatingChange = (val) => {
+  const onRatingChange = (val) =>
     dispatch({ type: "SET_RATINGS", payload: val });
-  };
 
-  const onMinVotesChange = (val) => {
+  const onMinVotesChange = (val) =>
     dispatch({ type: "SET_VOTES", payload: val });
-  };
 
-  const onYearChange = (val) => {
-    dispatch({ type: "SET_YEARS", payload: val });
-  };
+  const onYearChange = (val) => dispatch({ type: "SET_YEARS", payload: val });
 
-  const onApplyFilters = () => setQuery(discoveryQueryString(state));
+  // const onApplyFilters = () => setQuery(discoveryQueryString(state));
+  const onClick = () => {
+    const str = discoveryQueryString(state);
+    onApplyFilters(str);
+  };
 
   useEffect(() => {
-    console.dir(`filter_state`, state);
-    const queryString = discoveryQueryString(state);
-    console.log(`queryString = ${queryString}`);
-    setQuery(queryString);
+    // console.dir(`filter_state`, state);
+    // const queryString = discoveryQueryString(state);
+    // console.log(`queryString = ${queryString}`);
+    // setQuery(queryString);
   }, []);
 
   return (
@@ -136,7 +144,13 @@ export default function FilterMenu({ isOpen, toggleOpen, setQuery }) {
           </RangeSliderWrap>
         </FilterSection>
         <ApplyButtonWrap>
-          <ApplyButton onClick={onApplyFilters}>Apply Filters</ApplyButton>
+          {/*<Link*/}
+          {/*  to={`/discovery?${discoveryQueryString(state)}`}*/}
+          {/*  onClick={toggleOpen}*/}
+          {/*>*/}
+          {/*  <ApplyButton>Apply Filters</ApplyButton>*/}
+          {/*</Link>*/}
+          <ApplyButton onClick={onClick}>Apply Filters</ApplyButton>
         </ApplyButtonWrap>
       </FilterMenuContentWrap>
     </FilterMenuWrap>

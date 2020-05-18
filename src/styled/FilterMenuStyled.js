@@ -19,24 +19,24 @@ export const ApplyButton = styled.button`
 `;
 
 export const FilterMenuWrap = styled.div`
-  //border: 1px solid green;
   background: white;
   color: white;
   //height: 0;
   width: 100%;
   transition: max-height 250ms linear;
   max-height: ${(props) => (props.isOpen ? "700px" : 0)};
-  z-index: ${(props) => (props.isOpen ? 2 : -1)};
 `;
 
 export const FilterMenuContentWrap = styled.div`
   //border: 1px solid red;
   padding: 20px 30px;
   width: 100%;
-  transition: opacity 200ms ease 0s;
+  //transition: opacity 200ms ease;
+  transition: all 200ms ease;
   opacity: ${(props) => (props.isOpen ? 1 : 0)};
+  display: ${(props) => (props.isOpen ? "flex" : "none")};
 
-  display: flex;
+  //display: flex;
   flex-direction: column;
 
   @media ${device.min.tablet} {

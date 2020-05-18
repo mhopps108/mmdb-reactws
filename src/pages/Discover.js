@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useLocation, useHistory } from "react-router-dom";
 import {
   Header,
   Sidebar,
@@ -14,17 +14,52 @@ import styled, { css } from "styled-components/macro";
 import { useDataApi } from "../useDataApi";
 import { device } from "../devices";
 
+function useQueryParams() {
+  return new URLSearchParams(useLocation().search);
+}
+
+export const queryToFilterState = (queryParams) => {
+  if (!queryParams) return null;
+  return {
+    orderby: "-imdb_rating_avg,-imdb_rating_count",
+    genres: queryParams.get("genres").split(","),
+    certs: queryParams.get("certification").split(","),
+    ratings: [
+      parseFloat(queryParams.get("imdb_rating_avg__gte")),
+      parseFloat(queryParams.get("imdb_rating_avg__lte")),
+    ],
+    votes: parseInt(queryParams.get("imdb_rating_count__gte")),
+    years: [
+      parseFloat(queryParams.get("year__gte")),
+      parseFloat(queryParams.get("year__lte")),
+    ],
+  };
+};
+
 export default function Discover({ navMenuVisible, toggleNavMenu }) {
-  const [menuOpen, setMenuOpen] = useState(false);
+  let history = useHistory();
+  let queryParams = useQueryParams();
+
   const [showFilters, setShowFilters] = useState(false);
-  const [queryString, setQueryString] = useState("");
+  const [queryString, setQueryString] = useState(queryParams.toString());
 
   const listUrl = `https://www.matthewhopps.com/api/movie?${queryString}`;
   const [state, setUrl] = useDataApi(listUrl, []);
   const { data, isLoading, isError } = state;
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
   const toggleShowFilters = () => setShowFilters(!showFilters);
+
+  const onApplyFilters = (queryString) => {
+    toggleShowFilters();
+    history.push(`/discovery?${queryString}`);
+    // history.push(`/release-dates/${week.format("YYYY-MM-DD")}`);
+  };
+
+  useEffect(() => {
+    console.log("queryToFilterState--DISCOVERY");
+    console.log(queryToFilterState(queryParams));
+    setQueryString(queryParams.toString());
+  }, [queryParams]);
 
   useEffect(() => {
     setUrl(listUrl);
@@ -50,6 +85,8 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
           isOpen={showFilters}
           toggleOpen={toggleShowFilters}
           setQuery={setQueryString}
+          filterState={queryToFilterState(queryParams)}
+          onApplyFilters={onApplyFilters}
         />
       </Toolbar>
       <MovieList
@@ -57,7 +94,6 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
         isLoading={isLoading}
         isError={isError}
       />
-      <DiscoveryMenu isOpen={menuOpen} toggleOpen={toggleMenu} />
     </StyledDiscover>
   );
 }

@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-// import { useParam } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import {
   Header,
@@ -70,13 +69,4 @@ const StyledList = styled.div`
   grid-template-columns: 1fr;
   grid-template-rows: 55px auto 1fr;
   margin: 0 auto;
-
-  // @media ${device.min.desktop} {
-  //   grid-template-areas:
-  //     "header header"
-  //     "sidebar toolbar"
-  //     "sidebar main";
-  //   grid-template-columns: 200px 1fr;
-  //   grid-template-rows: 55px auto 1fr;
-  // }
 `;

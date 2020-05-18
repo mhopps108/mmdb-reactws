@@ -40,7 +40,8 @@ const releaseDateLinks = [
 const discoveryLinks = [
   {
     name: "Top Comedies",
-    path: "/discovery",
+    path:
+      "/discovery?orderby=-imdb_rating_avg,-imdb_rating_count&genres=comedy&certification=&imdb_rating_avg__gte=0&imdb_rating_avg__lte=10&imdb_rating_count__gte=0&year__gte=1890&year__lte=2030",
   },
   {
     name: "Top Rated Kids Movies",

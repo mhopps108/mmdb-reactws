@@ -12,6 +12,7 @@ const baseurl = "https://www.matthewhopps.com/api";
 // &year__lte=2025
 
 export const discoveryQueryString = (queryState) => {
+  console.log("discoveryQueryString == ", queryState);
   const { orderby, genres, certs, ratings, votes, years } = queryState;
   const [minRating, maxRating] = ratings;
   const [minYear, maxYear] = years;

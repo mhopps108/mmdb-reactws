@@ -70,10 +70,9 @@ export default function Releases({
 
   return (
     <StyledReleases>
-      <Header toggleSidebar={toggleSidebar} toggleNavMenu={toggleNavMenu} />
+      <Header toggleNavMenu={toggleNavMenu} />
       <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
       <Toolbar listData={listData} dateData={dateData} />
-      {/*<Sidebar isOpen={sidebarVisible} toggleOpen={toggleSidebar} />*/}
       <MovieList
         movies={data?.results}
         isLoading={isLoading}
@@ -93,13 +92,4 @@ const StyledReleases = styled.div`
   grid-template-columns: 1fr;
   grid-template-rows: 55px auto 1fr;
   margin: 0 auto;
-
-  @media ${device.min.desktop} {
-    grid-template-areas:
-      "header header"
-      "sidebar toolbar"
-      "sidebar main";
-    grid-template-columns: 200px 1fr;
-    grid-template-rows: 55px auto 1fr;
-  }
 `;
