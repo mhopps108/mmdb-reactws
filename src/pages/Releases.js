@@ -6,6 +6,7 @@ import { useDataApi } from "../useDataApi";
 import { device } from "../devices";
 import moment from "moment";
 import twix from "twix";
+import { sortOptions } from "../constants";
 
 // Todo: useReducer
 // NextWeek, PrevWeek, ThisWeek,
@@ -72,7 +73,11 @@ export default function Releases({
     <StyledReleases>
       <Header toggleNavMenu={toggleNavMenu} />
       <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
-      <Toolbar listData={listData} dateData={dateData} />
+      <Toolbar
+        listData={listData}
+        dateData={dateData}
+        sortOptions={sortOptions}
+      />
       <MovieList
         movies={data?.results}
         isLoading={isLoading}

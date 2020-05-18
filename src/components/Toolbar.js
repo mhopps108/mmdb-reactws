@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import Select from "react-select";
 import styled from "styled-components/macro";
 import { device } from "../devices";
-import { Link } from "react-router-dom";
 
 const StyledToolbar = styled.div`
   grid-area: toolbar;
@@ -89,10 +90,67 @@ const ChildWrap = styled.div`
   width: 100%;
 `;
 
+const customSelectStyles = {
+  option: (provided, state) => ({
+    ...provided,
+    borderBottom: "1px dotted pink",
+    color: state.isSelected ? "red" : "blue",
+    padding: 20,
+  }),
+  control: (base, state) => ({
+    ...base,
+    background: "#023950",
+    // Overwrittes the different states of border
+    borderColor: state.isFocused ? "yellow" : "green",
+    // Removes weird border around container
+    boxShadow: state.isFocused ? null : null,
+    "&:hover": {
+      // Overwrittes the different states of border
+      borderColor: state.isFocused ? "red" : "blue",
+    },
+  }),
+  singleValue: (provided, state) => {
+    const opacity = state.isDisabled ? 0.5 : 1;
+    const transition = "opacity 300ms";
+    return { ...provided, opacity, transition };
+  },
+  ValueContainer: (provided, state) => {
+    return { ...provided, width: "200px" };
+  },
+};
+
+const SortSelect = ({ name, options, isMulti = false }) => {
+  return (
+    <div
+      style={{
+        fontSize: "16px",
+        color: "#2162a4",
+        // width: "120px",
+        // height: "35px",
+      }}
+    >
+      <Select
+        style={customSelectStyles}
+        // className="basic-single"
+        // classNamePrefix="select"
+        // defaultValue={""}
+        isMulti={isMulti}
+        blurInputOnSelect={true}
+        isSearchable={false}
+        // isClearable={isClearable}
+        // menuShouldBlockScroll={true}
+        name={name}
+        options={options}
+      />
+    </div>
+  );
+};
+
 export default function Toolbar({
   listData,
   dateData = null,
   filter = null,
+  sortOptions = null,
   children,
 }) {
   const { name, source, movie_count } = listData;
@@ -100,8 +158,8 @@ export default function Toolbar({
     <StyledToolbar>
       <ToolBarWrap>
         <ToolbarGroup>
-          <MovieCountTag>{movie_count || "#"}</MovieCountTag>
           <ListName>{name || "Loading..."}</ListName>
+          <MovieCountTag>{movie_count || "#"}</MovieCountTag>
 
           {/*<ToolbarItem></ToolbarItem>*/}
           {/*<ToolbarItem></ToolbarItem>*/}
@@ -113,6 +171,7 @@ export default function Toolbar({
             </ToolbarItem>
           </ToolbarGroup>
         )}
+
         {dateData && (
           <ToolbarItem>
             <ToolbarButton onClick={dateData.prevWeek}>{"<"}</ToolbarButton>
@@ -122,6 +181,7 @@ export default function Toolbar({
             <ToolbarButton onClick={dateData.nextWeek}>{">"}</ToolbarButton>
           </ToolbarItem>
         )}
+        {sortOptions && <SortSelect name={"SortBy"} options={sortOptions} />}
       </ToolBarWrap>
       <ChildWrap>{children}</ChildWrap>
     </StyledToolbar>

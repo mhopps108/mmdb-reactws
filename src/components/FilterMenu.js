@@ -1,12 +1,17 @@
 import React, { useEffect, useState, useReducer } from "react";
 import { useParams, Link, useLocation } from "react-router-dom";
-// import Select from "react-select";
+import Select from "react-select";
 import { RangeSlider, Slider } from "@blueprintjs/core";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import "@blueprintjs/core/lib/css/blueprint.css";
 
 import CheckButtonGroup from "./CheckButtonGroup";
-import { genreOptions, certOptions } from "../constants";
+import {
+  genreOptions,
+  certOptions,
+  certSelectOptions,
+  genreSelectOptions,
+} from "../constants";
 import {
   FilterMenuWrap,
   FilterMenuContentWrap,
@@ -47,6 +52,26 @@ const filterReducer = (state, action) => {
     default:
       throw new Error();
   }
+};
+
+const FilterSelect = ({ name, options, isMulti = false }) => {
+  return (
+    <div style={{ fontSize: "16px", color: "#2162a4", marginBottom: "10px" }}>
+      <Select
+        // className="basic-single"
+        // classNamePrefix="select"
+        // defaultValue={""}
+        // autoFocus={false}
+        isMulti={isMulti}
+        blurInputOnSelect={true}
+        // isLoading={isLoading}
+        // isClearable={isClearable}
+        // menuShouldBlockScroll={true}
+        name={name}
+        options={options}
+      />
+    </div>
+  );
 };
 
 export default function FilterMenu({
@@ -94,6 +119,18 @@ export default function FilterMenu({
   return (
     <FilterMenuWrap isOpen={isOpen}>
       <FilterMenuContentWrap isOpen={isOpen}>
+        <FilterSection>
+          <FilterSelect
+            name={"certs"}
+            options={certSelectOptions}
+            isMulti={true}
+          />
+          <FilterSelect
+            name={"genres"}
+            options={genreSelectOptions.sort()}
+            isMulti={true}
+          />
+        </FilterSection>
         <FilterSection>
           <CheckButtonGroup
             sectionName="Age Rating"
