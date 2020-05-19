@@ -63,10 +63,13 @@ const FilterSelect = ({ name, options, isMulti = false }) => {
         // defaultValue={""}
         // autoFocus={false}
         isMulti={isMulti}
-        blurInputOnSelect={true}
+        // blurInputOnSelect={true}
+        isSearchable={false}
         // isLoading={isLoading}
-        // isClearable={isClearable}
-        // menuShouldBlockScroll={true}
+        isClearable={true}
+        // captureMenuScroll={true}
+        closeMenuOnSelect={false}
+        menuShouldBlockScroll={true}
         name={name}
         options={options}
       />

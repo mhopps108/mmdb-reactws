@@ -97,8 +97,16 @@ const customSelectStyles = {
     color: state.isSelected ? "red" : "blue",
     padding: 20,
   }),
+  other: () => ({}),
+  container: (provided, state) => ({
+    ...provided,
+    height: "20px",
+  }),
   control: (base, state) => ({
     ...base,
+    width: "120px",
+    minHeight: "20px",
+    height: "20px",
     background: "#023950",
     // Overwrittes the different states of border
     borderColor: state.isFocused ? "yellow" : "green",
@@ -109,14 +117,79 @@ const customSelectStyles = {
       borderColor: state.isFocused ? "red" : "blue",
     },
   }),
-  singleValue: (provided, state) => {
-    const opacity = state.isDisabled ? 0.5 : 1;
-    const transition = "opacity 300ms";
-    return { ...provided, opacity, transition };
-  },
-  ValueContainer: (provided, state) => {
-    return { ...provided, width: "200px" };
-  },
+  // singleValue: (provided, state) => {
+  //   const opacity = state.isDisabled ? 0.5 : 1;
+  //   const transition = "opacity 300ms";
+  //   return { ...provided, opacity, transition };
+  // },
+  // ValueContainer: (provided, state) => {
+  //   return { ...provided, width: "200px" };
+  // },
+};
+
+const customStyles = {
+  container: (provided) => ({
+    ...provided,
+    display: "inline-block",
+    // width: "250px",
+    width: "150px",
+    // minWidth: "auto",
+    // maxWidth: "200px",
+    minHeight: "1px",
+    textAlign: "left",
+    border: "none",
+    // width: "fit-content",
+    // width: "max-content",
+  }),
+  control: (provided) => ({
+    ...provided,
+    border: "2px solid #757575",
+    // borderRadius: "0",
+    minHeight: "1px",
+    // height: "42px",
+    height: "32px",
+
+    // minWidth: "auto",
+    // display: "inline-flex",
+    // flexGrow: 1,
+    // width: "-webkit-min-content",
+    // width: "-moz-min-content",
+    // width: "max-content",
+    width: "100%",
+  }),
+  input: (provided) => ({
+    ...provided,
+    minHeight: "1px",
+  }),
+  dropdownIndicator: (provided) => ({
+    ...provided,
+    minHeight: "1px",
+    paddingTop: "0",
+    paddingBottom: "0",
+    color: "#757575",
+  }),
+  indicatorSeparator: (provided) => ({
+    ...provided,
+    minHeight: "1px",
+    // height: "24px",
+  }),
+  clearIndicator: (provided) => ({
+    ...provided,
+    minHeight: "1px",
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    minHeight: "1px",
+    // height: "40px",
+    height: "30px",
+    paddingTop: "0",
+    paddingBottom: "0",
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    minHeight: "1px",
+    paddingBottom: "2px",
+  }),
 };
 
 const SortSelect = ({ name, options, isMulti = false }) => {
@@ -124,13 +197,14 @@ const SortSelect = ({ name, options, isMulti = false }) => {
     <div
       style={{
         fontSize: "16px",
-        color: "#2162a4",
+        // color: "#2162a4",
         // width: "120px",
         // height: "35px",
       }}
     >
       <Select
-        style={customSelectStyles}
+        // styles={customSelectStyles}
+        styles={customStyles}
         // className="basic-single"
         // classNamePrefix="select"
         // defaultValue={""}
@@ -138,7 +212,7 @@ const SortSelect = ({ name, options, isMulti = false }) => {
         blurInputOnSelect={true}
         isSearchable={false}
         // isClearable={isClearable}
-        // menuShouldBlockScroll={true}
+        menuShouldBlockScroll={true}
         name={name}
         options={options}
       />
