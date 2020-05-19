@@ -36,6 +36,13 @@ import {
   ScrollCreditPosterTag,
 } from "./MovieDetailStyled";
 
+const BackgroundBlur = styled.div`
+  background-image: url(${(props) => props.url});
+  //background-position: center 25%;
+  background-size: cover;
+  //background-repeat: no-repeat;
+`;
+
 export default function MovieDetail() {
   let { imdbId } = useParams();
   const movieUrl = `https://www.matthewhopps.com/api/movie/${imdbId}/`;
@@ -59,7 +66,8 @@ export default function MovieDetail() {
         <>
           <BackdropImage url={data.backdrop_url} />
           <Basics data={data} />
-          <MainWrap>
+          {/*<BackgroundBlur url={data.poster_url} />*/}
+          <MainWrap url={data.poster_url}>
             <Ratings data={data} />
             <ReleaseDates data={data} />
             <Overview data={data} />

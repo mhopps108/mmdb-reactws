@@ -9,6 +9,10 @@ export const Flex = styled.div`
 
 export const SectionWrap = styled.div`
   margin-bottom: 20px;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 14px;
+  border-radius: 5px;
+  box-shadow: 0 0 100px 100px rgba(0, 0, 0, 0.1);
   //box-shadow: 0 0 15px 5px #fff;
   //padding: 8px;
   //background-color: #eee;
@@ -133,6 +137,33 @@ export const MainWrap = styled.div`
   padding: 15px 25px;
   //background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
   //background: white;
+  color: white;
+
+  &:before {
+    //background-position: center 25%;
+
+    //background-repeat: no-repeat;
+
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    //right: 0;
+    //bottom: 0;
+    z-index: -1;
+    overflow: hidden;
+
+    display: block;
+    background-image: url(${(props) => props.url});
+    background-size: cover;
+
+    //width: 1200px;
+    //height: 800px;
+    width: 100vw;
+    height: 100vh;
+
+    filter: blur(8px);
+  }
 
   display: grid;
   grid-template-areas:
