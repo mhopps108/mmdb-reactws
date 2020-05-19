@@ -43,7 +43,7 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
   const [showFilters, setShowFilters] = useState(false);
   const [queryString, setQueryString] = useState(queryParams.toString());
 
-  const listUrl = `https://www.matthewhopps.com/api/movie?${queryString}`;
+  const listUrl = `https://www.matthewhopps.com/api/discover?${queryString}`;
   const [state, setUrl] = useDataApi(listUrl, []);
   const { data, isLoading, isError } = state;
 

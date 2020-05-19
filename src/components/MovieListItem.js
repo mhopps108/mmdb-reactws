@@ -120,7 +120,10 @@ function MovieListItem({ movie }) {
               imdb_rating_avg={imdb_rating_avg}
             />
           </InfoRow>
-          <InfoRow>{genres && <GenreList genres={genres} />}</InfoRow>
+          <InfoRow>
+            <GenreList genres={genres} />
+          </InfoRow>
+          {/*<InfoRow>{genres && <GenreList genres={genres} />}</InfoRow>*/}
         </InfoWrap>
       </MovieListItemLayout>
     </StyledMovieListItem>
