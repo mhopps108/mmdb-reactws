@@ -9,10 +9,10 @@ export const Flex = styled.div`
 
 export const SectionWrap = styled.div`
   margin-bottom: 20px;
-  background: rgba(0, 0, 0, 0.75);
-  padding: 26px;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 14px;
   border-radius: 5px;
-  //box-shadow: 0 0 100px 100px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 100px 100px rgba(0, 0, 0, 0.1);
   //box-shadow: 0 0 15px 5px #fff;
   //padding: 8px;
   //background-color: #eee;
@@ -55,9 +55,8 @@ export const StyledMovieDetail = styled.div`
 `;
 
 export const BackdropImage = styled.div`
-  //position: absolute;
-  position: fixed;
-  z-index: 1;
+  position: absolute;
+  z-index: -1;
   //opacity: 0.25;
   width: 100%;
   max-width: 1000px;
@@ -67,8 +66,8 @@ export const BackdropImage = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   box-shadow: inset 0px -40px 20px 2px rgba(0, 0, 0, 0.85);
-  //border-bottom-right-radius: 8px;
-  //border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
 
   @media ${device.min.small} {
     height: 300px;
@@ -80,16 +79,13 @@ export const BackdropImage = styled.div`
 // --- --- --- --- --- --- //
 
 export const MDBasicsWrap = styled.div`
-  z-index: 2;
   display: flex;
   flex-direction: row;
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.6);
   color: #ddd;
-  //border-bottom-right-radius: 8px;
-  //border-bottom-left-radius: 8px;
-  position: sticky;
-  top: 55px; // nav height
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
 
   @media ${device.min.small} {
     padding: 15px 25px;
@@ -138,32 +134,35 @@ export const Title = styled.h1`
 // --- --- --- --- --- --- //
 
 export const MainWrap = styled.div`
-  //padding: 15px 25px;
-  padding: 15px 10px;
+  padding: 15px 25px;
   //background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
-  //background: white;  
+  //background: white;
   color: white;
 
   &:before {
     //background-position: center 25%;
+
     //background-repeat: no-repeat;
+
     content: "";
     position: fixed;
-    top: 255px; // need prop breakpoint here for 300px top
+    top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    //right: 0;
+    //bottom: 0;
     z-index: -1;
     overflow: hidden;
 
     display: block;
-    background: rgba(0,0,0,0.9);
-    //background-image: url(${(props) => props.url});
-    //background-size: cover;       
+    background-image: url(${(props) => props.url});
+    background-size: cover;
+
+    //width: 1200px;
+    //height: 800px;
     width: 100vw;
     height: 100vh;
 
-    //filter: blur(8px);
+    filter: blur(8px);
   }
 
   display: grid;

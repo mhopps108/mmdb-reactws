@@ -122,6 +122,15 @@ export default function FilterMenu({
   return (
     <FilterMenuWrap isOpen={isOpen}>
       <FilterMenuContentWrap isOpen={isOpen}>
+        <ApplyButtonWrap>
+          {/*<Link*/}
+          {/*  to={`/discovery?${discoveryQueryString(state)}`}*/}
+          {/*  onClick={toggleOpen}*/}
+          {/*>*/}
+          {/*  <ApplyButton>Apply Filters</ApplyButton>*/}
+          {/*</Link>*/}
+          <ApplyButton onClick={onClick}>Apply Filters</ApplyButton>
+        </ApplyButtonWrap>
         <FilterSection>
           <FilterSelect
             name={"certs"}

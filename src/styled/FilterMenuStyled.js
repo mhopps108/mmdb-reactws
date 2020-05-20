@@ -24,12 +24,13 @@ export const FilterMenuWrap = styled.div`
   //height: 0;
   width: 100%;
   transition: max-height 250ms linear;
-  max-height: ${(props) => (props.isOpen ? "700px" : 0)};
+  //max-height: ${(props) => (props.isOpen ? "700px" : 0)};
+  max-height: ${(props) => (props.isOpen ? "100%" : 0)};
 `;
 
 export const FilterMenuContentWrap = styled.div`
   //border: 1px solid red;
-  padding: 20px 30px;
+  //padding: 20px 30px;
   width: 100%;
   //transition: opacity 200ms ease;
   transition: all 200ms ease;
