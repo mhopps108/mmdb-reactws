@@ -149,7 +149,8 @@ export const MainWrap = styled.div`
     //background-repeat: no-repeat;
     content: "";
     position: fixed;
-    top: 255px; // need prop breakpoint here for 300px top
+    //top: 255px; // need prop breakpoint here for 300px top
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
@@ -157,7 +158,8 @@ export const MainWrap = styled.div`
     overflow: hidden;
 
     display: block;
-    background: rgba(0,0,0,0.9);
+    //background: rgba(0,0,0,0.9);
+    background: #222;
     //background-image: url(${(props) => props.url});
     //background-size: cover;       
     width: 100vw;

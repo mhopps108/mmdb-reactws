@@ -4,6 +4,10 @@ import { List, Releases, Detail, Discover } from "./pages";
 import styled from "styled-components/macro";
 // use createGlobalStyle from styled-components
 
+// import default style
+// import "rsuite/lib/styles/index.less";
+import "rsuite/dist/styles/rsuite-default.css";
+
 export default function App() {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [navMenuVisible, setNavMenuVisible] = useState(false);

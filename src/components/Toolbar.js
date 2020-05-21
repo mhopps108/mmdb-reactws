@@ -4,6 +4,8 @@ import Select from "react-select";
 import styled from "styled-components/macro";
 import { device } from "../devices";
 
+import { SelectPicker } from "rsuite";
+
 const StyledToolbar = styled.div`
   grid-area: toolbar;
   background-color: white;
@@ -255,7 +257,17 @@ export default function Toolbar({
             <ToolbarButton onClick={dateData.nextWeek}>{">"}</ToolbarButton>
           </ToolbarItem>
         )}
-        {sortOptions && <SortSelect name={"SortBy"} options={sortOptions} />}
+        {/*{sortOptions && <SortSelect name={"SortBy"} options={sortOptions} />}*/}
+        {sortOptions && (
+          <SelectPicker
+            data={sortOptions}
+            searchable={false}
+            preventOverflow={true}
+            size={"sm"}
+            cleanable={false}
+            // style={{ width: 224 }}
+          />
+        )}
       </ToolBarWrap>
       <ChildWrap>{children}</ChildWrap>
     </StyledToolbar>

@@ -25,6 +25,7 @@ import {
 } from "../styled/FilterMenuStyled";
 
 import { discoveryQueryString } from "../api";
+import { SelectPicker, CheckPicker } from "rsuite";
 
 const initFilterState = {
   orderby: "-imdb_rating_avg,-imdb_rating_count",
@@ -132,15 +133,20 @@ export default function FilterMenu({
           <ApplyButton onClick={onClick}>Apply Filters</ApplyButton>
         </ApplyButtonWrap>
         <FilterSection>
-          <FilterSelect
-            name={"certs"}
-            options={certSelectOptions}
-            isMulti={true}
+          <SelectPicker
+            data={genreOptions.sort()}
+            searchable={false}
+            preventOverflow={true}
+            size={"sm"}
+            cleanable={false}
+            // style={{ width: 224 }}
           />
-          <FilterSelect
-            name={"genres"}
-            options={genreSelectOptions.sort()}
-            isMulti={true}
+          <CheckPicker
+            sticky
+            data={genreSelectOptions.sort()}
+            onChange={(v) => console.log(v)}
+            // defaultValue={["Kenya", "Julius"]}
+            // style={{ width: 224 }}
           />
         </FilterSection>
         <FilterSection>
