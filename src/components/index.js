@@ -8,6 +8,7 @@ import MoviePosterList from "./MoviePosterList";
 import DiscoveryMenu from "./DiscoverMenu";
 import CheckButtonGroup from "./CheckButtonGroup";
 import FilterMenu from "./FilterMenu";
+import DatePager from "./DatePager";
 
 export {
   Header,
@@ -20,4 +21,5 @@ export {
   DiscoveryMenu,
   CheckButtonGroup,
   FilterMenu,
+  DatePager,
 };

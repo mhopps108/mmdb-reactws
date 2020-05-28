@@ -40,13 +40,7 @@ const releaseDateLinks = [
 const discoveryLinks = [
   {
     name: "Top Comedies",
-    path: `/discovery?
-    orderby=-imdb_rating_avg,-imdb_rating_count
-    &genres=comedy
-    &certification=
-    &imdb_rating_avg__gte=5&imdb_rating_avg__lte=10
-    &imdb_rating_count__gte=5000
-    &year__gte=1990&year__lte=2030`,
+    path: `/discovery?orderby=-imdb_rating_avg,-imdb_rating_count&genres=comedy&certification=&imdb_rating_avg__gte=5&imdb_rating_avg__lte=10&imdb_rating_count__gte=5000&year__gte=1990&year__lte=2030`,
   },
   {
     name: "Top Rated Kids Movies",

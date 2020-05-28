@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useReducer } from "react";
 import { useParams, Link, useLocation } from "react-router-dom";
 import Select from "react-select";
-import { RangeSlider, Slider } from "@blueprintjs/core";
-import "@blueprintjs/icons/lib/css/blueprint-icons.css";
-import "@blueprintjs/core/lib/css/blueprint.css";
+import styled, { css } from "styled-components/macro";
+// import { RangeSlider, Slider } from "@blueprintjs/core";
+// import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+// import "@blueprintjs/core/lib/css/blueprint.css";
 
 import CheckButtonGroup from "./CheckButtonGroup";
 import {
@@ -25,7 +26,9 @@ import {
 } from "../styled/FilterMenuStyled";
 
 import { discoveryQueryString } from "../api";
-import { SelectPicker, CheckPicker } from "rsuite";
+import { SelectPicker, CheckPicker, RangeSlider, Slider } from "rsuite";
+// import { SelectPicker, CheckPicker } from "rsuite";
+import "rsuite/dist/styles/rsuite-default.css";
 
 const initFilterState = {
   orderby: "-imdb_rating_avg,-imdb_rating_count",
@@ -78,6 +81,46 @@ const FilterSelect = ({ name, options, isMulti = false }) => {
   );
 };
 
+const RangeSliderStyled = styled.div`
+  .rs-slider-handle {
+    background: black;
+    //width: 40px;
+    //height: 40px;
+    &::before {
+      background: orange;
+      width: 40px;
+      height: 40px;
+    }
+  }
+`;
+
+const CustomRangeSlider = ({ value, setValue }) => {
+  return (
+    <RangeSliderStyled>
+      <RangeSlider
+        min={0}
+        max={10}
+        step={0.5}
+        // defaultValue={[10, 50]}
+        // className="custom-slider"
+        value={value}
+        // handleStyle={{
+        //   color: "#333",
+        //   background: "black",
+        //   fontSize: 12,
+        //   width: 32,
+        //   height: 22,
+        // }}
+        // graduated
+        // tooltip={false}
+        // handleTitle={`${rangeValue[0]}-${rangeValue[1]}`}
+        // handleTitle={"A"}
+        onChange={(value) => setValue(value)}
+      />
+    </RangeSliderStyled>
+  );
+};
+
 export default function FilterMenu({
   isOpen,
   toggleOpen,
@@ -90,6 +133,9 @@ export default function FilterMenu({
   const initState = filterState || initFilterState;
   const [state, dispatch] = useReducer(filterReducer, initState);
   const [queryLink, setQueryLink] = useState("");
+
+  const [sliderValue, setSliderValue] = useState(5);
+  const [rangeValue, setRangeValue] = useState([5, 10]);
 
   const onReset = () => dispatch({ type: "FILTER_RESET" });
 
@@ -124,12 +170,6 @@ export default function FilterMenu({
     <FilterMenuWrap isOpen={isOpen}>
       <FilterMenuContentWrap isOpen={isOpen}>
         <ApplyButtonWrap>
-          {/*<Link*/}
-          {/*  to={`/discovery?${discoveryQueryString(state)}`}*/}
-          {/*  onClick={toggleOpen}*/}
-          {/*>*/}
-          {/*  <ApplyButton>Apply Filters</ApplyButton>*/}
-          {/*</Link>*/}
           <ApplyButton onClick={onClick}>Apply Filters</ApplyButton>
         </ApplyButtonWrap>
         <FilterSection>
@@ -145,9 +185,11 @@ export default function FilterMenu({
             sticky
             data={genreSelectOptions.sort()}
             onChange={(v) => console.log(v)}
-            // defaultValue={["Kenya", "Julius"]}
             // style={{ width: 224 }}
           />
+          <div style={{ width: "75%", margin: "30px 0px" }}>
+            <CustomRangeSlider value={rangeValue} setValue={setRangeValue} />
+          </div>
         </FilterSection>
         <FilterSection>
           <CheckButtonGroup
@@ -199,12 +241,6 @@ export default function FilterMenu({
           </RangeSliderWrap>
         </FilterSection>
         <ApplyButtonWrap>
-          {/*<Link*/}
-          {/*  to={`/discovery?${discoveryQueryString(state)}`}*/}
-          {/*  onClick={toggleOpen}*/}
-          {/*>*/}
-          {/*  <ApplyButton>Apply Filters</ApplyButton>*/}
-          {/*</Link>*/}
           <ApplyButton onClick={onClick}>Apply Filters</ApplyButton>
         </ApplyButtonWrap>
       </FilterMenuContentWrap>

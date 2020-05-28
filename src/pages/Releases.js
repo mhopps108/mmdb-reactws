@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useRouteMatch, useParams, useHistory } from "react-router-dom";
-import { Header, Sidebar, Toolbar, MovieList, NavMenu } from "../components";
+import {
+  Header,
+  Sidebar,
+  Toolbar,
+  MovieList,
+  NavMenu,
+  DatePager,
+} from "../components";
 import styled, { css } from "styled-components/macro";
+
 import { useDataApi } from "../useDataApi";
 import { device } from "../devices";
 import moment from "moment";
@@ -10,10 +18,6 @@ import { sortOptions } from "../constants";
 
 // Todo: useReducer
 // NextWeek, PrevWeek, ThisWeek,
-
-const twixDateString = (start, end) => {
-  return moment(start).twix(end, { allDay: true }).format();
-};
 
 const startOfWeek = (date) => {
   return (moment(date) || moment()).startOf("week");
@@ -45,8 +49,6 @@ export default function Releases({
   const { data, isLoading, isError } = state;
   // const { count, results, next, previous } = data;
 
-  const dateFormated = twixDateString(startDate, endOfWeek(startDate));
-
   const pushWeek = (week) => {
     history.push(`/release-dates/${week.format("YYYY-MM-DD")}`);
   };
@@ -54,11 +56,18 @@ export default function Releases({
   const nextWeek = () => pushWeek(moment(startDate).add(7, "d"));
 
   const listData = { movie_count: data?.count, name: "Digital Releases" };
+  // const dateData = {
+  //   prevWeek: prevWeek,
+  //   nextWeek: nextWeek,
+  //   thisWeek: startOfWeek,
+  //   // dateString: dateFormated,
+  // };
   const dateData = {
-    prevWeek: prevWeek,
-    nextWeek: nextWeek,
-    thisWeek: startOfWeek,
-    dateString: dateFormated,
+    prev: prevWeek,
+    next: nextWeek,
+    goToToday: startOfWeek,
+    currentDate: startDate,
+    // dateString: dateFormated,
   };
 
   useEffect(() => {

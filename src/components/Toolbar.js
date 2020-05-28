@@ -4,7 +4,27 @@ import Select from "react-select";
 import styled from "styled-components/macro";
 import { device } from "../devices";
 
+import { DatePager } from "../components";
+
 import { SelectPicker } from "rsuite";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+
+const DatePagerWrap = styled.div`
+  grid-area: datepager;
+`;
+
+const ListNameWrap = styled.div`
+  grid-area: titleandcount;
+  display: flex;
+  //flex-direction: row;
+`;
+
+const SortWrap = styled.div`
+  grid-area: sort;
+  display: flex;
+  justify-content: flex-end;
+  align-content: end;
+`;
 
 const StyledToolbar = styled.div`
   grid-area: toolbar;
@@ -13,8 +33,8 @@ const StyledToolbar = styled.div`
   position: sticky;
   min-height: 40px;
   top: 55px;
-  display: flex;
-  flex-direction: column;
+  //display: flex;
+  //flex-direction: column;
   //justify-content: space-between;
   padding: 8px 16px;
   box-shadow: 0 5px 25px 6px rgba(0, 0, 0, 0.2);
@@ -29,36 +49,22 @@ const StyledToolbar = styled.div`
 `;
 
 const ToolBarWrap = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-const ToolbarGroup = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-`;
-
-const ToolbarItem = styled.div`
-  display: flex;
+  //display: flex;
   //flex-direction: row;
-  //width: 100%;
   //justify-content: space-between;
-  //justify-content: start;
-  p,
-  button {
-    font-size: 1.2rem;
-  }
-`;
-
-const ToolbarButton = styled.button`
-  border: none;
-  background: none;
-  color: #333;
-  & a {
-    color: #333;
-    text-decoration: none;
+  //width: 100%;
+  //height: 80px;
+  display: grid;
+  grid-template-areas:
+    "titleandcount sort"
+    "datepager datepager";
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  //grid-gap: 20px;
+  @media ${device.min.tablet} {
+    grid-template-areas: "titleandcount datepager sort";
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
   }
 `;
 
@@ -230,43 +236,38 @@ export default function Toolbar({
   children,
 }) {
   const { name, source, movie_count } = listData;
+  const { prev, next, goToToday, currentDate } = dateData || {};
+
   return (
     <StyledToolbar>
       <ToolBarWrap>
-        <ToolbarGroup>
+        <ListNameWrap>
           <ListName>{name || "Loading..."}</ListName>
           <MovieCountTag>{movie_count || "#"}</MovieCountTag>
+        </ListNameWrap>
 
-          {/*<ToolbarItem></ToolbarItem>*/}
-          {/*<ToolbarItem></ToolbarItem>*/}
-        </ToolbarGroup>
-        {filter && (
-          <ToolbarGroup>
-            <ToolbarItem>
-              <FilterButton onClick={filter}>Filter</FilterButton>
-            </ToolbarItem>
-          </ToolbarGroup>
-        )}
-
+        {filter && <FilterButton onClick={filter}>Filter</FilterButton>}
         {dateData && (
-          <ToolbarItem>
-            <ToolbarButton onClick={dateData.prevWeek}>{"<"}</ToolbarButton>
-            <ToolbarButton onClick={dateData.thisWeek}>
-              <Link to="/release-dates">{dateData.dateString}</Link>
-            </ToolbarButton>
-            <ToolbarButton onClick={dateData.nextWeek}>{">"}</ToolbarButton>
-          </ToolbarItem>
+          <DatePagerWrap>
+            <DatePager
+              prev={prev}
+              next={next}
+              goToToday={goToToday}
+              currentDate={currentDate}
+            />
+          </DatePagerWrap>
         )}
-        {/*{sortOptions && <SortSelect name={"SortBy"} options={sortOptions} />}*/}
         {sortOptions && (
-          <SelectPicker
-            data={sortOptions}
-            searchable={false}
-            preventOverflow={true}
-            size={"sm"}
-            cleanable={false}
-            // style={{ width: 224 }}
-          />
+          <SortWrap>
+            <SelectPicker
+              data={sortOptions}
+              searchable={false}
+              preventOverflow={true}
+              size={"sm"}
+              cleanable={false}
+              // style={{ width: 224 }}
+            />
+          </SortWrap>
         )}
       </ToolBarWrap>
       <ChildWrap>{children}</ChildWrap>

@@ -9,8 +9,9 @@ export const Flex = styled.div`
 
 export const SectionWrap = styled.div`
   margin-bottom: 20px;
-  background: rgba(0, 0, 0, 0.75);
-  padding: 26px;
+  //background: rgba(0, 0, 0, 0.75);
+  background: white;
+  padding: 10px 20px;
   border-radius: 5px;
   //box-shadow: 0 0 100px 100px rgba(0, 0, 0, 0.1);
   //box-shadow: 0 0 15px 5px #fff;
@@ -125,7 +126,7 @@ export const InfoRow = styled.div`
   }
 `;
 
-export const Title = styled.h1`
+export const Title = styled.div`
   font-size: 1.5rem;
   margin-bottom: 15px;
   @media ${device.min.small} {
@@ -142,7 +143,7 @@ export const MainWrap = styled.div`
   padding: 15px 10px;
   //background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
   //background: white;  
-  color: white;
+  color: #333;
 
   &:before {
     //background-position: center 25%;
@@ -159,7 +160,7 @@ export const MainWrap = styled.div`
 
     display: block;
     //background: rgba(0,0,0,0.9);
-    background: #222;
+    background: lightgrey;
     //background-image: url(${(props) => props.url});
     //background-size: cover;       
     width: 100vw;

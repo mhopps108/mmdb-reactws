@@ -21,6 +21,7 @@ export default function Header({ toggleSidebar, toggleNavMenu }) {
               marginRight: " 5px",
               borderRadius: "5px",
               background: "white",
+              color: "#1F4B99",
             }}
             onClick={toggleNavMenu}
           >
@@ -74,7 +75,8 @@ const NavGroup = styled.div`
 const StyledBrand = styled.h1`
   font-size: 1.75rem;
   margin-left: 8px;
-  background: #2162a4;
+  //background: #2162a4;
+  background: #1f4b99;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;
