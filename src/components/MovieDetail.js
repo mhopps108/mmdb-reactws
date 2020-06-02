@@ -4,6 +4,7 @@ import { useDataApi } from "../useDataApi";
 import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
 import "boxicons";
+import lazySizes from "lazysizes";
 import {
   Flex,
   StyledMovieDetail,
@@ -200,7 +201,14 @@ function Trailer({ data }) {
       <SectionHeader>Trailer</SectionHeader>
       {trailer_url && (
         <div>
-          <iframe title={title} src={youtube_src} allowFullScreen />
+          {/*<iframe title={title} src={youtube_src} allowFullScreen />*/}
+          <iframe
+            title={title}
+            data-src={youtube_src}
+            frameBorder="0"
+            className="lazyload"
+            allowFullScreen
+          />
         </div>
       )}
     </StyledTrailerWrap>
@@ -219,7 +227,12 @@ function Similar({ data }) {
             return (
               <HorizontalScrollItem key={imdb_id}>
                 <Link to={`/movie/${imdb_id}`} key={imdb_id}>
-                  <ScrollPoster src={poster_url} alt={title} />
+                  {/*<ScrollPoster src={poster_url} alt={title} />*/}
+                  <ScrollPoster
+                    data-src={poster_url}
+                    className="lazyload"
+                    alt={title}
+                  />
                   <ScrollPosterTag>{title}</ScrollPosterTag>
                 </Link>
               </HorizontalScrollItem>
@@ -242,7 +255,12 @@ function Recommended({ data }) {
             return (
               <HorizontalScrollItem key={imdb_id}>
                 <Link to={`/movie/${imdb_id}`} key={imdb_id}>
-                  <ScrollPoster src={poster_url} alt={title} />
+                  {/*<ScrollPoster src={poster_url} alt={title} />*/}
+                  <ScrollPoster
+                    data-src={poster_url}
+                    className="lazyload"
+                    alt={title}
+                  />
                   <ScrollPosterTag>{title}</ScrollPosterTag>
                 </Link>
               </HorizontalScrollItem>
@@ -264,7 +282,12 @@ function Credits({ data }) {
             const { order, character, actor } = item;
             return (
               <HorizontalScrollItem key={index}>
-                <ScrollCreditPoster src={actor.profile_url} alt={actor.name} />
+                {/*<ScrollCreditPoster src={actor.profile_url} alt={actor.name} />*/}
+                <ScrollCreditPoster
+                  data-src={actor.profile_url}
+                  className="lazyload"
+                  alt={actor.name}
+                />
                 <ScrollCreditPosterTag>{actor.name}</ScrollCreditPosterTag>
                 <ScrollCreditPosterTag>{character}</ScrollCreditPosterTag>
               </HorizontalScrollItem>

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
+import lazySizes from "lazysizes";
 
 const StyledMovieListItem = styled.div`
   background: white;
@@ -107,7 +108,8 @@ function MovieListItem({ movie }) {
   return (
     <StyledMovieListItem>
       <MovieListItemLayout>
-        <Poster src={poster_url} />
+        {/*<Poster src={poster_url} />*/}
+        <Poster data-src={poster_url} className="lazyload" />
         <InfoWrap>
           <Title>
             <Link to={`/movie/${imdb_id}`}>{title}</Link>

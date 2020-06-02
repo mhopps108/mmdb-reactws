@@ -10,6 +10,7 @@
     "axios": "0.19.2",
     "babel-plugin-styled-components": "^1.10.7",
     "boxicons": "2.0.5",
+    "lazysizes": "^5.2.2",
     "moment": "^2.26.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
