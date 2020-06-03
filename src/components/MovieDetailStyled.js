@@ -8,7 +8,7 @@ export const Flex = styled.div`
 `;
 
 export const SectionWrap = styled.div`
-  margin-bottom: 20px;
+  //margin-bottom: 20px;
   //background: rgba(0, 0, 0, 0.75);
   background: white;
   padding: 10px 20px;
