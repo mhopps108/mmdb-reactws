@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useReducer } from "react";
 import { useParams, Link, useLocation } from "react-router-dom";
-import Select from "react-select";
 import styled, { css } from "styled-components/macro";
-// import { RangeSlider, Slider } from "@blueprintjs/core";
-// import "@blueprintjs/icons/lib/css/blueprint-icons.css";
-// import "@blueprintjs/core/lib/css/blueprint.css";
-
+import RangeSlider from "./RangeSlider";
 import CheckButtonGroup from "./CheckButtonGroup";
+import { discoveryQueryString } from "../api";
+import Select from "react-select";
+import { SelectPicker, CheckPicker } from "rsuite";
+import "rsuite/dist/styles/rsuite-default.css";
 import {
   genreOptions,
   certOptions,
@@ -25,17 +25,13 @@ import {
   ApplyButtonWrap,
 } from "../styled/FilterMenuStyled";
 
-import { discoveryQueryString } from "../api";
-import { SelectPicker, CheckPicker, RangeSlider, Slider } from "rsuite";
-// import { SelectPicker, CheckPicker } from "rsuite";
-import "rsuite/dist/styles/rsuite-default.css";
-
 const initFilterState = {
   orderby: "-imdb_rating_avg,-imdb_rating_count",
   genres: [],
   certs: [],
   ratings: [0, 10],
-  votes: 0,
+  votes: [0, 10000],
+  // votes: [0, 10],
   years: [1890, 2030],
 };
 
@@ -48,6 +44,7 @@ const filterReducer = (state, action) => {
     case "SET_RATINGS":
       return { ...state, ratings: action.payload };
     case "SET_VOTES":
+      // return { ...state, votes: action.payload };
       return { ...state, votes: action.payload };
     case "SET_YEARS":
       return { ...state, years: action.payload };
@@ -81,46 +78,6 @@ const FilterSelect = ({ name, options, isMulti = false }) => {
   );
 };
 
-const RangeSliderStyled = styled.div`
-  .rs-slider-handle {
-    background: black;
-    //width: 40px;
-    //height: 40px;
-    &::before {
-      background: orange;
-      width: 40px;
-      height: 40px;
-    }
-  }
-`;
-
-const CustomRangeSlider = ({ value, setValue }) => {
-  return (
-    <RangeSliderStyled>
-      <RangeSlider
-        min={0}
-        max={10}
-        step={0.5}
-        // defaultValue={[10, 50]}
-        // className="custom-slider"
-        value={value}
-        // handleStyle={{
-        //   color: "#333",
-        //   background: "black",
-        //   fontSize: 12,
-        //   width: 32,
-        //   height: 22,
-        // }}
-        // graduated
-        // tooltip={false}
-        // handleTitle={`${rangeValue[0]}-${rangeValue[1]}`}
-        // handleTitle={"A"}
-        onChange={(value) => setValue(value)}
-      />
-    </RangeSliderStyled>
-  );
-};
-
 export default function FilterMenu({
   isOpen,
   toggleOpen,
@@ -130,12 +87,11 @@ export default function FilterMenu({
 }) {
   console.log(`FILTER-MENU: rendered - isOpen (${isOpen})`);
   console.log("filterState--FILTERMENU: ", filterState);
-  const initState = filterState || initFilterState;
+
+  // const initState = filterState || initFilterState;
+  const initState = initFilterState;
   const [state, dispatch] = useReducer(filterReducer, initState);
   const [queryLink, setQueryLink] = useState("");
-
-  const [sliderValue, setSliderValue] = useState(5);
-  const [rangeValue, setRangeValue] = useState([5, 10]);
 
   const onReset = () => dispatch({ type: "FILTER_RESET" });
 
@@ -169,28 +125,25 @@ export default function FilterMenu({
   return (
     <FilterMenuWrap isOpen={isOpen}>
       <FilterMenuContentWrap isOpen={isOpen}>
-        <ApplyButtonWrap>
-          <ApplyButton onClick={onClick}>Apply Filters</ApplyButton>
-        </ApplyButtonWrap>
-        <FilterSection>
-          <SelectPicker
-            data={genreOptions.sort()}
-            searchable={false}
-            preventOverflow={true}
-            size={"sm"}
-            cleanable={false}
-            // style={{ width: 224 }}
-          />
-          <CheckPicker
-            sticky
-            data={genreSelectOptions.sort()}
-            onChange={(v) => console.log(v)}
-            // style={{ width: 224 }}
-          />
-          <div style={{ width: "75%", margin: "30px 0px" }}>
-            <CustomRangeSlider value={rangeValue} setValue={setRangeValue} />
-          </div>
-        </FilterSection>
+        {/*<ApplyButtonWrap>*/}
+        {/*  <ApplyButton onClick={onClick}>Apply Filters</ApplyButton>*/}
+        {/*</ApplyButtonWrap>*/}
+        {/*<FilterSection>*/}
+        {/*  <SelectPicker*/}
+        {/*    data={genreOptions.sort()}*/}
+        {/*    searchable={false}*/}
+        {/*    preventOverflow={true}*/}
+        {/*    size={"sm"}*/}
+        {/*    cleanable={false}*/}
+        {/*    // style={{ width: 224 }}*/}
+        {/*  />*/}
+        {/*  <CheckPicker*/}
+        {/*    sticky*/}
+        {/*    data={genreSelectOptions.sort()}*/}
+        {/*    onChange={(v) => console.log(v)}*/}
+        {/*    // style={{ width: 224 }}*/}
+        {/*  />*/}
+        {/*</FilterSection>*/}
         <FilterSection>
           <CheckButtonGroup
             sectionName="Age Rating"
@@ -207,36 +160,43 @@ export default function FilterMenu({
         </FilterSection>
         <FilterSection>
           <RangeSliderWrap>
-            <SectionHeader>IMDb Rating Average</SectionHeader>
+            <SectionHeader>
+              Rating {`${state.ratings[0]} - ${state.ratings[1]}`}
+            </SectionHeader>
             <RangeSlider
-              min={0}
-              max={10}
-              stepSize={0.5}
-              labelStepSize={1}
-              onChange={onRatingChange}
               value={state.ratings}
+              min={initFilterState.ratings[0]}
+              max={initFilterState.ratings[1]}
+              step={0.1}
+              onChange={onRatingChange}
+              onFinalChange={onRatingChange}
             />
           </RangeSliderWrap>
           <RangeSliderWrap>
-            <SectionHeader>IMDb Rating Count</SectionHeader>
-            <Slider
-              min={0}
-              max={5000}
-              // stepSize={100}
-              labelStepSize={1000}
-              onChange={onMinVotesChange}
-              value={state.votes}
-            />
-          </RangeSliderWrap>
-          <RangeSliderWrap>
-            <SectionHeader>Year</SectionHeader>
+            <SectionHeader>
+              Votes {`${state.votes[0]} - ${state.votes[1]}`}
+              {/*Votes {`${state.votes}`}*/}
+            </SectionHeader>
             <RangeSlider
+              value={state.votes}
+              min={initFilterState.votes[0]}
+              max={initFilterState.votes[1]}
+              step={100}
+              onChange={onMinVotesChange}
+              onFinalChange={onMinVotesChange}
+            />
+          </RangeSliderWrap>
+          <RangeSliderWrap>
+            <SectionHeader>
+              Year {`${state.years[0]} - ${state.years[1]}`}
+            </SectionHeader>
+            <RangeSlider
+              value={state.years}
               min={initFilterState.years[0]}
               max={initFilterState.years[1]}
-              stepSize={1}
-              labelStepSize={25}
+              step={1}
               onChange={onYearChange}
-              value={state.years}
+              onFinalChange={onYearChange}
             />
           </RangeSliderWrap>
         </FilterSection>

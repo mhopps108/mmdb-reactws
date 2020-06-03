@@ -47,7 +47,7 @@ export const FilterMenuContentWrap = styled.div`
 
 export const FilterSection = styled.div`
   width: 100%;
-  padding: 0 15px;
+  padding: 0 5px;
   @media ${device.min.tablet} {
     width: 50%;
   }

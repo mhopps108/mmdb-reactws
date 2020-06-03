@@ -16,13 +16,14 @@ export const discoveryQueryString = (queryState) => {
   const { orderby, genres, certs, ratings, votes, years } = queryState;
   const [minRating, maxRating] = ratings;
   const [minYear, maxYear] = years;
+  const [minVotes, maxVotes] = votes;
   const queryObj = {
     orderby: orderby,
     genres: genres.sort().join(","),
     certification: certs.sort().join(","),
     imdb_rating_avg__gte: minRating,
     imdb_rating_avg__lte: maxRating,
-    imdb_rating_count__gte: votes,
+    imdb_rating_count__gte: maxVotes,
     year__gte: minYear,
     year__lte: maxYear,
   };

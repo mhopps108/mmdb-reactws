@@ -29,9 +29,9 @@ export const genreOptions = [
   { name: "romance", label: "Romance" },
 
   { name: "thriller", label: "Thriller" },
-  { name: "game-show", label: "Game-Show" },
+
   { name: "mystery", label: "Mystery" },
-  { name: "short", label: "Short" },
+
   { name: "musical", label: "Musical" },
   { name: "biography", label: "Biography" },
   { name: "history", label: "History" },
@@ -40,9 +40,11 @@ export const genreOptions = [
   { name: "war", label: "War" },
   { name: "western", label: "Western" },
   { name: "reality-tv", label: "Reality-TV" },
-  { name: "talk-Show", label: "Talk-Show" },
-
   { name: "sci-fi", label: "Sci-Fi" },
+
+  // { name: "game-show", label: "Game-Show" },
+  // { name: "talk-Show", label: "Talk-Show" },
+  // { name: "short", label: "Short" },
 ];
 
 export const certOptions = [

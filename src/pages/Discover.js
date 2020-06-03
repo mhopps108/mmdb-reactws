@@ -28,7 +28,7 @@ export const queryToFilterState = (queryParams) => {
       parseFloat(queryParams.get("imdb_rating_avg__gte")),
       parseFloat(queryParams.get("imdb_rating_avg__lte")),
     ],
-    votes: parseInt(queryParams.get("imdb_rating_count__gte")),
+    votes: [0, parseInt(queryParams.get("imdb_rating_count__gte"))],
     years: [
       parseFloat(queryParams.get("year__gte")),
       parseFloat(queryParams.get("year__lte")),

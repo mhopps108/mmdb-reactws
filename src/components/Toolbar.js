@@ -58,8 +58,9 @@ const ToolBarWrap = styled.div`
   grid-template-areas:
     "titleandcount sort"
     "datepager datepager";
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  //grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 1fr auto;
   //grid-gap: 20px;
   @media ${device.min.tablet} {
     grid-template-areas: "titleandcount datepager sort";
@@ -69,18 +70,21 @@ const ToolBarWrap = styled.div`
 `;
 
 const ListName = styled.p`
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-right: 10px;
+  color: #333;
 `;
 
 const MovieCountTag = styled.div`
+  font-size: 1rem;
   border: 1px solid #777;
   color: #333;
-  font-weight: 600;
+  font-weight: 500;
   border-radius: 5px;
   text-align: center;
   padding: 2px 5px;
+  color: #333;
 `;
 
 const FilterButton = styled.button`
