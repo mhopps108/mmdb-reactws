@@ -1,92 +1,88 @@
-import React, { useState, useEffect } from "react";
-import { useRouteMatch, useParams, useHistory } from "react-router-dom";
-import {
-  Header,
-  Sidebar,
-  Toolbar,
-  MovieList,
-  NavMenu,
-  DatePager,
-} from "../components";
+import React, { useState, useEffect, useReducer, useCallback } from "react";
+import { useRouteMatch, useHistory, useLocation } from "react-router-dom";
+import { Header, Toolbar, MovieList, NavMenu } from "../components";
 import styled, { css } from "styled-components/macro";
-
 import { useDataApi } from "../useDataApi";
 import { device } from "../devices";
 import moment from "moment";
 import twix from "twix";
-import { sortOptions } from "../constants";
+import { releasesSortOptions } from "../constants";
+import { useDateRange } from "../hooks";
 
-// Todo: useReducer
-// NextWeek, PrevWeek, ThisWeek,
+// TODO: if sorting by release date, use correct release_date
+//   eg: release type digital, orderBy: digital_release
+// releaseType (theatrical, digital, physical)
+// const makeReleasesUrl = (sortby, startDate, endDate, releaseType) => {
+//   return (
+//       `https://matthewhopps.com/api/releases/` +
+//       `?sortby=${sortby}` +
+//       `&${releaseType}_after=${startDate}` +
+//       `&${releaseType}_before=${endDate}`
+//   );
+// };
 
-const startOfWeek = (date) => {
-  return (moment(date) || moment()).startOf("week");
+const makeReleasesUrl = (sortby, startDate, endDate) => {
+  return (
+    `https://matthewhopps.com/api/releases/` +
+    `?sortby=${sortby}` +
+    `&digital_after=${startDate}` +
+    `&digital_before=${endDate}`
+  );
 };
 
-const endOfWeek = (date) => {
-  return (moment(date) || moment()).endOf("week");
-};
+function useQueryParams() {
+  return new URLSearchParams(useLocation().search);
+}
 
-export default function Releases({
-  sidebarVisible,
-  toggleSidebar,
-  navMenuVisible,
-  toggleNavMenu,
-}) {
+export default function Releases({ navMenuVisible, toggleNavMenu }) {
+  // orderBy
+  let queryParams = useQueryParams();
+  const initSort = queryParams.get("sort") || releasesSortOptions[0].value;
+  const [sort, setSort] = useState(initSort);
+  // date
   let history = useHistory();
-  let match = useRouteMatch("/release-dates/:week");
-  const startWeek = (match) => {
-    const week = match ? match.params.week : startOfWeek();
-    return moment(week).format("YYYY-MM-DD");
-  };
-  const [startDate, setStartDate] = useState(startWeek);
-  const listUrl =
-    `https://matthewhopps.com/api/movie/` +
-    `?orderby=digital_release` +
-    `&digital_release__gte=${startOfWeek(startDate).format("YYYY-MM-DD")}` +
-    `&digital_release__lt=${endOfWeek(startDate).format("YYYY-MM-DD")}`;
+  let match = useRouteMatch("/releases/:week");
+  const startWeek = match ? match.params.week : moment().format("YYYY-MM-DD");
+  const { start, end, prevWeek, nextWeek, startOfThisWeek } = useDateRange(
+    startWeek
+  );
+
+  const listUrl = makeReleasesUrl(sort, start, end);
   const [state, setUrl] = useDataApi(listUrl, []);
   const { data, isLoading, isError } = state;
   // const { count, results, next, previous } = data;
 
-  const pushWeek = (week) => {
-    history.push(`/release-dates/${week.format("YYYY-MM-DD")}`);
-  };
-  const prevWeek = () => pushWeek(moment(startDate).subtract(7, "d"));
-  const nextWeek = () => pushWeek(moment(startDate).add(7, "d"));
+  const onSortChange = (val) => setSort(val);
 
+  // toolbar data
   const listData = { movie_count: data?.count, name: "Digital Releases" };
-  // const dateData = {
-  //   prevWeek: prevWeek,
-  //   nextWeek: nextWeek,
-  //   thisWeek: startOfWeek,
-  //   // dateString: dateFormated,
-  // };
   const dateData = {
     prev: prevWeek,
     next: nextWeek,
-    goToToday: startOfWeek,
-    currentDate: startDate,
-    // dateString: dateFormated,
+    goToToday: startOfThisWeek,
+    currentDate: start,
+  };
+  const sortData = {
+    sortData: releasesSortOptions,
+    orderByValue: sort,
+    onOrderChange: onSortChange,
   };
 
+  // calls api for data
   useEffect(() => {
     setUrl(listUrl);
-  }, [setUrl, startDate, listUrl]);
+  }, [setUrl, listUrl]);
 
+  // sets url on state changes
   useEffect(() => {
-    setStartDate(startWeek(match));
-  }, [match]);
+    history.push(`/releases/${start}?sortby=${sort}`);
+  }, [history, start, sort]);
 
   return (
     <StyledReleases>
       <Header toggleNavMenu={toggleNavMenu} />
       <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
-      <Toolbar
-        listData={listData}
-        dateData={dateData}
-        sortOptions={sortOptions}
-      />
+      <Toolbar listData={listData} dateData={dateData} sortOptions={sortData} />
       <MovieList
         movies={data?.results}
         isLoading={isLoading}

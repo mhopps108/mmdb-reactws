@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { List, Releases, Detail, Discover } from "./pages";
+import { List, Releases, Detail, Discover, ReleaseDates } from "./pages";
 import styled from "styled-components/macro";
 // use createGlobalStyle from styled-components
 
@@ -38,9 +38,13 @@ export default function App() {
             />
           </Route>
           <Route path={"/release-dates"}>
+            <ReleaseDates
+              navMenuVisible={navMenuVisible}
+              toggleNavMenu={toggleNavMenu}
+            />
+          </Route>
+          <Route path={"/releases"}>
             <Releases
-              sidebarVisible={sidebarVisible}
-              toggleSidebar={toggleSidebar}
               navMenuVisible={navMenuVisible}
               toggleNavMenu={toggleNavMenu}
             />

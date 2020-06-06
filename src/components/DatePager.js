@@ -7,21 +7,18 @@ import { device } from "../devices";
 import { SelectPicker } from "rsuite";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import moment from "moment";
-import twix from "twix";
+// import twix from "twix";
 
 const DatePagerWrap = styled.div`
   display: flex;
   justify-content: center;
   align-content: center;
-  //width: 100%;
-  //height: 100%;
+  margin-top: 8px;
 `;
 
 const DatePagerButton = styled.button`
   font-size: 1.3rem;
-  padding: 0 8px;
-
-  border: none;
+  padding: 0 28px;
   background: none;
   color: #333;
   & a {
@@ -47,7 +44,7 @@ export default function DatePager({ prev, next, goToToday, currentDate }) {
         <FaAngleLeft />
       </DatePagerButton>
       <DatePagerButton onClick={goToToday}>
-        <Link to="/release-dates">{dateStrFormatted(currentDate)}</Link>
+        <Link to="/releases">{dateStrFormatted(currentDate)}</Link>
       </DatePagerButton>
       <DatePagerButton onClick={next}>
         <FaAngleRight />

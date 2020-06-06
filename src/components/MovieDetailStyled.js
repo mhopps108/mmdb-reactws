@@ -17,6 +17,10 @@ export const SectionWrap = styled.div`
   //box-shadow: 0 0 15px 5px #fff;
   //padding: 8px;
   //background-color: #eee;
+
+  //backdrop-filter: saturate(180%) blur(20px);
+  //background-color: rgba(0, 0, 0, 0.7);
+  //background-color: rgba(255, 255, 255, 0.7);
 `;
 
 export const SectionHeader = styled.h3`
@@ -71,6 +75,9 @@ export const BackdropImage = styled.div`
   //border-bottom-right-radius: 8px;
   //border-bottom-left-radius: 8px;
 
+  //backdrop-filter: saturate(180%) blur(20px);
+  //background-color: rgba(255, 255, 255, 0.7);
+
   @media ${device.min.small} {
     height: 300px;
   }
@@ -85,12 +92,15 @@ export const MDBasicsWrap = styled.div`
   display: flex;
   flex-direction: row;
   padding: 10px;
-  background-color: rgba(0, 0, 0, 0.6);
+  //background-color: rgba(0, 0, 0, 0.6);
   color: #ddd;
   //border-bottom-right-radius: 8px;
   //border-bottom-left-radius: 8px;
   position: sticky;
   top: 55px; // nav height
+
+  backdrop-filter: saturate(180%) blur(5px);
+  background-color: rgba(0, 0, 0, 0.7);
 
   @media ${device.min.small} {
     padding: 15px 25px;
@@ -142,8 +152,10 @@ export const MainWrap = styled.div`
   //padding: 15px 25px;
   padding: 15px 10px;
   //background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
-  //background: white;  
+  //background: white;
   color: #333;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: saturate(180%) blur(5px);
 
   &:before {
     //background-position: center 25%;
@@ -159,12 +171,14 @@ export const MainWrap = styled.div`
     overflow: hidden;
 
     display: block;
-    //background: rgba(0,0,0,0.9);
-    background: lightgrey;
-    //background-image: url(${(props) => props.url});
-    //background-size: cover;       
+    //background: lightgrey;
+    background-image: url(${(props) => props.url});
+    //background-size: cover;
     width: 100vw;
     height: 100vh;
+
+    //backdrop-filter: saturate(180%) blur(5px);
+    //background-color: rgba(0, 0, 0, 0.7);
 
     //filter: blur(8px);
   }

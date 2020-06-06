@@ -37,6 +37,21 @@ const releaseDateLinks = [
   },
 ];
 
+const releasesLinks = [
+  {
+    name: "Theatrical Releases",
+    path: "/releases",
+  },
+  {
+    name: "Digital Releases",
+    path: "/releases",
+  },
+  {
+    name: "BluRay Releases",
+    path: "/releases",
+  },
+];
+
 const discoveryLinks = [
   {
     name: "Top Comedies",
@@ -149,8 +164,18 @@ export default function NavMenu({ isOpen, toggleOpen }) {
       </ListSection>
 
       <ListSection>
-        <Listheader>Releases</Listheader>
+        <Listheader>Release Dates (org)</Listheader>
         {releaseDateLinks.map((item, index) => {
+          return (
+            <Listitem onClick={toggleOpen} key={index}>
+              <Link to={item.path}>{item.name}</Link>
+            </Listitem>
+          );
+        })}
+      </ListSection>
+      <ListSection>
+        <Listheader>Releases (new)</Listheader>
+        {releasesLinks.map((item, index) => {
           return (
             <Listitem onClick={toggleOpen} key={index}>
               <Link to={item.path}>{item.name}</Link>

@@ -1,15 +1,29 @@
+// Discovery OrderBy Fields
 // ('title', 'title'),
-//     ('year', 'year'),
-//     ('imdb_rating_avg', 'imdb_rating_avg'),
-//     ('imdb_rating_count', 'imdb_rating_count'),
+// ('year', 'year'),
+// ('imdb_rating_avg', 'rating'),
+// ('imdb_rating_count', 'votes'),
+// ('theatrical_release', 'theatrical_release'),
+// ('digital_release', 'digital_release'),
+// ('physical_release', 'physical_release'),
 
-export const sortOptions = [
-  { value: "imdb_rating_avg", label: "IMDb Rating" },
-  { value: "imdb_rating_count", label: "IMDb Votes" },
-  { value: "digital_release", label: "Release Date" },
-  { value: "title", label: "Title" },
-  { value: "year", label: "Year" },
+export const releasesSortOptions = [
+  { value: "digital,-rating", label: "Release" },
+  // { value: "release_date", label: "Release Date" },
+  { value: "-rating,digital", label: "Rating" },
+  { value: "-votes,digital", label: "Votes" },
+  { value: "title,digital", label: "Title" },
+  { value: "year,digital", label: "Year" },
 ];
+
+// export const releasesSortOptions = [
+//   { value: "digital_release", label: "Release" },
+//   // { value: "release_date", label: "Release Date" },
+//   { value: "-rating", label: "Rating" },
+//   { value: "-votes", label: "Votes" },
+//   { value: "title", label: "Title" },
+//   { value: "year", label: "Year" },
+// ];
 
 export const genreOptions = [
   { name: "action", label: "Action" },

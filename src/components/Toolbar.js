@@ -3,11 +3,8 @@ import { Link } from "react-router-dom";
 import Select from "react-select";
 import styled from "styled-components/macro";
 import { device } from "../devices";
-
 import { DatePager } from "../components";
-
 import { SelectPicker } from "rsuite";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
 const DatePagerWrap = styled.div`
   grid-area: datepager;
@@ -241,6 +238,7 @@ export default function Toolbar({
 }) {
   const { name, source, movie_count } = listData;
   const { prev, next, goToToday, currentDate } = dateData || {};
+  const { sortData, orderByValue, onOrderChange } = sortOptions || {};
 
   return (
     <StyledToolbar>
@@ -264,7 +262,9 @@ export default function Toolbar({
         {sortOptions && (
           <SortWrap>
             <SelectPicker
-              data={sortOptions}
+              value={orderByValue}
+              onChange={onOrderChange}
+              data={sortData}
               searchable={false}
               preventOverflow={true}
               size={"sm"}

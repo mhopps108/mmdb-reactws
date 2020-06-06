@@ -52,7 +52,6 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
   const onApplyFilters = (queryString) => {
     toggleShowFilters();
     history.push(`/discovery?${queryString}`);
-    // history.push(`/release-dates/${week.format("YYYY-MM-DD")}`);
   };
 
   useEffect(() => {
