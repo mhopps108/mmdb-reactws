@@ -12,12 +12,15 @@ const getNextWeek = (date) => formatDate(moment(date).add(7, "d"));
 const formatDate = (date) => moment(date).format("YYYY-MM-DD");
 
 const useDateRange = (startDate) => {
+  console.log(`useDateRange: startDate: `, startDate);
   const startWeek = formatDate(startOfWeek(startDate));
+  console.log(`useDateRange: startWeek: `, startWeek);
   const [startFrom, setStartFrom] = useState(startWeek);
 
   const startOfThisWeek = () => setStartFrom(startOfWeek());
-  const prevWeek = () => setStartFrom(getPrevWeek(startFrom));
-  const nextWeek = () => setStartFrom(getNextWeek(startFrom));
+  const goPrevWeek = () => setStartFrom(getPrevWeek(startFrom));
+  const goNextWeek = () => setStartFrom(getNextWeek(startFrom));
+  const updateStartFrom = (newStart) => setStartFrom(newStart);
 
   useEffect(() => {
     console.log("useDateRange: start", startFrom);
@@ -26,10 +29,21 @@ const useDateRange = (startDate) => {
   return {
     start: formatDate(startFrom),
     end: formatDate(endOfWeek(startFrom)),
-    prevWeek,
-    nextWeek,
+    goPrevWeek,
+    goNextWeek,
+    prev: getPrevWeek(startFrom),
+    next: getNextWeek(startFrom),
     startOfThisWeek,
+    updateStartFrom,
   };
+
+  // return {
+  //   start: formatDate(startFrom),
+  //   end: formatDate(endOfWeek(startFrom)),
+  //   prevWeek,
+  //   nextWeek,
+  //   startOfThisWeek,
+  // };
 };
 
 export default useDateRange;

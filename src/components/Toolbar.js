@@ -237,7 +237,10 @@ export default function Toolbar({
   children,
 }) {
   const { name, source, movie_count } = listData;
-  const { prev, next, goToToday, currentDate } = dateData || {};
+  // const { prev, next, goToToday, currentDate } = dateData || {};
+  // const { goPrevWeek, goNextWeek, prevLink, nextLink, goToToday, currentDate } =
+  //   dateData || {};
+  const { goPrevWeek, goNextWeek, goToToday, currentDate } = dateData || {};
   const { sortData, orderByValue, onOrderChange } = sortOptions || {};
 
   return (
@@ -252,8 +255,10 @@ export default function Toolbar({
         {dateData && (
           <DatePagerWrap>
             <DatePager
-              prev={prev}
-              next={next}
+              goPrevWeek={goPrevWeek}
+              goNextWeek={goNextWeek}
+              // prev={prevLink}
+              // next={nextLink}
               goToToday={goToToday}
               currentDate={currentDate}
             />
