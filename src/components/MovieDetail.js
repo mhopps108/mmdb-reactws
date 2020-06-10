@@ -133,7 +133,7 @@ function Ratings({ data }) {
           <BorderedTag>IMDb</BorderedTag>
           <RatingAvg>
             {imdb_rating_avg || "0.0"}
-            {"/10"}
+            <Smaller>/10</Smaller>
           </RatingAvg>
           <Smaller>{`${imdb_rating_count || "0"} votes`}</Smaller>
         </StyledRating>

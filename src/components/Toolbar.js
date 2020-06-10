@@ -80,14 +80,19 @@ const ListName = styled.p`
 `;
 
 const MovieCountTag = styled.div`
-  font-size: 1rem;
-  border: 1px solid #777;
-  color: #333;
-  font-weight: 500;
+  font-size: 1.15rem;
+  //border: 1px solid #777;
+  //background: #333;
+  background: rgba(0, 0, 0, 0.75);
+  padding: 2px 4px 0 4px;
+  //color: #333;
+  color: white;
+  //font-weight: 500;
+  //border-radius: 50%;
   border-radius: 5px;
   text-align: center;
-  padding: 2px 5px;
-  color: #333;
+  height: 30px;
+  //width: 30px;
 `;
 
 const FilterButton = styled.button`

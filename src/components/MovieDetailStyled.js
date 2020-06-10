@@ -8,6 +8,8 @@ export const Flex = styled.div`
 `;
 
 export const SectionWrap = styled.div`
+  font-size: 1.1rem;
+  //line-height: 1.1rem;
   //margin-bottom: 20px;
   //background: rgba(0, 0, 0, 0.75);
   background: white;
@@ -99,7 +101,7 @@ export const MDBasicsWrap = styled.div`
   position: sticky;
   top: 55px; // nav height
 
-  backdrop-filter: saturate(180%) blur(5px);
+  //backdrop-filter: saturate(180%) blur(1px);
   background-color: rgba(0, 0, 0, 0.7);
 
   @media ${device.min.small} {
@@ -130,6 +132,7 @@ export const PosterImage = styled.img`
 
 export const InfoRow = styled.div`
   display: flex;
+  font-size: 1.1rem;
   & > div {
     padding-right: 15px;
     padding-top: 10px;
@@ -149,13 +152,12 @@ export const Title = styled.div`
 // --- --- --- --- --- --- //
 
 export const MainWrap = styled.div`
-  //padding: 15px 25px;
   padding: 15px 10px;
   //background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
   //background: white;
   color: #333;
   background-color: rgba(0, 0, 0, 0.7);
-  backdrop-filter: saturate(180%) blur(5px);
+  //backdrop-filter: saturate(180%) blur(3px);
 
   &:before {
     //background-position: center 25%;
@@ -173,7 +175,8 @@ export const MainWrap = styled.div`
     display: block;
     //background: lightgrey;
     //background-image: url(${(props) => props.url});
-    background: repeating-linear-gradient(45deg, rgb(27, 27, 27) 0px, rgb(27, 27, 27) 97px,rgb(24, 24, 24) 97px, rgb(24, 24, 24) 194px,rgb(20, 20, 20) 194px, rgb(20, 20, 20) 291px);
+    //background: repeating-linear-gradient(45deg, rgb(27, 27, 27) 0px, rgb(27, 27, 27) 97px,rgb(24, 24, 24) 97px, rgb(24, 24, 24) 194px,rgb(20, 20, 20) 194px, rgb(20, 20, 20) 291px);
+  
     //background-size: cover;
     width: 100vw;
     height: 100vh;

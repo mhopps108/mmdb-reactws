@@ -72,4 +72,13 @@ const StyledApp = styled.div`
   width: 100%;
   height: 100%;
   margin: 0 auto;
+  background: repeating-linear-gradient(
+    45deg,
+    rgb(27, 27, 27) 0px,
+    rgb(27, 27, 27) 97px,
+    rgb(24, 24, 24) 97px,
+    rgb(24, 24, 24) 194px,
+    rgb(20, 20, 20) 194px,
+    rgb(20, 20, 20) 291px
+  );
 `;

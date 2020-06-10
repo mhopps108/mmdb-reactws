@@ -2,13 +2,26 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
-import "boxicons";
+// import "boxicons";
+import { FaSearch, FaUserAlt } from "react-icons/fa";
+import { FiMenu } from "react-icons/fi";
 
 export default function Header({ toggleSidebar, toggleNavMenu }) {
   return (
     <StyledHeader>
       <Navbar>
         <NavGroup>
+          <button
+            style={{
+              fontSize: "1.5rem",
+              paddingBottom: "4px",
+              margin: "0 5px 0 15px",
+              color: "white",
+            }}
+            onClick={toggleNavMenu}
+          >
+            <FiMenu />
+          </button>
           <StyledBrand>
             <Link to="/">MMDb</Link>
           </StyledBrand>
@@ -16,16 +29,25 @@ export default function Header({ toggleSidebar, toggleNavMenu }) {
         <NavGroup>
           <button
             style={{
-              border: "1px solid black",
-              padding: "2px 5px",
-              marginRight: " 5px",
-              borderRadius: "5px",
-              background: "white",
-              color: "#1F4B99",
+              // padding: "2px 5px",
+              marginRight: "15px",
+              color: "white",
             }}
             onClick={toggleNavMenu}
           >
-            Menu
+            <FaSearch />
+          </button>
+
+          <button
+            style={{
+              // border: "1px solid white",
+              // padding: "2px 5px",
+              marginRight: "15px",
+              color: "white",
+            }}
+            onClick={toggleNavMenu}
+          >
+            <FaUserAlt />
           </button>
         </NavGroup>
       </Navbar>
@@ -70,10 +92,10 @@ const NavGroup = styled.div`
     text-decoration: none;
   }
   & button {
-    padding-right: 5px;
+    //padding-right: 5px;
     background-color: transparent;
     border: none;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
   }
   & h3 {
     padding: 0;
@@ -83,7 +105,7 @@ const NavGroup = styled.div`
 `;
 
 const StyledBrand = styled.h1`
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   margin-left: 8px;
   //background: #2162a4;
   background: #1f4b99;
