@@ -284,8 +284,10 @@ export const StyledCreditsWrap = styled(SectionWrap)`
 
 export const ScrollCreditPoster = styled.img`
   display: flex;
-  width: 67px;
-  height: 100px;
+  //width: 67px;
+  //height: 100px;
+  width: 80px;
+  height: 120px;
   border-radius: 4px;
   overflow: hidden;
   border: 1px solid #555;
@@ -331,8 +333,10 @@ export const HorizontalScrollItem = styled.div`
 
 export const ScrollPoster = styled.img`
   display: flex;
-  width: 80px;
-  height: 120px;
+  //width: 80px;
+  //height: 120px;
+  width: 100px;
+  height: 150px;
   border-radius: 4px;
   border: 1px solid #555;
 `;

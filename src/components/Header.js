@@ -22,6 +22,11 @@ export default function Header({ toggleSidebar, toggleNavMenu }) {
           >
             <FiMenu />
           </button>
+          {/*<StyledBrand>*/}
+          {/*  <Link to="/">MMDb</Link>*/}
+          {/*</StyledBrand>*/}
+        </NavGroup>
+        <NavGroup>
           <StyledBrand>
             <Link to="/">MMDb</Link>
           </StyledBrand>
@@ -95,7 +100,7 @@ const NavGroup = styled.div`
     //padding-right: 5px;
     background-color: transparent;
     border: none;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
   }
   & h3 {
     padding: 0;
@@ -105,10 +110,11 @@ const NavGroup = styled.div`
 `;
 
 const StyledBrand = styled.h1`
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   margin-left: 8px;
   //background: #2162a4;
   background: #1f4b99;
+  //background: rgb(66, 82, 110);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;

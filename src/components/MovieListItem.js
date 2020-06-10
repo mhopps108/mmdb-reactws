@@ -41,23 +41,27 @@ const InfoWrap = styled.div`
 `;
 
 const Title = styled.h3`
-  font-size: 1.1rem;
-  line-height: 1.25rem;
-  max-height: 2.5rem;
+  font-size: 1.2rem;
+  line-height: 1.3rem;
+  //font-size: 1.1rem;
+  //line-height: 1.25rem;
+  max-height: 2.6rem;
   overflow: hidden;
   white-space: normal;
   margin-bottom: 12px;
   & a {
     text-decoration: none;
-    color: #333;
+    //color: #333;
+    color: rgba(35, 35, 39, 0.9);
   }
 `;
 
 const InfoRow = styled.div`
   display: flex;
-  color: grey;
+  //color: grey;
+  color: rgba(35, 35, 39, 0.7);
   margin-bottom: 8px;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   padding-left: 4px;
 `;
 
