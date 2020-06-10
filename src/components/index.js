@@ -9,6 +9,7 @@ import DiscoveryMenu from "./DiscoverMenu";
 import CheckButtonGroup from "./CheckButtonGroup";
 import FilterMenu from "./FilterMenu";
 import DatePager from "./DatePager";
+import SortDropdown from "./SortDropdown";
 
 export {
   Header,
@@ -22,4 +23,5 @@ export {
   CheckButtonGroup,
   FilterMenu,
   DatePager,
+  SortDropdown,
 };

@@ -52,11 +52,11 @@ export default function Releases({ navMenuVisible, toggleNavMenu }) {
   // start date
   let history = useHistory();
   let match = useRouteMatch("/releases/:week");
-  console.log("Releases: match: ", match);
+  // console.log("Releases: match: ", match);
   const startWeek = match ? match.params.week : startOfWeek();
-  console.log("Releases: startWeek: ", startWeek);
+  // console.log("Releases: startWeek: ", startWeek);
   const [startFrom, setStartFrom] = useState(startWeek);
-  console.log("Releases: startFrom: ", startFrom);
+  // console.log("Releases: startFrom: ", startFrom);
 
   const listUrl = useCallback(() => {
     return (

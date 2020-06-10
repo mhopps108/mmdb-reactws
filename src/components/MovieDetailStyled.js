@@ -172,7 +172,8 @@ export const MainWrap = styled.div`
 
     display: block;
     //background: lightgrey;
-    background-image: url(${(props) => props.url});
+    //background-image: url(${(props) => props.url});
+    background: repeating-linear-gradient(45deg, rgb(27, 27, 27) 0px, rgb(27, 27, 27) 97px,rgb(24, 24, 24) 97px, rgb(24, 24, 24) 194px,rgb(20, 20, 20) 194px, rgb(20, 20, 20) 291px);
     //background-size: cover;
     width: 100vw;
     height: 100vh;

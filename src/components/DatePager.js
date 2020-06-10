@@ -58,14 +58,14 @@ export default function DatePager({
   return (
     <DatePagerWrap>
       <DatePagerButton onClick={goPrevWeek}>
-        <FaAngleLeft />
+        {/*/!*<FaAngleLeft />*!/←*/}«
       </DatePagerButton>
       <DatePagerButton onClick={goToToday}>
         {dateStrFormatted(currentDate)}
         {/*<Link to="/releases">{dateStrFormatted(currentDate)}</Link>*/}
       </DatePagerButton>
       <DatePagerButton onClick={goNextWeek}>
-        <FaAngleRight />
+        {/*<FaAngleRight />*/}→
       </DatePagerButton>
     </DatePagerWrap>
   );
