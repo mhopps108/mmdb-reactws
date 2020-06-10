@@ -21,6 +21,10 @@ const SortWrap = styled.div`
   display: flex;
   justify-content: flex-end;
   align-content: end;
+  border: 1px solid #333;
+  margin-left: auto;
+  border-radius: 4px;
+  //max-width: 200px; // change this
   & .rs-btn-link {
     color: #333;
     font-size: 1rem;
