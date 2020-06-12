@@ -13,7 +13,7 @@ export const SectionWrap = styled.div`
   //margin-bottom: 20px;
   //background: rgba(0, 0, 0, 0.75);
   background: white;
-  padding: 10px 20px;
+  padding: 10px 20px 20px;
   border-radius: 5px;
   //box-shadow: 0 0 100px 100px rgba(0, 0, 0, 0.1);
   //box-shadow: 0 0 15px 5px #fff;
@@ -336,7 +336,7 @@ export const ScrollCreditPoster = styled.img`
   height: 120px;
   border-radius: 4px;
   overflow: hidden;
-  border: 1px solid #555;
+  border: 1px solid lightgray;
 `;
 
 export const ScrollCreditPosterTag = styled.p`
@@ -383,8 +383,9 @@ export const ScrollPoster = styled.img`
   //height: 120px;
   width: 100px;
   height: 150px;
+
   border-radius: 4px;
-  border: 1px solid #555;
+  border: 1px solid lightgray;
 `;
 
 export const ScrollPosterTag = styled.p`

@@ -239,35 +239,41 @@ function ReleaseDates({ data }) {
     <StyledReleaseDatesWrap>
       <SectionHeader>Release Dates</SectionHeader>
 
-      <StyledReleaseDate>
-        <BorderedTag>
-          <FaTicketAlt size={"1.4rem"} color={"#1f4b99"} />
-          <Smaller>Theatrical</Smaller>
-        </BorderedTag>
-        <div style={{ fontSize: "1.15rem" }}>
-          {moment(theatrical_release).format("MMM Do, YYYY")}
-        </div>
-      </StyledReleaseDate>
+      {theatrical_release && (
+        <StyledReleaseDate>
+          <BorderedTag>
+            <FaTicketAlt size={"1.4rem"} color={"#1f4b99"} />
+            <Smaller>Theatrical</Smaller>
+          </BorderedTag>
+          <div style={{ fontSize: "1.15rem" }}>
+            {moment(theatrical_release).format("MMM Do, YYYY")}
+          </div>
+        </StyledReleaseDate>
+      )}
 
-      <StyledReleaseDate>
-        <BorderedTag>
-          <FaCloudDownloadAlt size={"1.4rem"} color={"#1f4b99"} />
-          <Smaller>Digital</Smaller>
-        </BorderedTag>
-        <div style={{ fontSize: "1.15rem" }}>
-          {moment(digital_release).format("MMM Do, YYYY")}
-        </div>
-      </StyledReleaseDate>
+      {digital_release && (
+        <StyledReleaseDate>
+          <BorderedTag>
+            <FaCloudDownloadAlt size={"1.4rem"} color={"#1f4b99"} />
+            <Smaller>Digital</Smaller>
+          </BorderedTag>
+          <div style={{ fontSize: "1.15rem" }}>
+            {moment(digital_release).format("MMM Do, YYYY")}
+          </div>
+        </StyledReleaseDate>
+      )}
 
-      <StyledReleaseDate>
-        <BorderedTag>
-          <IoMdDisc size={"1.4rem"} color={"#1f4b99"} />
-          <Smaller>Physical</Smaller>
-        </BorderedTag>
-        <div style={{ fontSize: "1.15rem" }}>
-          {moment(physical_release).format("MMM Do, YYYY")}
-        </div>
-      </StyledReleaseDate>
+      {physical_release && (
+        <StyledReleaseDate>
+          <BorderedTag>
+            <IoMdDisc size={"1.4rem"} color={"#1f4b99"} />
+            <Smaller>Physical</Smaller>
+          </BorderedTag>
+          <div style={{ fontSize: "1.15rem" }}>
+            {moment(physical_release).format("MMM Do, YYYY")}
+          </div>
+        </StyledReleaseDate>
+      )}
 
       {/*<StyledReleaseDate>*/}
       {/*  <div style={{ marginRight: "16px", fontSize: "1.1rem" }}>*/}
@@ -336,7 +342,9 @@ function Trailer({ data }) {
     <StyledTrailerWrap>
       <SectionHeader>Trailer</SectionHeader>
       {trailer_url && (
-        <div>
+        <div
+          style={{ width: "100%", display: "flex", justifyContent: "center" }}
+        >
           {/*<iframe title={title} src={youtube_src} allowFullScreen />*/}
           <iframe
             title={title}
