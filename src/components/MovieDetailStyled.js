@@ -27,11 +27,11 @@ export const SectionWrap = styled.div`
 
 export const SectionHeader = styled.h3`
   font-size: 1.2rem;
-  margin-bottom: 16px;
+  margin-bottom: 4px;
 `;
 
 export const BorderedTag = styled.div`
-  border: 1px solid #777;
+  //border: 1px solid lightgray;
   color: #333;
   font-weight: 300;
   font-size: 0.9rem;
@@ -132,16 +132,18 @@ export const PosterImage = styled.img`
 
 export const InfoRow = styled.div`
   display: flex;
-  font-size: 1.1rem;
+  font-size: 1rem;
   & > div {
-    padding-right: 15px;
-    padding-top: 10px;
+    color: #ddd;
+    padding-right: 16px;
+    padding-top: 8px;
   }
 `;
 
 export const Title = styled.div`
   font-size: 1.5rem;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
+  color: #ffffff;
   @media ${device.min.small} {
     font-size: 2rem;
   }
@@ -218,19 +220,34 @@ export const MainWrap = styled.div`
 
 export const StyledRatingsWrap = styled(SectionWrap)`
   grid-area: ratings;
-`;
-
-export const StyledRatings = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-export const StyledRating = styled.div`
+export const StyledRatings = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
-  margin-bottom: 14px;
-  font-size: 1.1rem;
+  justify-content: space-around;
+  height: 150px;
+`;
+
+export const StyledRating = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  //margin-bottom: 14px;
+  font-size: 1rem;
+  //height: 150px;
+  width: 50%;
+`;
+
+export const RatingsTitle = styled.p`
+  font-size: 1.3rem;
+  font-weight: 500;
+`;
+export const RatingProgress = styled.div`
+  width: 90px;
 `;
 
 export const RatingAvg = styled.div`
@@ -239,12 +256,38 @@ export const RatingAvg = styled.div`
   margin-right: 5px;
 `;
 
+// export const StyledRatingsWrap = styled(SectionWrap)`
+//   grid-area: ratings;
+// `;
+//
+// export const StyledRatings = styled.div`
+//   display: flex;
+//   flex-direction: column;
+// `;
+//
+// export const StyledRating = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   align-items: flex-end;
+//   margin-bottom: 14px;
+//   font-size: 1.1rem;
+// `;
+//
+// export const RatingAvg = styled.div`
+//   display: flex;
+//   align-items: flex-end;
+//   margin-right: 5px;
+// `;
+
 // --- --- --- --- --- --- //
 //   Release Dates         //
 // --- --- --- --- --- --- //
 
 export const StyledReleaseDatesWrap = styled(SectionWrap)`
   grid-area: releasedates;
+  display: flex;
+  flex-direction: column;
+  //justify-content: space-evenly;
 `;
 
 export const StyledReleaseDate = styled.div`
@@ -252,6 +295,8 @@ export const StyledReleaseDate = styled.div`
   flex-direction: row;
   margin-bottom: 8px;
   align-items: center;
+  //justify-content: center;
+  color: #333;
 `;
 
 // --- --- --- --- --- --- //
@@ -262,6 +307,7 @@ export const StyledOverviewWrap = styled(SectionWrap)`
   grid-area: overview;
   p {
     line-height: 1.4rem;
+    font-size: 1rem;
   }
 `;
 
