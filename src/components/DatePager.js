@@ -13,7 +13,7 @@ const DatePagerWrap = styled.div`
   justify-content: space-between;
   //align-content: center;
   align-items: center;
-  margin-top: 8px;
+  //margin-top: 8px;
 `;
 
 const DatePagerLink = styled(Link)`
