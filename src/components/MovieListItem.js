@@ -7,15 +7,17 @@ import lazySizes from "lazysizes";
 const StyledMovieListItem = styled.div`
   background: white;
   max-width: 400px;
-  height: 128px;
+  //height: 128px;
+  //height: 108px;
+  height: 120px;
   border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  //border: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
 const MovieListItemLayout = styled.div`
   display: grid;
   grid-template-areas: "poster infowrap";
-  grid-template-columns: 85px 1fr;
+  grid-template-columns: 80px 1fr;
   grid-template-rows: 1fr;
   grid-column-gap: 8px;
   width: 100%;
@@ -25,9 +27,14 @@ const MovieListItemLayout = styled.div`
 const Poster = styled.img`
   grid-area: poster;
   align-self: center;
-  margin-left: 5px;
-  width: 80px;
-  height: 120px;
+  //margin-left: 5px;
+  //width: 80px;
+  //height: 120px;
+  margin-left: 4px;
+  //width: 67px;
+  //height: 100px;
+  width: 76px;
+  height: 114px;
   border-radius: 4px;
   border: 1px solid rgba(0, 0, 0, 0.2);
 `;
@@ -37,22 +44,24 @@ const InfoWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 10px 4px;
+  //padding: 10px 4px;
+  padding: 0 6px 0 4px;
 `;
 
 const Title = styled.h3`
-  font-size: 1.2rem;
-  line-height: 1.3rem;
-  //font-size: 1.1rem;
-  //line-height: 1.25rem;
-  max-height: 2.6rem;
+  //font-size: 1.2rem;
+  //line-height: 1.3rem;
+  //max-height: 2.4rem;
+  font-size: 1.1rem;
+  line-height: 1.2rem;
+  max-height: 2.4rem;
   overflow: hidden;
   white-space: normal;
   margin-bottom: 12px;
+  //margin-bottom: 8px;
   & a {
     text-decoration: none;
-    //color: #333;
-    color: rgba(35, 35, 39, 0.9);
+    color: rgba(35, 35, 39, 0.85);
   }
 `;
 
@@ -60,7 +69,7 @@ const InfoRow = styled.div`
   display: flex;
   //color: grey;
   color: rgba(35, 35, 39, 0.7);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   font-size: 0.9rem;
   padding-left: 4px;
 `;
@@ -79,10 +88,6 @@ const InfoList = ({ year, runtime, certification, imdb_rating_avg }) => {
       </InfoItem>
       <InfoItem>{certification || "-"}</InfoItem>
       <InfoItem>{imdb_rating_avg || "0.0"}</InfoItem>
-      {/*<InfoItem>*/}
-      {/*  {imdb_rating_avg || "0.0"}*/}
-      {/*  <small> /10</small>*/}
-      {/*</InfoItem>*/}
     </>
   );
 };
@@ -125,7 +130,6 @@ function MovieListItem({ movie }) {
   return (
     <StyledMovieListItem>
       <MovieListItemLayout>
-        {/*<Poster src={poster_url} />*/}
         <Poster data-src={poster_url} className="lazyload" />
         <InfoWrap>
           <Title>
