@@ -14,6 +14,7 @@ import {
   Icon,
 } from "rsuite";
 
+// TODO: break apart (used twice in this file)
 const MenuWrap = styled.div`
   .rs-dropdown-menu > .rs-dropdown-item-active > .rs-dropdown-item-content,
   .rs-dropdown-menu
@@ -25,10 +26,27 @@ const MenuWrap = styled.div`
     color: #1f4b99;
   }
 
+  & .rs-btn-link {
+    color: #444;
+    font-size: 1rem;
+    text-decoration: none;
+    line-height: 1rem;
+  }
+
   .rs-dropdown-menu > .rs-dropdown-item > .rs-dropdown-item-content:hover {
     background-color: #1f4b99;
     color: whitesmoke;
   }
+`;
+
+const ButtonSeparator = styled.div`
+  width: 1px;
+  height: 30px;
+  position: relative;
+  top: -21px;
+  //bottom: 0;
+  left: 63px;
+  background: lightgray;
 `;
 
 const MenuPopover = ({ onSelect, sortValue, sortData, ...rest }) => (
@@ -73,29 +91,32 @@ const SortDropDown = ({ sortData, sortValue, onOrderChange }) => {
     triggerRef.current.hide();
   }
   return (
-    <Whisper
-      preventOverflow
-      placement="auto"
-      trigger="click"
-      // trigger={["click", "hover"]}
-      triggerRef={triggerRef}
-      speaker={
-        <MenuPopover
-          onSelect={handleSelectMenu}
-          sortValue={sortValue}
-          sortData={sortData}
-        />
-      }
-    >
-      <IconButton
-        icon={<Icon icon="sort-amount-desc" />}
-        size={"sm"}
-        placement="right"
-        appearance="link"
+    <MenuWrap>
+      <Whisper
+        preventOverflow
+        placement="auto"
+        trigger="click"
+        // trigger={["click", "hover"]}
+        triggerRef={triggerRef}
+        speaker={
+          <MenuPopover
+            onSelect={handleSelectMenu}
+            sortValue={sortValue}
+            sortData={sortData}
+          />
+        }
       >
-        {selected}
-      </IconButton>
-    </Whisper>
+        <IconButton
+          icon={<Icon icon="sort-amount-desc" />}
+          size={"sm"}
+          placement="right"
+          appearance="link"
+        >
+          {selected}
+          <ButtonSeparator />
+        </IconButton>
+      </Whisper>
+    </MenuWrap>
   );
 };
 

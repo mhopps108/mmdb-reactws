@@ -9,6 +9,7 @@ import {
   NavMenu,
   DiscoveryMenu,
   FilterMenu,
+  DiscoveryToolbar,
 } from "../components";
 import styled, { css } from "styled-components/macro";
 import { useDataApi } from "../useDataApi";
@@ -40,23 +41,43 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
   let history = useHistory();
   let queryParams = useQueryParams();
 
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilterMenu, setShowFilterMenu] = useState(false);
+  // const [showFilterMenu, setShowFilterMenu] = useState(true);
   const [queryString, setQueryString] = useState(queryParams.toString());
 
   const listUrl = `https://www.matthewhopps.com/api/discover?${queryString}`;
   const [state, setUrl] = useDataApi(listUrl, []);
   const { data, isLoading, isError } = state;
 
-  const toggleShowFilters = () => setShowFilters(!showFilters);
+  const toggleShowFilters = () => setShowFilterMenu(!showFilterMenu);
 
   const onApplyFilters = (queryString) => {
     toggleShowFilters();
     history.push(`/discovery?${queryString}`);
   };
 
+  const activeFiltersString = () => {
+    // return {
+    //   orderby: "-imdb_rating_avg,-imdb_rating_count",
+    //   genres: queryParams.get("genres").split(","),
+    //   certs: queryParams.get("certification").split(","),
+    //   ratings: [
+    //     parseFloat(queryParams.get("imdb_rating_avg__gte")),
+    //     parseFloat(queryParams.get("imdb_rating_avg__lte")),
+    //   ],
+    //   votes: [0, parseInt(queryParams.get("imdb_rating_count__gte"))],
+    //   years: [
+    //     parseFloat(queryParams.get("year__gte")),
+    //     parseFloat(queryParams.get("year__lte")),
+    //   ],
+    // };
+  };
+
   useEffect(() => {
-    console.log("queryToFilterState--DISCOVERY");
-    console.log(queryToFilterState(queryParams));
+    console.log(
+      "queryToFilterState--DISCOVERY",
+      queryToFilterState(queryParams)
+    );
     setQueryString(queryParams.toString());
   }, [queryParams]);
 
@@ -78,16 +99,30 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
   return (
     <StyledDiscover>
       <Header toggleNavMenu={toggleNavMenu} />
+      {/*TODO: move NavMenu inside header*/}
       <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
-      <Toolbar listData={listData} filter={toggleShowFilters}>
-        <FilterMenu
-          isOpen={showFilters}
-          toggleOpen={toggleShowFilters}
-          setQuery={setQueryString}
-          filterState={queryToFilterState(queryParams)}
-          onApplyFilters={onApplyFilters}
-        />
-      </Toolbar>
+      <DiscoveryToolbar
+        listData={listData}
+        filterMenuIsOpen={showFilterMenu}
+        toggleShowFilters={toggleShowFilters}
+        setQuery={setQueryString}
+        filterState={queryToFilterState(queryParams)}
+        onApplyFilters={onApplyFilters}
+        queryString={queryString}
+      />
+
+      {/*<DiscoveryToolbar*/}
+      {/*  listData={listData}*/}
+      {/*  toggleShowFilters={toggleShowFilters}*/}
+      {/*>*/}
+      {/*  <FilterMenu*/}
+      {/*    isOpen={showFilters}*/}
+      {/*    toggleOpen={toggleShowFilters}*/}
+      {/*    setQuery={setQueryString}*/}
+      {/*    filterState={queryToFilterState(queryParams)}*/}
+      {/*    onApplyFilters={onApplyFilters}*/}
+      {/*  />*/}
+      {/*</DiscoveryToolbar>*/}
       <MovieList
         movies={data?.results}
         isLoading={isLoading}

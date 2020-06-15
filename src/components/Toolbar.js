@@ -27,29 +27,6 @@ const SortWrap = styled.div`
   background: whitesmoke;
   margin-left: auto;
   border-radius: 4px;
-  //max-width: 200px; // change this
-  & .rs-btn-link {
-    color: #333;
-    font-size: 1rem;
-    text-decoration: none;
-    line-height: 1rem;
-  }
-
-  & .rs-dropdown-menu .rs-dropdown-menu-active {
-    //color: #333;
-    background-color: lightgray;
-  }
-  //& .rs-dropdown-item .rs-dropdown-item-active {
-  & .rs-dropdown-menu > .rs-dropdown-item-active > .rs-dropdown-item-content,
-  .rs-dropdown-menu
-    > .rs-dropdown-item-active
-    > .rs-dropdown-item-content:hover,
-  .rs-dropdown-menu
-    > .rs-dropdown-item-active
-    > .rs-dropdown-item-content:focus {
-    //color: #1f4b99;
-    color: red !important;
-  }
 `;
 
 const StyledToolbar = styled.div`
@@ -109,16 +86,17 @@ const ListName = styled.p`
 
 const MovieCountTag = styled.div`
   font-size: 1.1rem;
-  //border: 1px solid #fff;
-  background: rgba(35, 35, 39, 0.9);
-  //padding: 2px 4px 0 4px;
-  //color: #333;
-  color: white;
+  border: 1px solid lightgray;
+  //background: rgba(35, 35, 39, 0.7);
+  background: whitesmoke;
+  color: #666;
+  //color: white;
   //font-weight: 500;
-  border-radius: 5px;
-  //text-align: center;
+  //border-radius: 5px;
+  border-radius: 10px;
   height: 28px;
-  width: 28px;
+  min-width: 28px;
+  padding: 0 4px;
   display: flex;
   justify-content: center;
   align-items: center;

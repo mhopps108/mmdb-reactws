@@ -4,9 +4,7 @@ import styled, { css } from "styled-components/macro";
 import RangeSlider from "./RangeSlider";
 import CheckButtonGroup from "./CheckButtonGroup";
 import { discoveryQueryString } from "../api";
-import Select from "react-select";
-import { SelectPicker, CheckPicker } from "rsuite";
-import "rsuite/dist/styles/rsuite-default.css";
+// import "rsuite/dist/styles/rsuite-default.css";
 import {
   genreOptions,
   certOptions,
@@ -18,8 +16,6 @@ import {
   FilterMenuContentWrap,
   RangeSliderWrap,
   SectionHeader,
-  CheckBoxesWrap,
-  SliderWrap,
   FilterSection,
   ApplyButton,
   ApplyButtonWrap,
@@ -31,7 +27,6 @@ const initFilterState = {
   certs: [],
   ratings: [0, 10],
   votes: [0, 10000],
-  // votes: [0, 10],
   years: [1890, 2030],
 };
 
@@ -44,7 +39,6 @@ const filterReducer = (state, action) => {
     case "SET_RATINGS":
       return { ...state, ratings: action.payload };
     case "SET_VOTES":
-      // return { ...state, votes: action.payload };
       return { ...state, votes: action.payload };
     case "SET_YEARS":
       return { ...state, years: action.payload };
@@ -53,29 +47,6 @@ const filterReducer = (state, action) => {
     default:
       throw new Error();
   }
-};
-
-const FilterSelect = ({ name, options, isMulti = false }) => {
-  return (
-    <div style={{ fontSize: "16px", color: "#2162a4", marginBottom: "10px" }}>
-      <Select
-        // className="basic-single"
-        // classNamePrefix="select"
-        // defaultValue={""}
-        // autoFocus={false}
-        isMulti={isMulti}
-        // blurInputOnSelect={true}
-        isSearchable={false}
-        // isLoading={isLoading}
-        isClearable={true}
-        // captureMenuScroll={true}
-        closeMenuOnSelect={false}
-        menuShouldBlockScroll={true}
-        name={name}
-        options={options}
-      />
-    </div>
-  );
 };
 
 export default function FilterMenu({
@@ -88,8 +59,8 @@ export default function FilterMenu({
   console.log(`FILTER-MENU: rendered - isOpen (${isOpen})`);
   console.log("filterState--FILTERMENU: ", filterState);
 
-  // const initState = filterState || initFilterState;
-  const initState = initFilterState;
+  const initState = filterState || initFilterState;
+  // const initState = initFilterState;
   const [state, dispatch] = useReducer(filterReducer, initState);
   const [queryLink, setQueryLink] = useState("");
 
@@ -124,26 +95,10 @@ export default function FilterMenu({
 
   return (
     <FilterMenuWrap isOpen={isOpen}>
+      {/*<ApplyButtonWrap>*/}
+      {/*  <ApplyButton onClick={onClick}>Apply Filters</ApplyButton>*/}
+      {/*</ApplyButtonWrap>*/}
       <FilterMenuContentWrap isOpen={isOpen}>
-        {/*<ApplyButtonWrap>*/}
-        {/*  <ApplyButton onClick={onClick}>Apply Filters</ApplyButton>*/}
-        {/*</ApplyButtonWrap>*/}
-        {/*<FilterSection>*/}
-        {/*  <SelectPicker*/}
-        {/*    data={genreOptions.sort()}*/}
-        {/*    searchable={false}*/}
-        {/*    preventOverflow={true}*/}
-        {/*    size={"sm"}*/}
-        {/*    cleanable={false}*/}
-        {/*    // style={{ width: 224 }}*/}
-        {/*  />*/}
-        {/*  <CheckPicker*/}
-        {/*    sticky*/}
-        {/*    data={genreSelectOptions.sort()}*/}
-        {/*    onChange={(v) => console.log(v)}*/}
-        {/*    // style={{ width: 224 }}*/}
-        {/*  />*/}
-        {/*</FilterSection>*/}
         <FilterSection>
           <CheckButtonGroup
             sectionName="Age Rating"
@@ -161,7 +116,8 @@ export default function FilterMenu({
         <FilterSection>
           <RangeSliderWrap>
             <SectionHeader>
-              Rating {`${state.ratings[0]} - ${state.ratings[1]}`}
+              <p>Rating</p>
+              <p>{`${state.ratings[0]} - ${state.ratings[1]}`}</p>
             </SectionHeader>
             <RangeSlider
               value={state.ratings}
@@ -174,8 +130,8 @@ export default function FilterMenu({
           </RangeSliderWrap>
           <RangeSliderWrap>
             <SectionHeader>
-              Votes {`${state.votes[0]} - ${state.votes[1]}`}
-              {/*Votes {`${state.votes}`}*/}
+              <p>Votes</p>
+              <p>{`${state.votes[0]} - ${state.votes[1]}`}</p>
             </SectionHeader>
             <RangeSlider
               value={state.votes}
@@ -188,7 +144,8 @@ export default function FilterMenu({
           </RangeSliderWrap>
           <RangeSliderWrap>
             <SectionHeader>
-              Year {`${state.years[0]} - ${state.years[1]}`}
+              <p>Year</p>
+              <p>{`${state.years[0]} - ${state.years[1]}`}</p>
             </SectionHeader>
             <RangeSlider
               value={state.years}
@@ -199,10 +156,10 @@ export default function FilterMenu({
               onFinalChange={onYearChange}
             />
           </RangeSliderWrap>
+          <ApplyButtonWrap>
+            <ApplyButton onClick={onClick}>Apply Filters</ApplyButton>
+          </ApplyButtonWrap>
         </FilterSection>
-        <ApplyButtonWrap>
-          <ApplyButton onClick={onClick}>Apply Filters</ApplyButton>
-        </ApplyButtonWrap>
       </FilterMenuContentWrap>
     </FilterMenuWrap>
   );
