@@ -61,7 +61,6 @@ export default function Header({ toggleSidebar, toggleNavMenu }) {
 }
 
 const StyledHeader = styled.div`
-  //background-color: #222;
   //background: linear-gradient(45deg, #222, #111);
   background: repeating-linear-gradient(
     45deg,
