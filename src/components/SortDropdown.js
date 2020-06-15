@@ -1,4 +1,4 @@
-import React, { useRef, createRef } from "react";
+import React, { useRef, createRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import styled from "styled-components/macro";
@@ -14,44 +14,87 @@ import {
   Icon,
 } from "rsuite";
 
-const MenuPopover = ({ onSelect, ...rest }) => (
-  <Popover {...rest} full preventOverflow>
-    {/*<Popover full>*/}
-    <Dropdown.Menu onSelect={onSelect}>
-      <Dropdown.Menu title="New File">
-        <Dropdown.Item eventKey={1}>New File</Dropdown.Item>
-        <Dropdown.Item eventKey={2}>
-          New File with Current Profile
-        </Dropdown.Item>
+const MenuWrap = styled.div`
+  .rs-dropdown-menu > .rs-dropdown-item-active > .rs-dropdown-item-content,
+  .rs-dropdown-menu
+    > .rs-dropdown-item-active
+    > .rs-dropdown-item-content:hover,
+  .rs-dropdown-menu
+    > .rs-dropdown-item-active
+    > .rs-dropdown-item-content:focus {
+    color: #1f4b99;
+  }
+
+  .rs-dropdown-menu > .rs-dropdown-item > .rs-dropdown-item-content:hover {
+    background-color: #1f4b99;
+    color: whitesmoke;
+  }
+`;
+
+const MenuPopover = ({ onSelect, sortValue, sortData, ...rest }) => (
+  <Popover {...rest} full>
+    <MenuWrap>
+      <p style={{ width: "100%", textAlign: "center" }}>sort by</p>
+      <Dropdown.Menu
+        onSelect={onSelect}
+        // style={{ width: "90px" }}
+      >
+        {sortData.map(({ value, label }) => (
+          <Dropdown.Item
+            eventKey={value}
+            active={value === sortValue}
+            style={{}}
+            // icon={value === sortValue ? <Icon icon="long-arrow-down" /> : ""}
+          >
+            {label}
+            {/*{label} {value === sortValue ? <Icon icon="long-arrow-down" /> : ""}*/}
+          </Dropdown.Item>
+        ))}
       </Dropdown.Menu>
-      <Dropdown.Item eventKey={3}>Download As...</Dropdown.Item>
-      <Dropdown.Item eventKey={4}>Export PDF</Dropdown.Item>
-      <Dropdown.Item eventKey={5}>Export HTML</Dropdown.Item>
-      <Dropdown.Item eventKey={6}>Settings</Dropdown.Item>
-      <Dropdown.Item eventKey={7}>About</Dropdown.Item>
-    </Dropdown.Menu>
+    </MenuWrap>
   </Popover>
 );
 
-const SortDropDown = () => {
-  const triggerRef = createRef();
-  // const triggerRef = useRef(null);
+const SortDropDown = ({ sortData, sortValue, onOrderChange }) => {
+  // const triggerRef = createRef();
+  const triggerRef = useRef(null);
+  const [selected, setSelected] = useState(getSortLabel(sortValue) || "");
+
+  function getSortLabel(eventKey) {
+    const found = sortData.find((item) => item.value === eventKey);
+    return found.label;
+  }
 
   function handleSelectMenu(eventKey, event) {
     console.log("SortDropdown: eventKey:", eventKey);
     console.log("SortDropdown: event", event);
+    onOrderChange(eventKey);
+    setSelected(getSortLabel(eventKey));
     triggerRef.current.hide();
   }
   return (
     <Whisper
+      preventOverflow
       placement="auto"
       trigger="click"
+      // trigger={["click", "hover"]}
       triggerRef={triggerRef}
-      ref={triggerRef}
-      speaker={<MenuPopover onSelect={handleSelectMenu} />}
+      speaker={
+        <MenuPopover
+          onSelect={handleSelectMenu}
+          sortValue={sortValue}
+          sortData={sortData}
+        />
+      }
     >
-      {/*<Button>File</Button>*/}
-      <IconButton icon={<Icon icon="sort-amount-desc" />} appearance="link" />
+      <IconButton
+        icon={<Icon icon="sort-amount-desc" />}
+        size={"sm"}
+        placement="right"
+        appearance="link"
+      >
+        {selected}
+      </IconButton>
     </Whisper>
   );
 };

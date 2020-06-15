@@ -40,9 +40,15 @@ const SortWrap = styled.div`
     background-color: lightgray;
   }
   //& .rs-dropdown-item .rs-dropdown-item-active {
-  & .rs-dropdown-item-active {
+  & .rs-dropdown-menu > .rs-dropdown-item-active > .rs-dropdown-item-content,
+  .rs-dropdown-menu
+    > .rs-dropdown-item-active
+    > .rs-dropdown-item-content:hover,
+  .rs-dropdown-menu
+    > .rs-dropdown-item-active
+    > .rs-dropdown-item-content:focus {
     //color: #1f4b99;
-    color: red;
+    color: red !important;
   }
 `;
 
@@ -75,7 +81,10 @@ const ToolBarWrap = styled.div`
   //width: 100%;
   //height: 80px;
   display: grid;
-  grid-row-gap: 12px;
+  //grid-row-gap: 12px;
+
+  grid-row-gap: ${(props) =>
+    props?.listName?.includes("Release") ? "12px" : 0};
   grid-template-areas:
     "titleandcount sort"
     "datepager datepager";
@@ -144,15 +153,15 @@ export default function Toolbar({
   const { goPrevWeek, goNextWeek, goToToday, currentDate } = dateData || {};
   const { sortData, orderByValue, onOrderChange } = sortOptions || {};
 
-  const getSortLabel = () => {
-    console.log("orderByValue: ", orderByValue);
-    const found = sortData.find((item) => item.value === orderByValue);
-    return found.label;
-  };
+  // const getSortLabel = () => {
+  //   console.log("orderByValue: ", orderByValue);
+  //   const found = sortData.find((item) => item.value === orderByValue);
+  //   return found.label;
+  // };
 
   return (
     <StyledToolbar>
-      <ToolBarWrap>
+      <ToolBarWrap listName={name}>
         <ListNameWrap>
           <ListName>{name || "Loading..."}</ListName>
           <MovieCountTag>{movie_count || "#"}</MovieCountTag>
@@ -173,47 +182,39 @@ export default function Toolbar({
         )}
         {sortOptions && (
           <SortWrap>
-            {/*<SortDropdown />*/}
-            <Dropdown
-              noCaret
-              placement={"bottomEnd"}
-              activeKey={orderByValue}
-              onSelect={onOrderChange}
-              // title={() => getSortLabel()}
-              // icon={<Icon icon="sort-amount-desc" />}
-              renderTitle={() => {
-                return (
-                  <IconButton
-                    appearance="link"
-                    icon={<Icon icon="sort-amount-desc" />}
-                    placement="right"
-                    size={"sm"}
-                  >
-                    {getSortLabel()}
-                  </IconButton>
-                );
-              }}
-            >
-              {sortData.map(({ value, label }) => (
-                <Dropdown.Item eventKey={value}>{label}</Dropdown.Item>
-              ))}
-            </Dropdown>
+            <SortDropdown
+              sortData={sortData}
+              sortValue={orderByValue}
+              onOrderChange={onOrderChange}
+            />
           </SortWrap>
         )}
-        {/*{sortOptions && (*/}
-        {/*  <SortWrap>*/}
-        {/*    <SelectPicker*/}
-        {/*      value={orderByValue}*/}
-        {/*      onChange={onOrderChange}*/}
-        {/*      data={sortData}*/}
-        {/*      searchable={false}*/}
-        {/*      preventOverflow={true}*/}
-        {/*      size={"sm"}*/}
-        {/*      cleanable={false}*/}
-        {/*      // style={{ width: 224 }}*/}
-        {/*    />*/}
-        {/*    /!*FaSortAmountDown*!/*/}
-        {/*  </SortWrap>*/}
+        {/*<SortWrap>*/}
+        {/*<Dropdown*/}
+        {/*  noCaret*/}
+        {/*  placement={"bottomEnd"}*/}
+        {/*  activeKey={orderByValue}*/}
+        {/*  onSelect={onOrderChange}*/}
+        {/*  // title={() => getSortLabel()}*/}
+        {/*  // icon={<Icon icon="sort-amount-desc" />}*/}
+        {/*  renderTitle={() => {*/}
+        {/*    return (*/}
+        {/*      <IconButton*/}
+        {/*        appearance="link"*/}
+        {/*        icon={<Icon icon="sort-amount-desc" />}*/}
+        {/*        placement="right"*/}
+        {/*        size={"sm"}*/}
+        {/*      >*/}
+        {/*        {getSortLabel()}*/}
+        {/*      </IconButton>*/}
+        {/*    );*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  {sortData.map(({ value, label }) => (*/}
+        {/*    <Dropdown.Item eventKey={value}>{label}</Dropdown.Item>*/}
+        {/*  ))}*/}
+        {/*</Dropdown>*/}
+        {/* </SortWrap>*/}
         {/*)}*/}
       </ToolBarWrap>
       <ChildWrap>{children}</ChildWrap>

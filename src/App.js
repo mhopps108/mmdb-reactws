@@ -43,6 +43,7 @@ export default function App() {
               toggleNavMenu={toggleNavMenu}
             />
           </Route>
+          {/*<Route path={"/release-dates/:type"}>*/}
           <Route path={"/releases"}>
             <Releases
               navMenuVisible={navMenuVisible}

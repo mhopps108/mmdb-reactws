@@ -13,17 +13,8 @@ export const releasesSortOptions = [
   { value: "-rating,digital", label: "Rating" },
   { value: "-votes,digital", label: "Votes" },
   { value: "title,digital", label: "Title" },
-  { value: "year,digital", label: "Year" },
+  // { value: "year,digital", label: "Year" },
 ];
-
-// export const releasesSortOptions = [
-//   { value: "digital_release", label: "Release" },
-//   // { value: "release_date", label: "Release Date" },
-//   { value: "-rating", label: "Rating" },
-//   { value: "-votes", label: "Votes" },
-//   { value: "title", label: "Title" },
-//   { value: "year", label: "Year" },
-// ];
 
 export const genreOptions = [
   { name: "action", label: "Action" },
