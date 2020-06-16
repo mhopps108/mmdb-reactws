@@ -54,6 +54,7 @@ export default function Releases({ navMenuVisible, toggleNavMenu }) {
   let match = useRouteMatch("/releases/:week");
   // console.log("Releases: match: ", match);
   const startWeek = match ? match.params.week : startOfWeek();
+  // const startWeek = match ? startOfWeek(match.params.week) : startOfWeek();
   // console.log("Releases: startWeek: ", startWeek);
   const [startFrom, setStartFrom] = useState(startWeek);
   // console.log("Releases: startFrom: ", startFrom);

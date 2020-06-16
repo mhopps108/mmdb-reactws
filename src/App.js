@@ -50,7 +50,7 @@ export default function App() {
               toggleNavMenu={toggleNavMenu}
             />
           </Route>
-          <Route path={"/discovery"}>
+          <Route path={"/discover"}>
             <Discover
               navMenuVisible={navMenuVisible}
               toggleNavMenu={toggleNavMenu}

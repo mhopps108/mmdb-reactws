@@ -1,17 +1,7 @@
 import React, { useRef, createRef, useState } from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { device } from "../devices";
-import { DatePager } from "../components";
-import {
-  SelectPicker,
-  Dropdown,
-  Popover,
-  Whisper,
-  Button,
-  IconButton,
-  Icon,
-} from "rsuite";
+import { Dropdown, Popover, Whisper, Button, IconButton, Icon } from "rsuite";
 
 // TODO: break apart (used twice in this file)
 const MenuWrap = styled.div`
@@ -112,7 +102,7 @@ const SortDropDown = ({ sortData, sortValue, onOrderChange }) => {
           appearance="link"
         >
           {selected}
-          <ButtonSeparator />
+          {/*<ButtonSeparator />*/}
         </IconButton>
       </Whisper>
     </MenuWrap>

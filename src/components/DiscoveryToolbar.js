@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { device } from "../devices";
 import { DatePager, SortDropdown, FilterMenu } from "../components";
-import { SelectPicker, Dropdown, IconButton, Icon } from "rsuite";
+import { Dropdown, Popover, Whisper, Button, IconButton, Icon } from "rsuite";
 import { queryToFilterState } from "../pages/Discover";
 
 const StyledToolbar = styled.div`
@@ -53,14 +53,44 @@ const MovieCountTag = styled.div`
 
 // TODO END: make the following styled components shared between Toolbars
 
-const FilterButton = styled.button`
-  border: 1px solid #333;
-  color: #333;
-  padding: 2px 5px;
-  font-size: 1rem;
+const SortWrap = styled.div`
+  grid-area: sort;
+  display: flex;
+  justify-content: flex-end;
+  align-content: end;
+  border: 1px solid lightgray;
+  background: whitesmoke;
+  margin-left: auto;
+  border-radius: 4px;
+`;
+
+const FilterButtonWrap = styled.button`
+  //border: 1px solid #333;
+  //color: #333;
+  //padding: 2px 5px;
+  //font-size: 1rem;
   //margin-right: 5px;
-  border-radius: 5px;
-  background: white;
+  //border-radius: 5px;
+  //background: white;
+
+  & .filter-btn {
+    color: ${(props) => (props.isOpen ? "#fff" : "#333")};
+    background: ${(props) => (props.isOpen ? "#1f4b99" : "whitesmoke")};
+
+    border: 1px solid lightgray;
+    //padding: 2px 5px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1rem;
+    text-decoration: none;
+    //line-height: 1rem;
+    //margin-right: 5px;
+    border-radius: 5px;
+  }
 `;
 
 const DiscoveryToolBarWrap = styled.div`
@@ -93,34 +123,37 @@ export default function DiscoveryToolbar({
   filterState,
   onApplyFilters,
   queryString,
+  sortOptions,
 }) {
   const { name, movie_count } = listData;
+  const { sortData, orderByValue, onOrderChange } = sortOptions || {};
 
   console.log("filterState", filterState);
 
   const activeFiltersString = () => {
-    let filters = [];
-    if (filterState["certs"][0] !== "") {
-      filters.push(filterState["certs"].join(","));
-    }
-    if (filterState["genres"][0] !== "") {
-      filters.push(filterState["genres"].join(","));
-    }
-    if (filterState["ratings"][0] > 0 || filterState["ratings"][1] < 10) {
-      filters.push(
-        `ratings: ${filterState["ratings"][0]} to ${filterState["ratings"][1]}`
-      );
-    }
-    if (filterState["votes"][0] > 0 || filterState["votes"][1] > 0) {
-      filters.push(`min-votes: ${filterState["votes"][1]}`);
-    }
-    if (filterState["years"][0] > 1890 || filterState["years"][1] < 2030) {
-      filters.push(
-        `years: ${filterState["years"][0]} to ${filterState["years"][1]}`
-      );
-    }
-    console.log("filters arr: ", filters);
-    return filters.join(" & ");
+    return "need to clean";
+    // let filters = [];
+    // if (filterState["certs"][0] !== "") {
+    //   filters.push(filterState["certs"].join(","));
+    // }
+    // if (filterState["genres"][0] !== "") {
+    //   filters.push(filterState["genres"].join(","));
+    // }
+    // if (filterState["ratings"][0] > 0 || filterState["ratings"][1] < 10) {
+    //   filters.push(
+    //     `ratings: ${filterState["ratings"][0]} to ${filterState["ratings"][1]}`
+    //   );
+    // }
+    // if (filterState["votes"][0] > 0 || filterState["votes"][1] > 0) {
+    //   filters.push(`min-votes: ${filterState["votes"][1]}`);
+    // }
+    // if (filterState["years"][0] > 1890 || filterState["years"][1] < 2030) {
+    //   filters.push(
+    //     `years: ${filterState["years"][0]} to ${filterState["years"][1]}`
+    //   );
+    // }
+    // console.log("filters arr: ", filters);
+    // return filters.join(" & ");
   };
 
   return (
@@ -129,7 +162,25 @@ export default function DiscoveryToolbar({
         <ListNameWrap>
           <ListName>{name || "Loading..."}</ListName>
           <MovieCountTag>{movie_count || "#"}</MovieCountTag>
-          <FilterButton onClick={toggleShowFilters}>Filter</FilterButton>
+          <SortWrap>
+            <SortDropdown
+              sortData={sortData}
+              sortValue={orderByValue}
+              onOrderChange={onOrderChange}
+            />
+          </SortWrap>
+          <FilterButtonWrap isOpen={filterMenuIsOpen}>
+            <IconButton
+              classPrefix={"filter-btn"}
+              onClick={toggleShowFilters}
+              icon={<Icon icon={filterMenuIsOpen ? "close" : "filter"} />}
+              // icon={<Icon icon="filter" />}
+              // size={"lg"}
+              placement="right"
+              appearance="link"
+              // appearance={"ghost"}
+            />
+          </FilterButtonWrap>
         </ListNameWrap>
         <ActiveFiltersBar>
           ActiveFilters: {activeFiltersString()}

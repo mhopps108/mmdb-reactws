@@ -55,11 +55,11 @@ const releasesLinks = [
 const discoveryLinks = [
   {
     name: "Top Comedies",
-    path: `/discovery?orderby=-imdb_rating_avg,-imdb_rating_count&genres=comedy&certification=&imdb_rating_avg__gte=5&imdb_rating_avg__lte=10&imdb_rating_count__gte=5000&year__gte=1990&year__lte=2030`,
+    path: `/discover/?sortby=-rating,-votes&genres=comedy&certification=&rating_min=5&rating_max=10&votes_min=5000&year_min=1990&year_max=2030`,
   },
   {
     name: "Top Rated Kids Movies",
-    path: `/discovery?
+    path: `/discover/?
     orderby=-imdb_rating_avg,-imdb_rating_count
     &genres=animation
     &certification=,G,PG
@@ -121,7 +121,8 @@ const StyledNavMenu = styled.div`
   border-bottom-right-radius: 10px;
 
   z-index: 99;
-  transition: transform 0.3s ease-in-out;
+  //transition: transform 0.3s ease-in-out;
+  transition: transform 300ms cubic-bezier(0, 1, 0.5, 1);
   ${(props) =>
     props.isOpen
       ? css`

@@ -7,6 +7,13 @@
 // ('digital_release', 'digital_release'),
 // ('physical_release', 'physical_release'),
 
+export const discoverySortOptions = [
+  { value: "-rating,-votes", label: "Rating" },
+  { value: "-votes,-rating", label: "Votes" },
+  { value: "year,title", label: "Year" },
+  { value: "title,year", label: "Title" },
+];
+
 export const releasesSortOptions = [
   { value: "digital,-rating", label: "Release" },
   // { value: "release_date", label: "Release Date" },

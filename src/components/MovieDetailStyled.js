@@ -13,7 +13,7 @@ export const SectionWrap = styled.div`
   //margin-bottom: 20px;
   //background: rgba(0, 0, 0, 0.75);
   background: white;
-  padding: 10px 20px 20px;
+  padding: 5px 20px 20px;
   border-radius: 5px;
   //box-shadow: 0 0 100px 100px rgba(0, 0, 0, 0.1);
   //box-shadow: 0 0 15px 5px #fff;
@@ -27,7 +27,7 @@ export const SectionWrap = styled.div`
 
 export const SectionHeader = styled.h3`
   font-size: 1.2rem;
-  margin-bottom: 4px;
+  //margin-bottom: 4px;
 `;
 
 export const BorderedTag = styled.div`

@@ -25,7 +25,8 @@ export const FilterMenuWrap = styled.div`
   color: white;
   //height: 0;
   width: 100%;
-  transition: max-height 300ms ease-in-out;
+  //transition: max-height 300ms ease-in-out;
+  transition: max-height 350ms cubic-bezier(0, 1, 0.5, 1);
   max-height: ${(props) => (props.isOpen ? "90vh" : 0)};
 
   @media ${device.min.tablet} {
@@ -38,13 +39,14 @@ export const FilterMenuContentWrap = styled.div`
   //padding: 20px 30px;
   width: 100%;
   //transition: opacity 200ms ease;
-  transition: all 400ms linear;
+  //transition: all 400ms linear;
+  transition: all 350ms cubic-bezier(0, 1, 0.5, 1);
   opacity: ${(props) => (props.isOpen ? 1 : 0)};
-  //display: ${(props) => (props.isOpen ? "flex" : "none")};
-  //z-index: ${(props) => (props.isOpen ? "100" : "-10")};
-  
-  display: flex;
+  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
 
+  //visibility: visible;
+
+  display: flex;
   flex-direction: column;
 
   @media ${device.min.tablet} {
