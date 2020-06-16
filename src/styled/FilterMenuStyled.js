@@ -20,7 +20,7 @@ export const ApplyButton = styled.button`
 `;
 
 export const FilterMenuWrap = styled.div`
-  border-top: 1px solid lightgrey;
+  //border-top: 1px solid lightgrey;
   background: white;
   color: white;
   //height: 0;

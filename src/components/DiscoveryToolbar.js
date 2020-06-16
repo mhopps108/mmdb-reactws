@@ -39,8 +39,8 @@ const ListName = styled.p`
 const MovieCountTag = styled.div`
   font-size: 1.1rem;
   border: 1px solid lightgray;
-  background: whitesmoke;
-  color: #666;
+  background: white;
+  color: #333;
   border-radius: 10px;
   height: 28px;
   min-width: 28px;
@@ -62,6 +62,7 @@ const SortWrap = styled.div`
   background: whitesmoke;
   margin-left: auto;
   border-radius: 4px;
+  margin-right: 8px;
 `;
 
 const FilterButtonWrap = styled.button`
@@ -79,8 +80,8 @@ const FilterButtonWrap = styled.button`
 
     border: 1px solid lightgray;
     //padding: 2px 5px;
-    width: 28px;
-    height: 28px;
+    //width: 28px;
+    //height: 28px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,11 +109,27 @@ const DiscoveryToolBarWrap = styled.div`
 const ActiveFiltersBar = styled.div`
   grid-area: activefiltersbar;
   color: gray;
-  padding-top: 4px;
+  //padding-top: 4px;
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  //justify-content: flex-start;
+  align-items: center;
 `;
 
 const FilterMenuWrap = styled.div`
   grid-area: filtermenu;
+`;
+
+const ActiveFilterTag = styled.div`
+  background: whitesmoke;
+  color: #333;
+  //color: #1f4b99;
+  //border: 1px solid lightgray;
+  margin-right: 8px;
+  padding: 2px 4px;
+  border-radius: 4px;
 `;
 
 export default function DiscoveryToolbar({
@@ -122,38 +139,45 @@ export default function DiscoveryToolbar({
   setQuery,
   filterState,
   onApplyFilters,
-  queryString,
   sortOptions,
 }) {
   const { name, movie_count } = listData;
   const { sortData, orderByValue, onOrderChange } = sortOptions || {};
 
-  console.log("filterState", filterState);
+  const activeFiltersArr = () => {
+    console.log("DiscoveryToolbar: filterState: ", filterState);
+    // return "need to clean";
+    let filters = {};
+    if (filterState["certs"] && filterState["certs"][0] !== "") {
+      filters["certs"] = filterState["certs"].join(" ");
+    }
+    if (filterState["genres"] && filterState["genres"][0] !== "") {
+      filters["genres"] = filterState["genres"].join(" ");
+    }
+    if (filterState["ratings"][0] > 0 || filterState["ratings"][1] < 10) {
+      filters["ratings_min"] = filterState["ratings"][0];
+      filters["ratings_max"] = filterState["ratings"][1];
+      filters[
+        "ratings_str"
+      ] = `${filters["ratings_min"]} - ${filters["ratings_max"]}`;
+    }
+    if (filterState["votes"][0] > 0 || filterState["votes"][1] > 0) {
+      filters["votes"] = filterState["votes"][1];
+    }
+    if (filterState["years"][0] > 1890 || filterState["years"][1] < 2030) {
+      filters["years_min"] = filterState["years"][0];
+      filters["years_max"] = filterState["years"][1];
+      filters[
+        "years_str"
+      ] = `${filters["years_min"]} - ${filters["years_max"]}`;
+    }
+    console.log("DiscoverToolbar: filters obj: ", filters);
+    return filters;
+  };
 
-  const activeFiltersString = () => {
-    return "need to clean";
-    // let filters = [];
-    // if (filterState["certs"][0] !== "") {
-    //   filters.push(filterState["certs"].join(","));
-    // }
-    // if (filterState["genres"][0] !== "") {
-    //   filters.push(filterState["genres"].join(","));
-    // }
-    // if (filterState["ratings"][0] > 0 || filterState["ratings"][1] < 10) {
-    //   filters.push(
-    //     `ratings: ${filterState["ratings"][0]} to ${filterState["ratings"][1]}`
-    //   );
-    // }
-    // if (filterState["votes"][0] > 0 || filterState["votes"][1] > 0) {
-    //   filters.push(`min-votes: ${filterState["votes"][1]}`);
-    // }
-    // if (filterState["years"][0] > 1890 || filterState["years"][1] < 2030) {
-    //   filters.push(
-    //     `years: ${filterState["years"][0]} to ${filterState["years"][1]}`
-    //   );
-    // }
-    // console.log("filters arr: ", filters);
-    // return filters.join(" & ");
+  const activeFor = (fieldName) => {
+    const active = activeFiltersArr();
+    return active[fieldName];
   };
 
   return (
@@ -183,8 +207,22 @@ export default function DiscoveryToolbar({
           </FilterButtonWrap>
         </ListNameWrap>
         <ActiveFiltersBar>
-          ActiveFilters: {activeFiltersString()}
+          <div style={{ marginRight: "auto" }}>{"Filters"}</div>
+          {/*ActiveFilters: {activeFiltersString()}*/}
+          <ActiveFilterTag>{activeFor("genres")}</ActiveFilterTag>
+          <ActiveFilterTag>{activeFor("certs")}</ActiveFilterTag>
+          <ActiveFilterTag>{activeFor("votes")}</ActiveFilterTag>
+          <ActiveFilterTag>{activeFor("ratings_str")}</ActiveFilterTag>
+          <ActiveFilterTag>{activeFor("years_str")}</ActiveFilterTag>
+          {/*<ActiveFilterTag>{activeFiltersArr()["genres"]}</ActiveFilterTag>*/}
+          {/*<ActiveFilterTag>*/}
+          {/*  {activeFiltersArr()["ratings_min"]} to{" "}*/}
+          {/*  {activeFiltersArr()["ratings_max"]}*/}
+          {/*</ActiveFilterTag>*/}
+          {/*<ActiveFilterTag>{activeFiltersArr()["genres"]}</ActiveFilterTag>*/}
+          {/*<ActiveFilterTag>{activeFiltersArr()["years"]}</ActiveFilterTag>*/}
         </ActiveFiltersBar>
+        {/*activeFiltersArr*/}
         <FilterMenuWrap>
           <FilterMenu
             isOpen={filterMenuIsOpen}

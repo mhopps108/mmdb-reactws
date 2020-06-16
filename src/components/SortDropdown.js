@@ -13,6 +13,7 @@ const MenuWrap = styled.div`
     > .rs-dropdown-item-active
     > .rs-dropdown-item-content:focus {
     color: #1f4b99;
+    background: whitesmoke;
   }
 
   & .rs-btn-link {
@@ -26,16 +27,6 @@ const MenuWrap = styled.div`
     background-color: #1f4b99;
     color: whitesmoke;
   }
-`;
-
-const ButtonSeparator = styled.div`
-  width: 1px;
-  height: 30px;
-  position: relative;
-  top: -21px;
-  //bottom: 0;
-  left: 63px;
-  background: lightgray;
 `;
 
 const MenuPopover = ({ onSelect, sortValue, sortData, ...rest }) => (
@@ -101,8 +92,7 @@ const SortDropDown = ({ sortData, sortValue, onOrderChange }) => {
           placement="right"
           appearance="link"
         >
-          {selected}
-          {/*<ButtonSeparator />*/}
+          {/*{selected}*/}
         </IconButton>
       </Whisper>
     </MenuWrap>

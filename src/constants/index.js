@@ -1,12 +1,3 @@
-// Discovery OrderBy Fields
-// ('title', 'title'),
-// ('year', 'year'),
-// ('imdb_rating_avg', 'rating'),
-// ('imdb_rating_count', 'votes'),
-// ('theatrical_release', 'theatrical_release'),
-// ('digital_release', 'digital_release'),
-// ('physical_release', 'physical_release'),
-
 export const discoverySortOptions = [
   { value: "-rating,-votes", label: "Rating" },
   { value: "-votes,-rating", label: "Votes" },
@@ -25,9 +16,9 @@ export const releasesSortOptions = [
 
 export const genreOptions = [
   { name: "action", label: "Action" },
-  { name: "adult", label: "Adult" },
   { name: "adventure", label: "Adventure" },
   { name: "animation", label: "Animation" },
+  { name: "biography", label: "Biography" },
   { name: "comedy", label: "Comedy" },
   { name: "crime", label: "Crime" },
   { name: "documentary", label: "Documentary" },
@@ -35,27 +26,25 @@ export const genreOptions = [
   { name: "family", label: "Family" },
   { name: "film-noir", label: "Film-Noir" },
   { name: "fantasy", label: "Fantasy" },
+  { name: "history", label: "History" },
+  { name: "horror", label: "Horror" },
   { name: "music", label: "Music" },
-
-  { name: "sport", label: "Sport" },
-  { name: "romance", label: "Romance" },
-
-  { name: "thriller", label: "Thriller" },
-
+  { name: "musical", label: "Musical" },
   { name: "mystery", label: "Mystery" },
 
-  { name: "musical", label: "Musical" },
-  { name: "biography", label: "Biography" },
-  { name: "history", label: "History" },
-  { name: "news", label: "News" },
-  { name: "horror", label: "Horror" },
+  { name: "romance", label: "Romance" },
+  { name: "sci-fi", label: "Sci-Fi" },
+  { name: "sport", label: "Sport" },
+  { name: "thriller", label: "Thriller" },
   { name: "war", label: "War" },
   { name: "western", label: "Western" },
-  { name: "reality-tv", label: "Reality-TV" },
-  { name: "sci-fi", label: "Sci-Fi" },
+
+  // TODO: remove from db
+  // { name: "reality-tv", label: "Reality-TV" },
 
   // { name: "game-show", label: "Game-Show" },
   // { name: "talk-Show", label: "Talk-Show" },
+  // { name: "news", label: "News" },
   // { name: "short", label: "Short" },
 ];
 

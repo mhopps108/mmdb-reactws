@@ -194,7 +194,7 @@ export default function Toolbar({
         {/* </SortWrap>*/}
         {/*)}*/}
       </ToolBarWrap>
-      <ChildWrap>{children}</ChildWrap>
+      {/*<ChildWrap>{children}</ChildWrap>*/}
     </StyledToolbar>
   );
 }

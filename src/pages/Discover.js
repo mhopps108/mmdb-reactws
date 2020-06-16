@@ -2,19 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link, useLocation, useHistory } from "react-router-dom";
 import {
   Header,
-  Sidebar,
-  Toolbar,
   MovieList,
   MoviePosterList,
   NavMenu,
-  DiscoveryMenu,
-  FilterMenu,
   DiscoveryToolbar,
 } from "../components";
 import styled, { css } from "styled-components/macro";
 import { useDataApi } from "../useDataApi";
 import { device } from "../devices";
-import { discoverySortOptions, releasesSortOptions } from "../constants";
+import { discoverySortOptions } from "../constants";
+
+// TODO: remove filter from url if not used??
 
 function useQueryParams() {
   return new URLSearchParams(useLocation().search);
@@ -23,7 +21,6 @@ function useQueryParams() {
 export const queryToFilterState = (queryParams) => {
   if (!queryParams) return null;
   return {
-    // orderby: "-imdb_rating_avg,-imdb_rating_count",
     // sortby: queryParams.get("sortby"),
     genres:
       (queryParams.get("genres") && queryParams.get("genres").split(",")) || "",
@@ -43,29 +40,10 @@ export const queryToFilterState = (queryParams) => {
   };
 };
 
-// export const queryToFilterState = (queryParams) => {
-//   if (!queryParams) return null;
-//   return {
-//     // orderby: "-imdb_rating_avg,-imdb_rating_count",
-//     // sortby: queryParams.get("sortby"),
-//     genres: queryParams.get("genres").split(","),
-//     certs: queryParams.get("certification").split(","),
-//     ratings: [
-//       parseFloat(queryParams.get("rating_min")),
-//       parseFloat(queryParams.get("rating_max")),
-//     ],
-//     votes: [0, parseInt(queryParams.get("votes_min"))],
-//     years: [
-//       parseFloat(queryParams.get("year_min")),
-//       parseFloat(queryParams.get("year_max")),
-//     ],
-//   };
-// };
-
 export default function Discover({ navMenuVisible, toggleNavMenu }) {
   let history = useHistory();
   let queryParams = useQueryParams();
-  const initSort = queryParams.get("sort") || discoverySortOptions[0].value;
+  const initSort = queryParams.get("sortby") || discoverySortOptions[0].value;
   const [sort, setSort] = useState(initSort);
 
   const [showFilterMenu, setShowFilterMenu] = useState(false);
@@ -81,8 +59,6 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
     setSort(val);
     // history.push(`/discover/?sortby=${sort}&${queryString}`);
     queryParams.set("sortby", val);
-    console.log("queryParms sortby: ", queryParams.get("sortby"));
-    // setQueryString();
     history.push(`/discover/?${queryParams.toString()}`);
   };
   const onApplyFilters = (queryString) => {
@@ -98,14 +74,8 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
     setQueryString(queryParams.toString());
   }, [queryParams]);
 
-  // useEffect(() => {
-  // history.push(`/discover/?sortby=${sort}&${queryString}`);
-  // }, [history, sort, queryString]);
-
   useEffect(() => {
     setUrl(listUrl);
-    // history.push(`/discover/?sortby=${sort}&${queryString}`);
-    // }, [queryString, listUrl, setUrl, sort, history]);
   }, [queryString, listUrl, setUrl, sort]);
 
   useEffect(() => {
@@ -138,22 +108,8 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
         setQuery={setQueryString}
         filterState={queryToFilterState(queryParams)}
         onApplyFilters={onApplyFilters}
-        queryString={queryString}
         sortOptions={sortData}
       />
-
-      {/*<DiscoveryToolbar*/}
-      {/*  listData={listData}*/}
-      {/*  toggleShowFilters={toggleShowFilters}*/}
-      {/*>*/}
-      {/*  <FilterMenu*/}
-      {/*    isOpen={showFilters}*/}
-      {/*    toggleOpen={toggleShowFilters}*/}
-      {/*    setQuery={setQueryString}*/}
-      {/*    filterState={queryToFilterState(queryParams)}*/}
-      {/*    onApplyFilters={onApplyFilters}*/}
-      {/*  />*/}
-      {/*</DiscoveryToolbar>*/}
       <MovieList
         movies={data?.results}
         isLoading={isLoading}
