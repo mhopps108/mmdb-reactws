@@ -134,8 +134,7 @@ function Ratings({ data }) {
 
   return (
     <StyledRatingsWrap>
-      <SectionHeader>Ratings</SectionHeader>
-
+      {/*<SectionHeader>Ratings</SectionHeader>*/}
       <StyledRatings>
         <StyledRating>
           <RatingsTitle>IMDb</RatingsTitle>
@@ -236,8 +235,7 @@ function ReleaseDates({ data }) {
 
   return (
     <StyledReleaseDatesWrap>
-      <SectionHeader>Release Dates</SectionHeader>
-
+      {/*<SectionHeader>Release Dates</SectionHeader>*/}
       {theatrical_release && (
         <StyledReleaseDate>
           <BorderedTag>
@@ -327,9 +325,9 @@ function Overview({ data }) {
   const { overview, tagline } = data;
   return (
     <StyledOverviewWrap>
-      <SectionHeader>Overview</SectionHeader>
+      {/*<SectionHeader>Overview</SectionHeader>*/}
       {/* {tagline && <small style={{ textAlign: "center" }}>{tagline}</small>} */}
-      {overview && <p>{overview}</p>}
+      {overview && <p style={{ padding: "4px 2px" }}>{overview}</p>}
     </StyledOverviewWrap>
   );
 }
@@ -339,7 +337,7 @@ function Trailer({ data }) {
   const youtube_src = `${trailer_url}?controls=1`;
   return !trailer_url ? null : (
     <StyledTrailerWrap>
-      <SectionHeader>Trailer</SectionHeader>
+      {/*<SectionHeader>Trailer</SectionHeader>*/}
       {trailer_url && (
         <div
           style={{ width: "100%", display: "flex", justifyContent: "center" }}

@@ -13,7 +13,8 @@ export const SectionWrap = styled.div`
   //margin-bottom: 20px;
   //background: rgba(0, 0, 0, 0.75);
   background: white;
-  padding: 5px 20px 20px;
+  //padding: 5px 20px 20px;
+  padding: 10px 20px;
   border-radius: 5px;
   //box-shadow: 0 0 100px 100px rgba(0, 0, 0, 0.1);
   //box-shadow: 0 0 15px 5px #fff;
@@ -23,11 +24,20 @@ export const SectionWrap = styled.div`
   //backdrop-filter: saturate(180%) blur(20px);
   //background-color: rgba(0, 0, 0, 0.7);
   //background-color: rgba(255, 255, 255, 0.7);
+  //margin-top: 20px;
 `;
 
-export const SectionHeader = styled.h3`
+export const SectionHeader = styled.div`
   font-size: 1.2rem;
   //margin-bottom: 4px;
+  //margin-top: -30px;
+  background: whitesmoke;
+  color: #333;
+  border: 1px solid lightgray;
+  padding: 4px 8px;
+  border-radius: 4px;
+  width: 150px;
+  //z-index: -1;
 `;
 
 export const BorderedTag = styled.div`
@@ -287,7 +297,8 @@ export const StyledReleaseDatesWrap = styled(SectionWrap)`
   grid-area: releasedates;
   display: flex;
   flex-direction: column;
-  //justify-content: space-evenly;
+  //justify-content: space-between;
+  //align-items: center;
 `;
 
 export const StyledReleaseDate = styled.div`
