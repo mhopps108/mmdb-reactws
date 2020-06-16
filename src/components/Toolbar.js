@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Select from "react-select";
 import styled from "styled-components/macro";
 import { device } from "../devices";
 import { DatePager, SortDropdown } from "../components";

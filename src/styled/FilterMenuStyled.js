@@ -41,9 +41,11 @@ export const FilterMenuContentWrap = styled.div`
   transition: all 400ms linear;
   opacity: ${(props) => (props.isOpen ? 1 : 0)};
   //display: ${(props) => (props.isOpen ? "flex" : "none")};
-
+  //z-index: ${(props) => (props.isOpen ? "100" : "-10")};
+  
   display: flex;
-  flex-direction: column;  
+
+  flex-direction: column;
 
   @media ${device.min.tablet} {
     flex-direction: row;

@@ -5,7 +5,6 @@ import MovieList from "./MovieList";
 import MovieDetail from "./MovieDetail";
 import NavMenu from "./NavMenu";
 import MoviePosterList from "./MoviePosterList";
-import DiscoveryMenu from "./DiscoverMenu";
 import CheckButtonGroup from "./CheckButtonGroup";
 import FilterMenu from "./FilterMenu";
 import DatePager from "./DatePager";
@@ -20,7 +19,6 @@ export {
   MoviePosterList,
   MovieDetail,
   NavMenu,
-  DiscoveryMenu,
   CheckButtonGroup,
   FilterMenu,
   DatePager,
