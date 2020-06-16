@@ -21,7 +21,9 @@ export const ApplyButton = styled.button`
 
 export const FilterMenuWrap = styled.div`
   //border-top: 1px solid lightgrey;
-  background: white;
+  background: whitesmoke;
+  margin-top: 8px;
+  border-radius: 8px;
   color: white;
   //height: 0;
   width: 100%;
@@ -70,7 +72,7 @@ export const FilterSection = styled.div`
 /*--- RANGE SLIDER ---*/
 
 export const RangeSliderWrap = styled.div`
-  background: white;
+  background: whitesmoke;
   //padding: 12px;
   margin: 0 15px;
 
