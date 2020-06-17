@@ -167,8 +167,8 @@ export const MainWrap = styled.div`
   padding: 15px 10px;
   //background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
   //background: white;
-  color: #333;
-  background-color: rgba(0, 0, 0, 0.7);
+  color: #333;  
+  background: #282c35;
   //backdrop-filter: saturate(180%) blur(3px);
 
   &:before {

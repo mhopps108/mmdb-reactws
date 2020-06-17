@@ -2,78 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { device } from "../devices";
-
-const tmdbLinks = [
-  {
-    name: "Popular",
-    path: "/lists/tmdb-popular",
-  },
-  {
-    name: "Top Rated",
-    path: "/lists/tmdb-top-rated",
-  },
-  {
-    name: "Now Playing",
-    path: "/lists/tmdb-now-playing",
-  },
-  {
-    name: "Upcoming",
-    path: "/lists/tmdb-upcoming",
-  },
-];
-
-const releaseDateLinks = [
-  {
-    name: "Theatrical Releases",
-    path: "/release-dates",
-  },
-  {
-    name: "Digital Releases",
-    path: "/release-dates",
-  },
-  {
-    name: "BluRay Releases",
-    path: "/release-dates",
-  },
-];
-
-const releasesLinks = [
-  {
-    name: "Theatrical Releases",
-    path: "/releases",
-  },
-  {
-    name: "Digital Releases",
-    path: "/releases",
-  },
-  {
-    name: "BluRay Releases",
-    path: "/releases",
-  },
-];
-
-const discoveryLinks = [
-  {
-    name: "Top Comedies",
-    path: `/discover/?sortby=-rating,-votes&genres=comedy&certification=&rating_min=5&rating_max=10&votes_min=5000&year_min=1990&year_max=2030`,
-  },
-  {
-    name: "Top Rated Kids Movies",
-    path: `/discover/?
-    orderby=-imdb_rating_avg,-imdb_rating_count
-    &genres=animation
-    &certification=,G,PG
-    &imdb_rating_avg__gte=5&imdb_rating_avg__lte=10
-    &imdb_rating_count__gte=2500
-    &year__gte=1990&year__lte=2030`,
-  },
-];
+import {
+  tmdbLinks,
+  releaseDateLinks,
+  releasesLinks,
+  discoveryLinks,
+} from "../constants/routes";
 
 const Listitem = styled.div`
   padding-bottom: 5px;
-  color: #222;
+  // color: #222;
+  color: whitesmoke;
   & a {
-    color: #222;
+    //color: #222;
+    color: whitesmoke;
     text-decoration: none;
   }
 `;
@@ -95,11 +37,9 @@ const ListSection = styled.div`
 `;
 
 const StyledNavMenu = styled.div`
-  border: 2px solid #333;
-  //background: #2162a4;
-  //color: white;
-  background: #fff;
-  color: #2162a4;
+  //border: 1px solid lightgray;
+  background: #282c35;
+  color: white;
   //-webkit-box-shadow: inset 0 10px 25px 4px rgba(0, 0, 0, 0.37);
   //box-shadow: inset 0 10px 25px 4px rgba(0, 0, 0, 0.3);
 
@@ -140,7 +80,7 @@ export default function NavMenu({ isOpen, toggleOpen }) {
       {/*<CloseButton onClick={toggleOpen}>X</CloseButton>*/}
       {/*<div>NavMenu</div>*/}
       <ListSection>
-        <Listheader>TMDb</Listheader>
+        <Listheader>Lists</Listheader>
         {tmdbLinks.map((item, index) => {
           return (
             <Listitem onClick={toggleOpen} key={index}>
@@ -150,32 +90,19 @@ export default function NavMenu({ isOpen, toggleOpen }) {
         })}
       </ListSection>
 
-      <ListSection>
-        <Listheader>IMDb</Listheader>
-        {tmdblist.map((item) => {
-          return <Listitem key={item}>{item}</Listitem>;
-        })}
-      </ListSection>
+      {/*<ListSection>*/}
+      {/*  <Listheader>Release Dates (org)</Listheader>*/}
+      {/*  {releaseDateLinks.map((item, index) => {*/}
+      {/*    return (*/}
+      {/*      <Listitem onClick={toggleOpen} key={index}>*/}
+      {/*        <Link to={item.path}>{item.name}</Link>*/}
+      {/*      </Listitem>*/}
+      {/*    );*/}
+      {/*  })}*/}
+      {/*</ListSection>*/}
 
       <ListSection>
-        <Listheader>Trakt</Listheader>
-        {tmdblist.map((item) => {
-          return <Listitem key={item}>{item}</Listitem>;
-        })}
-      </ListSection>
-
-      <ListSection>
-        <Listheader>Release Dates (org)</Listheader>
-        {releaseDateLinks.map((item, index) => {
-          return (
-            <Listitem onClick={toggleOpen} key={index}>
-              <Link to={item.path}>{item.name}</Link>
-            </Listitem>
-          );
-        })}
-      </ListSection>
-      <ListSection>
-        <Listheader>Releases (new)</Listheader>
+        <Listheader>Releases</Listheader>
         {releasesLinks.map((item, index) => {
           return (
             <Listitem onClick={toggleOpen} key={index}>

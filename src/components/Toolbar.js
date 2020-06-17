@@ -1,9 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { device } from "../devices";
 import { DatePager, SortDropdown } from "../components";
-import { SelectPicker, Dropdown, IconButton, Icon } from "rsuite";
 
 const DatePagerWrap = styled.div`
   grid-area: datepager;

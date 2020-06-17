@@ -16,17 +16,6 @@ const DatePagerWrap = styled.div`
   //margin-top: 8px;
 `;
 
-const DatePagerLink = styled(Link)`
-  font-size: 1.3rem;
-  //padding: 0 28px;
-  //background: none;
-  //color: #333;
-  //& a {
-  //  color: #333;
-  //  text-decoration: none;
-  //}
-`;
-
 const DatePagerButton = styled.button`
   font-size: 1.3rem;
   //padding: 0 28px;

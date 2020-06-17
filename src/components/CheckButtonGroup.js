@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useReducer } from "react";
-import styled, { css } from "styled-components/macro";
-import { device } from "../devices";
+import React from "react";
+import styled from "styled-components/macro";
 import {
   SectionTop,
   SectionHeader,

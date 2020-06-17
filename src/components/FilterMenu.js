@@ -1,16 +1,7 @@
 import React, { useEffect, useState, useReducer } from "react";
-import { useParams, Link, useLocation } from "react-router-dom";
-import styled, { css } from "styled-components/macro";
-import RangeSlider from "./RangeSlider";
-import CheckButtonGroup from "./CheckButtonGroup";
+import { RangeSlider, CheckButtonGroup } from "../components";
 import { discoveryQueryString } from "../api";
-// import "rsuite/dist/styles/rsuite-default.css";
-import {
-  genreOptions,
-  certOptions,
-  certSelectOptions,
-  genreSelectOptions,
-} from "../constants";
+import { genreOptions, certOptions } from "../constants";
 import {
   FilterMenuWrap,
   FilterMenuContentWrap,
@@ -22,7 +13,7 @@ import {
 } from "../styled/FilterMenuStyled";
 
 const initFilterState = {
-  orderby: "-imdb_rating_avg,-imdb_rating_count",
+  sortby: "-rating,-votes",
   genres: [],
   certs: [],
   ratings: [0, 10],

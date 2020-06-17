@@ -1,6 +1,6 @@
 import React from "react";
-import styled from "styled-components";
-import MovieListItem from "./MovieListItem";
+import styled from "styled-components/macro";
+import { MovieListItem } from "../components";
 
 export default function MovieList({ movies, isLoading, isError }) {
   return (
@@ -21,15 +21,7 @@ export default function MovieList({ movies, isLoading, isError }) {
 const StyledMovieList = styled.div`
   grid-area: main;
   //background-color: lightgray;
-  background: repeating-linear-gradient(
-    45deg,
-    rgb(27, 27, 27) 0px,
-    rgb(27, 27, 27) 97px,
-    rgb(24, 24, 24) 97px,
-    rgb(24, 24, 24) 194px,
-    rgb(20, 20, 20) 194px,
-    rgb(20, 20, 20) 291px
-  );
+  background: #282c35;
   display: grid;
   box-shadow: 0 0 25px 20px lightgrey;
   //height: calc(100vh - 100px);

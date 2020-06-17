@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useDataApi } from "../useDataApi";
 import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
+import { useDataApi } from "../useDataApi";
 import { Progress } from "rsuite";
 import lazySizes from "lazysizes";
 import moment from "moment";

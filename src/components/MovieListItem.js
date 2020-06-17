@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
-import lazySizes from "lazysizes";
+// import lazySizes from "lazysizes";
 
 const StyledMovieListItem = styled.div`
   background: white;
@@ -61,14 +61,16 @@ const Title = styled.h3`
   //margin-bottom: 8px;
   & a {
     text-decoration: none;
-    color: rgba(35, 35, 39, 0.85);
+    //color: rgba(35, 35, 39, 0.85);
+    color: #282c35;
   }
 `;
 
 const InfoRow = styled.div`
   display: flex;
   //color: grey;
-  color: rgba(35, 35, 39, 0.7);
+  //color: rgba(35, 35, 39, 0.7);
+  color: rgba(40, 44, 53, 0.75);
   margin-bottom: 4px;
   font-size: 0.9rem;
   padding-left: 4px;

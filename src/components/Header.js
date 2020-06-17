@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
-// import "boxicons";
 import { FaSearch, FaUserAlt } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
 
@@ -62,15 +61,16 @@ export default function Header({ toggleSidebar, toggleNavMenu }) {
 
 const StyledHeader = styled.div`
   //background: linear-gradient(45deg, #222, #111);
-  background: repeating-linear-gradient(
-    45deg,
-    rgb(27, 27, 27) 0px,
-    rgb(27, 27, 27) 97px,
-    rgb(24, 24, 24) 97px,
-    rgb(24, 24, 24) 194px,
-    rgb(20, 20, 20) 194px,
-    rgb(20, 20, 20) 291px
-  );
+  //background: repeating-linear-gradient(
+  //  45deg,
+  //  rgb(27, 27, 27) 0px,
+  //  rgb(27, 27, 27) 97px,
+  //  rgb(24, 24, 24) 97px,
+  //  rgb(24, 24, 24) 194px,
+  //  rgb(20, 20, 20) 194px,
+  //  rgb(20, 20, 20) 291px
+  //);
+  background: #282c35;
   grid-area: header;
   position: sticky;
   top: 0;
@@ -112,7 +112,8 @@ const StyledBrand = styled.h1`
   font-size: 1.75rem;
   margin-left: 8px;
   //background: #2162a4;
-  background: #1f4b99;
+  //background: #1f4b99;
+  background: #eee;
   //background: rgb(66, 82, 110);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

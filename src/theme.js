@@ -1,4 +1,16 @@
 const theme = {
+  possibleColors: {
+    color: "#282c35",
+    // background: repeating-linear-gradient(
+    //  45deg,
+    //  rgb(27, 27, 27) 0px,
+    //  rgb(27, 27, 27) 97px,
+    //  rgb(24, 24, 24) 97px,
+    //  rgb(24, 24, 24) 194px,
+    //  rgb(20, 20, 20) 194px,
+    //  rgb(20, 20, 20) 291px
+    // );
+  },
   layout: {
     maxWidth: "1000px",
   },

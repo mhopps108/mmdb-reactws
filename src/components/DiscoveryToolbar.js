@@ -2,8 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { device } from "../devices";
-import { DatePager, SortDropdown, FilterMenu } from "../components";
-import { Dropdown, Popover, Whisper, Button, IconButton, Icon } from "rsuite";
+import { SortDropdown, FilterMenu } from "../components";
+import { Dropdown, Button, IconButton, Icon } from "rsuite";
 import { queryToFilterState } from "../pages/Discover";
 
 const StyledToolbar = styled.div`
