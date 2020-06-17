@@ -16,7 +16,10 @@ import MovieListItem from "./MovieListItem";
 import MoviePosterList from "./MoviePosterList";
 import MovieDetail from "./MovieDetail";
 
+import HeaderRes from "./HeaderRes";
+
 export {
+  HeaderRes,
   Header,
   Sidebar,
   Toolbar,

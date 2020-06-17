@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
+  HeaderRes,
   Header,
   Sidebar,
   Toolbar,
@@ -37,7 +38,8 @@ export default function List({
 
   return (
     <StyledList>
-      <Header toggleSidebar={toggleSidebar} toggleNavMenu={toggleNavMenu} />
+      <HeaderRes toggleNavMenu={toggleNavMenu} />
+      {/*<Header toggleSidebar={toggleSidebar} toggleNavMenu={toggleNavMenu} />*/}
       <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
       <Toolbar listData={data} />
       {view === "poster" && (

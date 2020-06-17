@@ -86,7 +86,7 @@ const MovieCountTag = styled.div`
   border: 1px solid lightgray;
   //background: rgba(35, 35, 39, 0.7);
   background: whitesmoke;
-  color: #666;
+  color: #282c35;
   //color: white;
   //font-weight: 500;
   //border-radius: 5px;

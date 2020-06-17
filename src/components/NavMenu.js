@@ -48,10 +48,11 @@ const StyledNavMenu = styled.div`
   width: 100%;
   max-width: 1000px;
 
-  display: grid;
-  grid-gap: 10px;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  //display: grid;
+  //grid-gap: 10px;
+  //grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   //justify-content: center;
+  display: flex;
 
   padding: 20px 16px;
   position: fixed;
@@ -60,7 +61,7 @@ const StyledNavMenu = styled.div`
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 
-  z-index: 99;
+  z-index: 9;
   //transition: transform 0.3s ease-in-out;
   transition: transform 300ms cubic-bezier(0, 1, 0.5, 1);
   ${(props) =>
@@ -74,36 +75,14 @@ const StyledNavMenu = styled.div`
 `;
 
 export default function NavMenu({ isOpen, toggleOpen }) {
-  const tmdblist = ["Popular", "New Releases", "Upcoming", "Top Rated"];
   return (
     <StyledNavMenu isOpen={isOpen}>
       {/*<CloseButton onClick={toggleOpen}>X</CloseButton>*/}
       {/*<div>NavMenu</div>*/}
+
       <ListSection>
         <Listheader>Lists</Listheader>
         {tmdbLinks.map((item, index) => {
-          return (
-            <Listitem onClick={toggleOpen} key={index}>
-              <Link to={item.path}>{item.name}</Link>
-            </Listitem>
-          );
-        })}
-      </ListSection>
-
-      {/*<ListSection>*/}
-      {/*  <Listheader>Release Dates (org)</Listheader>*/}
-      {/*  {releaseDateLinks.map((item, index) => {*/}
-      {/*    return (*/}
-      {/*      <Listitem onClick={toggleOpen} key={index}>*/}
-      {/*        <Link to={item.path}>{item.name}</Link>*/}
-      {/*      </Listitem>*/}
-      {/*    );*/}
-      {/*  })}*/}
-      {/*</ListSection>*/}
-
-      <ListSection>
-        <Listheader>Releases</Listheader>
-        {releasesLinks.map((item, index) => {
           return (
             <Listitem onClick={toggleOpen} key={index}>
               <Link to={item.path}>{item.name}</Link>
@@ -122,6 +101,28 @@ export default function NavMenu({ isOpen, toggleOpen }) {
           );
         })}
       </ListSection>
+
+      <ListSection>
+        <Listheader>Releases</Listheader>
+        {releasesLinks.map((item, index) => {
+          return (
+            <Listitem onClick={toggleOpen} key={index}>
+              <Link to={item.path}>{item.name}</Link>
+            </Listitem>
+          );
+        })}
+      </ListSection>
+
+      {/*<ListSection>*/}
+      {/*  <Listheader>Release Dates (org)</Listheader>*/}
+      {/*  {releaseDateLinks.map((item, index) => {*/}
+      {/*    return (*/}
+      {/*      <Listitem onClick={toggleOpen} key={index}>*/}
+      {/*        <Link to={item.path}>{item.name}</Link>*/}
+      {/*      </Listitem>*/}
+      {/*    );*/}
+      {/*  })}*/}
+      {/*</ListSection>*/}
     </StyledNavMenu>
   );
 }
