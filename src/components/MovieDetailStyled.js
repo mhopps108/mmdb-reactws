@@ -253,8 +253,8 @@ export const StyledRating = styled.div`
 `;
 
 export const RatingsTitle = styled.p`
-  font-size: 1.3rem;
-  font-weight: 500;
+  font-size: 1.1rem;
+  //font-weight: 500;
 `;
 export const RatingProgress = styled.div`
   width: 90px;

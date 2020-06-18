@@ -239,10 +239,12 @@ function ReleaseDates({ data }) {
       {theatrical_release && (
         <StyledReleaseDate>
           <BorderedTag>
-            <FaTicketAlt size={"1.4rem"} color={"#1f4b99"} />
+            <FaTicketAlt size={"1.3rem"} color={"#282c35"} />
             <Smaller>Theatrical</Smaller>
           </BorderedTag>
-          <div style={{ fontSize: "1.15rem" }}>
+          <div
+            style={{ fontSize: "1.1rem", fontWeight: "500", color: "#282c35" }}
+          >
             {moment(theatrical_release).format("MMM Do, YYYY")}
           </div>
         </StyledReleaseDate>
@@ -251,10 +253,10 @@ function ReleaseDates({ data }) {
       {digital_release && (
         <StyledReleaseDate>
           <BorderedTag>
-            <FaCloudDownloadAlt size={"1.4rem"} color={"#1f4b99"} />
+            <FaCloudDownloadAlt size={"1.3rem"} color={"#1f4b99"} />
             <Smaller>Digital</Smaller>
           </BorderedTag>
-          <div style={{ fontSize: "1.15rem" }}>
+          <div style={{ fontSize: "1rem", fontWeight: "500" }}>
             {moment(digital_release).format("MMM Do, YYYY")}
           </div>
         </StyledReleaseDate>
