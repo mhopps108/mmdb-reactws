@@ -32,7 +32,7 @@ const Menu = styled.div`
 
   background: white;
   //min-width: 160px;
-  padding: 8px 0;
+  padding: 25px 0 8px;
   border: 1px solid lightgray;
   border-radius: 6px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
@@ -96,6 +96,7 @@ export default function Dropdown({ sortData }) {
     <NavDropdownWrap ref={ref}>
       <DropdownButton onClick={toggleOpen}>Sort</DropdownButton>
       <Menu isOpen={isOpen}>
+        <p style={{ position: "fixed", top: "8px", left: "10px" }}>SortBy</p>
         {sortData.map(({ value, label }) => (
           <MenuLink>
             <Link to={"/"}>{label}</Link>
