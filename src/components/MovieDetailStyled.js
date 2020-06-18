@@ -258,6 +258,10 @@ export const RatingsTitle = styled.p`
 `;
 export const RatingProgress = styled.div`
   width: 90px;
+
+  .rs-progress-circle-info > span {
+    color: #282c35;
+  }
 `;
 
 export const RatingAvg = styled.div`

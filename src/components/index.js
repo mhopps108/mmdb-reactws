@@ -17,9 +17,11 @@ import MoviePosterList from "./MoviePosterList";
 import MovieDetail from "./MovieDetail";
 
 import HeaderRes from "./HeaderRes";
+import NavDropdown from "./NavDropdown";
 
 export {
   HeaderRes,
+  NavDropdown,
   Header,
   Sidebar,
   Toolbar,

@@ -86,7 +86,7 @@ const InfoList = ({ year, runtime, certification, imdb_rating_avg }) => {
       {year && <InfoItem>{year}</InfoItem>}
       <InfoItem>
         {runtime || "0"}
-        <small> mins</small>
+        <small>m</small>
       </InfoItem>
       <InfoItem>{certification || "-"}</InfoItem>
       <InfoItem>{imdb_rating_avg || "0.0"}</InfoItem>

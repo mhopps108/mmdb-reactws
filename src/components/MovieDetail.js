@@ -150,16 +150,16 @@ function Ratings({ data }) {
         </StyledRating>
 
         <StyledRating>
-          <RatingsTitle>TMDb</RatingsTitle>
+          <RatingsTitle>The Movie Db</RatingsTitle>
           <RatingProgress>
             <Progress.Circle
               percent={tmdb_rating_avg * 10 || "0.0"}
-              strokeColor="#1f4b99"
-              strokeWidth={8}
-              trailWidth={8}
+              strokeColor="#282c35"
+              strokeWidth={10}
+              trailWidth={10}
             />
           </RatingProgress>
-          <Smaller>{`${tmdb_rating_count || "No"} votes`}</Smaller>
+          <Smaller>{`${tmdb_rating_count || "No"} Votes`}</Smaller>
         </StyledRating>
 
         {/*<StyledRating>*/}

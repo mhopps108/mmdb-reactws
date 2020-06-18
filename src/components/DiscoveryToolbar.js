@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { device } from "../devices";
 import { SortDropdown, FilterMenu } from "../components";
-import { Dropdown, Button, IconButton, Icon } from "rsuite";
+import { IconButton, Icon } from "rsuite";
 import { queryToFilterState } from "../pages/Discover";
+import Dropdown from "../components/Dropdown";
 
 const StyledToolbar = styled.div`
   grid-area: toolbar;
@@ -186,6 +187,7 @@ export default function DiscoveryToolbar({
         <ListNameWrap>
           <ListName>{name || "Loading..."}</ListName>
           <MovieCountTag>{movie_count || "#"}</MovieCountTag>
+          <Dropdown sortData={sortData} />
           <SortWrap>
             <SortDropdown
               sortData={sortData}
