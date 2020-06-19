@@ -18,8 +18,10 @@ import MovieDetail from "./MovieDetail";
 
 import HeaderRes from "./HeaderRes";
 import NavDropdown from "./NavDropdown";
+import FilterMenuSheet from "./FilterMenuSheet";
 
 export {
+  FilterMenuSheet,
   HeaderRes,
   NavDropdown,
   Header,

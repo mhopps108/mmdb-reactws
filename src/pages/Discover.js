@@ -62,7 +62,8 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
     history.push(`/discover/?${queryParams.toString()}`);
   };
   const onApplyFilters = (queryString) => {
-    toggleShowFilters();
+    // toggleShowFilters();
+    setShowFilterMenu(false);
     history.push(`/discover/?sortby=${sort}&${queryString}`);
   };
 

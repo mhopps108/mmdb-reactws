@@ -92,22 +92,21 @@ export default function NavDropdown() {
   return (
     <NavDropdownWrap ref={ref}>
       <DropdownButton onClick={toggleOpen}>List</DropdownButton>
-      {true && (
-        <Menu isOpen={isOpen}>
-          <MenuLink>
-            <Link to={"/lists/tmdb-popular"}>Popular</Link>
-          </MenuLink>
-          <MenuLink>
-            <Link to={"/lists/tmdb-popular"}>Upcoming</Link>
-          </MenuLink>
-          <MenuLink>
-            <Link to={"/lists/tmdb-popular"}>Now Playing</Link>
-          </MenuLink>
-          <MenuLink>
-            <Link to={"/lists/tmdb-popular"}>Top Rated</Link>
-          </MenuLink>
-        </Menu>
-      )}
+
+      <Menu isOpen={isOpen}>
+        <MenuLink>
+          <Link to={"/lists/tmdb-popular"}>Popular</Link>
+        </MenuLink>
+        <MenuLink>
+          <Link to={"/lists/tmdb-popular"}>Upcoming</Link>
+        </MenuLink>
+        <MenuLink>
+          <Link to={"/lists/tmdb-popular"}>Now Playing</Link>
+        </MenuLink>
+        <MenuLink>
+          <Link to={"/lists/tmdb-popular"}>Top Rated</Link>
+        </MenuLink>
+      </Menu>
     </NavDropdownWrap>
   );
 }

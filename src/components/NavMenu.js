@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
 import {
   tmdbLinks,
@@ -45,7 +45,8 @@ const StyledNavMenu = styled.div`
 
   max-height: calc(100vh - 55px);
   //height: 400px;
-  width: 100%;
+  //width: 100%;
+  width: 100vw;
   max-width: 1000px;
 
   //display: grid;

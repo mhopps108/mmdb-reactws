@@ -75,8 +75,8 @@ const SortDropDown = ({ sortData, sortValue, onOrderChange }) => {
       <Whisper
         preventOverflow
         placement="auto"
-        // trigger="click"
-        trigger="hover"
+        trigger="click"
+        // trigger="hover"
         // trigger={["click", "hover"]}
         triggerRef={triggerRef}
         speaker={

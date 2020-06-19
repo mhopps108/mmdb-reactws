@@ -33,7 +33,7 @@ export const genreOptions = [
   { name: "mystery", label: "Mystery" },
 
   { name: "romance", label: "Romance" },
-  { name: "sci-fi", label: "Sci-Fi" },
+  { name: "science fiction", label: "Sci-Fi" },
   { name: "sport", label: "Sport" },
   { name: "thriller", label: "Thriller" },
   { name: "war", label: "War" },

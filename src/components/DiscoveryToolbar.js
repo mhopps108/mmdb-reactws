@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { device } from "../devices";
-import { SortDropdown, FilterMenu } from "../components";
+import { SortDropdown, FilterMenu, FilterMenuSheet } from "../components";
 import { IconButton, Icon } from "rsuite";
 import { queryToFilterState } from "../pages/Discover";
 import Dropdown from "../components/Dropdown";
@@ -187,7 +187,6 @@ export default function DiscoveryToolbar({
         <ListNameWrap>
           <ListName>{name || "Loading..."}</ListName>
           <MovieCountTag>{movie_count || "#"}</MovieCountTag>
-          <Dropdown sortData={sortData} />
           <SortWrap>
             <SortDropdown
               sortData={sortData}
@@ -234,6 +233,11 @@ export default function DiscoveryToolbar({
             onApplyFilters={onApplyFilters}
           />
         </FilterMenuWrap>
+        <FilterMenuSheet
+          filterState={filterState}
+          setQuery={setQuery}
+          onApplyFilters={onApplyFilters}
+        />
       </DiscoveryToolBarWrap>
     </StyledToolbar>
   );

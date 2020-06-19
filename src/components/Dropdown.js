@@ -9,6 +9,8 @@ import {
   discoveryLinks,
 } from "../constants/routes";
 
+// https://csslayout.io/patterns/dropdown/
+
 const NavDropdownWrap = styled.div``;
 
 const DropdownButton = styled.button`
@@ -26,22 +28,32 @@ const Menu = styled.div`
   visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
   opacity: ${(props) => (props.isOpen ? 1 : 0)};
 
-  position: absolute;
+  //position: absolute;
+  position: fixed;
+  // bottom: ${(props) => (props.isOpen ? "0" : "0")};
+  // left: ${(props) => (props.isOpen ? "0" : "0")};
+  bottom: 0;
+  left: 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-
+  
+  border: 2px solid red;
   background: white;
   //min-width: 160px;
   padding: 25px 0 8px;
-  border: 1px solid lightgray;
+  //border: 1px solid lightgray;
   border-radius: 6px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   //z-index: 11;
   //top: 70px;
-  min-width: 50vw;
-  max-width: 90vw;
+  //height: 100%;
+  min-height: 150px;
+  max-height: 90vh;
+  width: 100vw;
+  max-width: 600px;
+
   transform: ${(props) =>
-    props.isOpen ? "translateX(-50%)" : "translateX(200%)"};
+    props.isOpen ? "translateY(0%)" : "translateY(100%)"};
   transition: all 200ms ease;
 `;
 

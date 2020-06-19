@@ -14,22 +14,25 @@ import {
 import { NavDropdown } from "../components";
 
 const NavMenuWrap = styled.div`
-  display: ${(props) => (props.isOpen ? "flex" : "none")};
-  //display: flex;
+  //display: ${(props) => (props.isOpen ? "flex" : "none")};
+  display: flex;
+  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};  
   flex-direction: column;
   opacity: ${(props) => (props.isOpen ? "1" : "0")};
-  position: fixed;
+  position: fixed;  
   top: 0;
   bottom: 0;
   right: 0;
   left: 0;
-  //margin: 30px;
+  border: 2px solid lightgray;
+  border-radius: 6px;
   background: #282c35;
+  transition: all 100ms ease-in-out;
 
   @media ${device.min.tablet} {
     display: none;
-    opacity: 0;
     //visibility: hidden;
+    opacity: 0;
   }
 `;
 
@@ -58,22 +61,26 @@ const MenuButton = styled.button`
   right: 1.5rem;
   font-size: 1.5rem;
   padding: 4px 8px;
+  color: #282c35;
   background: whitesmoke;
-  border: 1px solid #333;
+  border: 1px solid lightgray;
   border-radius: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
 
   @media ${device.min.tablet} {
-    display: none;
-    //visibility: hidden;
+    //display: none;
+    visibility: hidden;
   }
 `;
 
 const NavMenu = ({ isOpen, toggleNav }) => {
   return (
     <NavMenuWrap isOpen={isOpen}>
+      <NavBrand style={{ marginLeft: "12px" }}>
+        <Link to="/">MMDb</Link>
+      </NavBrand>
       <NavSection>
         <p>{"List"}</p>
         {tmdbLinks.map(({ name, path }, index) => {
@@ -161,8 +168,7 @@ const Header = styled.header`
 `;
 
 const Nav = styled.nav`
-  //display: none;
-  display: flex;
+  display: none;
 
   a {
     color: white;
@@ -172,15 +178,8 @@ const Nav = styled.nav`
 
   @media ${device.min.small} {
     display: flex;
-    flex-direction: row;
   }
 `;
-
-// const NavDropdown = styled.button``;
-
-// const DropdownMenu = styled.div`
-//   visibility: ${(props) => (props.open ? "visible" : "hidden")};
-// `;
 
 const NavBrand = styled.h1`
   font-size: 1.5rem;
@@ -193,7 +192,7 @@ const NavBrand = styled.h1`
 
 const NavButton = styled.button`
   font-size: 1.2rem;
-  padding-left: 0.5rem;
+  padding-left: 1rem;
   //margin: 0 5px 0 15px;
   color: white;
   background: transparent;
