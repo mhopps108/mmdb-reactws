@@ -62,7 +62,7 @@ export const FilterSection = styled.div`
   padding: 10px 8px;
   //align-items: flex-start;
   @media ${device.min.tablet} {
-    width: 50%;
+    //width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

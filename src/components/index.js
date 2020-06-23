@@ -19,8 +19,10 @@ import MovieDetail from "./MovieDetail";
 import HeaderRes from "./HeaderRes";
 import NavDropdown from "./NavDropdown";
 import FilterMenuSheet from "./FilterMenuSheet";
+import ActionMenu from "./ActionMenu";
 
 export {
+  ActionMenu,
   FilterMenuSheet,
   HeaderRes,
   NavDropdown,

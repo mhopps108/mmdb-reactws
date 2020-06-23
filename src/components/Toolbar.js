@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components/macro";
 import { device } from "../devices";
-import { DatePager, SortDropdown } from "../components";
+import { DatePager, SortDropdown, ActionMenu } from "../components";
+import { FaSort, FaTimes } from "react-icons/fa";
 
 const DatePagerWrap = styled.div`
   grid-area: datepager;
@@ -36,7 +37,7 @@ const StyledToolbar = styled.div`
   //display: flex;
   //flex-direction: column;
   //justify-content: space-between;
-  padding: 8px 16px;
+  //padding: 8px 16px;
   box-shadow: 0 5px 25px 6px rgba(0, 0, 0, 0.2);
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
@@ -49,6 +50,7 @@ const StyledToolbar = styled.div`
 `;
 
 const ToolBarWrap = styled.div`
+  padding: 8px 16px;
   //display: flex;
   //flex-direction: row;
   //justify-content: space-between;
@@ -109,9 +111,19 @@ const FilterButton = styled.button`
   background: white;
 `;
 
-const ChildWrap = styled.div`
+const SortButton = styled.button`
+  position: fixed;
+  bottom: 2rem;
+  right: 1rem;
+  width: 35px;
+  height: 35px;
+  background: whitesmoke;
+  border: 1px solid lightgray;
   display: flex;
-  width: 100%;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
 `;
 
 export default function Toolbar({
@@ -119,20 +131,12 @@ export default function Toolbar({
   dateData = null,
   filter = null,
   sortOptions = null,
-  children,
 }) {
   const { name, source, movie_count } = listData;
-  // const { prev, next, goToToday, currentDate } = dateData || {};
-  // const { goPrevWeek, goNextWeek, prevLink, nextLink, goToToday, currentDate } =
-  //   dateData || {};
   const { goPrevWeek, goNextWeek, goToToday, currentDate } = dateData || {};
   const { sortData, orderByValue, onOrderChange } = sortOptions || {};
-
-  // const getSortLabel = () => {
-  //   console.log("orderByValue: ", orderByValue);
-  //   const found = sortData.find((item) => item.value === orderByValue);
-  //   return found.label;
-  // };
+  const [sortOpen, setSortOpen] = useState(false);
+  const toggleSortOpen = () => setSortOpen(!sortOpen);
 
   return (
     <StyledToolbar>
@@ -155,15 +159,20 @@ export default function Toolbar({
             />
           </DatePagerWrap>
         )}
-        {sortOptions && (
-          <SortWrap>
-            <SortDropdown
-              sortData={sortData}
-              sortValue={orderByValue}
-              onOrderChange={onOrderChange}
-            />
-          </SortWrap>
-        )}
+        <SortButton onClick={toggleSortOpen}>
+          <FaSort />
+        </SortButton>
+
+        {/*{sortOptions && (*/}
+        {/*  <SortWrap>*/}
+        {/*    <SortDropdown*/}
+        {/*      sortData={sortData}*/}
+        {/*      sortValue={orderByValue}*/}
+        {/*      onOrderChange={onOrderChange}*/}
+        {/*    />*/}
+        {/*  </SortWrap>*/}
+        {/*)}*/}
+
         {/*<SortWrap>*/}
         {/*<Dropdown*/}
         {/*  noCaret*/}
@@ -192,6 +201,15 @@ export default function Toolbar({
         {/* </SortWrap>*/}
         {/*)}*/}
       </ToolBarWrap>
+      {sortOptions && (
+        <ActionMenu
+          isOpen={sortOpen}
+          toggleOpen={toggleSortOpen}
+          sortData={sortData}
+          sortValue={orderByValue}
+          onOrderChange={onOrderChange}
+        />
+      )}
       {/*<ChildWrap>{children}</ChildWrap>*/}
     </StyledToolbar>
   );

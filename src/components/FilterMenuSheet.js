@@ -195,6 +195,8 @@ const FilterButtonWrap = styled.button`
   position: fixed;
   bottom: 2rem;
   right: 2rem;
+  border-radius: 5px;
+  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.1);
 
   & .filter-btn {
     color: ${(props) => (props.isOpen ? "#fff" : "#333")};
@@ -227,11 +229,12 @@ const FilterMenuMobileWrap = styled.div`
   width: 100vw;
   height: 100vh;
   z-index: 1000;
-
-  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
   transition: all 100ms ease;
 
-  @media ${device.min.tablet} {
+  @media ${device.min.desktop} {
     //flex-direction: row;
     display: none;
   }
@@ -242,34 +245,27 @@ const Menu = styled.div`
   opacity: ${(props) => (props.isOpen ? 1 : 0)};
   position: fixed;
   bottom: 0;
-  left: 0;
   // TODO: scroll view for short phones
-
-  //display: grid;
-  //grid-template-columns: repeat(4, 1fr);
   display: flex;
   flex-direction: column;
 
   background: white;
-
-  //padding: 0 8px;
   border: 2px solid lightgray;
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   //z-index: 11;
 
-  min-height: 150px;
-  max-height: 90vh;
-  width: 100vw;
+  //min-height: 150px;
+  //max-height: 90vh;
+  width: 100%;
   max-width: 600px;
 
   transform: ${(props) =>
     props.isOpen ? "translateY(0%)" : "translateY(100%)"};
   transition: all 200ms ease;
 
-  @media ${device.min.tablet} {
-    //flex-direction: row;
-    display: none;
+  @media ${device.min.desktop} {
+    //display: none;
   }
 `;
