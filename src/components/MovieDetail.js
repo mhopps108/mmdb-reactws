@@ -41,7 +41,7 @@ import {
   ScrollCreditPosterTag,
   RatingProgress,
   RatingsTitle,
-} from "./MovieDetailStyled";
+} from "../styled/MovieDetailStyled";
 
 const BackgroundBlur = styled.div`
   background-image: url(${(props) => props.url});

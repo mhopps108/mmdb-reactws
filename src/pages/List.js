@@ -1,25 +1,11 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import {
-  HeaderRes,
-  Header,
-  Sidebar,
-  Toolbar,
-  MovieList,
-  MoviePosterList,
-  NavMenu,
-} from "../components";
+import { Header, Toolbar, MovieList, MoviePosterList } from "../components";
 import styled, { css } from "styled-components/macro";
 import { useDataApi } from "../useDataApi";
 import { device } from "../devices";
 
-export default function List({
-  sidebarVisible,
-  toggleSidebar,
-  navMenuVisible,
-  toggleNavMenu,
-  view = "list",
-}) {
+export default function List({ view = "list" }) {
   let { slug } = useParams();
   slug = slug || "tmdb-popular";
   const listUrl = `https://www.matthewhopps.com/api/list/${slug}/`;
@@ -38,9 +24,7 @@ export default function List({
 
   return (
     <StyledList>
-      <HeaderRes toggleNavMenu={toggleNavMenu} />
-      {/*<Header toggleSidebar={toggleSidebar} toggleNavMenu={toggleNavMenu} />*/}
-      <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
+      <Header />
       <Toolbar listData={data} />
       {view === "poster" && (
         <MoviePosterList

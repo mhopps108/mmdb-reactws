@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components/macro";
 import { device } from "../devices";
-import { DatePager, SortDropdown, ActionMenu } from "../components";
+import { DatePager, ActionMenu, Portal } from "../components";
 import { FaSort, FaTimes } from "react-icons/fa";
 
 const DatePagerWrap = styled.div`
@@ -113,10 +113,12 @@ const FilterButton = styled.button`
 
 const SortButton = styled.button`
   position: fixed;
-  bottom: 2rem;
-  right: 1rem;
-  width: 35px;
-  height: 35px;
+  bottom: 5rem;
+  right: 1.5rem;
+  //width: 35px;
+  //height: 35px;
+  font-size: 1.5rem;
+  padding: 4px 8px;
   background: whitesmoke;
   border: 1px solid lightgray;
   display: flex;
@@ -137,6 +139,11 @@ export default function Toolbar({
   const { sortData, orderByValue, onOrderChange } = sortOptions || {};
   const [sortOpen, setSortOpen] = useState(false);
   const toggleSortOpen = () => setSortOpen(!sortOpen);
+
+  function getSortLabel(orderByValue) {
+    const found = sortData.find((item) => item.value === orderByValue);
+    return found.label;
+  }
 
   return (
     <StyledToolbar>
@@ -159,58 +166,28 @@ export default function Toolbar({
             />
           </DatePagerWrap>
         )}
-        <SortButton onClick={toggleSortOpen}>
-          <FaSort />
-        </SortButton>
-
-        {/*{sortOptions && (*/}
-        {/*  <SortWrap>*/}
-        {/*    <SortDropdown*/}
-        {/*      sortData={sortData}*/}
-        {/*      sortValue={orderByValue}*/}
-        {/*      onOrderChange={onOrderChange}*/}
-        {/*    />*/}
-        {/*  </SortWrap>*/}
-        {/*)}*/}
-
-        {/*<SortWrap>*/}
-        {/*<Dropdown*/}
-        {/*  noCaret*/}
-        {/*  placement={"bottomEnd"}*/}
-        {/*  activeKey={orderByValue}*/}
-        {/*  onSelect={onOrderChange}*/}
-        {/*  // title={() => getSortLabel()}*/}
-        {/*  // icon={<Icon icon="sort-amount-desc" />}*/}
-        {/*  renderTitle={() => {*/}
-        {/*    return (*/}
-        {/*      <IconButton*/}
-        {/*        appearance="link"*/}
-        {/*        icon={<Icon icon="sort-amount-desc" />}*/}
-        {/*        placement="right"*/}
-        {/*        size={"sm"}*/}
-        {/*      >*/}
-        {/*        {getSortLabel()}*/}
-        {/*      </IconButton>*/}
-        {/*    );*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  {sortData.map(({ value, label }) => (*/}
-        {/*    <Dropdown.Item eventKey={value}>{label}</Dropdown.Item>*/}
-        {/*  ))}*/}
-        {/*</Dropdown>*/}
-        {/* </SortWrap>*/}
-        {/*)}*/}
+        {sortOptions && (
+          <SortWrap>
+            <span>SortBy: {getSortLabel(orderByValue)}</span>
+          </SortWrap>
+        )}
+        {sortOptions && (
+          <SortButton onClick={toggleSortOpen}>
+            <FaSort />
+          </SortButton>
+        )}
       </ToolBarWrap>
       {sortOptions && (
-        <ActionMenu
-          isOpen={sortOpen}
-          toggleOpen={toggleSortOpen}
-          sortData={sortData}
-          sortValue={orderByValue}
-          onOrderChange={onOrderChange}
-        />
+        <Portal>
+          <ActionMenu
+            isOpen={sortOpen}
+            toggleOpen={toggleSortOpen}
+            sortData={sortData}
+            sortValue={orderByValue}
+            onOrderChange={onOrderChange}
+          />
+        </Portal>
       )}
-      {/*<ChildWrap>{children}</ChildWrap>*/}
     </StyledToolbar>
   );
 }

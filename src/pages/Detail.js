@@ -1,20 +1,12 @@
-import React, { useState } from "react";
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
-import { Header, Sidebar, MovieDetail, NavMenu } from "../components";
-import styled, { css } from "styled-components/macro";
+import React from "react";
+import { Header, MovieDetail } from "../components";
+import styled from "styled-components/macro";
 import { device } from "../devices";
 
-export default function Detail({
-  sidebarVisible,
-  toggleSidebar,
-  navMenuVisible,
-  toggleNavMenu,
-}) {
+export default function Detail() {
   return (
     <StyledDetail>
-      <Header toggleSidebar={toggleSidebar} toggleNavMenu={toggleNavMenu} />
-      <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
-      {/*<Sidebar isOpen={sidebarVisible} toggleOpen={toggleSidebar} />*/}
+      <Header />
       <MovieDetail />
     </StyledDetail>
   );

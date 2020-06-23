@@ -3,6 +3,17 @@ import styled from "styled-components/macro";
 import { device } from "../devices";
 import { Dropdown, Popover, Whisper, Button, IconButton, Icon } from "rsuite";
 
+// usage in toolbar
+// {/*{sortOptions && (*/}
+// {/*  <SortWrap>*/}
+// {/*    <SortDropdown*/}
+// {/*      sortData={sortData}*/}
+// {/*      sortValue={orderByValue}*/}
+// {/*      onOrderChange={onOrderChange}*/}
+// {/*    />*/}
+// {/*  </SortWrap>*/}
+// {/*)}*/}
+
 // TODO: break apart (used twice in this file)
 const MenuWrap = styled.div`
   .rs-dropdown-menu > .rs-dropdown-item-active > .rs-dropdown-item-content,

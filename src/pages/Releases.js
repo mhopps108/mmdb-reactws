@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useReducer, useCallback } from "react";
 import { useRouteMatch, useHistory, useLocation } from "react-router-dom";
-import { Header, Toolbar, MovieList, NavMenu } from "../components";
-import styled, { css } from "styled-components/macro";
+import { Header, Toolbar, MovieList } from "../components";
+import styled from "styled-components/macro";
 import { useDataApi } from "../useDataApi";
-import { device } from "../devices";
 import moment from "moment";
 import twix from "twix";
 import { releasesSortOptions } from "../constants";
-import { useDateRange } from "../hooks";
 
 // TODO: if sorting by release date, use correct release_date
 //   eg: release type digital, orderBy: digital_release
@@ -114,8 +112,7 @@ export default function Releases({ navMenuVisible, toggleNavMenu }) {
 
   return (
     <StyledReleases>
-      <Header toggleNavMenu={toggleNavMenu} />
-      <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
+      <Header />
       <Toolbar listData={listData} dateData={dateData} sortOptions={sortData} />
       <MovieList
         movies={data?.results}

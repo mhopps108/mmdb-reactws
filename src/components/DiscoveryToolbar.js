@@ -1,18 +1,16 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import styled from "styled-components/macro";
-import { device } from "../devices";
-import { SortDropdown, FilterMenu, FilterMenuSheet } from "../components";
+import { FilterMenu, FilterMenuSheet, Portal, ActionMenu } from "../components";
 import { IconButton, Icon } from "rsuite";
 import { queryToFilterState } from "../pages/Discover";
-import Dropdown from "../components/Dropdown";
+import { FaSort, FaTimes } from "react-icons/fa";
 
 const StyledToolbar = styled.div`
   grid-area: toolbar;
   background-color: white;
   color: #333;
   position: sticky; // TODO: make Header and Toolbar fixed
-  min-height: 40px;
+  //min-height: 40px;
   top: 55px;
   padding: 8px 16px;
   box-shadow: 0 5px 25px 6px rgba(0, 0, 0, 0.2);
@@ -133,6 +131,21 @@ const ActiveFilterTag = styled.div`
   border-radius: 4px;
 `;
 
+const SortButton = styled.button`
+  position: fixed;
+  bottom: 8rem;
+  right: 1.5rem;
+  font-size: 1.5rem;
+  padding: 4px 8px;
+  background: whitesmoke;
+  border: 1px solid lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+`;
+
 export default function DiscoveryToolbar({
   listData,
   filterMenuIsOpen,
@@ -142,8 +155,16 @@ export default function DiscoveryToolbar({
   onApplyFilters,
   sortOptions,
 }) {
+  const [sortOpen, setSortOpen] = useState(false);
+  const toggleSortOpen = () => setSortOpen(!sortOpen);
+
   const { name, movie_count } = listData;
   const { sortData, orderByValue, onOrderChange } = sortOptions || {};
+
+  function getSortLabel(orderByValue) {
+    const found = sortData.find((item) => item.value === orderByValue);
+    return found.label;
+  }
 
   const activeFiltersArr = () => {
     console.log("DiscoveryToolbar: filterState: ", filterState);
@@ -187,13 +208,13 @@ export default function DiscoveryToolbar({
         <ListNameWrap>
           <ListName>{name || "Loading..."}</ListName>
           <MovieCountTag>{movie_count || "#"}</MovieCountTag>
-          <SortWrap>
-            <SortDropdown
-              sortData={sortData}
-              sortValue={orderByValue}
-              onOrderChange={onOrderChange}
-            />
-          </SortWrap>
+          {/*<SortWrap>*/}
+          {/*<SortDropdown*/}
+          {/*  sortData={sortData}*/}
+          {/*  sortValue={orderByValue}*/}
+          {/*  onOrderChange={onOrderChange}*/}
+          {/*/>*/}
+          {/*</SortWrap>*/}
           <FilterButtonWrap isOpen={filterMenuIsOpen}>
             <IconButton
               classPrefix={"filter-btn"}
@@ -233,11 +254,26 @@ export default function DiscoveryToolbar({
             onApplyFilters={onApplyFilters}
           />
         </FilterMenuWrap>
-        <FilterMenuSheet
-          filterState={filterState}
-          setQuery={setQuery}
-          onApplyFilters={onApplyFilters}
-        />
+        <Portal>
+          <FilterMenuSheet
+            filterState={filterState}
+            setQuery={setQuery}
+            onApplyFilters={onApplyFilters}
+          />
+        </Portal>
+
+        <SortButton onClick={toggleSortOpen}>
+          <FaSort />
+        </SortButton>
+        <Portal>
+          <ActionMenu
+            isOpen={sortOpen}
+            toggleOpen={toggleSortOpen}
+            sortData={sortData}
+            sortValue={orderByValue}
+            onOrderChange={onOrderChange}
+          />
+        </Portal>
       </DiscoveryToolBarWrap>
     </StyledToolbar>
   );

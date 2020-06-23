@@ -2,12 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
-import {
-  tmdbLinks,
-  releaseDateLinks,
-  releasesLinks,
-  discoveryLinks,
-} from "../constants/routes";
 
 const NavDropdownWrap = styled.div``;
 
@@ -59,24 +53,20 @@ const MenuLink = styled.div`
   }
 `;
 
-export default function NavDropdown() {
-  console.log("RENDER -- NavDropdown");
+export default function NavDropdown({ title, items }) {
   const ref = useRef();
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(!isOpen);
 
   const onOutsideClick = (e) => {
-    console.log("NavDropdown: clicked outside");
-    if (ref.current.contains(e.target)) {
-      return; // inside click
-    }
-    setIsOpen(false); // outside click
+    if (ref.current.contains(e.target)) return;
+    setIsOpen(false);
   };
 
   const onChange = () => {
-    console.log("NavDropdown: clicked");
     setIsOpen(false);
   };
+
   useEffect(() => {
     if (isOpen) {
       document.addEventListener("mousedown", onOutsideClick);
@@ -91,21 +81,14 @@ export default function NavDropdown() {
 
   return (
     <NavDropdownWrap ref={ref}>
-      <DropdownButton onClick={toggleOpen}>List</DropdownButton>
+      <DropdownButton onClick={toggleOpen}>{title}</DropdownButton>
 
       <Menu isOpen={isOpen}>
-        <MenuLink>
-          <Link to={"/lists/tmdb-popular"}>Popular</Link>
-        </MenuLink>
-        <MenuLink>
-          <Link to={"/lists/tmdb-popular"}>Upcoming</Link>
-        </MenuLink>
-        <MenuLink>
-          <Link to={"/lists/tmdb-popular"}>Now Playing</Link>
-        </MenuLink>
-        <MenuLink>
-          <Link to={"/lists/tmdb-popular"}>Top Rated</Link>
-        </MenuLink>
+        {items.map(({ name, path }) => (
+          <MenuLink key={name} onClick={onChange}>
+            <Link to={path}>{name}</Link>
+          </MenuLink>
+        ))}
       </Menu>
     </NavDropdownWrap>
   );

@@ -4,12 +4,10 @@ import {
   Header,
   MovieList,
   MoviePosterList,
-  NavMenu,
   DiscoveryToolbar,
 } from "../components";
-import styled, { css } from "styled-components/macro";
+import styled from "styled-components/macro";
 import { useDataApi } from "../useDataApi";
-import { device } from "../devices";
 import { discoverySortOptions } from "../constants";
 
 // TODO: remove filter from url if not used??
@@ -99,9 +97,7 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
 
   return (
     <StyledDiscover>
-      <Header toggleNavMenu={toggleNavMenu} />
-      {/*TODO: move NavMenu inside header*/}
-      <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
+      <Header />
       <DiscoveryToolbar
         listData={listData}
         filterMenuIsOpen={showFilterMenu}

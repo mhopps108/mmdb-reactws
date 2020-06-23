@@ -57,8 +57,6 @@ export const FilterMenuContentWrap = styled.div`
 `;
 
 export const FilterSection = styled.div`
-  width: 100%;
-  //padding: 10px 20px;
   padding: 10px 8px;
   //align-items: flex-start;
   @media ${device.min.tablet} {

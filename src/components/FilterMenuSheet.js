@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useReducer } from "react";
-import styled, { css } from "styled-components/macro";
+import React, { useState, useReducer } from "react";
+import styled from "styled-components/macro";
 import { device } from "../devices";
-import { RangeSlider, CheckButtonGroup, FilterMenuMobile } from "../components";
+import { RangeSlider, CheckButtonGroup } from "../components";
 import { discoveryQueryString } from "../api";
 import { genreOptions, certOptions } from "../constants";
 import {
@@ -13,7 +13,9 @@ import {
   ApplyButton,
   ApplyButtonWrap,
 } from "../styled/FilterMenuStyled";
-import { Icon, IconButton } from "rsuite";
+import { FaFilter } from "react-icons/fa";
+import { GrClose } from "react-icons/gr";
+import { FiMenu } from "react-icons/fi";
 
 const initFilterState = {
   sortby: "-rating,-votes",
@@ -81,22 +83,14 @@ export default function FilterMenuSheet({
 
   return (
     <>
-      <FilterButtonWrap isOpen={isOpen}>
-        <IconButton
-          classPrefix={"filter-btn"}
-          onClick={toggleOpen}
-          icon={<Icon icon={isOpen ? "close" : "filter"} />}
-          // size={"lg"}
-          placement="right"
-          appearance="link"
-          // appearance={"ghost"}
-        />
+      <FilterButtonWrap>
+        <MenuButton onClick={toggleOpen}>
+          <FaFilter />
+        </MenuButton>
       </FilterButtonWrap>
-      <FilterMenuMobileWrap isOpen={isOpen}>
-        {/*<Button onClick={toggleOpen}>Sort</Button>*/}
 
+      <FilterMenuMobileWrap isOpen={isOpen}>
         <Menu isOpen={isOpen}>
-          {/*<FilterMenuContentWrap isOpen={isOpen}>*/}
           <FilterSection>
             <CheckButtonGroup
               sectionName="Age Rating"
@@ -161,14 +155,50 @@ export default function FilterMenuSheet({
               Apply Filters
             </Button>
           </ActionButtonWrap>
-          {/*</FilterMenuContentWrap>*/}
         </Menu>
       </FilterMenuMobileWrap>
     </>
   );
 }
 
-export const ActionButtonWrap = styled.div`
+const MenuButton = styled.button`
+  position: fixed;
+  bottom: 5rem;
+  right: 1.5rem;
+  font-size: 1.5rem;
+  padding: 4px 8px;
+  color: #282c35;
+  background: whitesmoke;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media ${device.min.tablet} {
+    //display: none;
+    visibility: hidden;
+  }
+`;
+
+const FilterButtonWrap = styled.button`
+  position: fixed;
+  bottom: 5rem;
+  right: 1.5rem;
+  border-radius: 5px;
+  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.1);
+
+  color: ${(props) => (props.isOpen ? "#fff" : "#333")};
+  background: ${(props) => (props.isOpen ? "#1f4b99" : "whitesmoke")};
+  border: 1px solid lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  text-decoration: none;
+`;
+
+const ActionButtonWrap = styled.div`
   width: 100%;
   //margin-top: 15px;
   display: flex;
@@ -191,27 +221,7 @@ const Button = styled.button`
   border-radius: 4px;
 `;
 
-const FilterButtonWrap = styled.button`
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  border-radius: 5px;
-  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.1);
-
-  & .filter-btn {
-    color: ${(props) => (props.isOpen ? "#fff" : "#333")};
-    background: ${(props) => (props.isOpen ? "#1f4b99" : "whitesmoke")};
-    border: 1px solid lightgray;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1rem;
-    text-decoration: none;
-    border-radius: 5px;
-  }
-`;
-
-export const RangeSliderWrap = styled.div`
+const RangeSliderWrap = styled.div`
   //background: whitesmoke;
   //padding: 12px;
   margin: 10px 15px;
@@ -235,7 +245,6 @@ const FilterMenuMobileWrap = styled.div`
   transition: all 100ms ease;
 
   @media ${device.min.desktop} {
-    //flex-direction: row;
     display: none;
   }
 `;
@@ -254,12 +263,10 @@ const Menu = styled.div`
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  //z-index: 11;
 
-  //min-height: 150px;
-  //max-height: 90vh;
-  width: 100%;
   max-width: 600px;
+  max-height: calc(100vh - 5px);
+  overflow-y: scroll;
 
   transform: ${(props) =>
     props.isOpen ? "translateY(0%)" : "translateY(100%)"};

@@ -23,7 +23,7 @@ const StyledMovieList = styled.div`
   //background-color: lightgray;
   background: #282c35;
   display: grid;
-  box-shadow: 0 0 25px 20px lightgrey;
+  //box-shadow: 0 0 25px 20px lightgrey;
   //height: calc(100vh - 100px);
   //overflow: scroll;
 `;

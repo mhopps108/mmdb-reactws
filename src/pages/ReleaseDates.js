@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useReducer } from "react";
 import { useRouteMatch, useHistory, useLocation } from "react-router-dom";
-import { Header, Toolbar, MovieList, NavMenu } from "../components";
-import styled, { css } from "styled-components/macro";
+import { Header, Toolbar, MovieList } from "../components";
+import styled from "styled-components/macro";
 import { useDataApi } from "../useDataApi";
 import { device } from "../devices";
 import moment from "moment";
 import twix from "twix";
 import { releasesSortOptions } from "../constants";
-import { useDateRange } from "../hooks";
 
 // Todo: useReducer
 // NextWeek, PrevWeek, ThisWeek,
@@ -106,8 +105,7 @@ export default function ReleaseDates({ navMenuVisible, toggleNavMenu }) {
 
   return (
     <StyledReleases>
-      <Header toggleNavMenu={toggleNavMenu} />
-      <NavMenu isOpen={navMenuVisible} toggleOpen={toggleNavMenu} />
+      <Header />
       <Toolbar
         listData={listData}
         dateData={dateData}
