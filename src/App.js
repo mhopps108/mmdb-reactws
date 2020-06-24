@@ -48,7 +48,6 @@ export default function App() {
           <Route path={"/release-dates"}>
             <ReleaseDates />
           </Route>
-          {/*<Route path={"/release-dates/:type"}>*/}
           <Route path={"/releases"}>
             <Releases />
           </Route>
@@ -67,7 +66,6 @@ export default function App() {
 const StyledApp = styled.div`
   max-width: 1000px;
   width: 100vw;
-  height: 100vh;
   margin-left: auto;
   margin-right: auto;
   background: #282c35;

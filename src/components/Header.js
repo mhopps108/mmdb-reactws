@@ -6,7 +6,12 @@ import { NavDropdown } from "../components";
 import { FaSearch, FaUserAlt } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
 import { GrClose } from "react-icons/gr";
-import { tmdbLinks, releasesLinks, discoveryLinks } from "../constants/routes";
+import {
+  tmdbLinks,
+  releasesLinks,
+  discoveryLinks,
+  releaseDateLinks,
+} from "../constants/routes";
 
 const NavMenuWrap = styled.div`
   //display: ${(props) => (props.isOpen ? "flex" : "none")};
@@ -74,6 +79,7 @@ const MenuButton = styled.button`
 `;
 
 const NavMenu = ({ isOpen, toggleNav }) => {
+  const releaseLinks = [...releaseDateLinks, ...releasesLinks];
   return (
     <NavMenuWrap isOpen={isOpen}>
       <NavBrand style={{ marginLeft: "12px" }}>
@@ -90,8 +96,8 @@ const NavMenu = ({ isOpen, toggleNav }) => {
         })}
       </NavSection>
       <NavSection>
-        <p>{"Releases"}</p>
-        {releasesLinks.map(({ name, path }, index) => {
+        <p>{"Release Dates"}</p>
+        {releaseLinks.map(({ name, path }, index) => {
           return (
             <div onClick={toggleNav} key={index}>
               <Link to={path}>{name}</Link>

@@ -1,118 +1,147 @@
-import React, { useState, useEffect, useReducer } from "react";
-import { useRouteMatch, useHistory, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useReducer, useCallback } from "react";
+import {
+  useRouteMatch,
+  useHistory,
+  useLocation,
+  useParams,
+} from "react-router-dom";
 import { Header, Toolbar, MovieList } from "../components";
 import styled from "styled-components/macro";
 import { useDataApi } from "../useDataApi";
-import { device } from "../devices";
 import moment from "moment";
 import twix from "twix";
 import { releasesSortOptions } from "../constants";
 
-// Todo: useReducer
-// NextWeek, PrevWeek, ThisWeek,
-// if sorting by release date, use correct release_date
+// TODO: if sorting by release date, use correct release_date
 //   eg: release type digital, orderBy: digital_release
+// releaseType (theatrical, digital, physical)
+// const makeReleasesUrl = (sortby, startDate, endDate, releaseType) => {
+//   return (
+//       `https://matthewhopps.com/api/releases/` +
+//       `?sortby=${sortby}` +
+//       `&${releaseType}_after=${startDate}` +
+//       `&${releaseType}_before=${endDate}`
+//   );
+// };
+//
+// const makeReleasesUrl = (sortby, startDate, endDate) => {
+//   return (
+//     `https://matthewhopps.com/api/releases/` +
+//     `?sortby=${sortby}` +
+//     `&digital_after=${startDate}` +
+//     `&digital_before=${endDate}`
+//   );
+// };
 
-// export const releasesSortOptions = [
-//   { value: "digital_release,-rating", label: "Release" },
-//   // { value: "release_date", label: "Release Date" },
-//   { value: "-rating,digital_release", label: "Rating" },
-//   { value: "-votes,digital_release", label: "Votes" },
-//   { value: "title,digital_release", label: "Title" },
-//   { value: "year,digital_release", label: "Year" },
-// ];
+const releaseTypes = {
+  theatrical: { value: "theatrical", title: "Theaters" },
+  digital: { value: "digital", title: "Digital" },
+  physical: { value: "physical", title: "Physical" },
+};
+
+const startOfWeek = (date) =>
+  formatDate((moment(date) || moment()).startOf("week"));
+const endOfWeek = (date) =>
+  formatDate((moment(date) || moment()).endOf("week"));
+
+const getPrevWeek = (date) => formatDate(moment(date).subtract(7, "d"));
+const getNextWeek = (date) => formatDate(moment(date).add(7, "d"));
+
+const formatDate = (date) => moment(date).format("YYYY-MM-DD");
 
 function useQueryParams() {
   return new URLSearchParams(useLocation().search);
 }
 
-const startOfWeek = (date) => (moment(date) || moment()).startOf("week");
-const endOfWeek = (date) => (moment(date) || moment()).endOf("week");
+export default function ReleaseDates() {
+  let { type, week } = useParams();
+  console.log("router params: ", type, week);
 
-export default function ReleaseDates({ navMenuVisible, toggleNavMenu }) {
-  let queryParams = useQueryParams();
-  const orderby = queryParams.get("orderby") || "";
-  // releasesSortOptions[0] ??
-  const [orderBy, setOrderBy] = useState([
-    "digital_release",
-    "imdb_rating_avg",
+  // start date
+  let history = useHistory();
+
+  // let match = useRouteMatch("/release-dates/:type/:week");
+  let match = useRouteMatch([
+    "/release-dates/:type/:week",
+    "/release-dates/:type",
   ]);
 
-  let history = useHistory();
-  let match = useRouteMatch("/release-dates/:week");
+  console.log("ReleaseDates: match: ", match);
 
-  console.log("history: ", history);
-  console.log("match: ", match);
+  const releaseType = match
+    ? releaseTypes[match.params.type]
+    : releaseTypes.digital;
+  console.log("ReleaseDates: releaseType: ", releaseType);
+  const startWeek = match ? startOfWeek(match.params.week) : startOfWeek();
+  // console.log("Releases: startWeek: ", startWeek);
+  const [startFrom, setStartFrom] = useState(startWeek);
+  // console.log("Releases: startFrom: ", startFrom);
 
-  // const startWeek = match ? match.params.week : null;
-  // const { dates, prevWeek, nextWeek, startOfWeek } = useDateRange(startWeek);
+  // sort
+  let queryParams = useQueryParams();
+  console.log(`ReleaseDates: queryParams: `, queryParams);
+  console.log(`ReleaseDates: releaseType.value: `, releaseType.value);
+  console.log(
+    `ReleaseDates: releasesSortOptions(releaseType.value): `,
+    releasesSortOptions(releaseType.value)
+  );
 
-  const startWeek = (match) => {
-    const week = match ? match.params.week : startOfWeek();
-    return moment(week).format("YYYY-MM-DD");
-  };
+  const sortOptions = releasesSortOptions(releaseType.value);
+  const initSort = queryParams.get("sortby") || sortOptions[0].value;
+  const [sort, setSort] = useState(initSort);
 
-  const [startDate, setStartDate] = useState(startWeek);
-
-  const listUrl =
-    `https://matthewhopps.com/api/movie/` +
-    `?orderby=${orderBy.join(",")}` +
-    `&digital_release__gte=${startOfWeek(startDate).format("YYYY-MM-DD")}` +
-    `&digital_release__lt=${endOfWeek(startDate).format("YYYY-MM-DD")}`;
+  const listUrl = useCallback(() => {
+    return (
+      `https://matthewhopps.com/api/releases/` +
+      `?sortby=${sort}` +
+      `&${releaseType.value}_after=${startFrom}` +
+      `&${releaseType.value}_before=${endOfWeek(startFrom)}`
+    );
+  }, [sort, startFrom, releaseType]);
   const [state, setUrl] = useDataApi(listUrl, []);
   const { data, isLoading, isError } = state;
   // const { count, results, next, previous } = data;
 
-  const pushWeek = (week) => {
-    history.push(`/release-dates/${week.format("YYYY-MM-DD")}`);
+  const onSortChange = (val) => setSort(val);
+  const startOfThisWeek = () => setStartFrom(startOfWeek());
+  const goPrevWeek = () => setStartFrom(getPrevWeek(startFrom));
+  const goNextWeek = () => setStartFrom(getNextWeek(startFrom));
+
+  // toolbar data
+  const listData = {
+    movie_count: data?.count,
+    name: `${releaseType.title} Releases`,
+    type: releaseType,
   };
-  const prevWeek = () => pushWeek(moment(startDate).subtract(7, "d"));
-  const nextWeek = () => pushWeek(moment(startDate).add(7, "d"));
-
-  useEffect(() => {
-    // startDate changes: history.push new url
-    // read url for setting state with fallback values for
-    // missing "week" & "orderby"
-  }, [startDate]);
-
-  const onOrderChange = (val) => {
-    console.log("selected ORDERBY value:", val);
-    // console.log(typeof val);
-    setOrderBy([val, orderBy[1]]);
-    console.log("ORDERBY: ", orderBy.join(","));
-  };
-
-  const listData = { movie_count: data?.count, name: "Digital Releases" };
   const dateData = {
-    prev: prevWeek,
-    next: nextWeek,
-    goToToday: startOfWeek,
-    currentDate: startDate,
+    goPrevWeek,
+    goNextWeek,
+    goToToday: startOfThisWeek,
+    currentDate: startFrom,
   };
   const sortData = {
-    sortData: releasesSortOptions,
-    orderByValue: orderBy,
-    onOrderChange: onOrderChange,
+    sortData: sortOptions,
+    orderByValue: sort,
+    onOrderChange: onSortChange,
   };
 
   useEffect(() => {
-    setUrl(listUrl);
-  }, [setUrl, startDate, listUrl]);
+    setStartFrom(startWeek);
+  }, [startWeek]);
 
+  // sets url and push new state to url on state changes
   useEffect(() => {
-    setStartDate(startWeek(match));
-  }, [match]);
+    console.log(`ReleaseDates: setUrl/history.push(): `, listUrl);
+    setUrl(listUrl);
+    history.push(
+      `/release-dates/${releaseType.value}/${startFrom}?sortby=${sort}`
+    );
+  }, [history, releaseType, sort, startFrom, listUrl, setUrl]);
 
   return (
     <StyledReleases>
       <Header />
-      <Toolbar
-        listData={listData}
-        dateData={dateData}
-        sortOptions={sortData}
-        // sortValue={orderBy}
-        // setOrderBy={setOrderBy}
-      />
+      <Toolbar listData={listData} dateData={dateData} sortOptions={sortData} />
       <MovieList
         movies={data?.results}
         isLoading={isLoading}

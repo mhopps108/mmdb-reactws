@@ -140,9 +140,14 @@ export default function Toolbar({
   const [sortOpen, setSortOpen] = useState(false);
   const toggleSortOpen = () => setSortOpen(!sortOpen);
 
+  // console.log(`Toolbar: sortData: `, sortData);
   function getSortLabel(orderByValue) {
-    const found = sortData.find((item) => item.value === orderByValue);
-    return found.label;
+    console.log("getSortLabel");
+    console.log("orderByValue", orderByValue);
+    console.log("sortData", sortData);
+    // const found = sortData.find((item) => item.value === orderByValue);
+    // return found.label;
+    // return "Blah";
   }
 
   return (

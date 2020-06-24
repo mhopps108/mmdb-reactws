@@ -5,14 +5,41 @@ export const discoverySortOptions = [
   { value: "title,year", label: "Title" },
 ];
 
-export const releasesSortOptions = [
-  { value: "digital,-rating", label: "Release" },
-  // { value: "release_date", label: "Release Date" },
-  { value: "-rating,digital", label: "Rating" },
-  { value: "-votes,digital", label: "Votes" },
-  { value: "title,digital", label: "Title" },
-  // { value: "year,digital", label: "Year" },
-];
+export const releasesSortOptions = (type) => {
+  // const { value } = type;
+  // if (value) {
+  //   return [
+  //     { value: `${value},-rating`, label: "Release" },
+  //     // { value: "release_date", label: "Release Date" },
+  //     { value: `-rating,${value}`, label: "Rating" },
+  //     { value: `-votes,${value}`, label: "Votes" },
+  //     { value: `title,${value}`, label: "Title" },
+  //     // { value: "year,digital", label: "Year" },
+  //   ];
+  // }
+  // return [
+  //   { value: "-rating", label: "Rating" },
+  //   { value: "-votes", label: "Votes" },
+  //   { value: "title", label: "Title" },
+  // ];
+  return [
+    { value: `${type},-rating`, label: "Release" },
+    // { value: "release_date", label: "Release Date" },
+    { value: `-rating,${type}`, label: "Rating" },
+    { value: `-votes,${type}`, label: "Votes" },
+    { value: `title,${type}`, label: "Title" },
+    // { value: "year,digital", label: "Year" },
+  ];
+};
+
+// export const releasesSortOptions = [
+//   { value: "digital,-rating", label: "Release" },
+//   // { value: "release_date", label: "Release Date" },
+//   { value: "-rating,digital", label: "Rating" },
+//   { value: "-votes,digital", label: "Votes" },
+//   { value: "title,digital", label: "Title" },
+//   // { value: "year,digital", label: "Year" },
+// ];
 
 export const genreOptions = [
   { name: "action", label: "Action" },
