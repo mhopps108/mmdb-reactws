@@ -7,27 +7,6 @@ import moment from "moment";
 import twix from "twix";
 import { releasesSortOptions } from "../constants";
 
-// TODO: if sorting by release date, use correct release_date
-//   eg: release type digital, orderBy: digital_release
-// releaseType (theatrical, digital, physical)
-// const makeReleasesUrl = (sortby, startDate, endDate, releaseType) => {
-//   return (
-//       `https://matthewhopps.com/api/releases/` +
-//       `?sortby=${sortby}` +
-//       `&${releaseType}_after=${startDate}` +
-//       `&${releaseType}_before=${endDate}`
-//   );
-// };
-//
-// const makeReleasesUrl = (sortby, startDate, endDate) => {
-//   return (
-//     `https://matthewhopps.com/api/releases/` +
-//     `?sortby=${sortby}` +
-//     `&digital_after=${startDate}` +
-//     `&digital_before=${endDate}`
-//   );
-// };
-
 const releaseTypes = {
   theatrical: { value: "theatrical", title: "Theaters" },
   digital: { value: "digital", title: "Digital" },
@@ -51,13 +30,13 @@ function useQueryParams() {
 export default function ReleaseDates() {
   // start date
   let history = useHistory();
-  // let match = useRouteMatch("/release-dates/:type/:week");
+  // console.log("HISTORY: ", history);
   let match = useRouteMatch([
     "/release-dates/:type/:week",
     "/release-dates/:type",
   ]);
-  console.log("ReleaseDates: match: ", match);
 
+  // release type
   const releaseType = match
     ? releaseTypes[match.params.type]
     : releaseTypes.digital;
@@ -69,13 +48,6 @@ export default function ReleaseDates() {
 
   // sort
   let queryParams = useQueryParams();
-  console.log(`ReleaseDates: queryParams: `, queryParams);
-  console.log(`ReleaseDates: releaseType.value: `, releaseType.value);
-  console.log(
-    `ReleaseDates: releasesSortOptions(releaseType.value): `,
-    releasesSortOptions(releaseType.value)
-  );
-
   const sortOptions = releasesSortOptions(releaseType.value);
   const initSort = queryParams.get("sortby") || sortOptions[0].value;
   const [sort, setSort] = useState(initSort);

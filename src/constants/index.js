@@ -5,6 +5,15 @@ export const discoverySortOptions = [
   { value: "title,year", label: "Title" },
 ];
 
+// TODO: function to return sort values with asc/desc params
+//  and prepend '-' in front of values
+export const discSortOps = [
+  { value: "rating,votes", label: "Rating" },
+  { value: "votes,rating", label: "Votes" },
+  { value: "year,title", label: "Year" },
+  { value: "title,year", label: "Title" },
+];
+
 export const releasesSortOptions = (type) => {
   // const { value } = type;
   // if (value) {
