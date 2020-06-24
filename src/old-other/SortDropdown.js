@@ -25,6 +25,7 @@ const MenuWrap = styled.div`
     > .rs-dropdown-item-content:focus {
     color: #1f4b99;
     background: whitesmoke;
+    height: 100%;
   }
 
   & .rs-btn-link {

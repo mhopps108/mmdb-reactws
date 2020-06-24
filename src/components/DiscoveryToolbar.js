@@ -4,6 +4,7 @@ import { FilterMenu, FilterMenuSheet, Portal, ActionMenu } from "../components";
 import { IconButton, Icon } from "rsuite";
 import { queryToFilterState } from "../pages/Discover";
 import { FaSort, FaTimes } from "react-icons/fa";
+import SortDropdown from "../old-other/SortDropdown";
 
 const StyledToolbar = styled.div`
   grid-area: toolbar;
@@ -38,8 +39,8 @@ const ListName = styled.p`
 const MovieCountTag = styled.div`
   font-size: 1.1rem;
   border: 1px solid lightgray;
-  background: white;
-  color: #333;
+  background: whitesmoke;
+  color: #282c35;
   border-radius: 10px;
   height: 28px;
   min-width: 28px;
@@ -62,6 +63,7 @@ const SortWrap = styled.div`
   margin-left: auto;
   border-radius: 4px;
   margin-right: 8px;
+  height: 30px;
 `;
 
 const FilterButtonWrap = styled.button`
@@ -208,13 +210,13 @@ export default function DiscoveryToolbar({
         <ListNameWrap>
           <ListName>{name || "Loading..."}</ListName>
           <MovieCountTag>{movie_count || "#"}</MovieCountTag>
-          {/*<SortWrap>*/}
-          {/*<SortDropdown*/}
-          {/*  sortData={sortData}*/}
-          {/*  sortValue={orderByValue}*/}
-          {/*  onOrderChange={onOrderChange}*/}
-          {/*/>*/}
-          {/*</SortWrap>*/}
+          <SortWrap>
+            <SortDropdown
+              sortData={sortData}
+              sortValue={orderByValue}
+              onOrderChange={onOrderChange}
+            />
+          </SortWrap>
           <FilterButtonWrap isOpen={filterMenuIsOpen}>
             <IconButton
               classPrefix={"filter-btn"}
@@ -230,21 +232,13 @@ export default function DiscoveryToolbar({
         </ListNameWrap>
         <ActiveFiltersBar>
           <div style={{ marginRight: "auto" }}>{"Filters"}</div>
-          {/*ActiveFilters: {activeFiltersString()}*/}
           <ActiveFilterTag>{activeFor("genres")}</ActiveFilterTag>
           <ActiveFilterTag>{activeFor("certs")}</ActiveFilterTag>
           <ActiveFilterTag>{activeFor("votes")}</ActiveFilterTag>
           <ActiveFilterTag>{activeFor("ratings_str")}</ActiveFilterTag>
           <ActiveFilterTag>{activeFor("years_str")}</ActiveFilterTag>
-          {/*<ActiveFilterTag>{activeFiltersArr()["genres"]}</ActiveFilterTag>*/}
-          {/*<ActiveFilterTag>*/}
-          {/*  {activeFiltersArr()["ratings_min"]} to{" "}*/}
-          {/*  {activeFiltersArr()["ratings_max"]}*/}
-          {/*</ActiveFilterTag>*/}
-          {/*<ActiveFilterTag>{activeFiltersArr()["genres"]}</ActiveFilterTag>*/}
-          {/*<ActiveFilterTag>{activeFiltersArr()["years"]}</ActiveFilterTag>*/}
         </ActiveFiltersBar>
-        {/*activeFiltersArr*/}
+
         <FilterMenuWrap>
           <FilterMenu
             isOpen={filterMenuIsOpen}

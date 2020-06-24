@@ -101,22 +101,10 @@ const MovieCountTag = styled.div`
   align-items: center;
 `;
 
-const FilterButton = styled.button`
-  border: 1px solid #333;
-  color: #333;
-  padding: 2px 5px;
-  font-size: 1rem;
-  //margin-right: 5px;
-  border-radius: 5px;
-  background: white;
-`;
-
 const SortButton = styled.button`
   position: fixed;
   bottom: 5rem;
   right: 1.5rem;
-  //width: 35px;
-  //height: 35px;
   font-size: 1.5rem;
   padding: 4px 8px;
   background: whitesmoke;
@@ -131,23 +119,17 @@ const SortButton = styled.button`
 export default function Toolbar({
   listData,
   dateData = null,
-  filter = null,
   sortOptions = null,
 }) {
-  const { name, source, movie_count } = listData;
-  const { goPrevWeek, goNextWeek, goToToday, currentDate } = dateData || {};
+  const { name, movie_count } = listData;
+  const { goPrev, goNext, goToToday, displayDateStr } = dateData || {};
   const { sortData, orderByValue, onOrderChange } = sortOptions || {};
   const [sortOpen, setSortOpen] = useState(false);
   const toggleSortOpen = () => setSortOpen(!sortOpen);
 
-  // console.log(`Toolbar: sortData: `, sortData);
   function getSortLabel(orderByValue) {
-    console.log("getSortLabel");
-    console.log("orderByValue", orderByValue);
-    console.log("sortData", sortData);
-    // const found = sortData.find((item) => item.value === orderByValue);
-    // return found.label;
-    // return "Blah";
+    const found = sortData.find((item) => item.value === orderByValue);
+    return found.label;
   }
 
   return (
@@ -158,16 +140,14 @@ export default function Toolbar({
           <MovieCountTag>{movie_count || "#"}</MovieCountTag>
         </ListNameWrap>
 
-        {filter && <FilterButton onClick={filter}>Filter</FilterButton>}
+        {/*{filter && <FilterButton onClick={filter}>Filter</FilterButton>}*/}
         {dateData && (
           <DatePagerWrap>
             <DatePager
-              goPrevWeek={goPrevWeek}
-              goNextWeek={goNextWeek}
-              // prev={prevLink}
-              // next={nextLink}
+              goPrev={goPrev}
+              goNext={goNext}
               goToToday={goToToday}
-              currentDate={currentDate}
+              displayDateStr={displayDateStr}
             />
           </DatePagerWrap>
         )}

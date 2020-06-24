@@ -28,18 +28,11 @@ const DatePagerButton = styled.button`
   }
 `;
 
-const dateStrFormatted = (startDate) => {
-  const endDate = moment(startDate).endOf("week");
-  return moment(startDate).twix(endDate, { allDay: true }).format();
-};
-
 export default function DatePager({
-  goPrevWeek,
-  goNextWeek,
-  // prev,
-  // next,
+  goPrev,
+  goNext,
   goToToday,
-  currentDate,
+  displayDateStr,
 }) {
   // console.log(`DatePager: goPrevWeek: ${goPrevWeek}`);
   // console.log(`DatePager: goNextWeek: ${goNextWeek}`);
@@ -50,29 +43,15 @@ export default function DatePager({
 
   return (
     <DatePagerWrap>
-      <DatePagerButton onClick={goPrevWeek}>
-        {/*/!*<FaAngleLeft />*!/«*/}←
+      <DatePagerButton onClick={goPrev}>
+        <FaAngleLeft />
       </DatePagerButton>
       <DatePagerButton onClick={goToToday}>
-        <FiCalendar /> {dateStrFormatted(currentDate)}
-        {/*<Link to="/releases">{dateStrFormatted(currentDate)}</Link>*/}
+        <FiCalendar /> {displayDateStr}
       </DatePagerButton>
-      <DatePagerButton onClick={goNextWeek}>
-        {/*<FaAngleRight />*/}→
+      <DatePagerButton onClick={goNext}>
+        <FaAngleRight />
       </DatePagerButton>
     </DatePagerWrap>
   );
-
-  // return (
-  //   <DatePagerWrap>
-  //     <DatePagerLink to={prev}>
-  //       <FaAngleLeft />
-  //     </DatePagerLink>
-  //     <DatePagerLink to="/releases">This Week</DatePagerLink>
-  //     <DatePagerLink>{dateStrFormatted(currentDate)}</DatePagerLink>
-  //     <DatePagerLink to={next}>
-  //       <FaAngleRight />
-  //     </DatePagerLink>
-  //   </DatePagerWrap>
-  // );
 }

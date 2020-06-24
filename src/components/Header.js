@@ -131,7 +131,10 @@ export default function Header() {
 
       <Nav>
         <NavDropdown title={"Lists"} items={tmdbLinks} />
-        <NavDropdown title={"Releases"} items={releasesLinks} />
+        <NavDropdown
+          title={"Releases"}
+          items={[...releaseDateLinks, ...releasesLinks]}
+        />
         <NavDropdown title={"Discover"} items={discoveryLinks} />
       </Nav>
 

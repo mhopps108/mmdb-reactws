@@ -1,10 +1,5 @@
-import React, { useState, useEffect, useReducer, useCallback } from "react";
-import {
-  useRouteMatch,
-  useHistory,
-  useLocation,
-  useParams,
-} from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { useRouteMatch, useHistory, useLocation } from "react-router-dom";
 import { Header, Toolbar, MovieList } from "../components";
 import styled from "styled-components/macro";
 import { useDataApi } from "../useDataApi";
@@ -54,18 +49,13 @@ function useQueryParams() {
 }
 
 export default function ReleaseDates() {
-  let { type, week } = useParams();
-  console.log("router params: ", type, week);
-
   // start date
   let history = useHistory();
-
   // let match = useRouteMatch("/release-dates/:type/:week");
   let match = useRouteMatch([
     "/release-dates/:type/:week",
     "/release-dates/:type",
   ]);
-
   console.log("ReleaseDates: match: ", match);
 
   const releaseType = match
@@ -106,6 +96,10 @@ export default function ReleaseDates() {
   const startOfThisWeek = () => setStartFrom(startOfWeek());
   const goPrevWeek = () => setStartFrom(getPrevWeek(startFrom));
   const goNextWeek = () => setStartFrom(getNextWeek(startFrom));
+  const dateStrFormatted = (date) => {
+    const endDate = moment(date).endOf("week");
+    return moment(date).twix(endDate, { allDay: true }).format();
+  };
 
   // toolbar data
   const listData = {
@@ -114,10 +108,10 @@ export default function ReleaseDates() {
     type: releaseType,
   };
   const dateData = {
-    goPrevWeek,
-    goNextWeek,
+    goPrev: goPrevWeek,
+    goNext: goNextWeek,
     goToToday: startOfThisWeek,
-    currentDate: startFrom,
+    displayDateStr: dateStrFormatted(startFrom),
   };
   const sortData = {
     sortData: sortOptions,
