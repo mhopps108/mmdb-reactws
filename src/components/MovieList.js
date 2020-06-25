@@ -2,7 +2,13 @@ import React from "react";
 import styled from "styled-components/macro";
 import { MovieListItem } from "../components";
 
-export default function MovieList({ movies, isLoading, isError }) {
+export default function MovieList({
+  movies,
+  isLoading,
+  isError,
+  dateType = "year",
+}) {
+  console.log("MovieList: dateType: ", dateType);
   return (
     <StyledMovieList>
       {isError && <p>Error</p>}
@@ -10,7 +16,11 @@ export default function MovieList({ movies, isLoading, isError }) {
       {!isLoading && movies && (
         <MovieListLayout>
           {(movies || []).map((movie) => (
-            <MovieListItem key={movie.imdb_id} movie={movie} />
+            <MovieListItem
+              key={movie.imdb_id}
+              movie={movie}
+              dateType={dateType}
+            />
           ))}
         </MovieListLayout>
       )}

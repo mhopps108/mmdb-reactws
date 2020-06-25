@@ -146,6 +146,7 @@ export default function Releases() {
         movies={data?.results}
         isLoading={isLoading}
         isError={isError}
+        dateType={releaseType.value}
       />
     </StyledReleases>
   );

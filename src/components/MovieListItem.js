@@ -2,16 +2,14 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
-// import lazySizes from "lazysizes";
+import lazySizes from "lazysizes";
+import moment from "moment";
 
 const StyledMovieListItem = styled.div`
   background: white;
   max-width: 400px;
-  //height: 128px;
-  //height: 108px;
   height: 120px;
   border-radius: 4px;
-  //border: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
 const MovieListItemLayout = styled.div`
@@ -27,16 +25,11 @@ const MovieListItemLayout = styled.div`
 const Poster = styled.img`
   grid-area: poster;
   align-self: center;
-  //margin-left: 5px;
-  //width: 80px;
-  //height: 120px;
-  margin-left: 4px;
-  //width: 67px;
-  //height: 100px;
+  margin-left: 3px;
   width: 76px;
   height: 114px;
   border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid lightgray;
 `;
 
 const InfoWrap = styled.div`
@@ -44,32 +37,24 @@ const InfoWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  //padding: 10px 4px;
   padding: 0 6px 0 4px;
 `;
 
 const Title = styled.h3`
-  //font-size: 1.2rem;
-  //line-height: 1.3rem;
-  //max-height: 2.4rem;
   font-size: 1.1rem;
   line-height: 1.2rem;
   max-height: 2.4rem;
   overflow: hidden;
   white-space: normal;
   margin-bottom: 12px;
-  //margin-bottom: 8px;
   & a {
     text-decoration: none;
-    //color: rgba(35, 35, 39, 0.85);
     color: #282c35;
   }
 `;
 
 const InfoRow = styled.div`
   display: flex;
-  //color: grey;
-  //color: rgba(35, 35, 39, 0.7);
   color: rgba(40, 44, 53, 0.75);
   margin-bottom: 4px;
   font-size: 0.9rem;
@@ -80,22 +65,32 @@ const InfoItem = styled.div`
   padding-right: 12px;
 `;
 
-const InfoList = ({ year, runtime, certification, imdb_rating_avg }) => {
+const formatVoteCount = (votes) => {
+  if (!votes) return "0";
+  if (votes > 9999) {
+    votes = (votes / 1000).toFixed(0);
+    return `${votes.toLocaleString()}K`;
+  }
+  return votes.toLocaleString();
+};
+
+const InfoList = ({ release, runtime, certification, rating, votes }) => {
   return (
     <>
-      {year && <InfoItem>{year}</InfoItem>}
+      {release && <InfoItem>{release}</InfoItem>}
       <InfoItem>
         {runtime || "0"}
         <small>m</small>
       </InfoItem>
-      <InfoItem>{certification || "-"}</InfoItem>
-      <InfoItem>{imdb_rating_avg || "0.0"}</InfoItem>
+      <InfoItem>{certification || "NR"}</InfoItem>
+      <InfoItem>{rating || "0.0"}</InfoItem>
+      <InfoItem>{formatVoteCount(votes) || ""} votes</InfoItem>
     </>
   );
 };
 
 const GenreList = ({ genres }) => {
-  if (!genres) return null;
+  // if (!genres) return null;
   return genres.splice(0, 3).map((genre, index) => {
     if (genre === "Science Fiction") {
       genre = "Sci-Fi";
@@ -104,20 +99,23 @@ const GenreList = ({ genres }) => {
   });
 };
 
-// const GenreList = ({ genres }) => {
-//   // console.log(`genres: ${typeof genres}`);
-//   console.log(genres);
-//
-//   const max = genres && genres.length >= 3 ? 3 : genres.length;
-//   return genres.splice(0, max).map((genre, index) => {
-//     if (genre === "Science Fiction") {
-//       genre = "Sci-Fi";
-//     }
-//     return <InfoItem key={index}>{genre}</InfoItem>;
-//   });
-// };
+const Tag = styled.div`
+  display: flex;
+  position: relative;
+  bottom: 110px;
+  left: 81vw;
+  background: none;
+  //border: 1px solid lightgray;
+  z-index: 1;
+  width: max-content;
+  height: 20px;
+  //width: 100%;
+  //height: 100%;
+  padding: 2px 4px;
+  border-radius: 4px;
+`;
 
-function MovieListItem({ movie }) {
+function MovieListItem({ movie, dateType }) {
   const {
     imdb_id,
     title,
@@ -125,13 +123,36 @@ function MovieListItem({ movie }) {
     runtime,
     certification,
     imdb_rating_avg,
+    imdb_rating_count,
     genres,
     poster_url,
+    theatrical_release,
+    digital_release,
+    physical_release,
   } = movie;
+
+  const releaseDate = () => {
+    let date = year;
+    switch (dateType) {
+      case "theatrical":
+        date = moment(theatrical_release).format("MMM DD");
+        break;
+      case "digital":
+        date = moment(digital_release).format("MMM DD");
+        break;
+      case "physical":
+        date = moment(physical_release).format("MMM DD");
+        break;
+      default:
+        date = year;
+    }
+    return date;
+  };
 
   return (
     <StyledMovieListItem>
       <MovieListItemLayout>
+        {/*<Tag>{releaseDate()}</Tag>*/}
         <Poster data-src={poster_url} className="lazyload" />
         <InfoWrap>
           <Title>
@@ -139,16 +160,16 @@ function MovieListItem({ movie }) {
           </Title>
           <InfoRow>
             <InfoList
-              year={year}
+              // year={year}
+              release={releaseDate()}
               runtime={runtime}
               certification={certification}
-              imdb_rating_avg={imdb_rating_avg}
+              rating={imdb_rating_avg}
+              votes={imdb_rating_count}
             />
           </InfoRow>
-          <InfoRow>
-            <GenreList genres={genres} />
-          </InfoRow>
-          {/*<InfoRow>{genres && <GenreList genres={genres} />}</InfoRow>*/}
+          <InfoRow>{/*<GenreList genres={genres} />*/}</InfoRow>
+          <InfoRow>{genres && <GenreList genres={genres} />}</InfoRow>
         </InfoWrap>
       </MovieListItemLayout>
     </StyledMovieListItem>

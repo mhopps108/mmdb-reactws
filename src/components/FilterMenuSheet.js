@@ -150,16 +150,39 @@ export default function FilterMenuSheet({
             </RangeSliderWrap>
           </FilterSection>
           <ActionButtonWrap>
-            <Button onClick={() => setIsOpen(false)}>Close</Button>
-            <Button onClick={onClick} action>
+            <button onClick={() => setIsOpen(false)}>Close</button>
+            <button onClick={onClick} primary>
               Apply Filters
-            </Button>
+            </button>
           </ActionButtonWrap>
         </Menu>
       </FilterMenuMobileWrap>
     </>
   );
 }
+
+const ActionButtonWrap = styled.div`
+  width: 100%;
+  //margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  //background: #282c35;
+  height: 50px;
+  border-top: 2px solid lightgray;
+`;
+
+const Button = styled.button`
+  font-size: 1.1rem;
+  margin: 0 12px;
+  padding: 4px 8px;
+  //height: 35px;
+  //color: #fff;
+  color: ${(props) => (props.primary ? "#fff" : "#282c35")};
+  background: ${(props) => (props.primary ? "#282c35" : "fff")};
+  border: 1px solid lightgray;
+  border-radius: 4px;
+`;
 
 const MenuButton = styled.button`
   position: fixed;
@@ -196,29 +219,6 @@ const FilterButtonWrap = styled.button`
   align-items: center;
   font-size: 1rem;
   text-decoration: none;
-`;
-
-const ActionButtonWrap = styled.div`
-  width: 100%;
-  //margin-top: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  //background: #282c35;
-  height: 50px;
-  border-top: 2px solid lightgray;
-`;
-
-const Button = styled.button`
-  font-size: 1.1rem;
-  margin: 0 12px;
-  padding: 4px 8px;
-  //height: 35px;
-  //color: #fff;
-  color: ${(props) => (props.action ? "#fff" : "#282c35")};
-  background: ${(props) => (props.action ? "#282c35" : "fff")};
-  border: 1px solid lightgray;
-  border-radius: 4px;
 `;
 
 const RangeSliderWrap = styled.div`
@@ -258,15 +258,16 @@ const Menu = styled.div`
   display: flex;
   flex-direction: column;
 
-  background: white;
+  background: whitesmoke;
   border: 2px solid lightgray;
-  border-top-right-radius: 6px;
-  border-top-left-radius: 6px;
+  border-radius: 6px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 
   max-width: 600px;
   max-height: calc(100vh - 5px);
   overflow-y: scroll;
+
+  margin: 5px;
 
   transform: ${(props) =>
     props.isOpen ? "translateY(0%)" : "translateY(100%)"};
