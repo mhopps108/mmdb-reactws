@@ -68,6 +68,8 @@ export default function ReleaseDates() {
   const startOfThisWeek = () => setStartFrom(startOfWeek());
   const goPrevWeek = () => setStartFrom(getPrevWeek(startFrom));
   const goNextWeek = () => setStartFrom(getNextWeek(startFrom));
+  // TODO fix long date format for when dates span years, 2019-2020
+  //  format as Dec 29, 19 - Jan 4, 20
   const dateStrFormatted = (date) => {
     const endDate = moment(date).endOf("week");
     return moment(date).twix(endDate, { allDay: true }).format();

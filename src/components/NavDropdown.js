@@ -13,6 +13,15 @@ const DropdownButton = styled.button`
   //border: 1px solid red;
   color: white;
   z-index: 20;
+  border-radius: 6px;
+  cursor: pointer;
+
+  :hover {
+    //background: white;
+    //color: #282c35;
+    //font-size: larger;
+    font-weight: bolder;
+  }
 `;
 
 const Menu = styled.div`
@@ -28,8 +37,6 @@ const Menu = styled.div`
   border: 1px solid lightgray;
   border-radius: 6px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  //z-index: 11;
-  //top: 40px;
   transform: ${(props) => (props.isOpen ? "translateY(0)" : "translateY(5%)")};
   transition: all 200ms ease;
 `;
@@ -38,7 +45,8 @@ const MenuLink = styled.div`
   width: 100%;
   padding: 4px 8px;
 
-  &:hover {
+  // TODO: selector not working, fix it
+  :hover {
     color: red;
     background: whitesmoke;
   }
@@ -46,8 +54,6 @@ const MenuLink = styled.div`
   & a {
     color: #282c35;
     text-decoration: none;
-    //margin-bottom: 8px;
-    //line-height: 1.5;
     font-size: 1rem;
     padding: 4px 12px;
   }
@@ -81,7 +87,13 @@ export default function NavDropdown({ title, items }) {
 
   return (
     <NavDropdownWrap ref={ref}>
-      <DropdownButton onClick={toggleOpen}>{title}</DropdownButton>
+      <DropdownButton
+        onClick={toggleOpen}
+        // onMouseLeave={() => setIsOpen(false)}
+        // onMouseEnter={() => setIsOpen(true)}
+      >
+        {title}
+      </DropdownButton>
 
       <Menu isOpen={isOpen}>
         {items.map(({ name, path }) => (

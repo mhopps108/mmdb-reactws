@@ -1,30 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { device } from "../devices";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { FiCalendar } from "react-icons/fi";
 
-import moment from "moment";
-// import twix from "twix";
-
 const DatePagerWrap = styled.div`
   display: flex;
-  justify-content: space-between;
-  //align-content: center;
-  align-items: center;
-  //margin-top: 8px;
+  height: 30px;
 `;
 
-const DatePagerButton = styled.button`
-  font-size: 1.3rem;
-  //padding: 0 28px;
-  //margin: 0 20px;
-  background: none;
-  color: #333;
-  & a {
-    color: #333;
-    text-decoration: none;
+const Button = styled.button`
+  padding: 4px 8px;
+  background: whitesmoke;
+  color: #444;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+
+  svg {
+    padding-bottom: 2px;
+  }
+
+  //&:active,
+  & :hover {
+    background: #282c35;
+    color: white;
   }
 `;
 
@@ -34,24 +33,23 @@ export default function DatePager({
   goToToday,
   displayDateStr,
 }) {
-  // console.log(`DatePager: goPrevWeek: ${goPrevWeek}`);
-  // console.log(`DatePager: goNextWeek: ${goNextWeek}`);
-  // console.log(`DatePager: prev: ${prev}`);
-  // console.log(`DatePager: next: ${next}`);
-  // console.log(`goToToday: ${goToToday}`);
-  // console.log(`currentDate: ${currentDate}`);
-
   return (
     <DatePagerWrap>
-      <DatePagerButton onClick={goPrev}>
-        <FaAngleLeft />
-      </DatePagerButton>
-      <DatePagerButton onClick={goToToday}>
-        <FiCalendar /> {displayDateStr}
-      </DatePagerButton>
-      <DatePagerButton onClick={goNext}>
-        <FaAngleRight />
-      </DatePagerButton>
+      <Button onClick={goToToday} style={{ marginRight: "8px" }}>
+        <FiCalendar size={"1rem"} />
+      </Button>
+      <Button onClick={goToToday} style={{ marginRight: "auto" }}>
+        Today
+      </Button>
+
+      <p style={{ fontSize: "1.2rem" }}>{displayDateStr}</p>
+
+      <Button onClick={goPrev} style={{ marginLeft: "auto" }}>
+        <FaAngleLeft size={"1rem"} />
+      </Button>
+      <Button onClick={goNext} style={{ marginLeft: "8px" }}>
+        <FaAngleRight size={"1rem"} />
+      </Button>
     </DatePagerWrap>
   );
 }

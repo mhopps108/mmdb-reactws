@@ -41,7 +41,7 @@ const NavSection = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 30px;
+  margin: 10px 0;
   div {
     margin: 4px 0;
   }
