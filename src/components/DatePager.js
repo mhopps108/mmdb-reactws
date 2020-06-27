@@ -38,14 +38,15 @@ export default function DatePager({
       <Button onClick={goToToday} style={{ marginRight: "8px" }}>
         <FiCalendar size={"1rem"} />
       </Button>
-      <Button onClick={goToToday} style={{ marginRight: "auto" }}>
-        Today
-      </Button>
-
-      <p style={{ fontSize: "1.2rem" }}>{displayDateStr}</p>
+      <p style={{ fontSize: "1.2rem", marginRight: "auto" }}>
+        {displayDateStr}
+      </p>
 
       <Button onClick={goPrev} style={{ marginLeft: "auto" }}>
         <FaAngleLeft size={"1rem"} />
+      </Button>
+      <Button onClick={goToToday} style={{ marginLeft: "8px" }}>
+        Today
       </Button>
       <Button onClick={goNext} style={{ marginLeft: "8px" }}>
         <FaAngleRight size={"1rem"} />
