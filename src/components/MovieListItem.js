@@ -66,7 +66,7 @@ const InfoItem = styled.div`
 `;
 
 const formatVoteCount = (votes) => {
-  if (!votes) return "0";
+  if (!votes) return null;
   if (votes > 9999) {
     votes = (votes / 1000).toFixed(0);
     return `${votes.toLocaleString()}K`;
@@ -84,7 +84,7 @@ const InfoList = ({ release, runtime, certification, rating, votes }) => {
       </InfoItem>
       <InfoItem>{certification || "NR"}</InfoItem>
       <InfoItem>{rating || "0.0"}</InfoItem>
-      <InfoItem>{formatVoteCount(votes) || ""} votes</InfoItem>
+      <InfoItem>{formatVoteCount(votes)}</InfoItem>
     </>
   );
 };

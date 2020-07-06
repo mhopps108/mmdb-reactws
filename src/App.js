@@ -1,6 +1,13 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { List, Releases, Detail, Discover, ReleaseDates } from "./pages";
+import {
+  List,
+  Releases,
+  Detail,
+  Discover,
+  ReleaseDates,
+  RelTest,
+} from "./pages";
 import styled from "styled-components/macro";
 import { createGlobalStyle } from "styled-components";
 import "rsuite/dist/styles/rsuite-default.css";
@@ -51,7 +58,8 @@ export default function App() {
           <Route
             path={["/releases/:type/:month", "/releases/:type", "/releases"]}
           >
-            <Releases />
+            {/*<Releases />*/}
+            <RelTest />
           </Route>
           <Route path={"/discover"}>
             <Discover />

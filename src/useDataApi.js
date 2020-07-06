@@ -7,20 +7,20 @@ const dataFetchReducer = (state, action) => {
       return {
         ...state,
         isLoading: true,
-        isError: false
+        isError: false,
       };
     case "FETCH_SUCCESS":
       return {
         ...state,
         isLoading: false,
         isError: false,
-        data: action.payload
+        data: action.payload,
       };
     case "FETCH_FAILURE":
       return {
         ...state,
         isLoading: false,
-        isError: true
+        isError: true,
       };
     default:
       throw new Error();
@@ -32,7 +32,7 @@ const useDataApi = (initialUrl, initialData) => {
   const [state, dispatch] = useReducer(dataFetchReducer, {
     isLoading: false,
     isError: false,
-    data: initialData
+    data: initialData,
   });
 
   useEffect(() => {
@@ -40,30 +40,21 @@ const useDataApi = (initialUrl, initialData) => {
     const fetchData = async () => {
       dispatch({ type: "FETCH_INIT" });
       try {
-        console.log("url");
-        console.log(url);
+        console.log("useDataApi: url: ", url);
         const result = await axios(url);
 
         if (!didCancel) {
-          console.log("result - DataApi");
-          console.log(result);
-          console.log("url");
-          console.log(url);
+          console.log("useDataApi: result: ", result);
           dispatch({ type: "FETCH_SUCCESS", payload: result.data });
         }
       } catch (error) {
         if (!didCancel) {
-          console.log("error");
-          console.log(error);
+          console.log("useDataApi: error: ", error);
           dispatch({ type: "FETCH_FAILURE" });
         }
       }
     };
     fetchData();
-
-    // console.log("state - useDataApi");
-    // console.log(state);
-    // console.log(`url: ${url}`);
 
     return () => {
       didCancel = true;
