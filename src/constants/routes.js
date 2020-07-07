@@ -39,7 +39,8 @@ export const releasesLinks = [
   },
   {
     name: "Digital / Month",
-    path: "/releases/digital",
+    // path: "/releases/digital",
+    path: "/releases/digital/month",
   },
   {
     name: "Physical / Month",

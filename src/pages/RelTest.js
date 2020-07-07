@@ -10,40 +10,27 @@ import { useHistory, useLocation, useParams } from "react-router-dom";
 import { Header, Toolbar, MovieList } from "../components";
 import styled from "styled-components/macro";
 import moment from "moment";
-import twix from "twix";
+// import twix from "twix";
 import { releasesSortOptions } from "../constants";
 import { useMovieApi, getMovies } from "../api/useMovieApi";
 import MovieApi from "../api/MovieApi";
+import { dateUtil } from "../utils/dates";
+import { MdLocalMovies } from "react-icons/all";
+
+const { formatDate, formatPeriod, startOf, endOf, getPrev, getNext } = dateUtil;
 
 const releaseTypes = {
-  theatrical: { value: "theatrical", title: "Theaters" },
-  digital: { value: "digital", title: "Digital" },
-  physical: { value: "physical", title: "Physical" },
+  theatrical: "theatrical",
+  digital: "digital",
+  physical: "physical",
 };
 
-// month
-const startOfMonth = (date) =>
-  formatDate((moment(date) || moment()).startOf("month"));
-const endOfMonth = (date) =>
-  formatDate((moment(date) || moment()).endOf("month"));
-
-const getPrevMonth = (date) => formatDate(moment(date).subtract(1, "months"));
-const getNextMonth = (date) => formatDate(moment(date).add(1, "months"));
-
-const formatDate = (date) => moment(date).format("YYYY-MM-DD");
-
+// query params from url location
 function useQueryParams() {
   return new URLSearchParams(useLocation().search);
 }
 
-// const initParams = {
-//   page: 1,
-//   page_size: 2,
-//   sortby: sortby,
-//   [`${releaseType.value}_after`]: startFrom,
-//   [`${releaseType.value}_before`]: endOfMonth(startFrom),
-// };
-
+// movies reducer
 const moviesReducer = (state, action) => {
   switch (action.type) {
     case "SET_MOVIES":
@@ -51,19 +38,19 @@ const moviesReducer = (state, action) => {
         ...state,
         movies: action.payload.results,
         count: action.payload.count,
-        // use movieState.movies.count < movieState.count for hasMore
       };
     case "CONCAT_MOVIES":
       return {
         ...state,
         movies: [...state.movies, ...action.payload.results],
-        count: action.payload.count,
+        count: action.payload.count, // TODO: needed?
       };
     default:
       throw new Error();
   }
 };
 
+// param reducer
 const paramsReducer = (state, action) => {
   switch (action.type) {
     case "NEXT_PAGE":
@@ -81,23 +68,42 @@ const paramsReducer = (state, action) => {
         ...state,
         page: 1,
       };
+    case "RESET_DATE":
+      return {
+        ...state,
+        startFrom: action.payload,
+      };
+    case "GO_PREV_PERIOD":
+      return {
+        ...state,
+        startFrom: action.payload,
+      };
+    case "GO_NEXT_PERIOD":
+      return {
+        ...state,
+        startFrom: action.payload,
+      };
     default:
       throw new Error();
   }
 };
 
 export default function RelTest() {
+  // /releases/:type/:period/:startFrom?sortby=-digital
+  // /releases/digital/month/2020-07-01?sortby=-digital
   let history = useHistory();
-  let { type, month } = useParams();
-  // release type
-  const releaseType = type ? releaseTypes[type] : releaseTypes.digital;
-  // start date
-  const startMonth = month ? startOfMonth(month) : startOfMonth();
-  const [startFrom, setStartFrom] = useState(startMonth);
+  let { type, period, startDate } = useParams();
+  const initType = type || "digital";
+  const initPeriod = period || "month";
+  const initStartFrom = startOf(startDate, period);
+
+  // console.log("RelTest: initType: ", initType);
+  // console.log("RelTest: initPeriod: ", initPeriod);
+  // console.log("RelTest: initStartFrom: ", initStartFrom);
 
   // sort
   let queryParams = useQueryParams();
-  const sortOptions = releasesSortOptions(releaseType.value);
+  const sortOptions = releasesSortOptions(initType);
   const initSort = queryParams.get("sortby") || sortOptions[0].value;
 
   const [moviesState, moviesDispatch] = useReducer(moviesReducer, {
@@ -107,71 +113,162 @@ export default function RelTest() {
     error: null,
   });
 
-  const [paramState, paramsDispatch] = useReducer(paramsReducer, {
+  // TODO: will need a paramsState => params for api
+  const [paramState, paramDispatch] = useReducer(paramsReducer, {
     page: 1,
-    page_size: 5,
+    page_size: 19,
     sortby: initSort,
-    [`${releaseType.value}_after`]: startFrom,
-    [`${releaseType.value}_before`]: endOfMonth(startFrom),
+    startFrom: initStartFrom,
+    type: initType, // 'digital' || 'theatrical' || 'physical'
+    period: initPeriod, // 'week', 'month'
   });
 
-  useEffect(() => {
-    const getMovies = (paramState) => {
-      MovieApi.getReleaseDates(paramState)
-        .then((response) => {
-          console.log("response: ", response);
-          if (paramState.page === 1) {
-            moviesDispatch({
-              type: "SET_MOVIES",
-              payload: response.data,
-            });
-          } else {
-            moviesDispatch({
-              type: "CONCAT_MOVIES",
-              payload: response.data,
-            });
-          }
-        })
-        .catch((err) => {
-          console.log("ERROR: ", err);
-          // moviesDispatch({type:})
-        });
+  const paramStateToQuery = (paramState) => {
+    const { page, page_size, period, sortby, startFrom, type } = paramState;
+    return {
+      page,
+      page_size,
+      sortby,
+      [`${type}_after`]: startFrom,
+      [`${type}_before`]: endOf(startFrom, period),
     };
-    getMovies(paramState);
+  };
+
+  const [canShowMore, setCanShowMore] = useState(true);
+
+  useEffect(() => {
+    const params = paramStateToQuery(paramState);
+
+    const getMovies = async (params) => {
+      console.log("fetch - params: ", params);
+      try {
+        const response = await MovieApi.getReleaseDates(params);
+        console.log("response: ", response);
+        if (paramState.page === 1) {
+          moviesDispatch({
+            type: "SET_MOVIES",
+            payload: response.data,
+          });
+        } else {
+          moviesDispatch({
+            type: "CONCAT_MOVIES",
+            payload: response.data,
+          });
+        }
+      } catch (error) {
+        throw new Error(error);
+      } finally {
+        //dispatch isLoading false
+      }
+
+      // MovieApi.getReleaseDates(params)
+      //   .then((response) => {
+      //     console.log("response: ", response);
+      //     if (paramState.page === 1) {
+      //       moviesDispatch({
+      //         type: "SET_MOVIES",
+      //         payload: response.data,
+      //       });
+      //     } else {
+      //       moviesDispatch({
+      //         type: "CONCAT_MOVIES",
+      //         payload: response.data,
+      //       });
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     console.log("ERROR: ", err);
+      //     // moviesDispatch({type:})
+      //   });
+    };
+    getMovies(params);
+  }, [paramState]);
+
+  // useEffect(() => {
+  //   const params = paramStateToQuery(paramState);
+  //   const getMovies = (params) => {
+  //     console.log("fetch - params: ", params);
+  //     MovieApi.getReleaseDates(params)
+  //       .then((response) => {
+  //         console.log("response: ", response);
+  //         if (paramState.page === 1) {
+  //           moviesDispatch({
+  //             type: "SET_MOVIES",
+  //             payload: response.data,
+  //           });
+  //         } else {
+  //           moviesDispatch({
+  //             type: "CONCAT_MOVIES",
+  //             payload: response.data,
+  //           });
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log("ERROR: ", err);
+  //         // moviesDispatch({type:})
+  //       });
+  //   };
+  //   getMovies(params);
+  // }, [paramState]);
+
+  useEffect(() => {
+    const viewSize = paramState.page * paramState.page_size;
+    console.log(
+      `can show more: ${moviesState.count} >= ${viewSize} -- (${
+        moviesState.count >= viewSize
+      })`
+    );
+    const showMore = moviesState.count >= viewSize;
+    setCanShowMore(showMore);
+  }, [moviesState, paramState]);
+
+  useEffect(() => {
+    console.log("paramState: ", paramState); // log state
   }, [paramState]);
 
   useEffect(() => {
-    console.log("paramState: ", paramState);
-  }, [paramState]);
-
-  useEffect(() => {
-    console.log("movieState: ", moviesState);
+    console.log("movieState: ", moviesState); // log state
   }, [moviesState]);
 
-  const showMore = () => {
-    paramsDispatch({ type: "NEXT_PAGE" });
-  };
+  const showMore = () => paramDispatch({ type: "NEXT_PAGE" });
 
   const onSortChange = (val) => {
-    paramsDispatch({ type: "SET_SORT", payload: val });
+    paramDispatch({ type: "SET_SORT", payload: val });
   };
 
-  const startOfThisMonth = () => setStartFrom(startOfMonth());
-  const goPrevMonth = () => setStartFrom(getPrevMonth(startFrom));
-  const goNextMonth = () => setStartFrom(getNextMonth(startFrom));
-  const dateStrFormatted = (date) => moment(date).format("MMMM y");
+  const resetStartFrom = () => {
+    paramDispatch({ type: "RESET_DATE", payload: startOf(moment(), period) });
+  };
+
+  const goPrev = () => {
+    const { startFrom, period } = paramState;
+    paramDispatch({
+      type: "GO_PREV_PERIOD",
+      payload: getPrev(startFrom, period),
+    });
+  };
+
+  const goNext = () => {
+    const { startFrom, period } = paramState;
+    paramDispatch({
+      type: "GO_NEXT_PERIOD",
+      payload: getNext(startFrom, period),
+    });
+  };
+
+  const dateStrFormatted = (date) => formatPeriod(date, period);
 
   // toolbar data
   const listData = {
     movie_count: moviesState.count,
-    name: `${releaseType.title} Releases`,
-    type: releaseType,
+    name: `${paramState.type} Releases`,
+    type: paramState.type,
   };
   const dateData = {
-    goPrev: goPrevMonth,
-    goNext: goNextMonth,
-    goToToday: startOfThisMonth,
-    displayDateStr: dateStrFormatted(startFrom),
+    goPrev: goPrev,
+    goNext: goNext,
+    goToToday: resetStartFrom,
+    displayDateStr: dateStrFormatted(paramState.startFrom, paramState.period),
   };
   const sortData = {
     sortData: sortOptions,
@@ -179,19 +276,16 @@ export default function RelTest() {
     onOrderChange: onSortChange,
   };
 
-  useEffect(() => {
-    setStartFrom(startMonth);
-  }, [startMonth]);
+  // useEffect(() => {
+  //   setStartFrom(startMonth);
+  // }, [startMonth]);
 
   // sets url and push new state to url on state changes
   useEffect(() => {
-    // const { sortby, startFrom } = paramState;
-    const { sortby } = paramState;
+    const { page, sortby, startFrom, type, period } = paramState;
     console.log(`Releases: history.push(): `);
-    history.push(
-      `/releases/${releaseType.value}/${startFrom}?sortby=${sortby}`
-    );
-  }, [history, releaseType, paramState, startFrom]);
+    history.push(`/releases/${type}/${period}/${startFrom}?sortby=${sortby}`);
+  }, [history, paramState]);
 
   return (
     <StyledReleases>
@@ -202,12 +296,20 @@ export default function RelTest() {
         movies={moviesState.movies}
         isLoading={moviesState.isLoading}
         isError={moviesState.error}
-        dateType={releaseType.value}
+        dateType={paramState.type}
       />
-      {/*<button onClick={() => setPage((page) => page + 1)}>*/}
-      {/*  Show More (nextPage)*/}
-      {/*</button>*/}
-      <button onClick={showMore}>Show More (nextPage)</button>
+      <button
+        onClick={showMore}
+        hidden={!canShowMore}
+        style={{
+          height: "40px",
+          width: "400px",
+          margin: "10px auto",
+          borderRadius: "6px",
+        }}
+      >
+        Show More
+      </button>
     </StyledReleases>
   );
 }

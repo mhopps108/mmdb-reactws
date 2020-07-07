@@ -90,13 +90,18 @@ const InfoList = ({ release, runtime, certification, rating, votes }) => {
 };
 
 const GenreList = ({ genres }) => {
-  // if (!genres) return null;
-  return genres.splice(0, 3).map((genre, index) => {
-    if (genre === "Science Fiction") {
-      genre = "Sci-Fi";
-    }
-    return <InfoItem key={index}>{genre}</InfoItem>;
-  });
+  if (Array.isArray(genres) && genres.count > 3) {
+    genres = genres.splice(0, 3);
+  }
+  return (
+    genres &&
+    genres.map((genre, index) => {
+      if (genre === "Science Fiction") {
+        genre = "Sci-Fi";
+      }
+      return <InfoItem key={genre}>{genre}</InfoItem>;
+    })
+  );
 };
 
 const Tag = styled.div`
@@ -168,8 +173,8 @@ function MovieListItem({ movie, dateType }) {
               votes={imdb_rating_count}
             />
           </InfoRow>
-          <InfoRow>{/*<GenreList genres={genres} />*/}</InfoRow>
-          <InfoRow>{genres && <GenreList genres={genres} />}</InfoRow>
+          <InfoRow>{<GenreList genres={genres} />}</InfoRow>
+          {/*<InfoRow>{genres && <GenreList genres={genres} />}</InfoRow>*/}
         </InfoWrap>
       </MovieListItemLayout>
     </StyledMovieListItem>
