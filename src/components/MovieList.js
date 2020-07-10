@@ -8,12 +8,11 @@ export default function MovieList({
   isError,
   dateType = "year",
 }) {
-  console.log("MovieList: dateType: ", dateType);
+  // console.log("MovieList: dateType: ", dateType);
   return (
     <StyledMovieList>
       {isError && <p>Error</p>}
-      {isLoading && <p>Loading movies...</p>}
-      {!isLoading && movies && (
+      {movies && (
         <MovieListLayout>
           {(movies || []).map((movie) => (
             <MovieListItem
@@ -24,7 +23,27 @@ export default function MovieList({
           ))}
         </MovieListLayout>
       )}
+      {isLoading && (
+        <div style={{ color: "red", height: "40px", background: "grey" }}>
+          <p>Loading movies...</p>
+        </div>
+      )}
     </StyledMovieList>
+    // <StyledMovieList>
+    //   {isError && <p>Error</p>}
+    //   {isLoading && <p>Loading movies...</p>}
+    //   {!isLoading && movies && (
+    //     <MovieListLayout>
+    //       {(movies || []).map((movie) => (
+    //         <MovieListItem
+    //           key={movie.imdb_id}
+    //           movie={movie}
+    //           dateType={dateType}
+    //         />
+    //       ))}
+    //     </MovieListLayout>
+    //   )}
+    // </StyledMovieList>
   );
 }
 

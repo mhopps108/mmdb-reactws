@@ -1,56 +1,68 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useReducer,
-  useRef,
-  useMemo,
-} from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { Header, Toolbar, MovieList } from "../components";
 import styled from "styled-components/macro";
 import moment from "moment";
-// import twix from "twix";
 import { releasesSortOptions } from "../constants";
-import { useMovieApi, getMovies } from "../api/useMovieApi";
-import MovieApi from "../api/MovieApi";
+import API from "../api/api";
 import { dateUtil } from "../utils/dates";
-import { MdLocalMovies } from "react-icons/all";
 
-const { formatDate, formatPeriod, startOf, endOf, getPrev, getNext } = dateUtil;
-
-const releaseTypes = {
-  theatrical: "theatrical",
-  digital: "digital",
-  physical: "physical",
-};
+const { formatPeriod, startOf, endOf, getPrev, getNext } = dateUtil;
 
 // query params from url location
 function useQueryParams() {
   return new URLSearchParams(useLocation().search);
 }
 
-// movies reducer
+const paramStateToQuery = (paramState) => {
+  const { page, page_size, period, sortby, startFrom, type } = paramState;
+  return {
+    page,
+    page_size,
+    sortby,
+    [`${type}_after`]: startFrom,
+    [`${type}_before`]: endOf(startFrom, period),
+  };
+};
+
 const moviesReducer = (state, action) => {
   switch (action.type) {
-    case "SET_MOVIES":
+    case "FETCH_START":
       return {
         ...state,
+        isLoading: true,
+        error: null,
+      };
+    case "FETCH_ERROR":
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
+    case "FETCH_MOVIES":
+      return {
+        ...state,
+        isLoading: false,
         movies: action.payload.results,
         count: action.payload.count,
       };
-    case "CONCAT_MOVIES":
+    case "FETCH_MORE_MOVIES":
       return {
         ...state,
+        isLoading: false,
         movies: [...state.movies, ...action.payload.results],
-        count: action.payload.count, // TODO: needed?
+      };
+    case "CLEAR_MOVIES":
+      return {
+        ...state,
+        movies: [],
+        count: 0,
       };
     default:
       throw new Error();
   }
 };
 
-// param reducer
 const paramsReducer = (state, action) => {
   switch (action.type) {
     case "NEXT_PAGE":
@@ -62,26 +74,25 @@ const paramsReducer = (state, action) => {
       return {
         ...state,
         sortby: action.payload,
-      };
-    case "RESET":
-      return {
-        ...state,
         page: 1,
       };
     case "RESET_DATE":
       return {
         ...state,
         startFrom: action.payload,
+        page: 1,
       };
     case "GO_PREV_PERIOD":
       return {
         ...state,
         startFrom: action.payload,
+        page: 1,
       };
     case "GO_NEXT_PERIOD":
       return {
         ...state,
         startFrom: action.payload,
+        page: 1,
       };
     default:
       throw new Error();
@@ -97,14 +108,21 @@ export default function RelTest() {
   const initPeriod = period || "month";
   const initStartFrom = startOf(startDate, period);
 
-  // console.log("RelTest: initType: ", initType);
-  // console.log("RelTest: initPeriod: ", initPeriod);
-  // console.log("RelTest: initStartFrom: ", initStartFrom);
-
-  // sort
   let queryParams = useQueryParams();
   const sortOptions = releasesSortOptions(initType);
   const initSort = queryParams.get("sortby") || sortOptions[0].value;
+
+  const [canShowMore, setCanShowMore] = useState(true);
+
+  // TODO: will need a paramsState => params for api
+  const [paramState, paramDispatch] = useReducer(paramsReducer, {
+    page: 1,
+    page_size: 19,
+    sortby: initSort,
+    startFrom: initStartFrom,
+    type: initType, // 'digital' | 'theatrical' | 'physical'
+    period: initPeriod, // 'week' | 'month'
+  });
 
   const [moviesState, moviesDispatch] = useReducer(moviesReducer, {
     movies: [],
@@ -113,103 +131,33 @@ export default function RelTest() {
     error: null,
   });
 
-  // TODO: will need a paramsState => params for api
-  const [paramState, paramDispatch] = useReducer(paramsReducer, {
-    page: 1,
-    page_size: 19,
-    sortby: initSort,
-    startFrom: initStartFrom,
-    type: initType, // 'digital' || 'theatrical' || 'physical'
-    period: initPeriod, // 'week', 'month'
-  });
-
-  const paramStateToQuery = (paramState) => {
-    const { page, page_size, period, sortby, startFrom, type } = paramState;
-    return {
-      page,
-      page_size,
-      sortby,
-      [`${type}_after`]: startFrom,
-      [`${type}_before`]: endOf(startFrom, period),
-    };
-  };
-
-  const [canShowMore, setCanShowMore] = useState(true);
-
+  // TODO: pull out into useMovieApi hook
   useEffect(() => {
-    const params = paramStateToQuery(paramState);
-
     const getMovies = async (params) => {
-      console.log("fetch - params: ", params);
+      moviesDispatch({ type: "FETCH_START" });
       try {
-        const response = await MovieApi.getReleaseDates(params);
+        // const response = await MovieApi.getReleaseDates(params);
+        const response = await API.get("/releases/", {
+          params: params,
+        });
         console.log("response: ", response);
         if (paramState.page === 1) {
           moviesDispatch({
-            type: "SET_MOVIES",
+            type: "FETCH_MOVIES",
             payload: response.data,
           });
         } else {
           moviesDispatch({
-            type: "CONCAT_MOVIES",
+            type: "FETCH_MORE_MOVIES",
             payload: response.data,
           });
         }
       } catch (error) {
-        throw new Error(error);
-      } finally {
-        //dispatch isLoading false
+        moviesDispatch({ type: "FETCH_ERROR", payload: error });
       }
-
-      // MovieApi.getReleaseDates(params)
-      //   .then((response) => {
-      //     console.log("response: ", response);
-      //     if (paramState.page === 1) {
-      //       moviesDispatch({
-      //         type: "SET_MOVIES",
-      //         payload: response.data,
-      //       });
-      //     } else {
-      //       moviesDispatch({
-      //         type: "CONCAT_MOVIES",
-      //         payload: response.data,
-      //       });
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     console.log("ERROR: ", err);
-      //     // moviesDispatch({type:})
-      //   });
     };
-    getMovies(params);
+    getMovies(paramStateToQuery(paramState));
   }, [paramState]);
-
-  // useEffect(() => {
-  //   const params = paramStateToQuery(paramState);
-  //   const getMovies = (params) => {
-  //     console.log("fetch - params: ", params);
-  //     MovieApi.getReleaseDates(params)
-  //       .then((response) => {
-  //         console.log("response: ", response);
-  //         if (paramState.page === 1) {
-  //           moviesDispatch({
-  //             type: "SET_MOVIES",
-  //             payload: response.data,
-  //           });
-  //         } else {
-  //           moviesDispatch({
-  //             type: "CONCAT_MOVIES",
-  //             payload: response.data,
-  //           });
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log("ERROR: ", err);
-  //         // moviesDispatch({type:})
-  //       });
-  //   };
-  //   getMovies(params);
-  // }, [paramState]);
 
   useEffect(() => {
     const viewSize = paramState.page * paramState.page_size;
@@ -234,10 +182,12 @@ export default function RelTest() {
 
   const onSortChange = (val) => {
     paramDispatch({ type: "SET_SORT", payload: val });
+    moviesDispatch({ type: "CLEAR_MOVIES" });
   };
 
   const resetStartFrom = () => {
     paramDispatch({ type: "RESET_DATE", payload: startOf(moment(), period) });
+    moviesDispatch({ type: "CLEAR_MOVIES" });
   };
 
   const goPrev = () => {
@@ -246,6 +196,7 @@ export default function RelTest() {
       type: "GO_PREV_PERIOD",
       payload: getPrev(startFrom, period),
     });
+    moviesDispatch({ type: "CLEAR_MOVIES" });
   };
 
   const goNext = () => {
@@ -254,13 +205,14 @@ export default function RelTest() {
       type: "GO_NEXT_PERIOD",
       payload: getNext(startFrom, period),
     });
+    moviesDispatch({ type: "CLEAR_MOVIES" });
   };
 
   const dateStrFormatted = (date) => formatPeriod(date, period);
 
   // toolbar data
   const listData = {
-    movie_count: moviesState.count,
+    movie_count: moviesState.isLoading ? "#" : moviesState.count,
     name: `${paramState.type} Releases`,
     type: paramState.type,
   };
@@ -276,14 +228,11 @@ export default function RelTest() {
     onOrderChange: onSortChange,
   };
 
-  // useEffect(() => {
-  //   setStartFrom(startMonth);
-  // }, [startMonth]);
-
   // sets url and push new state to url on state changes
   useEffect(() => {
-    const { page, sortby, startFrom, type, period } = paramState;
+    const { sortby, startFrom, type, period } = paramState;
     console.log(`Releases: history.push(): `);
+    // TODO: do not want to update history when page changes (show more movies)
     history.push(`/releases/${type}/${period}/${startFrom}?sortby=${sortby}`);
   }, [history, paramState]);
 

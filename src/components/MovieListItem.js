@@ -90,6 +90,9 @@ const InfoList = ({ release, runtime, certification, rating, votes }) => {
 };
 
 const GenreList = ({ genres }) => {
+  // console.log("genres-before: ", genres);
+  genres = genres || [];
+  // console.log("genres-after: ", genres);
   if (Array.isArray(genres) && genres.count > 3) {
     genres = genres.splice(0, 3);
   }
@@ -103,22 +106,6 @@ const GenreList = ({ genres }) => {
     })
   );
 };
-
-const Tag = styled.div`
-  display: flex;
-  position: relative;
-  bottom: 110px;
-  left: 81vw;
-  background: none;
-  //border: 1px solid lightgray;
-  z-index: 1;
-  width: max-content;
-  height: 20px;
-  //width: 100%;
-  //height: 100%;
-  padding: 2px 4px;
-  border-radius: 4px;
-`;
 
 function MovieListItem({ movie, dateType }) {
   const {
@@ -135,6 +122,8 @@ function MovieListItem({ movie, dateType }) {
     digital_release,
     physical_release,
   } = movie;
+
+  // console.log("genres-render: ", genres);
 
   const releaseDate = () => {
     let date = year;
@@ -157,7 +146,6 @@ function MovieListItem({ movie, dateType }) {
   return (
     <StyledMovieListItem>
       <MovieListItemLayout>
-        {/*<Tag>{releaseDate()}</Tag>*/}
         <Poster data-src={poster_url} className="lazyload" />
         <InfoWrap>
           <Title>

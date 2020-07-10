@@ -35,7 +35,7 @@ export const releaseDateLinks = [
 export const releasesLinks = [
   {
     name: "Theatrical / Month",
-    path: "/releases/theatrical",
+    path: "/releases/theatrical/month",
   },
   {
     name: "Digital / Month",
@@ -44,7 +44,7 @@ export const releasesLinks = [
   },
   {
     name: "Physical / Month",
-    path: "/releases/physical",
+    path: "/releases/physical/month",
   },
 ];
 

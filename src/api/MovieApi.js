@@ -2,11 +2,11 @@ import { useEffect, useReducer, useState } from "react";
 // import axios from "axios";
 import API from "./api";
 
-const getReleaseDates = (params) => {
-  return API.get("/releases", {
-    params: params,
-  });
-};
+// const getReleaseDates = (params) => {
+//   return API.get("/releases", {
+//     params: params,
+//   });
+// };
 
 const testapi = {
   baseUrl: "https://matthewhopps.com/api",
@@ -25,4 +25,4 @@ const testapi = {
   },
 };
 
-export default { getReleaseDates };
+// export default { getReleaseDates };

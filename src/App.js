@@ -55,9 +55,6 @@ export default function App() {
           <Route path={"/release-dates"}>
             <ReleaseDates />
           </Route>
-          {/*<Route*/}
-          {/*  path={["/releases/:type/:month", "/releases/:type", "/releases"]}*/}
-          {/*>*/}
           <Route
             path={[
               "/releases/:type/:period/:startDate",
