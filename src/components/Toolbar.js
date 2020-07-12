@@ -3,6 +3,7 @@ import styled from "styled-components/macro";
 import { device } from "../devices";
 import { DatePager, ActionMenu, Portal } from "../components";
 import { FaSort, FaTimes } from "react-icons/fa";
+import SortDropdown from "../old-other/SortDropdown";
 
 const DatePagerWrap = styled.div`
   grid-area: datepager;
@@ -100,6 +101,24 @@ const SortButton = styled.button`
   border-radius: 4px;
 `;
 
+const SortWrap = styled.div`
+  //grid-area: sort;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid lightgray;
+  background: whitesmoke;
+  margin-left: auto;
+  border-radius: 4px;
+  //margin-right: 8px;
+  padding: 2px 6px;
+  height: 30px;
+
+  & > button {
+    margin-left: 8px;
+  }
+`;
+
 export default function Toolbar({
   listData,
   dateData = null,
@@ -118,6 +137,21 @@ export default function Toolbar({
         <ListInfo>
           <p>{name || "Loading..."}</p>
           <div>{movie_count || "#"}</div>
+
+          <SortWrap>
+            {orderByValue.split(",")[0]}
+            <button onClick={toggleSortOpen}>
+              <FaSort size={"1rem"} />
+            </button>
+          </SortWrap>
+
+          {/*<SortWrap>*/}
+          {/*  <SortDropdown*/}
+          {/*    sortData={sortData}*/}
+          {/*    sortValue={orderByValue}*/}
+          {/*    onOrderChange={onOrderChange}*/}
+          {/*  />*/}
+          {/*</SortWrap>*/}
         </ListInfo>
 
         {dateData && (

@@ -99,9 +99,9 @@ const GenreList = ({ genres }) => {
   return (
     genres &&
     genres.map((genre, index) => {
-      if (genre === "Science Fiction") {
-        genre = "Sci-Fi";
-      }
+      // if (genre === "Science Fiction") {
+      //   genre = "Sci-Fi";
+      // }
       return <InfoItem key={genre}>{genre}</InfoItem>;
     })
   );

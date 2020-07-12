@@ -44,7 +44,9 @@ const MenuWrap = styled.div`
 const MenuPopover = ({ onSelect, sortValue, sortData, ...rest }) => (
   <Popover {...rest} full>
     <MenuWrap>
-      <p style={{ width: "100%", textAlign: "center" }}>sort by</p>
+      <p style={{ width: "100%", height: "100%", textAlign: "center" }}>
+        sort by
+      </p>
       <Dropdown.Menu
         onSelect={onSelect}
         // style={{ width: "90px" }}
