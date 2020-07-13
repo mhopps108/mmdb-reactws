@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import styled from "styled-components/macro";
 import { device } from "../devices";
 import { DatePager, ActionMenu, Portal } from "../components";
-import { FaSort, FaTimes } from "react-icons/fa";
+import {
+  FaSort,
+  FaTimes,
+  FaSortAmountUpAlt,
+  FaSortAmountDownAlt,
+} from "react-icons/fa";
 import SortDropdown from "../old-other/SortDropdown";
 
 const DatePagerWrap = styled.div`
@@ -67,10 +72,12 @@ const ListInfo = styled.div`
     font-size: 1.25rem;
     font-weight: 600;
     margin-right: 10px;
-    color: rgba(35, 35, 39, 0.9);
+    //color: rgba(35, 35, 39, 0.9);
+    color: #282c35;
+    text-transform: uppercase;
   }
 
-  & > div {
+  span {
     font-size: 1.1rem;
     border: 1px solid lightgray;
     background: whitesmoke;
@@ -102,20 +109,51 @@ const SortButton = styled.button`
 `;
 
 const SortWrap = styled.div`
-  //grid-area: sort;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid lightgray;
-  background: whitesmoke;
   margin-left: auto;
-  border-radius: 4px;
-  //margin-right: 8px;
-  padding: 2px 6px;
-  height: 30px;
+  //height: 30px;
+  text-transform: uppercase; // capitalize
 
-  & > button {
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  padding-left: 6px;
+
+  //width: 120px;
+  color: #282c35;
+
+  button {
+    //padding: 2px 6px 4px;
+    padding-bottom: 4px;
+    //border-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    border-left: 1px solid lightgray;
+    height: 30px;
+    width: 30px;
+    //border: 1px solid lightgray;
+    background: whitesmoke;
     margin-left: 8px;
+  }
+`;
+
+const StackedText = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 30px;
+  //color: #282c35;
+
+  .top {
+    height: 10px;
+    font-size: 10px;
+    margin-right: auto;
+    margin-left: auto;
+    color: #777;
+  }
+  .bottom {
+    height: 20px;
+    font-size: 14px;
   }
 `;
 
@@ -136,12 +174,17 @@ export default function Toolbar({
       <ToolBarWrap listName={name}>
         <ListInfo>
           <p>{name || "Loading..."}</p>
-          <div>{movie_count || "#"}</div>
+          <span>{movie_count || "#"}</span>
 
           <SortWrap>
-            {orderByValue.split(",")[0]}
+            <StackedText>
+              <div className={"top"}>sort</div>
+              <div className={"bottom"}>
+                {orderByValue?.split(",")[0] || "sort"}
+              </div>
+            </StackedText>
             <button onClick={toggleSortOpen}>
-              <FaSort size={"1rem"} />
+              <FaSortAmountDownAlt size={"1rem"} />
             </button>
           </SortWrap>
 
