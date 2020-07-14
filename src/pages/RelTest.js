@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useRef } from "react";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { Header, Toolbar, MovieList } from "../components";
 import styled from "styled-components/macro";
@@ -6,6 +6,8 @@ import moment from "moment";
 import { releasesSortOptions } from "../constants";
 import API from "../api/api";
 import { dateUtil } from "../utils/dates";
+import { useQuery, useInfiniteQuery } from "react-query";
+import useIntersectionObserver from "../hooks/useIntersectionObserver";
 
 const { formatPeriod, startOf, endOf, getPrev, getNext } = dateUtil;
 
@@ -18,6 +20,17 @@ const paramStateToQuery = (paramState) => {
   const { page, page_size, period, sortby, startFrom, type } = paramState;
   return {
     page,
+    page_size,
+    sortby,
+    [`${type}_after`]: startFrom,
+    [`${type}_before`]: endOf(startFrom, period),
+  };
+};
+
+const paramStateToQueryOTHER = (paramState) => {
+  const { page, page_size, period, sortby, startFrom, type } = paramState;
+  return {
+    // page,
     page_size,
     sortby,
     [`${type}_after`]: startFrom,
@@ -102,6 +115,7 @@ const paramsReducer = (state, action) => {
 export default function RelTest() {
   // /releases/:type/:period/:startFrom?sortby=-digital
   // /releases/digital/month/2020-07-01?sortby=-digital
+  const loc = useLocation();
   let history = useHistory();
   let { type, period, startDate } = useParams();
   const initType = type || "digital";
@@ -116,7 +130,7 @@ export default function RelTest() {
 
   // TODO: will need a paramsState => params for api
   const [paramState, paramDispatch] = useReducer(paramsReducer, {
-    page: 1,
+    // page: 1,
     page_size: 19,
     sortby: initSort,
     startFrom: initStartFrom,
@@ -131,52 +145,102 @@ export default function RelTest() {
     error: null,
   });
 
-  // TODO: pull out into useMovieApi hook
-  useEffect(() => {
-    const getMovies = async (params) => {
-      moviesDispatch({ type: "FETCH_START" });
-      try {
-        // const response = await MovieApi.getReleaseDates(params);
-        const response = await API.get("/releases/", {
-          params: params,
-        });
-        console.log("response: ", response);
-        if (paramState.page === 1) {
-          moviesDispatch({
-            type: "FETCH_MOVIES",
-            payload: response.data,
-          });
-        } else {
-          moviesDispatch({
-            type: "FETCH_MORE_MOVIES",
-            payload: response.data,
-          });
+  // const getM = async (key, nextPage = 1) => {
+  const getM = async (key, p, nextPage = 1) => {
+    // const getM = async (key, p) => {
+    console.log("getM: key: ", key);
+    console.log("getM: p: ", p);
+    console.log("getM: nextPage: ", nextPage);
+
+    const params = paramStateToQueryOTHER(paramState);
+    console.log("getM: params: ", params);
+    const response = await API.get(`/releases/`, {
+      params: { page: nextPage, ...params },
+      // params: params,
+    });
+
+    return response.data;
+  };
+
+  const {
+    status,
+    data,
+    error,
+    isFetching,
+    isFetchingMore,
+    fetchMore,
+    canFetchMore,
+  } = useInfiniteQuery(
+    // ["releases", ...paramStateToQueryOTHER(paramState)],
+    ["releases", { ...paramStateToQueryOTHER(paramState) }],
+    // ["releases"],
+    getM,
+    {
+      getFetchMore: (lastPage, allPages) => {
+        console.log(`getFetchMore(): lastPage`, lastPage);
+        console.log(`getFetchMore(): lastPage.count`, lastPage.count);
+        console.log(`getFetchMore(): allPages`, allPages);
+
+        // return lastPage.next !== null;
+        if (lastPage.next !== null) {
+          const urlParams = new URLSearchParams(lastPage.next.split("?")[1]);
+          console.log("nextPages is: ", urlParams.get("page"));
+          return urlParams.get("page");
         }
-      } catch (error) {
-        moviesDispatch({ type: "FETCH_ERROR", payload: error });
-      }
-    };
-    getMovies(paramStateToQuery(paramState));
-  }, [paramState]);
+        return null;
+      },
+    }
+  );
+
+  const loadMoreButtonRef = useRef();
+
+  useIntersectionObserver({
+    target: loadMoreButtonRef,
+    onIntersect: fetchMore,
+  });
 
   useEffect(() => {
-    const viewSize = paramState.page * paramState.page_size;
-    console.log(
-      `can show more: ${moviesState.count} >= ${viewSize} -- (${
-        moviesState.count >= viewSize
-      })`
-    );
-    const showMore = moviesState.count >= viewSize;
-    setCanShowMore(showMore);
-  }, [moviesState, paramState]);
+    console.log("REACT-QUERY");
+    console.log("data: ", data);
+    console.log("canFetchMore: ", canFetchMore);
+    console.log("fetchMore: ", fetchMore);
+  }, [status, data, error, fetchMore, canFetchMore]);
+
+  // TODO: pull out into useMovieApi hook
+  // useEffect(() => {
+  //   const getMovies = async (params) => {
+  //     moviesDispatch({ type: "FETCH_START" });
+  //     try {
+  //       // const response = await MovieApi.getReleaseDates(params);
+  //       const response = await API.get("/releases/", {
+  //         params: params,
+  //       });
+  //       console.log("response: ", response);
+  //       if (paramState.page === 1) {
+  //         moviesDispatch({
+  //           type: "FETCH_MOVIES",
+  //           payload: response.data,
+  //         });
+  //       } else {
+  //         moviesDispatch({
+  //           type: "FETCH_MORE_MOVIES",
+  //           payload: response.data,
+  //         });
+  //       }
+  //     } catch (error) {
+  //       moviesDispatch({ type: "FETCH_ERROR", payload: error });
+  //     }
+  //   };
+  //   getMovies(paramStateToQuery(paramState));
+  // }, [paramState]);
 
   useEffect(() => {
     console.log("paramState: ", paramState); // log state
   }, [paramState]);
 
-  useEffect(() => {
-    console.log("movieState: ", moviesState); // log state
-  }, [moviesState]);
+  // useEffect(() => {
+  //   console.log("movieState: ", moviesState); // log state
+  // }, [moviesState]);
 
   const showMore = () => paramDispatch({ type: "NEXT_PAGE" });
 
@@ -212,7 +276,8 @@ export default function RelTest() {
 
   // toolbar data
   const listData = {
-    movie_count: moviesState.isLoading ? "#" : moviesState.count,
+    // movie_count: moviesState.isLoading ? "#" : moviesState.count,
+    movie_count: moviesState.isLoading ? "#" : data && data[0].count,
     name: `${paramState.type} Releases`,
     type: paramState.type,
   };
@@ -233,7 +298,12 @@ export default function RelTest() {
     const { sortby, startFrom, type, period } = paramState;
     console.log(`Releases: history.push(): `);
     // TODO: do not want to update history when page changes (show more movies)
-    history.push(`/releases/${type}/${period}/${startFrom}?sortby=${sortby}`);
+    const str = `/releases/${type}/${period}/${startFrom}?sortby=${sortby}`;
+    console.log("strToPush: ", str);
+    console.log("locCurrent: ", loc);
+    if (str !== loc.pathname + loc.search) {
+      history.push(str);
+    }
   }, [history, paramState]);
 
   return (
@@ -241,15 +311,19 @@ export default function RelTest() {
       <Header />
       <Toolbar listData={listData} dateData={dateData} sortOptions={sortData} />
       <MovieList
-        // movies={data?.results}
-        movies={moviesState.movies}
+        // movies={moviesState.movies}
+        movies={
+          data && data.reduce((acc, page) => [...acc, ...page.results], [])
+        }
         isLoading={moviesState.isLoading}
         isError={moviesState.error}
         dateType={paramState.type}
       />
       <button
-        onClick={showMore}
-        hidden={!canShowMore}
+        ref={loadMoreButtonRef}
+        onClick={() => fetchMore()}
+        hidden={!canFetchMore}
+        disabled={!canFetchMore}
         style={{
           height: "40px",
           width: "400px",

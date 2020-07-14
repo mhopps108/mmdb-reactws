@@ -1,208 +1,240 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useReducer,
-  useRef,
-} from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { Header, Toolbar, MovieList } from "../components";
 import styled from "styled-components/macro";
-import { useDataApi } from "../useDataApi";
 import moment from "moment";
-import twix from "twix";
 import { releasesSortOptions } from "../constants";
-import { useMovieApi } from "../api/useMovieApi";
+import API from "../api/api";
+import { dateUtil } from "../utils/dates";
 
-const releaseTypes = {
-  theatrical: { value: "theatrical", title: "Theaters" },
-  digital: { value: "digital", title: "Digital" },
-  physical: { value: "physical", title: "Physical" },
-};
+const { formatPeriod, startOf, endOf, getPrev, getNext } = dateUtil;
 
-// week
-const startOfWeek = (date) =>
-  formatDate((moment(date) || moment()).startOf("week"));
-const endOfWeek = (date) =>
-  formatDate((moment(date) || moment()).endOf("week"));
-
-const getPrevWeek = (date) => formatDate(moment(date).subtract(7, "days"));
-const getNextWeek = (date) => formatDate(moment(date).add(7, "days"));
-
-// month
-const startOfMonth = (date) =>
-  formatDate((moment(date) || moment()).startOf("month"));
-const endOfMonth = (date) =>
-  formatDate((moment(date) || moment()).endOf("month"));
-
-const getPrevMonth = (date) => formatDate(moment(date).subtract(1, "months"));
-const getNextMonth = (date) => formatDate(moment(date).add(1, "months"));
-
-const formatDate = (date) => moment(date).format("YYYY-MM-DD");
-
+// query params from url location
 function useQueryParams() {
   return new URLSearchParams(useLocation().search);
 }
 
-const movieReducer = (state, action) => {
+const paramStateToQuery = (paramState) => {
+  const { page, page_size, period, sortby, startFrom, type } = paramState;
+  return {
+    page,
+    page_size,
+    sortby,
+    [`${type}_after`]: startFrom,
+    [`${type}_before`]: endOf(startFrom, period),
+  };
+};
+
+const moviesReducer = (state, action) => {
   switch (action.type) {
-    case "ADD_MOVIES":
+    case "FETCH_START":
       return {
         ...state,
-        movies: [...state.movies, ...action.payload],
+        isLoading: true,
+        error: null,
       };
-    case "RESET":
+    case "FETCH_ERROR":
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
+    case "FETCH_MOVIES":
+      return {
+        ...state,
+        isLoading: false,
+        movies: action.payload.results,
+        count: action.payload.count,
+      };
+    case "FETCH_MORE_MOVIES":
+      return {
+        ...state,
+        isLoading: false,
+        movies: [...state.movies, ...action.payload.results],
+      };
+    case "CLEAR_MOVIES":
       return {
         ...state,
         movies: [],
+        count: 0,
       };
     default:
       throw new Error();
   }
 };
 
-export default function Releases() {
+const paramsReducer = (state, action) => {
+  switch (action.type) {
+    case "NEXT_PAGE":
+      return {
+        ...state,
+        page: state.page + 1,
+      };
+    case "SET_SORT":
+      return {
+        ...state,
+        sortby: action.payload,
+        page: 1,
+      };
+    case "RESET_DATE":
+      return {
+        ...state,
+        startFrom: action.payload,
+        page: 1,
+      };
+    case "GO_PREV_PERIOD":
+      return {
+        ...state,
+        startFrom: action.payload,
+        page: 1,
+      };
+    case "GO_NEXT_PERIOD":
+      return {
+        ...state,
+        startFrom: action.payload,
+        page: 1,
+      };
+    default:
+      throw new Error();
+  }
+};
+
+export default function RelTest() {
+  // /releases/:type/:period/:startFrom?sortby=-digital
+  // /releases/digital/month/2020-07-01?sortby=-digital
   let history = useHistory();
-  let { type, month } = useParams();
-  // console.log("Releases: useParams: ", type, month);
+  let { type, period, startDate } = useParams();
+  const initType = type || "digital";
+  const initPeriod = period || "month";
+  const initStartFrom = startOf(startDate, period);
 
-  // release type
-  const releaseType = type ? releaseTypes[type] : releaseTypes.digital;
-  // start date
-  const startMonth = month ? startOfMonth(month) : startOfMonth();
-  const [startFrom, setStartFrom] = useState(startMonth);
-
-  // sort
   let queryParams = useQueryParams();
-  const sortOptions = releasesSortOptions(releaseType.value);
+  const sortOptions = releasesSortOptions(initType);
   const initSort = queryParams.get("sortby") || sortOptions[0].value;
-  const [sort, setSort] = useState(initSort);
 
-  // const [page, setPage] = useState(1);
-  const pageRef = useRef(1);
-  const pageSize = 5;
+  const [canShowMore, setCanShowMore] = useState(true);
 
-  const listUrl = useCallback(() => {
-    return (
-      `https://matthewhopps.com/api/releases/` +
-      `?page=${pageRef.current}` +
-      `&page_size=${pageSize}` +
-      `&sortby=${sort}` +
-      `&${releaseType.value}_after=${startFrom}` +
-      `&${releaseType.value}_before=${endOfMonth(startFrom)}`
-    );
-  }, [pageSize, sort, startFrom, releaseType]);
-  const [state, setUrl] = useDataApi(listUrl, []);
-  const { data, isLoading, isError } = state;
-  // const { count, results, next, previous } = data;
-
-  // const [movies, setMovies] = useState([]);
-  const [movieData, dispatch] = useReducer(movieReducer, {
-    movies: [],
-  });
-
-  const [m, setM] = useState([]);
-  const [p, setP] = useState({
+  // TODO: will need a paramsState => params for api
+  const [paramState, paramDispatch] = useReducer(paramsReducer, {
     page: 1,
-    page_size: 5,
-    sortby: sort,
-    [`${releaseType.value}_after`]: startFrom,
-    [`${releaseType.value}_before`]: endOfMonth(startFrom),
+    page_size: 19,
+    sortby: initSort,
+    startFrom: initStartFrom,
+    type: initType, // 'digital' | 'theatrical' | 'physical'
+    period: initPeriod, // 'week' | 'month'
   });
-  const [s, setPath, setParams] = useMovieApi("releases/", p, m);
+
+  const [moviesState, moviesDispatch] = useReducer(moviesReducer, {
+    movies: [],
+    count: 0,
+    isLoading: false,
+    error: null,
+  });
+
+  // TODO: pull out into useMovieApi hook
+  useEffect(() => {
+    const getMovies = async (params) => {
+      moviesDispatch({ type: "FETCH_START" });
+      try {
+        // const response = await MovieApi.getReleaseDates(params);
+        const response = await API.get("/releases/", {
+          params: params,
+        });
+        console.log("response: ", response);
+        if (paramState.page === 1) {
+          moviesDispatch({
+            type: "FETCH_MOVIES",
+            payload: response.data,
+          });
+        } else {
+          moviesDispatch({
+            type: "FETCH_MORE_MOVIES",
+            payload: response.data,
+          });
+        }
+      } catch (error) {
+        moviesDispatch({ type: "FETCH_ERROR", payload: error });
+      }
+    };
+    getMovies(paramStateToQuery(paramState));
+  }, [paramState]);
 
   useEffect(() => {
-    console.log("SSSSSS: ", s);
-    if (s.movies) {
-      // setM((m) => m.concat(s.data.results));
-      setM(s.movies);
-    }
-  }, [s]);
+    const viewSize = paramState.page * paramState.page_size;
+    console.log(
+      `can show more: ${moviesState.count} >= ${viewSize} -- (${
+        moviesState.count >= viewSize
+      })`
+    );
+    const showMore = moviesState.count >= viewSize;
+    setCanShowMore(showMore);
+  }, [moviesState, paramState]);
 
   useEffect(() => {
-    // console.log("SSSSSS: ", s);
-    setParams(p);
-  }, [p, setParams]);
+    console.log("paramState: ", paramState); // log state
+  }, [paramState]);
 
   useEffect(() => {
-    console.log("MMMMMM: ", m);
-  }, [m]);
+    console.log("movieState: ", moviesState); // log state
+  }, [moviesState]);
 
-  const np = (nextPage) => {
-    console.log("np clicked - nextpage: ", nextPage);
-    setP({
-      page: nextPage,
-      page_size: 5,
-      sortby: sort,
-      [`${releaseType.value}_after`]: startFrom,
-      [`${releaseType.value}_before`]: endOfMonth(startFrom),
+  const showMore = () => paramDispatch({ type: "NEXT_PAGE" });
+
+  const onSortChange = (val) => {
+    paramDispatch({ type: "SET_SORT", payload: val });
+    moviesDispatch({ type: "CLEAR_MOVIES" });
+  };
+
+  const resetStartFrom = () => {
+    paramDispatch({ type: "RESET_DATE", payload: startOf(moment(), period) });
+    moviesDispatch({ type: "CLEAR_MOVIES" });
+  };
+
+  const goPrev = () => {
+    const { startFrom, period } = paramState;
+    paramDispatch({
+      type: "GO_PREV_PERIOD",
+      payload: getPrev(startFrom, period),
     });
+    moviesDispatch({ type: "CLEAR_MOVIES" });
   };
 
-  useEffect(() => {
-    // addMovies(data?.results || []);
-    // if (data && data.results) {
-    //   setMovies([...movies, ...data.results]);
-    // }
-    if (data && data.results) {
-      dispatch({ type: "ADD_MOVIES", payload: data?.results });
-    }
-  }, [data]);
-
-  // const nextPage = (page) => setPage(page + 1);
-  const nextPage = (nextPage) => {
-    console.log(`pageRef: `, pageRef);
-    console.log(`nextPage: `, nextPage);
-    pageRef.current = nextPage;
-    setUrl(listUrl);
+  const goNext = () => {
+    const { startFrom, period } = paramState;
+    paramDispatch({
+      type: "GO_NEXT_PERIOD",
+      payload: getNext(startFrom, period),
+    });
+    moviesDispatch({ type: "CLEAR_MOVIES" });
   };
 
-  const onSortChange = (val) => setSort(val);
-  const startOfThisMonth = () => setStartFrom(startOfMonth());
-  const goPrevMonth = () => setStartFrom(getPrevMonth(startFrom));
-  const goNextMonth = () => setStartFrom(getNextMonth(startFrom));
-  const dateStrFormatted = (date) => moment(date).format("MMMM y");
+  const dateStrFormatted = (date) => formatPeriod(date, period);
 
   // toolbar data
   const listData = {
-    // movie_count: data?.count,
-    movie_count: movieData?.movies.count,
-    name: `${releaseType.title} Releases`,
-    // name: `${releaseType.title}`,
-    type: releaseType,
+    movie_count: moviesState.isLoading ? "#" : moviesState.count,
+    name: `${paramState.type} Releases`,
+    type: paramState.type,
   };
   const dateData = {
-    goPrev: goPrevMonth,
-    goNext: goNextMonth,
-    goToToday: startOfThisMonth,
-    displayDateStr: dateStrFormatted(startFrom),
+    goPrev: goPrev,
+    goNext: goNext,
+    goToToday: resetStartFrom,
+    displayDateStr: dateStrFormatted(paramState.startFrom, paramState.period),
   };
   const sortData = {
     sortData: sortOptions,
-    orderByValue: sort,
+    orderByValue: paramState.sortby,
     onOrderChange: onSortChange,
   };
 
-  useEffect(() => {
-    setStartFrom(startMonth);
-  }, [startMonth]);
-
-  useEffect(() => {
-    console.log(`Releases: setUrl: `, listUrl);
-    setUrl(listUrl);
-    // history.push(`/releases/${releaseType.value}/${startFrom}?sortby=${sort}`);
-  }, [setUrl, listUrl]);
-
-  useEffect(() => {
-    dispatch({ type: "RESET" });
-  }, [startFrom, releaseType]);
-
   // sets url and push new state to url on state changes
   useEffect(() => {
+    const { sortby, startFrom, type, period } = paramState;
     console.log(`Releases: history.push(): `);
-    // setUrl(listUrl);
-    history.push(`/releases/${releaseType.value}/${startFrom}?sortby=${sort}`);
-  }, [history, releaseType, sort, startFrom]);
+    // TODO: do not want to update history when page changes (show more movies)
+    history.push(`/releases/${type}/${period}/${startFrom}?sortby=${sortby}`);
+  }, [history, paramState]);
 
   return (
     <StyledReleases>
@@ -210,16 +242,23 @@ export default function Releases() {
       <Toolbar listData={listData} dateData={dateData} sortOptions={sortData} />
       <MovieList
         // movies={data?.results}
-        movies={movieData.movies}
-        isLoading={isLoading}
-        isError={isError}
-        dateType={releaseType.value}
+        movies={moviesState.movies}
+        isLoading={moviesState.isLoading}
+        isError={moviesState.error}
+        dateType={paramState.type}
       />
-      {/*<button onClick={() => nextPage(page)}>Show More (nextPage)</button>*/}
-      {/*<button onClick={() => nextPage(pageRef.current + 1)}>*/}
-      {/*  Show More (nextPage)*/}
-      {/*</button>*/}
-      <button onClick={() => np(p.page + 1)}>Show More (nextPage)</button>
+      <button
+        onClick={showMore}
+        hidden={!canShowMore}
+        style={{
+          height: "40px",
+          width: "400px",
+          margin: "10px auto",
+          borderRadius: "6px",
+        }}
+      >
+        Show More
+      </button>
     </StyledReleases>
   );
 }
