@@ -113,10 +113,12 @@ const paramsReducer = (state, action) => {
 };
 
 export default function RelTest() {
+  // window.history.scrollRestoration = "auto";
   // /releases/:type/:period/:startFrom?sortby=-digital
   // /releases/digital/month/2020-07-01?sortby=-digital
   const loc = useLocation();
   let history = useHistory();
+  // history.scrollRestoration = "manual"; // auto || manual
   let { type, period, startDate } = useParams();
   const initType = type || "digital";
   const initPeriod = period || "month";
@@ -189,6 +191,8 @@ export default function RelTest() {
         }
         return null;
       },
+      // cacheTime: 60 * 1000,
+      // staleTime: 2 * 1000,
     }
   );
 
@@ -302,6 +306,8 @@ export default function RelTest() {
     console.log("strToPush: ", str);
     console.log("locCurrent: ", loc);
     if (str !== loc.pathname + loc.search) {
+      console.log("pushed str");
+
       history.push(str);
     }
   }, [history, paramState]);

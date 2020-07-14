@@ -47,7 +47,8 @@ export default function DatePager({
   const DatePickerInput = ({ value, onClick }) => (
     <Button onClick={onClick}>
       <FiCalendar size={"1rem"} style={{ marginRight: "8px" }} />
-      {value}
+      {/*{value}*/}
+      {displayDateStr}
     </Button>
   );
 
