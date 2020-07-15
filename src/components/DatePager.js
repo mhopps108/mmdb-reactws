@@ -1,33 +1,54 @@
 import React from "react";
 import styled from "styled-components/macro";
 import { device } from "../devices";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import { FiCalendar } from "react-icons/fi";
+import {
+  FaAngleLeft,
+  FaAngleRight,
+  FaArrowRight,
+  FaArrowLeft,
+} from "react-icons/fa";
+import { GoArrowLeft } from "react-icons/go";
+import { FiCalendar, FiArrowLeftCircle } from "react-icons/fi";
+import {
+  IoMdArrowRoundForward,
+  IoMdArrowRoundBack,
+  IoIosCalendar,
+} from "react-icons/io";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 
 const DatePagerWrap = styled.div`
   display: flex;
-  height: 30px;
+  //min-height: 30px;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 `;
 
-const Button = styled.button`
-  padding: 4px 8px;
-  background: whitesmoke;
+const PagerButton = styled.button`
+  //padding: 4px 8px;
   color: #444;
-  border: 1px solid lightgray;
-  border-radius: 4px;
-  font-size: 1rem;
+  background: none;
+  //border: 1px solid red;
+  //border-radius: 4px;
+  font-size: 1.1rem;
+  height: 100%;
+  //width: 30px;
+  padding: 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   svg {
-    padding-bottom: 2px;
+    //padding-bottom: 2px;
   }
 
   //&:active,
   & :hover {
-    background: #282c35;
-    color: white;
+    //background: #282c35;
+    //color: white;
+    //color: #282c35;
   }
 `;
 
@@ -45,39 +66,32 @@ export default function DatePager({
   };
 
   const DatePickerInput = ({ value, onClick }) => (
-    <Button onClick={onClick}>
-      <FiCalendar size={"1rem"} style={{ marginRight: "8px" }} />
+    <PagerButton onClick={onClick}>
+      <IoIosCalendar size={"1.25rem"} style={{ marginRight: "8px" }} />
       {/*{value}*/}
+      {/*<span style={{ fontSize: "1.2rem" }}>{displayDateStr}</span>*/}
       {displayDateStr}
-    </Button>
+    </PagerButton>
   );
 
   return (
     <DatePagerWrap>
-      {/*<Button onClick={goToToday} style={{ marginRight: "8px" }}>*/}
-      {/*  <FiCalendar size={"1rem"} />*/}
-      {/*</Button>*/}
+      <PagerButton onClick={goPrev} style={{ marginRight: "auto" }}>
+        <IoMdArrowRoundBack size={"1.25rem"} />
+      </PagerButton>
+
       <DatePicker
         selected={tempDate}
         onChange={onDateChange}
         dateFormat={"MMMM dd yyyy"}
         customInput={<DatePickerInput />}
         todayButton={"Today"} // this week/month
-        popperPlacement="bottom-start"
+        popperPlacement="bottom-center"
       />
 
-      {/*<p style={{ fontSize: "1.2rem", marginRight: "auto" }}>*/}
-      {/*  {displayDateStr}*/}
-      {/*</p>*/}
-      <Button onClick={goPrev} style={{ marginLeft: "auto" }}>
-        <FaAngleLeft size={"1rem"} />
-      </Button>
-      {/*<Button onClick={goToToday} style={{ marginLeft: "8px" }}>*/}
-      {/*  Today*/}
-      {/*</Button>*/}
-      <Button onClick={goNext} style={{ marginLeft: "8px" }}>
-        <FaAngleRight size={"1rem"} />
-      </Button>
+      <PagerButton onClick={goNext} style={{ marginLeft: "auto" }}>
+        <IoMdArrowRoundForward size={"1.25rem"} />
+      </PagerButton>
     </DatePagerWrap>
   );
 }

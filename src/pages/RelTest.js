@@ -173,9 +173,8 @@ export default function RelTest() {
     fetchMore,
     canFetchMore,
   } = useInfiniteQuery(
-    // ["releases", ...paramStateToQueryOTHER(paramState)],
+    // ["releases", paramStateToQueryOTHER(paramState)],
     ["releases", { ...paramStateToQueryOTHER(paramState) }],
-    // ["releases"],
     getM,
     {
       getFetchMore: (lastPage, allPages) => {
@@ -183,7 +182,6 @@ export default function RelTest() {
         console.log(`getFetchMore(): lastPage.count`, lastPage.count);
         console.log(`getFetchMore(): allPages`, allPages);
 
-        // return lastPage.next !== null;
         if (lastPage.next !== null) {
           const urlParams = new URLSearchParams(lastPage.next.split("?")[1]);
           console.log("nextPages is: ", urlParams.get("page"));
@@ -282,7 +280,7 @@ export default function RelTest() {
   const listData = {
     // movie_count: moviesState.isLoading ? "#" : moviesState.count,
     movie_count: moviesState.isLoading ? "#" : data && data[0].count,
-    name: `${paramState.type} Releases`,
+    name: `${paramState.type}`,
     type: paramState.type,
   };
   const dateData = {
@@ -306,11 +304,12 @@ export default function RelTest() {
     console.log("strToPush: ", str);
     console.log("locCurrent: ", loc);
     if (str !== loc.pathname + loc.search) {
-      console.log("pushed str");
-
+      console.log("history: pushed str");
       history.push(str);
+    } else {
+      console.log("history: same str - no push");
     }
-  }, [history, paramState]);
+  }, [history, loc, paramState]);
 
   return (
     <StyledReleases>
@@ -320,6 +319,7 @@ export default function RelTest() {
         // movies={moviesState.movies}
         movies={
           data && data.reduce((acc, page) => [...acc, ...page.results], [])
+          // data?.reduce((acc, page) => [...acc, ...page.results], [])
         }
         isLoading={moviesState.isLoading}
         isError={moviesState.error}
@@ -327,12 +327,14 @@ export default function RelTest() {
       />
       <button
         ref={loadMoreButtonRef}
-        onClick={() => fetchMore()}
+        // onClick={() => fetchMore()}
+        onClick={fetchMore}
         hidden={!canFetchMore}
         disabled={!canFetchMore}
         style={{
           height: "40px",
-          width: "400px",
+          width: "90%",
+          maxWidth: "400px",
           margin: "10px auto",
           borderRadius: "6px",
         }}
