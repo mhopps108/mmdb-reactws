@@ -37,8 +37,11 @@ const Menu = styled.div`
   border: 1px solid lightgray;
   border-radius: 6px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  transform: ${(props) => (props.isOpen ? "translateY(0)" : "translateY(5%)")};
-  transition: all 200ms ease;
+  //transform: ${(props) =>
+    props.isOpen ? "translateY(0)" : "translateY(5%)"};
+  transform: ${(props) => (props.isOpen ? "translateY(5%)" : "translateY(0)")};
+  //transition: all 200ms ease;
+  transition: all 300ms cubic-bezier(0, 1, 0.5, 1);  
 `;
 
 const MenuLink = styled.div`
