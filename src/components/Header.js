@@ -26,7 +26,8 @@ const NavMenuWrap = styled.div`
   left: 0;
   border: 2px solid lightgray;
   border-radius: 6px;
-  background: #282c35;
+  //background: #282c35;
+  background: #33425b;
   transition: all 100ms ease-in-out;
 
   @media ${device.min.tablet} {
@@ -157,7 +158,8 @@ export default function Header() {
 
 const HeaderWrap = styled.header`
   grid-area: header;
-  background: #282c35;
+  //background: #282c35;
+  background: #33425b;
   position: sticky;
   top: 0;
   z-index: 10;

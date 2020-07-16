@@ -18,7 +18,10 @@ import MovieListItem from "./MovieListItem";
 import MoviePosterList from "./MoviePosterList";
 import MovieDetail from "./MovieDetail";
 
+import Dropdown from "./Dropdown";
+
 export {
+  Dropdown,
   Portal,
   ActionMenu,
   FilterMenuSheet,

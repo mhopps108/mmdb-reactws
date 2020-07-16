@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components/macro";
 import { device } from "../devices";
-import { DatePager, ActionMenu, Portal } from "../components";
+import { DatePager, ActionMenu, Portal, Dropdown } from "../components";
 import {
   FaSort,
   FaTimes,
   FaSortAmountUpAlt,
   FaSortAmountDownAlt,
 } from "react-icons/fa";
-
-import SortDropdown from "../old-other/SortDropdown";
+import SortDropDown from "../old-other/SortDropdown";
 
 const DatePagerWrap = styled.div`
   grid-area: datepager;
@@ -61,7 +60,8 @@ const ListInfo = styled.div`
     font-weight: 600;
     margin-right: 10px;
     //color: rgba(35, 35, 39, 0.9);
-    color: #282c35;
+    //color: #282c35;
+    color: #33425b;
     text-transform: uppercase;
   }
 
@@ -72,7 +72,7 @@ const ListInfo = styled.div`
     //background: whitesmoke;
     background: #eee;
     //color: #282c35;
-    color: #482c55;
+    color: #33425b;
     border-radius: 10px;
     //height: 28px;
     height: 26px;
@@ -106,16 +106,17 @@ const SortWrap = styled.div`
   align-items: center;
   margin-left: auto;
   //height: 30px;
-  text-transform: uppercase; // capitalize
+  //text-transform: uppercase; // capitalize
 
   //border: 1px solid lightgray;
   border-radius: 4px;
   padding-left: 6px;
 
   //width: 120px;
-  color: #282c35;
+  //color: #282c35;
+  color: #33425b;
 
-  button {
+  .temp {
     //padding: 2px 6px 4px;
     //padding-bottom: 4px;
     border-radius: 4px;
@@ -134,7 +135,6 @@ const StackedText = styled.div`
   display: flex;
   flex-direction: column;
   height: 30px;
-  //color: #282c35;
 
   .top {
     height: 10px;
@@ -146,6 +146,7 @@ const StackedText = styled.div`
   .bottom {
     height: 20px;
     font-size: 14px;
+    color: #33425b;
   }
 `;
 
@@ -184,9 +185,19 @@ export default function Toolbar({
               {orderByValue?.split(",")[0] || "sort"}
             </div>
           </StackedText>
-          <button onClick={toggleSortOpen}>
+          <button className={"temp"} onClick={toggleSortOpen}>
             <FaSort size={"1.1rem"} />
           </button>
+          <Dropdown
+            sortData={[
+              { value: "asdfasdfrelease", label: "Release" },
+              { value: "asdfasfdrating", label: "Rating" },
+              { value: "asdfvotes", label: "Votes" },
+              { value: "asdftitle", label: "Title" },
+            ]}
+          >
+            <FaSort size={"1.1rem"} />
+          </Dropdown>
         </SortWrap>
 
         {dateData && (

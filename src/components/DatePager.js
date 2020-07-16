@@ -28,7 +28,8 @@ const DatePagerWrap = styled.div`
 
 const PagerButton = styled.button`
   //padding: 4px 8px;
-  color: #444;
+  //color: #444;
+  color: #33425b;
   background: none;
   //border: 1px solid red;
   //border-radius: 4px;

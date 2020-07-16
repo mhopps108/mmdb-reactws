@@ -50,7 +50,8 @@ export default function MovieList({
 const StyledMovieList = styled.div`
   grid-area: main;
   //background-color: lightgray;
-  background: #282c35;
+  //background: #282c35;
+  background: #33425b;
   display: grid;
   //box-shadow: 0 0 25px 20px lightgrey;
   //height: calc(100vh - 100px);

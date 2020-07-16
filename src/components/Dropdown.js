@@ -2,79 +2,79 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components/macro";
 import { device } from "../devices";
-import {
-  tmdbLinks,
-  releaseDateLinks,
-  releasesLinks,
-  discoveryLinks,
-} from "../constants/routes";
 
 // https://csslayout.io/patterns/dropdown/
 
-const NavDropdownWrap = styled.div``;
+const Wrap = styled.div`
+  position: relative;
+`;
 
-const DropdownButton = styled.button`
-  font-size: 1.1rem;
-  margin-right: 12px;
+const Button = styled.button`
+  font-size: 1rem;
   padding: 2px 4px;
-  background: transparent;
-  //border: 1px solid red;
-  color: orange;
-  border: 1px solid red;
-  //z-index: 20;
+  background: none;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  color: #33425b;
 `;
 
 const Menu = styled.div`
   visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
   opacity: ${(props) => (props.isOpen ? 1 : 0)};
 
-  //position: absolute;
-  position: fixed;
-  // bottom: ${(props) => (props.isOpen ? "0" : "0")};
-  // left: ${(props) => (props.isOpen ? "0" : "0")};
-  bottom: 0;
-  left: 0;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  
-  border: 2px solid red;
+  position: absolute;
+  right: 0;
+  top: 120%;
+  //z-index: 200;
+  min-width: 100px;
+  width: max-content;
+
+  display: flex;
+  flex-direction: column;
   background: white;
-  //min-width: 160px;
-  padding: 25px 0 8px;
-  //border: 1px solid lightgray;
+  padding: 8px 0;
+  border: 1px solid lightgray;
   border-radius: 6px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  //z-index: 11;
-  //top: 70px;
-  //height: 100%;
-  min-height: 150px;
-  max-height: 90vh;
-  width: 100vw;
-  max-width: 600px;
-
-  transform: ${(props) =>
-    props.isOpen ? "translateY(0%)" : "translateY(100%)"};
-  transition: all 200ms ease;
+  // transform: ${(props) =>
+    props.isOpen ? "translateY(5%)" : "translateY(0)"};
+  //transition: all 200ms ease;
+  transition: all 300ms cubic-bezier(0, 1, 0.5, 1);  
 `;
 
-const MenuLink = styled.div`
-  width: 100%;
-  padding: 4px 8px;
-  display: flex;
+const MenuItem = styled.div`
+  padding: 8px 16px;
 
   &:hover {
     color: red;
     background: whitesmoke;
   }
 
-  & a {
-    color: #282c35;
-    text-decoration: none;
-    //margin-bottom: 8px;
-    //line-height: 1.5;
-    font-size: 1rem;
-    padding: 4px 12px;
-  }
+  //& .nothing {
+  //  color: #282c35;
+  //  text-decoration: none;
+  //margin-bottom: 8px;
+  //line-height: 1.5;
+  //font-size: 1rem;
+  //padding: 4px 12px;
+  //}
+`;
+
+const Arrow = styled.div`
+  /* Position at the top right corner */
+  position: absolute;
+  right: 8px;
+  top: -1px;
+
+  /* Border */
+  background-color: #fff;
+  border-left: 1px solid lightgray;
+  border-top: 1px solid lightgray;
+  transform: translate(-50%, -50%) rotate(45deg);
+
+  /* Size */
+  height: 12px;
+  width: 12px;
 `;
 
 export default function Dropdown({ sortData }) {
@@ -105,21 +105,18 @@ export default function Dropdown({ sortData }) {
   }, [isOpen]);
 
   return (
-    <NavDropdownWrap ref={ref}>
-      <DropdownButton onClick={toggleOpen}>Sort</DropdownButton>
+    <Wrap ref={ref}>
+      <Button onClick={toggleOpen}>Sort</Button>
+
       <Menu isOpen={isOpen}>
-        <p style={{ position: "fixed", top: "8px", left: "10px" }}>SortBy</p>
+        <Arrow />
+        {/*<p style={{ position: "fixed", top: "8px", left: "10px" }}>SortBy</p>*/}
         {sortData.map(({ value, label }) => (
-          <MenuLink>
-            <Link to={"/"}>{label}</Link>
-          </MenuLink>
-        ))}
-        {sortData.map(({ value, label }) => (
-          <MenuLink>
-            <Link to={"/"}>{label}</Link>
-          </MenuLink>
+          <MenuItem key={value}>
+            <span onClick={onChange}>{label}</span>
+          </MenuItem>
         ))}
       </Menu>
-    </NavDropdownWrap>
+    </Wrap>
   );
 }

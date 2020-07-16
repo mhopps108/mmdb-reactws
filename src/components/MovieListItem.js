@@ -49,13 +49,15 @@ const Title = styled.h3`
   margin-bottom: 12px;
   & a {
     text-decoration: none;
-    color: #282c35;
+    //color: #282c35;
+    color: #33425b;
   }
 `;
 
 const InfoRow = styled.div`
   display: flex;
-  color: rgba(40, 44, 53, 0.75);
+  //color: rgba(40, 44, 53, 0.75);
+  color: #33425b;
   margin-bottom: 4px;
   font-size: 0.9rem;
   padding-left: 4px;
@@ -90,18 +92,13 @@ const InfoList = ({ release, runtime, certification, rating, votes }) => {
 };
 
 const GenreList = ({ genres }) => {
-  // console.log("genres-before: ", genres);
   genres = genres || [];
-  // console.log("genres-after: ", genres);
-  if (Array.isArray(genres) && genres.count > 3) {
+  if (Array.isArray(genres) && genres.length > 3) {
     genres = genres.splice(0, 3);
   }
   return (
     genres &&
     genres.map((genre, index) => {
-      // if (genre === "Science Fiction") {
-      //   genre = "Sci-Fi";
-      // }
       return <InfoItem key={genre}>{genre}</InfoItem>;
     })
   );
