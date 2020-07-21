@@ -6,6 +6,11 @@ import {
   FaAngleRight,
   FaArrowRight,
   FaArrowLeft,
+  FaCaretSquareLeft,
+  FaCaretSquareRight,
+  FaCaretRight,
+  FaCalendar,
+  FaRegCalendar,
 } from "react-icons/fa";
 import { GoArrowLeft } from "react-icons/go";
 import { FiCalendar, FiArrowLeftCircle } from "react-icons/fi";
@@ -68,7 +73,7 @@ export default function DatePager({
 
   const DatePickerInput = ({ value, onClick }) => (
     <PagerButton onClick={onClick}>
-      <IoIosCalendar size={"1.25rem"} style={{ marginRight: "8px" }} />
+      <FaRegCalendar size={"1.25rem"} style={{ marginRight: "8px" }} />
       {/*{value}*/}
       {/*<span style={{ fontSize: "1.2rem" }}>{displayDateStr}</span>*/}
       {displayDateStr}
@@ -77,8 +82,11 @@ export default function DatePager({
 
   return (
     <DatePagerWrap>
-      <PagerButton onClick={goPrev} style={{ marginRight: "auto" }}>
-        <IoMdArrowRoundBack size={"1.25rem"} />
+      <PagerButton
+        onClick={goPrev}
+        style={{ marginRight: "auto", color: "#555" }}
+      >
+        <FaCaretSquareLeft size={"1.4rem"} />
       </PagerButton>
 
       <DatePicker
@@ -91,7 +99,7 @@ export default function DatePager({
       />
 
       <PagerButton onClick={goNext} style={{ marginLeft: "auto" }}>
-        <IoMdArrowRoundForward size={"1.25rem"} />
+        <FaCaretRight size={"1.25rem"} />
       </PagerButton>
     </DatePagerWrap>
   );

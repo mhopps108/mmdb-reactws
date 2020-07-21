@@ -83,15 +83,15 @@ export default function Dropdown({ sortData }) {
   const toggleOpen = () => setIsOpen(!isOpen);
 
   const onOutsideClick = (e) => {
-    if (ref.current.contains(e.target)) {
-      return;
+    if (ref !== null && !ref.current.contains(e.target)) {
+      setIsOpen(false);
     }
-    setIsOpen(false);
   };
 
   const onChange = () => {
     setIsOpen(false);
   };
+
   useEffect(() => {
     if (isOpen) {
       document.addEventListener("mousedown", onOutsideClick);
@@ -105,15 +105,16 @@ export default function Dropdown({ sortData }) {
   }, [isOpen]);
 
   return (
-    <Wrap ref={ref}>
+    // <Wrap ref={ref}>
+    <Wrap>
       <Button onClick={toggleOpen}>Sort</Button>
 
-      <Menu isOpen={isOpen}>
+      <Menu isOpen={isOpen} ref={ref}>
         <Arrow />
         {/*<p style={{ position: "fixed", top: "8px", left: "10px" }}>SortBy</p>*/}
         {sortData.map(({ value, label }) => (
-          <MenuItem key={value}>
-            <span onClick={onChange}>{label}</span>
+          <MenuItem key={value} onClick={onChange}>
+            <span>{label}</span>
           </MenuItem>
         ))}
       </Menu>

@@ -182,12 +182,13 @@ export default function RelTest() {
         console.log(`getFetchMore(): lastPage.count`, lastPage.count);
         console.log(`getFetchMore(): allPages`, allPages);
 
-        if (lastPage.next !== null) {
-          const urlParams = new URLSearchParams(lastPage.next.split("?")[1]);
-          console.log("nextPages is: ", urlParams.get("page"));
-          return urlParams.get("page");
-        }
-        return null;
+        return lastPage.next_page;
+        // if (lastPage.next !== null) {
+        //   const urlParams = new URLSearchParams(lastPage.next.split("?")[1]);
+        //   console.log("nextPages is: ", urlParams.get("page"));
+        //   return urlParams.get("page");
+        // }
+        // return null;
       },
       // cacheTime: 60 * 1000,
       // staleTime: 2 * 1000,
