@@ -1,5 +1,7 @@
 import React from "react";
 
+// TODO: Fix: React Hook React.useEffect has missing dependencies: 'onIntersect', 'root', 'rootMargin', 'target', and 'threshold'. Either include them or remove the dependency array. Mutable values like 'target.current' aren't valid dependencies because mutating them doesn't re-render the component
+
 export default function useIntersectionObserver({
   root,
   target,

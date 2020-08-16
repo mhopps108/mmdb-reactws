@@ -128,9 +128,9 @@ export default function RelTest() {
   const sortOptions = releasesSortOptions(initType);
   const initSort = queryParams.get("sortby") || sortOptions[0].value;
 
-  const [canShowMore, setCanShowMore] = useState(true);
+  // const [canShowMore, setCanShowMore] = useState(true);
 
-  // TODO: will need a paramsState => params for api
+  // TODO: need a paramsState => params for api
   const [paramState, paramDispatch] = useReducer(paramsReducer, {
     // page: 1,
     page_size: 19,
@@ -154,8 +154,9 @@ export default function RelTest() {
     console.log("getM: p: ", p);
     console.log("getM: nextPage: ", nextPage);
 
-    const params = paramStateToQueryOTHER(paramState);
-    console.log("getM: params: ", params);
+    // const params = paramStateToQueryOTHER(paramState);
+    const params = paramStateToQueryOTHER(p);
+    // console.log("getM: params: ", params);
     const response = await API.get(`/releases/`, {
       params: { page: nextPage, ...params },
       // params: params,
@@ -173,8 +174,10 @@ export default function RelTest() {
     fetchMore,
     canFetchMore,
   } = useInfiniteQuery(
-    // ["releases", paramStateToQueryOTHER(paramState)],
-    ["releases", { ...paramStateToQueryOTHER(paramState) }],
+    ["releases", { ...paramState }],
+    // ["releases", { startDate: paramState.startFrom }],
+    // [`releases+${paramState.startFrom}`],
+    // ["releases", { ...paramStateToQueryOTHER(paramState) }],
     getM,
     {
       getFetchMore: (lastPage, allPages) => {
@@ -183,6 +186,8 @@ export default function RelTest() {
         console.log(`getFetchMore(): allPages`, allPages);
 
         return lastPage.next_page;
+        // return lastPage && lastPage.next_page;
+
         // if (lastPage.next !== null) {
         //   const urlParams = new URLSearchParams(lastPage.next.split("?")[1]);
         //   console.log("nextPages is: ", urlParams.get("page"));
@@ -195,59 +200,28 @@ export default function RelTest() {
     }
   );
 
-  const loadMoreButtonRef = useRef();
+  // const loadMoreButtonRef = useRef();
 
-  useIntersectionObserver({
-    target: loadMoreButtonRef,
-    onIntersect: fetchMore,
-  });
+  // useIntersectionObserver({
+  //   target: loadMoreButtonRef,
+  //   onIntersect: () => fetchMore(),
+  // });
 
   useEffect(() => {
-    console.log("REACT-QUERY");
-    console.log("data: ", data);
-    console.log("canFetchMore: ", canFetchMore);
-    console.log("fetchMore: ", fetchMore);
+    // console.log("REACT-QUERY");
+    // console.log("data: ", data);
+    // console.log("canFetchMore: ", canFetchMore);
+    // console.log("fetchMore: ", fetchMore);
   }, [status, data, error, fetchMore, canFetchMore]);
-
-  // TODO: pull out into useMovieApi hook
-  // useEffect(() => {
-  //   const getMovies = async (params) => {
-  //     moviesDispatch({ type: "FETCH_START" });
-  //     try {
-  //       // const response = await MovieApi.getReleaseDates(params);
-  //       const response = await API.get("/releases/", {
-  //         params: params,
-  //       });
-  //       console.log("response: ", response);
-  //       if (paramState.page === 1) {
-  //         moviesDispatch({
-  //           type: "FETCH_MOVIES",
-  //           payload: response.data,
-  //         });
-  //       } else {
-  //         moviesDispatch({
-  //           type: "FETCH_MORE_MOVIES",
-  //           payload: response.data,
-  //         });
-  //       }
-  //     } catch (error) {
-  //       moviesDispatch({ type: "FETCH_ERROR", payload: error });
-  //     }
-  //   };
-  //   getMovies(paramStateToQuery(paramState));
-  // }, [paramState]);
 
   useEffect(() => {
     console.log("paramState: ", paramState); // log state
   }, [paramState]);
 
-  // useEffect(() => {
-  //   console.log("movieState: ", moviesState); // log state
-  // }, [moviesState]);
-
   const showMore = () => paramDispatch({ type: "NEXT_PAGE" });
 
   const onSortChange = (val) => {
+    console.log("On Sort - Set");
     paramDispatch({ type: "SET_SORT", payload: val });
     moviesDispatch({ type: "CLEAR_MOVIES" });
   };
@@ -258,6 +232,7 @@ export default function RelTest() {
   };
 
   const goPrev = () => {
+    console.log("Go Prev - Clicked");
     const { startFrom, period } = paramState;
     paramDispatch({
       type: "GO_PREV_PERIOD",
@@ -267,6 +242,7 @@ export default function RelTest() {
   };
 
   const goNext = () => {
+    console.log("Go Next - Clicked");
     const { startFrom, period } = paramState;
     paramDispatch({
       type: "GO_NEXT_PERIOD",
@@ -327,11 +303,12 @@ export default function RelTest() {
         dateType={paramState.type}
       />
       <button
-        ref={loadMoreButtonRef}
-        // onClick={() => fetchMore()}
-        onClick={fetchMore}
+        // ref={loadMoreButtonRef}
+        onClick={() => fetchMore()}
+        // onClick={fetchMore}
         hidden={!canFetchMore}
-        disabled={!canFetchMore}
+        // disabled={!canFetchMore}
+        disabled={isFetchingMore}
         style={{
           height: "40px",
           width: "90%",
@@ -340,7 +317,7 @@ export default function RelTest() {
           borderRadius: "6px",
         }}
       >
-        Show More
+        {isFetching ? "Loading..." : "Show More"}
       </button>
     </StyledReleases>
   );
