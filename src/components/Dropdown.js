@@ -1,21 +1,42 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import styled, { css } from "styled-components/macro";
-import { device } from "../devices";
+import styled from "styled-components/macro";
 
 // https://csslayout.io/patterns/dropdown/
 
 const Wrap = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: row;
 `;
 
 const Button = styled.button`
   font-size: 1rem;
   padding: 2px 4px;
   background: none;
-  border: 1px solid lightgray;
-  border-radius: 4px;
   color: #33425b;
+
+  svg {
+    margin-left: 6px;
+  }
+`;
+
+const StackedText = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 30px;
+
+  .top {
+    height: 10px;
+    font-size: 10px;
+    //margin-right: auto;
+    margin-left: auto;
+    color: #777;
+  }
+  .bottom {
+    height: 20px;
+    font-size: 14px;
+    color: #33425b;
+  }
 `;
 
 const Menu = styled.div`
@@ -24,8 +45,7 @@ const Menu = styled.div`
 
   position: absolute;
   right: 0;
-  top: 120%;
-  //z-index: 200;
+  top: 120%;  
   min-width: 100px;
   width: max-content;
 
@@ -37,8 +57,7 @@ const Menu = styled.div`
   border-radius: 6px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   // transform: ${(props) =>
-    props.isOpen ? "translateY(5%)" : "translateY(0)"};
-  //transition: all 200ms ease;
+    props.isOpen ? "translateY(5%)" : "translateY(0)"};  
   transition: all 300ms cubic-bezier(0, 1, 0.5, 1);  
 `;
 
@@ -49,21 +68,12 @@ const MenuItem = styled.div`
     color: red;
     background: whitesmoke;
   }
-
-  //& .nothing {
-  //  color: #282c35;
-  //  text-decoration: none;
-  //margin-bottom: 8px;
-  //line-height: 1.5;
-  //font-size: 1rem;
-  //padding: 4px 12px;
-  //}
 `;
 
 const Arrow = styled.div`
   /* Position at the top right corner */
   position: absolute;
-  right: 8px;
+  right: 0;
   top: -1px;
 
   /* Border */
@@ -77,7 +87,7 @@ const Arrow = styled.div`
   width: 12px;
 `;
 
-export default function Dropdown({ sortData }) {
+export default function Dropdown({ title, selected, items, onSelect, icon }) {
   const ref = useRef();
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(!isOpen);
@@ -88,8 +98,14 @@ export default function Dropdown({ sortData }) {
     }
   };
 
-  const onChange = () => {
+  const onChange = (value) => {
+    onSelect(value);
     setIsOpen(false);
+  };
+
+  const getSelected = () => {
+    const item = items && items.find((item) => item.value === selected);
+    return item ? item.label : title;
   };
 
   useEffect(() => {
@@ -105,19 +121,22 @@ export default function Dropdown({ sortData }) {
   }, [isOpen]);
 
   return (
-    // <Wrap ref={ref}>
-    <Wrap>
-      <Button onClick={toggleOpen}>Sort</Button>
+    <Wrap ref={ref}>
+      <StackedText>
+        <div className={"top"}>{title}</div>
+        <div className={"bottom"}>{getSelected()}</div>
+      </StackedText>
+      <Button onClick={toggleOpen}>{icon}</Button>
 
-      <Menu isOpen={isOpen} ref={ref}>
+      <Menu isOpen={isOpen}>
         <Arrow />
-        {/*<p style={{ position: "fixed", top: "8px", left: "10px" }}>SortBy</p>*/}
-        {/* TODO: render children here */}
-        {sortData.map(({ value, label }) => (
-          <MenuItem key={value} onClick={onChange}>
-            <span>{label}</span>
-          </MenuItem>
-        ))}
+        {/* TODO: render children here? */}
+        {items &&
+          items.map(({ value, label }) => (
+            <MenuItem key={value} onClick={() => onChange(value)}>
+              <span>{label}</span>
+            </MenuItem>
+          ))}
       </Menu>
     </Wrap>
   );

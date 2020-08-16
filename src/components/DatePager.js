@@ -24,12 +24,18 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 
-const DatePagerWrap = styled.div`
+const Wrap = styled.div`
   display: flex;
   //min-height: 30px;
   justify-content: center;
   align-items: center;
   height: 100%;
+
+  .react-datepicker-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const PagerButton = styled.button`
@@ -42,7 +48,7 @@ const PagerButton = styled.button`
   font-size: 1.1rem;
   height: 100%;
   //width: 30px;
-  padding: 0 10px;
+  //padding: 0 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -77,17 +83,18 @@ export default function DatePager({
       <FaRegCalendar size={"1.25rem"} style={{ marginRight: "8px" }} />
       {/*{value}*/}
       {/*<span style={{ fontSize: "1.2rem" }}>{displayDateStr}</span>*/}
-      {displayDateStr}
+      <div style={{ display: "flex" }}>{displayDateStr}</div>
     </PagerButton>
   );
 
   return (
-    <DatePagerWrap>
+    <Wrap>
       <PagerButton
         onClick={goPrev}
         style={{ marginRight: "auto", color: "#555" }}
       >
         <FaCaretLeft size={"1.4rem"} />
+        {"Jul"}
       </PagerButton>
 
       <DatePicker
@@ -100,8 +107,9 @@ export default function DatePager({
       />
 
       <PagerButton onClick={goNext} style={{ marginLeft: "auto" }}>
+        {"Sep"}
         <FaCaretRight size={"1.25rem"} />
       </PagerButton>
-    </DatePagerWrap>
+    </Wrap>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components/macro";
 import { device } from "../devices";
-import { DatePager, ActionMenu, Portal, Dropdown } from "../components";
+import { DatePager, Dropdown } from "../components";
 import {
   FaSort,
   FaTimes,
@@ -12,6 +12,7 @@ import SortDropDown from "../old-other/SortDropdown";
 
 const DatePagerWrap = styled.div`
   grid-area: datepager;
+  height: 100%;
 `;
 
 const StyledToolbar = styled.div`
@@ -39,12 +40,12 @@ const ToolBarWrap = styled.div`
   grid-template-areas:
     "titleandcount sort"
     "datepager datepager";
-  //grid-template-columns: auto auto;
-  //grid-template-rows: auto auto;
+  grid-template-columns: auto auto;
+  grid-template-rows: 40px 30px;
   @media ${device.min.tablet} {
     grid-template-areas: "titleandcount datepager sort";
     grid-template-columns: 1fr 275px 1fr;
-    grid-template-rows: 1fr;
+    grid-template-rows: 40px;
   }
 `;
 
@@ -59,45 +60,22 @@ const ListInfo = styled.div`
     font-size: 1.3rem;
     font-weight: 600;
     margin-right: 10px;
-    //color: rgba(35, 35, 39, 0.9);
-    //color: #282c35;
     color: #33425b;
     text-transform: uppercase;
   }
 
   span {
     font-size: 1.1rem;
-    //font-weight: 400;
-    //border: 1px solid lightgray;
-    //background: whitesmoke;
     background: #eee;
-    //color: #282c35;
     color: #33425b;
     border-radius: 10px;
-    //height: 28px;
     height: 26px;
-    //min-width: 28px;
     padding: 0 0.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 `;
-
-// const SortButton = styled.button`
-//   position: fixed;
-//   bottom: 5rem;
-//   right: 1.5rem;
-//   font-size: 1.5rem;
-//   padding: 4px 8px;
-//   background: whitesmoke;
-//   border: 1px solid lightgray;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-//   border-radius: 4px;
-// `;
 
 const SortWrap = styled.div`
   grid-area: sort;
@@ -106,48 +84,10 @@ const SortWrap = styled.div`
   align-items: center;
   margin-left: auto;
   //height: 30px;
-  //text-transform: uppercase; // capitalize
+  text-transform: uppercase; // capitalize
 
-  //border: 1px solid lightgray;
-  border-radius: 4px;
   padding-left: 6px;
-
-  //width: 120px;
-  //color: #282c35;
   color: #33425b;
-
-  .temp {
-    //padding: 2px 6px 4px;
-    //padding-bottom: 4px;
-    border-radius: 4px;
-    height: 30px;
-    width: 30px;
-    margin-left: 4px;
-    background: none;
-
-    svg {
-      margin-left: auto;
-    }
-  }
-`;
-
-const StackedText = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 30px;
-
-  .top {
-    height: 10px;
-    font-size: 10px;
-    margin-right: auto;
-    margin-left: auto;
-    color: #777;
-  }
-  .bottom {
-    height: 20px;
-    font-size: 14px;
-    color: #33425b;
-  }
 `;
 
 export default function Toolbar({
@@ -159,42 +99,21 @@ export default function Toolbar({
   const { goPrev, goNext, goToToday, displayDateStr } = dateData || {};
   const { sortData, orderByValue, onOrderChange } = sortOptions || {};
 
-  const [sortOpen, setSortOpen] = useState(false);
-  const toggleSortOpen = () => setSortOpen(!sortOpen);
-
   return (
     <StyledToolbar>
       <ToolBarWrap dateData={dateData}>
         <ListInfo>
           <p>{name || "Loading..."}</p>
           <span>{movie_count || "#"}</span>
-
-          {/*<SortWrap>*/}
-          {/*  <SortDropdown*/}
-          {/*    sortData={sortData}*/}
-          {/*    sortValue={orderByValue}*/}
-          {/*    onOrderChange={onOrderChange}*/}
-          {/*  />*/}
-          {/*</SortWrap>*/}
         </ListInfo>
 
         <SortWrap>
-          <StackedText>
-            <div className={"top"}>sort</div>
-            <div className={"bottom"}>
-              {orderByValue?.split(",")[0] || "sort"}
-            </div>
-          </StackedText>
-          <button className={"temp"} onClick={toggleSortOpen}>
-            <FaSort size={"1.1rem"} />
-          </button>
           <Dropdown
-            sortData={[
-              { value: "asdfasdfrelease", label: "Release" },
-              { value: "asdfasfdrating", label: "Rating" },
-              { value: "asdfvotes", label: "Votes" },
-              { value: "asdftitle", label: "Title" },
-            ]}
+            title={"Sort"}
+            selected={orderByValue}
+            onSelect={onOrderChange}
+            items={sortData}
+            icon={<FaSort size={"1.1rem"} />}
           >
             <FaSort size={"1.1rem"} />
           </Dropdown>
@@ -210,24 +129,7 @@ export default function Toolbar({
             />
           </DatePagerWrap>
         )}
-        {/*{sortOptions && (*/}
-        {/*  <SortButton onClick={toggleSortOpen}>*/}
-        {/*    <FaSort />*/}
-        {/*  </SortButton>*/}
-        {/*)}*/}
       </ToolBarWrap>
-
-      {sortOptions && (
-        <Portal>
-          <ActionMenu
-            isOpen={sortOpen}
-            toggleOpen={toggleSortOpen}
-            sortData={sortData}
-            sortValue={orderByValue}
-            onOrderChange={onOrderChange}
-          />
-        </Portal>
-      )}
     </StyledToolbar>
   );
 }

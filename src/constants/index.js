@@ -15,6 +15,7 @@ export const discSortOps = [
 ];
 
 export const releasesSortOptions = (type) => {
+  // type is a release date from 'theatrical', 'digital', 'physical', 'tv'?
   return [
     { value: `${type},-rating,title`, label: "Release" },
     // { value: "release_date", label: "Release Date" },

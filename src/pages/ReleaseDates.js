@@ -114,6 +114,7 @@ export default function ReleaseDates() {
         movies={data?.results}
         isLoading={isLoading}
         isError={isError}
+        dateType={"digital"}
       />
     </StyledReleases>
   );
