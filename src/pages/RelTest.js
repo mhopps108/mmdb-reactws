@@ -313,8 +313,9 @@ export default function RelTest() {
           height: "40px",
           width: "90%",
           maxWidth: "400px",
-          margin: "10px auto",
+          margin: "10px auto 100px",
           borderRadius: "6px",
+          background: "white",
         }}
       >
         {isFetching ? "Loading..." : "Show More"}
@@ -333,4 +334,5 @@ const StyledReleases = styled.div`
   grid-template-columns: 1fr;
   grid-template-rows: 55px auto 1fr;
   margin: 0 auto;
+  background: #33425b;
 `;

@@ -38,7 +38,9 @@ const GlobalStyle = createGlobalStyle`
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       //background: #282c35;
-      background: #33425b;
+      //background: #33425b;
+      //background: yellow;
+      background: none;
     }
 `;
 

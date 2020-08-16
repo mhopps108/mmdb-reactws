@@ -112,6 +112,7 @@ export default function Dropdown({ sortData }) {
       <Menu isOpen={isOpen} ref={ref}>
         <Arrow />
         {/*<p style={{ position: "fixed", top: "8px", left: "10px" }}>SortBy</p>*/}
+        {/* TODO: render children here */}
         {sortData.map(({ value, label }) => (
           <MenuItem key={value} onClick={onChange}>
             <span>{label}</span>

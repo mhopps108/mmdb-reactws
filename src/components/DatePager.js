@@ -9,6 +9,7 @@ import {
   FaCaretSquareLeft,
   FaCaretSquareRight,
   FaCaretRight,
+  FaCaretLeft,
   FaCalendar,
   FaRegCalendar,
 } from "react-icons/fa";
@@ -86,7 +87,7 @@ export default function DatePager({
         onClick={goPrev}
         style={{ marginRight: "auto", color: "#555" }}
       >
-        <FaCaretSquareLeft size={"1.4rem"} />
+        <FaCaretLeft size={"1.4rem"} />
       </PagerButton>
 
       <DatePicker
