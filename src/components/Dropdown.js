@@ -63,6 +63,7 @@ const Menu = styled.div`
 
 const MenuItem = styled.div`
   padding: 8px 16px;
+  font-size: 0.9rem;
 
   &:hover {
     color: red;

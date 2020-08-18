@@ -97,7 +97,7 @@ export default function Toolbar({
 }) {
   const { name, movie_count } = listData;
   const { goPrev, goNext, goToToday, displayDateStr } = dateData || {};
-  const { sortData, orderByValue, onOrderChange } = sortOptions || {};
+  const { options, selected, onChange } = sortOptions || {};
 
   return (
     <StyledToolbar>
@@ -110,9 +110,9 @@ export default function Toolbar({
         <SortWrap>
           <Dropdown
             title={"Sort"}
-            selected={orderByValue}
-            onSelect={onOrderChange}
-            items={sortData}
+            selected={selected}
+            onSelect={onChange}
+            items={options}
             icon={<FaSort size={"1.1rem"} />}
           >
             <FaSort size={"1.1rem"} />

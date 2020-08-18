@@ -7,10 +7,12 @@ import {
   Discover,
   ReleaseDates,
   RelTest,
+  RelTestTwo,
 } from "./pages";
 import styled from "styled-components/macro";
 import { createGlobalStyle } from "styled-components";
 import "rsuite/dist/styles/rsuite-default.css";
+import { ReactQueryDevtools } from "react-query-devtools";
 
 const GlobalStyle = createGlobalStyle`
     *,
@@ -46,39 +48,43 @@ const GlobalStyle = createGlobalStyle`
 
 export default function App() {
   return (
-    <StyledApp>
-      <GlobalStyle />
-      <BrowserRouter>
-        <Switch>
-          <Route exact path={"/"}>
-            <List />
-          </Route>
-          <Route path={"/lists/:slug"}>
-            <List />
-          </Route>
-          <Route path={"/release-dates"}>
-            <ReleaseDates />
-          </Route>
-          <Route
-            path={[
-              "/releases/:type/:period/:startDate",
-              "/releases/:type/:period",
-              "/releases/:type",
-              "/releases",
-            ]}
-          >
-            {/*<Releases />*/}
-            <RelTest />
-          </Route>
-          <Route path={"/discover"}>
-            <Discover />
-          </Route>
-          <Route path="/movie/:imdbId">
-            <Detail />
-          </Route>
-        </Switch>
-      </BrowserRouter>
-    </StyledApp>
+    <>
+      <StyledApp>
+        <GlobalStyle />
+        <BrowserRouter>
+          <Switch>
+            <Route exact path={"/"}>
+              <List />
+            </Route>
+            <Route path={"/lists/:slug"}>
+              <List />
+            </Route>
+            <Route path={"/release-dates"}>
+              <ReleaseDates />
+            </Route>
+            <Route
+              path={[
+                "/releases/:type/:period/:startDate",
+                "/releases/:type/:period",
+                "/releases/:type",
+                "/releases",
+              ]}
+            >
+              {/*<Releases />*/}
+              {/*<RelTest />*/}
+              <RelTestTwo />
+            </Route>
+            <Route path={"/discover"}>
+              <Discover />
+            </Route>
+            <Route path="/movie/:imdbId">
+              <Detail />
+            </Route>
+          </Switch>
+        </BrowserRouter>
+      </StyledApp>
+      <ReactQueryDevtools />
+    </>
   );
 }
 
