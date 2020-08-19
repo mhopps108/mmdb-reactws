@@ -6,5 +6,15 @@ import ReleaseDates from "./ReleaseDates";
 
 import RelTest from "./RelTest";
 import RelTestTwo from "./RelTestTwo";
+import ListTest from "./ListTest";
 
-export { List, Releases, Detail, Discover, ReleaseDates, RelTest, RelTestTwo };
+export {
+  List,
+  Releases,
+  Detail,
+  Discover,
+  ReleaseDates,
+  RelTest,
+  RelTestTwo,
+  ListTest,
+};

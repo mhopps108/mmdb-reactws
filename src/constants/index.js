@@ -1,15 +1,14 @@
+export const listSortOptions = [
+  { value: "rank", label: "Rank" },
+  { value: "-movie_rating,-movie_votes,movie_title", label: "Rating" },
+  { value: "-movie_votes,-movie_rating,movie_title", label: "Votes" },
+  { value: "-movie_year,-movie_rating,movie_title", label: "Year" },
+  { value: "movie_title,-movie_year,-movie_rating", label: "Title" },
+];
+
 export const discoverySortOptions = [
   { value: "-rating,-votes", label: "Rating" },
   { value: "-votes,-rating", label: "Votes" },
-  { value: "year,title", label: "Year" },
-  { value: "title,year", label: "Title" },
-];
-
-// TODO: function to return sort values with asc/desc params
-//  and prepend '-' in front of values
-export const discSortOps = [
-  { value: "rating,votes", label: "Rating" },
-  { value: "votes,rating", label: "Votes" },
   { value: "year,title", label: "Year" },
   { value: "title,year", label: "Title" },
 ];
@@ -22,26 +21,8 @@ export const releasesSortOptions = (type) => {
     { value: `-rating,${type},title`, label: "Rating" },
     { value: `-votes,${type},title`, label: "Votes" },
     { value: `title,${type}`, label: "Title" },
-    // { value: "year,digital", label: "Year" },
   ];
-  // return [
-  //   { value: `${type},-rating`, label: "Release" },
-  //   // { value: "release_date", label: "Release Date" },
-  //   { value: `-rating,${type}`, label: "Rating" },
-  //   { value: `-votes,${type}`, label: "Votes" },
-  //   { value: `title,${type}`, label: "Title" },
-  //   // { value: "year,digital", label: "Year" },
-  // ];
 };
-
-// export const releasesSortOptions = [
-//   { value: "digital,-rating", label: "Release" },
-//   // { value: "release_date", label: "Release Date" },
-//   { value: "-rating,digital", label: "Rating" },
-//   { value: "-votes,digital", label: "Votes" },
-//   { value: "title,digital", label: "Title" },
-//   // { value: "year,digital", label: "Year" },
-// ];
 
 export const genreOptions = [
   { name: "action", label: "Action" },

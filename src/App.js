@@ -8,6 +8,7 @@ import {
   ReleaseDates,
   RelTest,
   RelTestTwo,
+  ListTest,
 } from "./pages";
 import styled from "styled-components/macro";
 import { createGlobalStyle } from "styled-components";
@@ -54,10 +55,12 @@ export default function App() {
         <BrowserRouter>
           <Switch>
             <Route exact path={"/"}>
-              <List />
+              {/*<List />*/}
+              <ListTest />
             </Route>
-            <Route path={"/lists/:slug"}>
-              <List />
+            <Route path={"/list/:slug"}>
+              {/*<List />*/}
+              <ListTest />
             </Route>
             <Route path={"/release-dates"}>
               <ReleaseDates />
