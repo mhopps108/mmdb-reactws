@@ -134,6 +134,10 @@ function MovieListItem({ movie, dateType }) {
       case "physical":
         date = moment(physical_release).format("MMM DD");
         break;
+      // case "full":
+      //   date = moment(physical_release).format("MMM DD");
+      // TODO: date format
+      // case "first available date": ??
       default:
         date = year;
     }

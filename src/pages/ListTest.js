@@ -9,16 +9,26 @@ import { listSortOptions } from "../constants";
 import API from "../api/api";
 import useIntersectionObserver from "../hooks/useIntersectionObserver";
 
+// function useQP({ initial }) {
+//   // const [params, setParams] = useState(initial);
+//   const params = new URLSearchParams(initial);
+//   const [queryString, setQuery] = useState(params.toString());
+//
+//   useEffect(() => {}, []);
+//
+//   return { queryString, params };
+// }
+
 function useQueryParams() {
   return new URLSearchParams(useLocation().search);
 }
 
-const paramStateToQuery = (paramState) => {
-  const { listSlug, sort, page_size } = paramState;
+const paramStateToQuery = (paramKeys) => {
+  const { page_size, slug, sort } = paramKeys;
   return {
     page_size,
     sortby: sort,
-    list_slug: listSlug,
+    list_slug: slug,
   };
 };
 
@@ -28,7 +38,6 @@ const paramsReducer = (state, action) => {
       return {
         ...state,
         sort: action.payload,
-        page: 1,
       };
     default:
       throw new Error();
@@ -40,25 +49,19 @@ export default function ListTest({ view = "list" }) {
   const loc = useLocation();
   let { slug } = useParams();
   console.log(`slug: ${slug}`);
-  // slug = slug || "tmdb-popular";
+  slug = slug || "tmdb-popular";
 
-  // const listUrl = `https://www.matthewhopps.com/api/list/${slug}/`;
-  // const listUrl = `https://www.matthewhopps.com/api/movielist/`;
-  // listSlug, sort
-  // const [state, setUrl] = useDataApi(listUrl, []);
-  // const { data, isLoading, isError } = state;
-  // const { name, source, movie_count, movielistitems } = data;
-
+  const page_size = 15;
   const queryParams = useQueryParams();
-  const sortOptions = listSortOptions;
-  const initSortby = queryParams.get("sort") || sortOptions[0].value;
+  // let urlSort = queryParams.get("sort") || listSortOptions[0].value;
+  // const [sort, setSort] = useState(urlSort);
+  const [sort, setSort] = useState(
+    queryParams.get("sort") || listSortOptions[0].value
+  );
 
-  const [params, paramsDispatch] = useReducer(paramsReducer, {
-    page_size: 30,
-    sort: initSortby,
-    // listSlug: slug,
-  });
-  console.log(`listSlug: ${params.listSlug}`);
+  // const [params, dispatch] = useReducer(paramsReducer, {
+  //   sort: queryParams.get("sort") || listSortOptions[0].value,
+  // });
 
   const getMovies = async (key, paramKeys, nextPage = 1) => {
     console.log("getMovies(): key=", key);
@@ -73,48 +76,53 @@ export default function ListTest({ view = "list" }) {
   };
 
   const {
-    status,
     data,
+    isLoading,
+    isError,
     error,
+    isSuccess,
     isFetching,
-    isFetchingMore,
     fetchMore,
     canFetchMore,
-  } = useInfiniteQuery(
-    ["movielist", { ...params, listSlug: slug }],
-    getMovies,
-    {
-      getFetchMore: (lastPage, allPages) => {
-        console.log(`getFetchMore(): lastPage`, lastPage);
-        console.log(`getFetchMore(): allPages`, allPages);
-        return lastPage.next_page;
-        // return lastPage && lastPage.next_page;
-      },
-      // cacheTime: 60 * 1000,
-      // staleTime: 2 * 1000,
-    }
-  );
+  } = useInfiniteQuery(["movielist", { page_size, slug, sort }], getMovies, {
+    getFetchMore: (lastPage, allPages) => lastPage.next_page,
+  });
 
-  const onSortChange = (val) => {
+  const onSortChange = (value) => {
     console.log("On Sort - Set");
-    paramsDispatch({ type: "SET_SORT", payload: val });
+    // dispatch({ type: "SET_SORT", payload: value });
+    setSort(value);
+    // queryParams.set("sort", value);
+    // sort = value;
   };
 
+  // useEffect(() => {
+  //   if (params.sort !== urlSort) {
+  // setSort(urlSort);
+  // dispatch({ type: "SET_SORT", payload: urlSort });
+  // }
+  // }, [params.sort, urlSort]);
+
   useEffect(() => {
-    console.log("effect: params state: ", params); // log state
-  }, [params]);
+    console.log("effect: slug: ", slug); // log state
+    console.log("effect: params.sort: ", sort); // log state
+    for (const [key, value] of queryParams.entries()) {
+      console.log(`key:value - ${key}: ${value}`);
+    }
+  }, [slug, sort, queryParams]);
 
   // sets url and push new state to url on state changes
   useEffect(() => {
-    // const { sort, listSlug } = params;
-    const { sort } = params;
-    // const newLoc = `/list/${listSlug}?sort=${sort}`;
+    console.log(`history.push(): `);
+    console.log("his", history);
+    console.log(`loc: `, loc);
+
     const newLoc = `/list/${slug}?sort=${sort}`;
-    if (newLoc !== loc.pathname + loc.search) {
+    const oldLoc = loc.pathname + loc.search;
+    if (newLoc !== oldLoc) {
       history.push(newLoc);
     }
 
-    console.log(`history.push(): `);
     console.log(
       `strToPush =?= locCurrent
       newLoc: ${newLoc}
@@ -125,18 +133,16 @@ export default function ListTest({ view = "list" }) {
     } else {
       console.log("history: no push - same str");
     }
-  }, [history, loc, params, slug]);
+  }, [history, loc, slug, sort]);
 
   // toolbar data
   const listData = {
     movie_count: data ? data[0].count : "#",
-    // name: `${params.listSlug.split("-")[1]}`,
-    name: slug,
-    // type: params.type,
+    name: `${slug.split("-").slice(1).join(" ")}`,
   };
   const sortData = {
-    options: sortOptions,
-    selected: params.sort,
+    options: listSortOptions,
+    selected: sort,
     onChange: onSortChange,
   };
 
@@ -148,19 +154,17 @@ export default function ListTest({ view = "list" }) {
         movies={
           data && data.reduce((acc, page) => [...acc, ...page.results], [])
         }
-        isLoading={status === "loading"}
+        isLoading={isLoading}
         isError={error}
-        dateType={params.type}
       />
       <LoadMoreButton
         // ref={loadMoreButtonRef}
         onClick={() => fetchMore()}
         hidden={!canFetchMore}
-        disabled={isFetchingMore}
+        disabled={isFetching}
       >
         {isFetching ? "Loading..." : "Show More"}
       </LoadMoreButton>
-      {/*<Toolbar listData={data} />*/}
       {/*{view === "poster" && (*/}
       {/*  <MoviePosterList*/}
       {/*    movies={(data?.movielistitems || []).map((item) => item.movie)}*/}
