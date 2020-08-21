@@ -33,11 +33,12 @@ const GlobalStyle = createGlobalStyle`
     body {
       overflow-x: hidden;
       width: 100vw;      
-      font-family: 'Source Sans Pro', Arial, sans-serif;
+      //font-family: 'Source Sans Pro', Arial, sans-serif;
       font-size: 16px;
-      /*font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',*/
-      /*'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',*/
-      /*sans-serif;*/
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+      letter-spacing: 0.5px;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       //background: #282c35;

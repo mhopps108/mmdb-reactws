@@ -34,14 +34,14 @@ const StyledToolbar = styled.div`
 `;
 
 const ToolBarWrap = styled.div`
-  padding: 8px 16px;
+  padding: 0.5rem 1rem;
   display: grid;
   grid-row-gap: ${(props) => (props.dateData ? "0.5rem" : 0)};
   grid-template-areas:
     "titleandcount sort"
     "datepager datepager";
   grid-template-columns: auto auto;
-  grid-template-rows: 40px 30px;
+  grid-template-rows: 40px auto;
   @media ${device.min.tablet} {
     grid-template-areas: "titleandcount datepager sort";
     grid-template-columns: 1fr 275px 1fr;
@@ -57,9 +57,9 @@ const ListInfo = styled.div`
   align-items: center;
 
   p {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-weight: 600;
-    margin-right: 10px;
+    margin-right: 0.5rem;
     color: #33425b;
     text-transform: uppercase;
   }
@@ -74,6 +74,7 @@ const ListInfo = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   }
 `;
 
@@ -84,7 +85,7 @@ const SortWrap = styled.div`
   align-items: center;
   margin-left: auto;
   //height: 30px;
-  text-transform: uppercase; // capitalize
+  //text-transform: uppercase; // capitalize
 
   padding-left: 6px;
   color: #33425b;
@@ -113,9 +114,10 @@ export default function Toolbar({
             selected={selected}
             onSelect={onChange}
             items={options}
-            icon={<FaSort size={"1.1rem"} />}
+            // icon={<FaSortAmountDownAlt size={"1.1rem"} />}
+            icon={<FaSortAmountDownAlt />}
           >
-            <FaSort size={"1.1rem"} />
+            {/*<FaSort size={"1.1rem"} />*/}
           </Dropdown>
         </SortWrap>
 

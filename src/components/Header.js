@@ -63,15 +63,22 @@ const MenuButton = styled.button`
   position: fixed;
   bottom: 2rem;
   right: 1.5rem;
-  font-size: 1.5rem;
-  padding: 4px 8px;
-  color: #282c35;
+  font-size: 1.4rem;
+  padding: 6px 12px;
+  //color: #282c35;
+  color: #33425b;
   background: whitesmoke;
   border: 1px solid lightgray;
   border-radius: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+  :hover {
+    //box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 8px rgba(255, 255, 255, 0.3);
+  }
 
   @media ${device.min.tablet} {
     //display: none;

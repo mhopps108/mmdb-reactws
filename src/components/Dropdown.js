@@ -9,14 +9,45 @@ const Wrap = styled.div`
   flex-direction: row;
 `;
 
+// const Button = styled.button`
+//   font-size: 1rem;
+//   padding: 0.5rem 1rem;
+//   background: none;
+//   color: #33425b;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//
+//   //border: 1px solid lightgray;
+//   //border-radius: 0.5rem;
+//
+//   svg {
+//     margin-left: 0.5rem;
+//   }
+// `;
+
 const Button = styled.button`
   font-size: 1rem;
-  padding: 2px 4px;
+  padding: 6px 12px;
   background: none;
   color: #33425b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  //text-transform: uppercase;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  border: none;
+  //border-radius: 90px; // basically 50%
+  border-radius: 0.5rem;
+
+  transition: box-shadow 0.4s ease;
+
+  :hover {
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+  }
 
   svg {
-    margin-left: 6px;
+    margin-left: 0.5rem;
   }
 `;
 
@@ -39,6 +70,14 @@ const StackedText = styled.div`
   }
 `;
 
+const Title = styled.p`
+  font-size: 0.85rem;
+  color: grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Menu = styled.div`
   visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
   opacity: ${(props) => (props.isOpen ? 1 : 0)};
@@ -52,9 +91,9 @@ const Menu = styled.div`
   display: flex;
   flex-direction: column;
   background: white;
-  padding: 8px 0;
+  padding: 0.5rem 0;
   border: 1px solid lightgray;
-  border-radius: 6px;
+  border-radius: 0.5rem;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   // transform: ${(props) =>
     props.isOpen ? "translateY(5%)" : "translateY(0)"};  
@@ -62,7 +101,7 @@ const Menu = styled.div`
 `;
 
 const MenuItem = styled.div`
-  padding: 8px 16px;
+  padding: 0.5rem 1rem;
   font-size: 0.9rem;
 
   &:hover {
@@ -123,15 +162,20 @@ export default function Dropdown({ title, selected, items, onSelect, icon }) {
 
   return (
     <Wrap ref={ref}>
-      <StackedText>
-        <div className={"top"}>{title}</div>
-        <div className={"bottom"}>{getSelected()}</div>
-      </StackedText>
-      <Button onClick={toggleOpen}>{icon}</Button>
+      {/*<StackedText>*/}
+      {/*  <div className={"top"}>{title}</div>*/}
+      {/*  <div className={"bottom"}>{getSelected()}</div>*/}
+      {/*</StackedText>*/}
+      {/*<div className={"bottom"}>{getSelected()}</div>*/}
+      <Button onClick={toggleOpen}>
+        {getSelected()}
+        {icon}
+      </Button>
 
       <Menu isOpen={isOpen}>
         <Arrow />
         {/* TODO: render children here? */}
+        <Title>{title}</Title>
         {items &&
           items.map(({ value, label }) => (
             <MenuItem key={value} onClick={() => onChange(value)}>
