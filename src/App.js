@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   List,
   Releases,
@@ -54,7 +54,7 @@ export default function App() {
       <StyledApp>
         <GlobalStyle />
         <BrowserRouter>
-          <Switch>
+          <Routes>
             <Route exact path={"/"}>
               {/*<List />*/}
               <ListTest />
@@ -63,20 +63,25 @@ export default function App() {
               {/*<List />*/}
               <ListTest />
             </Route>
-            <Route path={"/release-dates"}>
-              <ReleaseDates />
-            </Route>
-            <Route
-              path={[
-                "/releases/:type/:period/:startDate",
-                "/releases/:type/:period",
-                "/releases/:type",
-                "/releases",
-              ]}
-            >
-              {/*<Releases />*/}
-              {/*<RelTest />*/}
-              <RelTestTwo />
+            <Route path={"/release-dates"}>{/*<ReleaseDates />*/}</Route>
+            {/*<Route*/}
+            {/*  path={[*/}
+            {/*    "/releases/:type/:period/:startDate",*/}
+            {/*    "/releases/:type/:period",*/}
+            {/*    "/releases/:type",*/}
+            {/*    "/releases",*/}
+            {/*  ]}*/}
+            {/*>*/}
+            {/*<Route path={"/releases/:type/:period/:startDate"}>*/}
+            {/*<Route path={"/releases/"}>*/}
+            {/*<Releases />*/}
+            {/*<RelTest />*/}
+            {/*<RelTestTwo />*/}
+            {/*</Route>*/}
+            <Route path="releases" element={<RelTestTwo />}>
+              <Route path=":type" element={<RelTestTwo />} />
+              <Route path=":type/:period" element={<RelTestTwo />} />
+              <Route path=":type/:period/:startDate" element={<RelTestTwo />} />
             </Route>
             <Route path={"/discover"}>
               <Discover />
@@ -84,7 +89,7 @@ export default function App() {
             <Route path="/movie/:imdbId">
               <Detail />
             </Route>
-          </Switch>
+          </Routes>
         </BrowserRouter>
       </StyledApp>
       <ReactQueryDevtools />

@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useReducer, useRef } from "react";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import {
+  useNavigate,
+  useMatch,
+  useRoutes,
+  useLocation,
+  useParams,
+} from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
 import moment from "moment";
@@ -62,12 +68,26 @@ export default function RelTest() {
   // /releases/digital/month/2020-07-01?sortby=-digital
   // or
   // /releases/digital/month?start=2020-07-01&sortby=-digital
-  let history = useHistory();
+  // let match = useMatch("/releases/:type/:period/:startDate");
+  // console.log("match: ", match);
+
+  let navigate = useNavigate();
   const loc = useLocation();
-  const { type, period, startDate } = useParams();
+  // const { type, period, startDate } = useParams();
+  let { type, period, startDate } = useParams();
   const initType = type || "digital";
   const initPeriod = period || "month";
-  const initStartFrom = startOf(startDate, period);
+  // const initStartFrom = startOf(startDate, period);
+  // startDate = "2020-01-01";
+  const initStartFrom = startOf(startDate, initPeriod);
+
+  console.log("type: ", type);
+  console.log("period: ", period);
+
+  console.log("startDate: ", startDate);
+  console.log("initType: ", initType);
+  console.log("initPeriod: ", initPeriod);
+  console.log("initStartFrom: ", initStartFrom);
 
   const queryParams = useQueryParams();
   const sortOptions = releasesSortOptions(initType);
@@ -161,7 +181,7 @@ export default function RelTest() {
     const { sortby, startFrom, type, period } = params;
     const newLoc = `/releases/${type}/${period}/${startFrom}?sortby=${sortby}`;
     if (newLoc !== loc.pathname + loc.search) {
-      history.push(newLoc);
+      navigate(newLoc);
     }
 
     console.log(`history.push(): `);
@@ -175,7 +195,7 @@ export default function RelTest() {
     } else {
       console.log("history: no push - same str");
     }
-  }, [history, loc, params]);
+  }, [navigate, loc, params]);
 
   // toolbar data
   const listData = {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link, useLocation, useHistory } from "react-router-dom";
+import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Header,
   MovieList,
@@ -39,7 +39,7 @@ export const queryToFilterState = (queryParams) => {
 };
 
 export default function Discover({ navMenuVisible, toggleNavMenu }) {
-  let history = useHistory();
+  let navigate = useNavigate();
   let queryParams = useQueryParams();
   const initSort = queryParams.get("sortby") || discoverySortOptions[0].value;
   const [sort, setSort] = useState(initSort);
@@ -57,11 +57,11 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
     setSort(val);
     // history.push(`/discover/?sortby=${sort}&${queryString}`);
     queryParams.set("sortby", val);
-    history.push(`/discover/?${queryParams.toString()}`);
+    navigate.push(`/discover/?${queryParams.toString()}`);
   };
   const onApplyFilters = (queryString) => {
     setShowFilterMenu(false);
-    history.push(`/discover/?sortby=${sort}&${queryString}`);
+    navigate.push(`/discover/?sortby=${sort}&${queryString}`);
   };
 
   useEffect(() => {

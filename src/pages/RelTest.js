@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useReducer, useRef } from "react";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { Header, Toolbar, MovieList } from "../components";
 import styled from "styled-components/macro";
 import moment from "moment";
@@ -117,7 +117,7 @@ export default function RelTest() {
   // /releases/:type/:period/:startFrom?sortby=-digital
   // /releases/digital/month/2020-07-01?sortby=-digital
   const loc = useLocation();
-  let history = useHistory();
+  let navigate = useNavigate();
   // history.scrollRestoration = "manual"; // auto || manual
   let { type, period, startDate } = useParams();
   const initType = type || "digital";
@@ -282,11 +282,11 @@ export default function RelTest() {
     console.log("locCurrent: ", loc);
     if (str !== loc.pathname + loc.search) {
       console.log("history: pushed str");
-      history.push(str);
+      navigate.push(str);
     } else {
       console.log("history: same str - no push");
     }
-  }, [history, loc, paramState]);
+  }, [navigate, loc, paramState]);
 
   return (
     <StyledReleases>

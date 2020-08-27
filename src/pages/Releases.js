@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useReducer } from "react";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { Header, Toolbar, MovieList } from "../components";
 import styled from "styled-components/macro";
 import moment from "moment";
@@ -102,7 +102,7 @@ const paramsReducer = (state, action) => {
 export default function RelTest() {
   // /releases/:type/:period/:startFrom?sortby=-digital
   // /releases/digital/month/2020-07-01?sortby=-digital
-  let history = useHistory();
+  let navigate = useNavigate();
   let { type, period, startDate } = useParams();
   const initType = type || "digital";
   const initPeriod = period || "month";
@@ -233,8 +233,8 @@ export default function RelTest() {
     const { sortby, startFrom, type, period } = paramState;
     console.log(`Releases: history.push(): `);
     // TODO: do not want to update history when page changes (show more movies)
-    history.push(`/releases/${type}/${period}/${startFrom}?sortby=${sortby}`);
-  }, [history, paramState]);
+    navigate.push(`/releases/${type}/${period}/${startFrom}?sortby=${sortby}`);
+  }, [navigate, paramState]);
 
   return (
     <StyledReleases>

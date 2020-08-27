@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useReducer, useRef } from "react";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import {
+  useNavigate,
+  useSearchParams,
+  useLocation,
+  useParams,
+} from "react-router-dom";
 import { Header, Toolbar, MovieList, MoviePosterList } from "../components";
 import styled from "styled-components/macro";
 import { useDataApi } from "../useDataApi";
@@ -9,71 +14,105 @@ import { listSortOptions } from "../constants";
 import API from "../api/api";
 import useIntersectionObserver from "../hooks/useIntersectionObserver";
 
-// function useQP({ initial }) {
-//   // const [params, setParams] = useState(initial);
-//   const params = new URLSearchParams(initial);
-//   const [queryString, setQuery] = useState(params.toString());
-//
-//   useEffect(() => {}, []);
-//
-//   return { queryString, params };
+// function useQueryParams() {
+//   return new URLSearchParams(useLocation().search);
 // }
 
-function useQueryParams() {
-  return new URLSearchParams(useLocation().search);
-}
+// const paramStateToQuery = (paramKeys) => {
+//   const { page_size, slug, sortby } = paramKeys;
+//   return {
+//     page_size,
+//     sortby,
+//     list_slug: slug,
+//   };
+// };
 
 const paramStateToQuery = (paramKeys) => {
-  const { page_size, slug, sort } = paramKeys;
+  const { page_size, slug, searchParams } = paramKeys;
+  const sort = searchParams.get("sort");
+  const { value, label } = listSortOptions.find((item) => item.label === sort);
+  console.log("paramsStateToQuery: sort: ", sort);
+
   return {
     page_size,
-    sortby: sort,
+    sortby: value,
     list_slug: slug,
   };
 };
 
-const paramsReducer = (state, action) => {
-  switch (action.type) {
-    case "SET_SORT":
-      return {
-        ...state,
-        sort: action.payload,
-      };
-    default:
-      throw new Error();
-  }
-};
-
 export default function ListTest({ view = "list" }) {
-  let history = useHistory();
-  const loc = useLocation();
+  // let navigate = useNavigate();
+  // const loc = useLocation();
   let { slug } = useParams();
   console.log(`slug: ${slug}`);
   slug = slug || "tmdb-popular";
 
   const page_size = 15;
-  const queryParams = useQueryParams();
-  // let urlSort = queryParams.get("sort") || listSortOptions[0].value;
-  // const [sort, setSort] = useState(urlSort);
-  const [sort, setSort] = useState(
-    queryParams.get("sort") || listSortOptions[0].value
-  );
 
-  // const [params, dispatch] = useReducer(paramsReducer, {
-  //   sort: queryParams.get("sort") || listSortOptions[0].value,
-  // });
+  let [searchParams, setSearchParams] = useSearchParams({
+    // sort: listSortOptions[0].value,
+    sort: listSortOptions[0].label,
+  });
+  // const [sortby, setSortby] = useState(listSortOptions[0].value);
+
+  /*
+  const [sortby, setSortby] = useState(() => {
+    listSortOptions.find((item) => {
+      console.log("inside sortby - item: ", item);
+      if (item.label.toLowerCase() === searchParams.get("sort")) {
+        return item.value || listSortOptions[0].value;
+      }
+      return "blah";
+    });
+  });
+  */
+
+  // const sort = searchParams.get("sortby");
+
+  // useEffect(() => {
+  // const name = listSortOptions.find((item) => item.value === sort);
+  // searchParams.set("sort", name.label.toLowerCase());
+  // setSearchParams(searchParams);
+  //   if (searchParams.has("sort")) {
+  // const sortby = searchParams.get("sort");
+  // const sort = listSortOptions.find((item) => item.value === sortby);
+  // setSort(sort);
+  // setSort(searchParams.get("sort"));
+  // }, [sort, searchParams, setSearchParams]);
+
+  useEffect(() => {
+    //   searchParams.set("sort", sortby);
+    //   setSearchParams(searchParams);
+    // console.log("sortby: ", sortby);
+    // console.log("listSortOptions: ", listSortOptions);
+    // const { value, label } = listSortOptions.find(
+    //   (item) => item.value.toLowerCase() === sortby
+    // );
+    // console.log("found: val: ", val, "label: ", label);
+    // searchParams.set("sort", label.toLowerCase());
+    // setSearchParams(searchParams);
+    // setSortby(value);
+    // }, [sortby, searchParams, setSearchParams]);
+  }, []);
 
   const getMovies = async (key, paramKeys, nextPage = 1) => {
     console.log("getMovies(): key=", key);
     console.log("getMovies(): paramKeys=", paramKeys);
     console.log("getMovies(): nextPage=", nextPage);
-
-    const queryParams = paramStateToQuery(paramKeys);
+    // console.log("getMovies(): searchparams=", searchParams.get("sort"));
+    // const sort = searchParams.get("sortby");
+    // console.log("getMovies(): sort=", sort);
+    // const queryParams = paramStateToQuery(sort, ...paramKeys);
+    // const queryParams = paramStateToQuery(paramKeys);
+    // console.log("getMovies(): queryParams=", queryParams);
     const response = await API.get(`/movielist/`, {
       params: { page: nextPage, ...queryParams },
     });
     return response.data;
   };
+
+  const paramKeys = { page_size, slug, searchParams };
+  const queryParams = paramStateToQuery(paramKeys);
 
   const {
     data,
@@ -84,65 +123,71 @@ export default function ListTest({ view = "list" }) {
     isFetching,
     fetchMore,
     canFetchMore,
-  } = useInfiniteQuery(["movielist", { page_size, slug, sort }], getMovies, {
-    getFetchMore: (lastPage, allPages) => lastPage.next_page,
-  });
+  } = useInfiniteQuery(
+    // ["movielist", { page_size, slug, searchParams }],
+    // ["movielist", { page_size, slug, sortby }],
+    ["movielist", queryParams],
+    getMovies,
+    {
+      getFetchMore: (lastPage, allPages) => lastPage.next_page,
+    }
+  );
 
-  const onSortChange = (value) => {
+  const onSortChange = (val) => {
     console.log("On Sort - Set");
-    // dispatch({ type: "SET_SORT", payload: value });
-    setSort(value);
-    // queryParams.set("sort", value);
-    // sort = value;
+    const { value, label } = listSortOptions.find((item) => item.value === val);
+    // console.log("found: val: ", val, "label: ", label);
+    // searchParams.set("sort", label.toLowerCase());
+    // setSearchParams(searchParams);
+    // setSortby(value);
+    // setSortby(val);
+    searchParams.set("sort", label);
+    setSearchParams(searchParams);
   };
 
-  // useEffect(() => {
-  //   if (params.sort !== urlSort) {
-  // setSort(urlSort);
-  // dispatch({ type: "SET_SORT", payload: urlSort });
-  // }
-  // }, [params.sort, urlSort]);
-
   useEffect(() => {
-    console.log("effect: slug: ", slug); // log state
-    console.log("effect: params.sort: ", sort); // log state
-    for (const [key, value] of queryParams.entries()) {
-      console.log(`key:value - ${key}: ${value}`);
+    console.log("effect: slug state: ", slug); // log state
+    // console.log("effect: sort state: ", sort); // log state
+    for (const [key, value] of searchParams.entries()) {
+      console.log(`sp: key:value - ${key}: ${value}`);
     }
-  }, [slug, sort, queryParams]);
-
-  // sets url and push new state to url on state changes
-  useEffect(() => {
-    console.log(`history.push(): `);
-    console.log("his", history);
-    console.log(`loc: `, loc);
-
-    const newLoc = `/list/${slug}?sort=${sort}`;
-    const oldLoc = loc.pathname + loc.search;
-    if (newLoc !== oldLoc) {
-      history.push(newLoc);
-    }
-
-    console.log(
-      `strToPush =?= locCurrent
-      newLoc: ${newLoc}
-      oldLoc: ${loc.pathname + loc.search}`
-    );
-    if (newLoc !== loc.pathname + loc.search) {
-      console.log("history: pushed new str");
-    } else {
-      console.log("history: no push - same str");
-    }
-  }, [history, loc, slug, sort]);
+  }, [slug, searchParams]);
 
   // toolbar data
   const listData = {
     movie_count: data ? data[0].count : "#",
     name: `${slug.split("-").slice(1).join(" ")}`,
   };
+
+  const getObjectData = () => {
+    const found = listSortOptions.find(
+      (item) => item.label === searchParams.get("sort")
+    );
+    return found.value;
+  };
+
+  const searchObject = (toFind, prop, arr) => {
+    for (let i = 0; i < arr.length; i++) {
+      console.log("arr[i][prop]: ", arr[i][prop], toFind);
+      if (arr[i][prop] === toFind) {
+        return arr[i];
+      }
+    }
+  };
+
   const sortData = {
     options: listSortOptions,
-    selected: sort,
+    // selected: sort,
+    // const getSelected = () => {
+    //   const item = items && items.find((item) => item.value === selected);
+    //   return item ? item.label : title;
+    // };
+    // selected: listSortOptions.find(
+    //   (item) => item.label === searchParams.get("sort")
+    // ),
+    // selected: searchParams.get("sort"),
+    selected: searchObject(searchParams.get("sort"), "label", listSortOptions)
+      .value,
     onChange: onSortChange,
   };
 

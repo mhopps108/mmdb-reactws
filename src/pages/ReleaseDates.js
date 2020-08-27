@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useRouteMatch, useHistory, useLocation } from "react-router-dom";
+import { useRoutes, useNavigate, useLocation } from "react-router-dom";
 import { Header, Toolbar, MovieList } from "../components";
 import styled from "styled-components/macro";
 import { useDataApi } from "../useDataApi";
@@ -29,12 +29,9 @@ function useQueryParams() {
 
 export default function ReleaseDates() {
   // start date
-  let history = useHistory();
+  let navigate = useNavigate();
   // console.log("HISTORY: ", history);
-  let match = useRouteMatch([
-    "/release-dates/:type/:week",
-    "/release-dates/:type",
-  ]);
+  let match = useRoutes(["/release-dates/:type/:week", "/release-dates/:type"]);
 
   // release type
   const releaseType = match
@@ -101,10 +98,10 @@ export default function ReleaseDates() {
   useEffect(() => {
     console.log(`ReleaseDates: setUrl/history.push(): `, listUrl);
     setUrl(listUrl);
-    history.push(
+    navigate.push(
       `/release-dates/${releaseType.value}/${startFrom}?sortby=${sort}`
     );
-  }, [history, releaseType, sort, startFrom, listUrl, setUrl]);
+  }, [navigate, releaseType, sort, startFrom, listUrl, setUrl]);
 
   return (
     <StyledReleases>

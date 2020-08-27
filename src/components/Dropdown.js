@@ -144,7 +144,18 @@ export default function Dropdown({ title, selected, items, onSelect, icon }) {
   };
 
   const getSelected = () => {
-    const item = items && items.find((item) => item.value === selected);
+    // let item = items && items.find((item) => item.value === selected);
+    // if (!item) {
+    //   item = items && items.find((item) => item.label === selected);
+    // }
+    const item =
+      items &&
+      items.find(({ value, label }) => {
+        if ([value, label].includes(selected)) {
+          return { value, label };
+        }
+        return null;
+      });
     return item ? item.label : title;
   };
 
