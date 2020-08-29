@@ -95,7 +95,7 @@ const NavMenu = ({ isOpen, toggleNav }) => {
       </NavBrand>
       <NavSection>
         <p>{"List"}</p>
-        {tmdbLinks.map(({ name, path }, index) => {
+        {tmdbLinks.map(({ name, path, sort }, index) => {
           return (
             <div onClick={toggleNav} key={index}>
               <Link to={path}>{name}</Link>

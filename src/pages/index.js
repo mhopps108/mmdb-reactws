@@ -7,6 +7,7 @@ import ReleaseDates from "./ReleaseDates";
 import RelTest from "./RelTest";
 import RelTestTwo from "./RelTestTwo";
 import ListTest from "./ListTest";
+import RelTestThree from "./RelTestThree";
 
 export {
   List,
@@ -16,5 +17,6 @@ export {
   ReleaseDates,
   RelTest,
   RelTestTwo,
+  RelTestThree,
   ListTest,
 };

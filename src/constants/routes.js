@@ -1,19 +1,23 @@
 export const tmdbLinks = [
   {
     name: "Popular",
-    path: "/list/tmdb-popular",
+    path: "/list/tmdb-popular?sort=rank",
+    // sort: "rank",
   },
   {
     name: "Top Rated",
-    path: "/list/tmdb-top-rated",
+    path: "/list/tmdb-top-rated?sort=rank",
+    // sort: "rank",
   },
   {
     name: "Now Playing",
-    path: "/list/tmdb-now-playing",
+    path: "/list/tmdb-now-playing?sort=rank",
+    // sort: "rank",
   },
   {
     name: "Upcoming",
-    path: "/list/tmdb-upcoming",
+    path: "/list/tmdb-upcoming?sort=rank",
+    // sort: "rank",
   },
 ];
 

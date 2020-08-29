@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import {
   List,
   Releases,
@@ -8,6 +8,7 @@ import {
   ReleaseDates,
   RelTest,
   RelTestTwo,
+  RelTestThree,
   ListTest,
 } from "./pages";
 import styled from "styled-components/macro";
@@ -57,7 +58,8 @@ export default function App() {
           <Routes>
             <Route exact path={"/"}>
               {/*<List />*/}
-              <ListTest />
+              <Navigate to="/list/tmdb-popular?sort=rank" />
+              {/*<ListTest />*/}
             </Route>
             <Route path={"/list/:slug"}>
               {/*<List />*/}
@@ -78,11 +80,19 @@ export default function App() {
             {/*<RelTest />*/}
             {/*<RelTestTwo />*/}
             {/*</Route>*/}
-            <Route path="releases" element={<RelTestTwo />}>
-              <Route path=":type" element={<RelTestTwo />} />
-              <Route path=":type/:period" element={<RelTestTwo />} />
-              <Route path=":type/:period/:startDate" element={<RelTestTwo />} />
-            </Route>
+            {/*<Route path="releases" element={<RelTestTwo />}>*/}
+            {/*  <Route path=":type" element={<RelTestTwo />} />*/}
+            {/*  <Route path=":type/:period" element={<RelTestTwo />} />*/}
+            {/*  <Route path=":type/:period/:startDate" element={<RelTestTwo />} />*/}
+            {/*</Route>*/}
+            <Route path="releases" element={<RelTestThree />} />
+            <Route path="releases/:type" element={<RelTestThree />} />
+            <Route path="releases/:type/:period" element={<RelTestThree />} />
+            <Route
+              path="releases/:type/:period/:startDate"
+              element={<RelTestThree />}
+            />
+
             <Route path={"/discover"}>
               <Discover />
             </Route>

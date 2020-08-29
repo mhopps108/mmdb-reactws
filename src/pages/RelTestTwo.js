@@ -73,8 +73,9 @@ export default function RelTest() {
 
   let navigate = useNavigate();
   const loc = useLocation();
-  // const { type, period, startDate } = useParams();
+  console.log("loc: ", loc);
   let { type, period, startDate } = useParams();
+  // let { type = "digital", period, startDate } = useParams();
   const initType = type || "digital";
   const initPeriod = period || "month";
   // const initStartFrom = startOf(startDate, period);
@@ -171,6 +172,17 @@ export default function RelTest() {
       payload: getNext(startFrom, period),
     });
   };
+
+  // const goNext = () => {
+  //   console.log("Go Next - Clicked");
+  //   const { startFrom, period } = params;
+  //   // paramsDispatch({
+  //   //   type: "GO_NEXT_PERIOD",
+  //   //   payload: getNext(startFrom, period),
+  //   // });
+  //   // "/releases/:type/:period/:startDate"
+  //   navigate(`/releases/${type}/${period}/${getNext(startDate, period)}`);
+  // };
 
   useEffect(() => {
     console.log("effect: params state: ", params); // log state

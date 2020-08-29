@@ -99,7 +99,7 @@ export default function NavDropdown({ title, items }) {
       </DropdownButton>
 
       <Menu isOpen={isOpen}>
-        {items.map(({ name, path }) => (
+        {items.map(({ name, path, sort }) => (
           <MenuLink key={name} onClick={onChange}>
             <Link to={path}>{name}</Link>
           </MenuLink>
