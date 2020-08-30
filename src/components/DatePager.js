@@ -70,8 +70,13 @@ export default function DatePager({
   goNext,
   goToToday,
   displayDateStr,
+  prevPeriod,
+  nextPeriod,
 }) {
   const [tempDate, setTempDate] = React.useState(new Date());
+  console.log("prevPeriod: ", prevPeriod);
+  console.log("displayDateStr: ", displayDateStr);
+  console.log("nextPeriod: ", nextPeriod);
 
   const onDateChange = (val) => {
     console.log("datepicker val: ", val);
@@ -82,19 +87,16 @@ export default function DatePager({
     <PagerButton onClick={onClick}>
       <FaRegCalendar size={"1.25rem"} style={{ marginRight: "8px" }} />
       {/*{value}*/}
-      {/*<span style={{ fontSize: "1.2rem" }}>{displayDateStr}</span>*/}
-      <div style={{ display: "flex" }}>{displayDateStr}</div>
+      <span style={{ fontSize: "1.2rem" }}>{displayDateStr}</span>
+      {/*<div style={{ display: "flex",  }}>{displayDateStr}</div>*/}
     </PagerButton>
   );
 
   return (
     <Wrap>
-      <PagerButton
-        onClick={goPrev}
-        style={{ marginRight: "auto", color: "#555" }}
-      >
-        <FaCaretLeft size={"1.4rem"} />
-        {"Jul"}
+      <PagerButton onClick={goPrev} style={{ marginRight: "auto" }}>
+        <FaCaretLeft size={"1.25rem"} />
+        {prevPeriod}
       </PagerButton>
 
       <DatePicker
@@ -107,7 +109,7 @@ export default function DatePager({
       />
 
       <PagerButton onClick={goNext} style={{ marginLeft: "auto" }}>
-        {"Sep"}
+        {nextPeriod}
         <FaCaretRight size={"1.25rem"} />
       </PagerButton>
     </Wrap>

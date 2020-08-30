@@ -144,7 +144,13 @@ export default function RelTestThree() {
     goNext: goNext,
     goToToday: resetStartFrom,
     displayDateStr: formatPeriod(startDate, period),
+    // prevPeriod: formatPeriod(getPrev(startDate, period), period),
+    prevPeriod: moment(getPrev(startDate, period)).format("MMM"),
+    nextPeriod: moment(getNext(startDate, period)).format("MMM"),
+    // nextPeriod: formatPeriod(getNext(startDate, period)),
+    // nextPeriod: getNext(startDate, period),
   };
+  console.log("");
   const sortData = {
     options: sortOptions,
     selected: sortby,

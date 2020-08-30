@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components/macro";
-import { FilterMenu, FilterMenuSheet, Portal, ActionMenu } from "../components";
+import {
+  FilterMenu,
+  FilterMenuSheet,
+  Portal,
+  ActionMenu,
+  Dropdown,
+} from "../components";
 import { IconButton, Icon } from "rsuite";
 import { queryToFilterState } from "../pages/Discover";
-import { FaSort, FaTimes } from "react-icons/fa";
+import { FaSort, FaSortAmountDownAlt, FaTimes } from "react-icons/fa";
 import SortDropdown from "../old-other/SortDropdown";
 
 const StyledToolbar = styled.div`
@@ -56,14 +62,12 @@ const MovieCountTag = styled.div`
 const SortWrap = styled.div`
   grid-area: sort;
   display: flex;
-  justify-content: flex-end;
-  align-content: end;
-  border: 1px solid lightgray;
-  background: whitesmoke;
+  justify-content: center;
+  align-items: center;
   margin-left: auto;
-  border-radius: 4px;
-  margin-right: 8px;
-  height: 30px;
+  //height: 30px;
+  color: #33425b;
+  margin-right: 0.5rem;
 `;
 
 const FilterButtonWrap = styled.button`
@@ -211,11 +215,21 @@ export default function DiscoveryToolbar({
           <ListName>{name || "Loading..."}</ListName>
           <MovieCountTag>{movie_count || "#"}</MovieCountTag>
           <SortWrap>
-            <SortDropdown
-              sortData={sortData}
-              sortValue={orderByValue}
-              onOrderChange={onOrderChange}
-            />
+            {/*<SortDropdown*/}
+            {/*  sortData={sortData}*/}
+            {/*  sortValue={orderByValue}*/}
+            {/*  onOrderChange={onOrderChange}*/}
+            {/*/>*/}
+            <Dropdown
+              title={"Sort"}
+              selected={orderByValue}
+              onSelect={onOrderChange}
+              items={sortData}
+              // icon={<FaSortAmountDownAlt size={"1.1rem"} />}
+              icon={<FaSortAmountDownAlt />}
+            >
+              {/*<FaSort size={"1.1rem"} />*/}
+            </Dropdown>
           </SortWrap>
           <FilterButtonWrap isOpen={filterMenuIsOpen}>
             <IconButton
@@ -242,6 +256,7 @@ export default function DiscoveryToolbar({
         <FilterMenuWrap>
           <FilterMenu
             isOpen={filterMenuIsOpen}
+            // isOpen={true}
             toggleOpen={toggleShowFilters}
             setQuery={setQuery}
             filterState={filterState}

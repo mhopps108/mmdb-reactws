@@ -105,10 +105,16 @@ export default function FilterMenu({
           />
         </FilterSection>
         <FilterSection>
+          <ApplyButtonWrap>
+            <ApplyButton reset onClick={""}>
+              Reset
+            </ApplyButton>
+            <ApplyButton onClick={onClick}>Apply</ApplyButton>
+          </ApplyButtonWrap>
           <RangeSliderWrap>
             <SectionHeader>
               <p>Rating</p>
-              <p>{`${state.ratings[0]} - ${state.ratings[1]}`}</p>
+              <span>{`${state.ratings[0]} - ${state.ratings[1]}`}</span>
             </SectionHeader>
             <RangeSlider
               value={state.ratings}
@@ -122,7 +128,7 @@ export default function FilterMenu({
           <RangeSliderWrap>
             <SectionHeader>
               <p>Votes</p>
-              <p>{`${state.votes[0]} - ${state.votes[1]}`}</p>
+              <span>{`${state.votes[0]} - ${state.votes[1]}`}</span>
             </SectionHeader>
             <RangeSlider
               value={state.votes}
@@ -136,7 +142,7 @@ export default function FilterMenu({
           <RangeSliderWrap>
             <SectionHeader>
               <p>Year</p>
-              <p>{`${state.years[0]} - ${state.years[1]}`}</p>
+              <span>{`${state.years[0]} - ${state.years[1]}`}</span>
             </SectionHeader>
             <RangeSlider
               value={state.years}
@@ -148,7 +154,10 @@ export default function FilterMenu({
             />
           </RangeSliderWrap>
           <ApplyButtonWrap>
-            <ApplyButton onClick={onClick}>Apply Filters</ApplyButton>
+            <ApplyButton reset onClick={""}>
+              Reset
+            </ApplyButton>
+            <ApplyButton onClick={onClick}>Apply</ApplyButton>
           </ApplyButtonWrap>
         </FilterSection>
       </FilterMenuContentWrap>

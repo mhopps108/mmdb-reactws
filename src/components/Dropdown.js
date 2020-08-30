@@ -84,7 +84,7 @@ const Menu = styled.div`
 
   position: absolute;
   right: 0;
-  top: 120%;  
+  top: 120%;
   min-width: 100px;
   width: max-content;
 
@@ -96,8 +96,9 @@ const Menu = styled.div`
   border-radius: 0.5rem;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   // transform: ${(props) =>
-    props.isOpen ? "translateY(5%)" : "translateY(0)"};  
-  transition: all 300ms cubic-bezier(0, 1, 0.5, 1);  
+    props.isOpen ? "translateY(5%)" : "translateY(0)"};
+  transition: opacity 300ms cubic-bezier(0, 1, 0.5, 1),
+    visibility 250ms cubic-bezier(0, 1, 0.5, 1);
 `;
 
 const MenuItem = styled.div`

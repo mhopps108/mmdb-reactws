@@ -97,7 +97,8 @@ export default function Toolbar({
   sortOptions = null,
 }) {
   const { name, movie_count } = listData;
-  const { goPrev, goNext, goToToday, displayDateStr } = dateData || {};
+  const { goPrev, goNext, goToToday, displayDateStr, prevPeriod, nextPeriod } =
+    dateData || {};
   const { options, selected, onChange } = sortOptions || {};
 
   return (
@@ -128,6 +129,8 @@ export default function Toolbar({
               goNext={goNext}
               goToToday={goToToday}
               displayDateStr={displayDateStr}
+              prevPeriod={prevPeriod}
+              nextPeriod={nextPeriod}
             />
           </DatePagerWrap>
         )}

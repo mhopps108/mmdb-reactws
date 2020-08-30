@@ -57,11 +57,11 @@ export default function Discover({ navMenuVisible, toggleNavMenu }) {
     setSort(val);
     // history.push(`/discover/?sortby=${sort}&${queryString}`);
     queryParams.set("sortby", val);
-    navigate.push(`/discover/?${queryParams.toString()}`);
+    navigate(`/discover/?${queryParams.toString()}`);
   };
   const onApplyFilters = (queryString) => {
     setShowFilterMenu(false);
-    navigate.push(`/discover/?sortby=${sort}&${queryString}`);
+    navigate(`/discover/?sortby=${sort}&${queryString}`);
   };
 
   useEffect(() => {

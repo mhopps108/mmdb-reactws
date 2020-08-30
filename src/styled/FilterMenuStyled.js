@@ -10,26 +10,30 @@ export const ApplyButtonWrap = styled.div`
 `;
 
 export const ApplyButton = styled.button`
-  background: #2162a4;
-  color: white;
+  //background: #2162a4;
+  //color: white;
+  color: ${(props) => (props.reset ? "#2162a4" : "white")};
+  background: ${(props) => (props.reset ? "white" : "#2162a4")};
   //width: 200px;
+  border: ${(props) => (props.reset ? "1px solid #2162a4" : "none")};
   font-size: 1rem;
-  border: none;
+  //border: none;
   border-radius: 4px;
   padding: 4px 8px;
+  margin-left: 0.5rem;
 `;
 
 export const FilterMenuWrap = styled.div`
   //border-top: 1px solid lightgrey;
   background: whitesmoke;
-  margin-top: 8px;
-  border-radius: 8px;
+  margin-top: 0.5rem;
+  border-radius: 0.5rem;
   color: white;
   //height: 0;
-  width: 100%;
+  //width: 100%;
+  max-height: ${(props) => (props.isOpen ? "90vh" : 0)};
   //transition: max-height 300ms ease-in-out;
   transition: max-height 350ms cubic-bezier(0, 1, 0.5, 1);
-  max-height: ${(props) => (props.isOpen ? "90vh" : 0)};
 
   @media ${device.min.tablet} {
     max-height: ${(props) => (props.isOpen ? "600px" : 0)};
@@ -39,14 +43,12 @@ export const FilterMenuWrap = styled.div`
 export const FilterMenuContentWrap = styled.div`
   //border: 1px solid red;
   //padding: 20px 30px;
-  width: 100%;
+  //width: 100%;
   //transition: opacity 200ms ease;
   //transition: all 400ms linear;
   transition: all 350ms cubic-bezier(0, 1, 0.5, 1);
   opacity: ${(props) => (props.isOpen ? 1 : 0)};
   visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
-
-  //visibility: visible;
 
   display: flex;
   flex-direction: column;
@@ -59,10 +61,14 @@ export const FilterMenuContentWrap = styled.div`
 export const FilterSection = styled.div`
   padding: 10px 8px;
   //align-items: flex-start;
+  //flex-direction: row;
+  display: flex;
+  flex-direction: column;
+  //width: 100%;
+
   @media ${device.min.tablet} {
-    //width: 50%;
-    display: flex;
-    flex-direction: column;
+    width: 50%;
+
     justify-content: space-between;
   }
 `;
@@ -82,10 +88,19 @@ export const RangeSliderWrap = styled.div`
 export const SectionHeader = styled.div`
   display: flex;
   justify-content: space-between;
+  margin: 10px 0 15px;
+  color: #2162a4;
+
   & p {
-    color: #2162a4;
     font-size: 1.1rem;
     font-weight: 500;
+    margin: 0;
+  }
+
+  & span {
+    color: #2162a4;
+    font-size: 1rem;
+    font-weight: 400;
     margin: 0;
   }
 `;
