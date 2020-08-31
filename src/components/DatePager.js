@@ -65,14 +65,14 @@ const PagerButton = styled.button`
   }
 `;
 
-export default function DatePager({
-  goPrev,
-  goNext,
-  goToToday,
-  displayDateStr,
-  prevPeriod,
-  nextPeriod,
-}) {
+export default function DatePager({ dateData }) {
+  const {
+    goToToday,
+    displayDateStr,
+    prevPeriod,
+    nextPeriod,
+    goToDate,
+  } = dateData;
   const [tempDate, setTempDate] = React.useState(new Date());
   console.log("prevPeriod: ", prevPeriod);
   console.log("displayDateStr: ", displayDateStr);
@@ -94,9 +94,12 @@ export default function DatePager({
 
   return (
     <Wrap>
-      <PagerButton onClick={goPrev} style={{ marginRight: "auto" }}>
+      <PagerButton
+        onClick={() => goToDate(prevPeriod)}
+        style={{ marginRight: "auto" }}
+      >
         <FaCaretLeft size={"1.25rem"} />
-        {prevPeriod}
+        {moment(prevPeriod).format("MMM")}
       </PagerButton>
 
       <DatePicker
@@ -108,8 +111,11 @@ export default function DatePager({
         popperPlacement="bottom-center"
       />
 
-      <PagerButton onClick={goNext} style={{ marginLeft: "auto" }}>
-        {nextPeriod}
+      <PagerButton
+        onClick={() => goToDate(nextPeriod)}
+        style={{ marginLeft: "auto" }}
+      >
+        {moment(nextPeriod).format("MMM")}
         <FaCaretRight size={"1.25rem"} />
       </PagerButton>
     </Wrap>

@@ -9,23 +9,6 @@ const Wrap = styled.div`
   flex-direction: row;
 `;
 
-// const Button = styled.button`
-//   font-size: 1rem;
-//   padding: 0.5rem 1rem;
-//   background: none;
-//   color: #33425b;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//
-//   //border: 1px solid lightgray;
-//   //border-radius: 0.5rem;
-//
-//   svg {
-//     margin-left: 0.5rem;
-//   }
-// `;
-
 const Button = styled.button`
   font-size: 1rem;
   padding: 6px 12px;
@@ -37,8 +20,6 @@ const Button = styled.button`
   //text-transform: uppercase;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   border: none;
-  //border-radius: 90px; // basically 50%
-
   //border-radius: 0.5rem;
   border-radius: 0.25rem;
 
@@ -130,7 +111,13 @@ const Arrow = styled.div`
   width: 12px;
 `;
 
-export default function Dropdown({ title, selected, items, onSelect, icon }) {
+export default function Dropdown({
+  title,
+  selected,
+  items,
+  onSelect,
+  icon = null,
+}) {
   const ref = useRef();
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(!isOpen);
@@ -188,7 +175,6 @@ export default function Dropdown({ title, selected, items, onSelect, icon }) {
 
       <Menu isOpen={isOpen}>
         <Arrow />
-        {/* TODO: render children here? */}
         <Title>{title}</Title>
         {items &&
           items.map(({ value, label }) => (

@@ -15,7 +15,7 @@ import API from "../api/api";
 import { dateUtil } from "../utils/dates";
 import useIntersectionObserver from "../hooks/useIntersectionObserver";
 
-const { formatPeriod, startOf, endOf, getPrev, getNext } = dateUtil;
+const { formatPeriod, startOf, endOf, getPrev, getNext, formatDate } = dateUtil;
 
 function useQueryParams() {
   return new URLSearchParams(useLocation().search);
@@ -113,23 +113,10 @@ export default function RelTestThree() {
     // paramsDispatch({ type: "RESET_DATE", payload: startOf(moment(), period) });
   };
 
-  const goPrev = () => {
-    console.log("Go Prev - Clicked");
-    const prevPeriod = getPrev(startDate, period);
-    console.log("prevPeriod: ", prevPeriod);
+  const goToDate = (newStartDate) => {
+    console.log("goToDate - Clicked - newStartDate: ", newStartDate);
     const { value, label } = sortOptions.find((item) => item.value === sortby);
-    const newLoc = `/releases/${type}/${period}/${prevPeriod}?sort=${label.toLowerCase()}`;
-    // const newLoc = `/releases/${type}/${period}/${prevPeriod}${queryParams.toString()}`;
-    navigate(newLoc);
-  };
-
-  const goNext = () => {
-    console.log("Go Next - Clicked");
-    const nextPeriod = getNext(startDate, period);
-    console.log("nextPeriod: ", nextPeriod);
-    const { value, label } = sortOptions.find((item) => item.value === sortby);
-    const newLoc = `/releases/${type}/${period}/${nextPeriod}?sort=${label.toLowerCase()}`;
-    // const newLoc = `/releases/${type}/${period}/${nextPeriod}${queryParams.toString()}`;
+    const newLoc = `/releases/${type}/${period}/${newStartDate}?sort=${label.toLowerCase()}`;
     navigate(newLoc);
   };
 
@@ -140,15 +127,11 @@ export default function RelTestThree() {
     type: type,
   };
   const dateData = {
-    goPrev: goPrev,
-    goNext: goNext,
     goToToday: resetStartFrom,
     displayDateStr: formatPeriod(startDate, period),
-    // prevPeriod: formatPeriod(getPrev(startDate, period), period),
-    prevPeriod: moment(getPrev(startDate, period)).format("MMM"),
-    nextPeriod: moment(getNext(startDate, period)).format("MMM"),
-    // nextPeriod: formatPeriod(getNext(startDate, period)),
-    // nextPeriod: getNext(startDate, period),
+    prevPeriod: getPrev(startDate, period),
+    nextPeriod: getNext(startDate, period),
+    goToDate,
   };
   console.log("");
   const sortData = {

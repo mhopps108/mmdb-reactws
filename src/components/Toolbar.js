@@ -97,8 +97,8 @@ export default function Toolbar({
   sortOptions = null,
 }) {
   const { name, movie_count } = listData;
-  const { goPrev, goNext, goToToday, displayDateStr, prevPeriod, nextPeriod } =
-    dateData || {};
+  // const { goToToday, displayDateStr, prevPeriod, nextPeriod, goToDate } =
+  //   dateData || {};
   const { options, selected, onChange } = sortOptions || {};
 
   return (
@@ -115,23 +115,13 @@ export default function Toolbar({
             selected={selected}
             onSelect={onChange}
             items={options}
-            // icon={<FaSortAmountDownAlt size={"1.1rem"} />}
             icon={<FaSortAmountDownAlt />}
-          >
-            {/*<FaSort size={"1.1rem"} />*/}
-          </Dropdown>
+          />
         </SortWrap>
 
         {dateData && (
           <DatePagerWrap>
-            <DatePager
-              goPrev={goPrev}
-              goNext={goNext}
-              goToToday={goToToday}
-              displayDateStr={displayDateStr}
-              prevPeriod={prevPeriod}
-              nextPeriod={nextPeriod}
-            />
+            <DatePager dateData={dateData} />
           </DatePagerWrap>
         )}
       </ToolBarWrap>
