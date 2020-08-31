@@ -18,7 +18,8 @@ const Button = styled.button`
   justify-content: space-between;
   align-items: center;
   //text-transform: uppercase;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  //box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   border: none;
   //border-radius: 0.5rem;
   border-radius: 0.25rem;

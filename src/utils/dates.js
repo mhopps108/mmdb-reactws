@@ -24,8 +24,7 @@ const dateUtil = {
   formatPeriod: (date, period) => {
     // const periodFormat = period === "month" ? "MMMM y" : "";
     if (period === "month") {
-      // return moment(date).format("MMMM y");
-      return moment(date).format("MMM 'YY");
+      return moment(date).format("MMMM 'YY");
     } else {
       const endDate = moment(date).endOf(period);
       return moment(date).twix(endDate, { allDay: true }).format();

@@ -35,6 +35,9 @@ const GlobalStyle = createGlobalStyle`
       overflow-x: hidden;
       width: 100vw;      
       //font-family: 'Source Sans Pro', Arial, sans-serif;
+      //font-family: Candara, Arial, sans-serif;
+      //font-family: Geneva, Arial, sans-serif;
+      //font-family: Calibri;     
       font-size: 16px;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',

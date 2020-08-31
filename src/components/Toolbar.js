@@ -7,12 +7,14 @@ import {
   FaTimes,
   FaSortAmountUpAlt,
   FaSortAmountDownAlt,
+  FaCalendar,
+  FaRegCalendar,
 } from "react-icons/fa";
 import SortDropDown from "../old-other/SortDropdown";
 
 const DatePagerWrap = styled.div`
   grid-area: datepager;
-  height: 100%;
+  //height: 100%;
 `;
 
 const StyledToolbar = styled.div`
@@ -34,7 +36,7 @@ const StyledToolbar = styled.div`
 `;
 
 const ToolBarWrap = styled.div`
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.75rem;
   display: grid;
   grid-row-gap: ${(props) => (props.dateData ? "0.5rem" : 0)};
   grid-template-areas:
@@ -44,7 +46,8 @@ const ToolBarWrap = styled.div`
   grid-template-rows: 40px auto;
   @media ${device.min.tablet} {
     grid-template-areas: "titleandcount datepager sort";
-    grid-template-columns: 1fr 275px 1fr;
+    //grid-template-columns: 1fr 333px 1fr;
+    grid-template-columns: 1fr 1.5fr 1fr;
     grid-template-rows: 40px;
   }
 `;
@@ -91,6 +94,33 @@ const SortWrap = styled.div`
   color: #33425b;
 `;
 
+const Button = styled.button`
+  color: #33425b;
+  background: none;
+  //font-size: 1.1rem;
+  //padding: 0.25rem 0.5rem;
+  padding: 6px 12px;
+  border-radius: 0.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  //border: none;
+  border: ${(props) => (props.active ? "1px solid #33425b" : "none")};
+
+  svg {
+    //padding-bottom: 2px;
+  }
+
+  //&:active,
+  & :hover {
+    //background: #282c35;
+    //color: white;
+    //color: #282c35;
+  }
+`;
+
 export default function Toolbar({
   listData,
   dateData = null,
@@ -117,6 +147,9 @@ export default function Toolbar({
             items={options}
             icon={<FaSortAmountDownAlt />}
           />
+          <Button onClick={""} style={{ marginLeft: "0.5rem" }}>
+            <FaRegCalendar size={"1rem"} />
+          </Button>
         </SortWrap>
 
         {dateData && (

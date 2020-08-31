@@ -29,7 +29,7 @@ const Wrap = styled.div`
   //min-height: 30px;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  //height: 100%;
 
   .react-datepicker-wrapper {
     display: flex;
@@ -39,29 +39,26 @@ const Wrap = styled.div`
 `;
 
 const PagerButton = styled.button`
-  //padding: 4px 8px;
-  //color: #444;
   color: #33425b;
   background: none;
-  //border: 1px solid red;
-  //border-radius: 4px;
-  font-size: 1.1rem;
-  height: 100%;
-  //width: 30px;
-  //padding: 0 10px;
+  font-size: 1rem;
+  font-weight: 400;
+  //padding: 0.25rem 0.5rem;
+  padding: 6px 12px;
+  border-radius: 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-transform: uppercase;
+
+  box-shadow: 0 1px 2px rgba(30, 30, 30, 0.3);
 
   svg {
-    //padding-bottom: 2px;
+    margin: 0 4px;
   }
 
-  //&:active,
-  & :hover {
-    //background: #282c35;
-    //color: white;
-    //color: #282c35;
+  :hover {
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
   }
 `;
 
@@ -83,14 +80,12 @@ export default function DatePager({ dateData }) {
     setTempDate(val);
   };
 
-  const DatePickerInput = ({ value, onClick }) => (
-    <PagerButton onClick={onClick}>
-      <FaRegCalendar size={"1.25rem"} style={{ marginRight: "8px" }} />
-      {/*{value}*/}
-      <span style={{ fontSize: "1.2rem" }}>{displayDateStr}</span>
-      {/*<div style={{ display: "flex",  }}>{displayDateStr}</div>*/}
-    </PagerButton>
-  );
+  // const DatePickerInput = ({ value, onClick }) => (
+  //   <PagerButton active onClick={onClick}>
+  //     {/*<FaRegCalendar size={"1.25rem"} style={{ marginRight: "8px" }} />*/}
+  //     <span style={{ fontSize: "1rem" }}>{displayDateStr}</span>
+  //   </PagerButton>
+  // );
 
   return (
     <Wrap>
@@ -98,25 +93,37 @@ export default function DatePager({ dateData }) {
         onClick={() => goToDate(prevPeriod)}
         style={{ marginRight: "auto" }}
       >
-        <FaCaretLeft size={"1.25rem"} />
+        <FaAngleLeft style={{ marginLeft: "-4px", color: "grey" }} />
         {moment(prevPeriod).format("MMM")}
       </PagerButton>
 
-      <DatePicker
-        selected={tempDate}
-        onChange={onDateChange}
-        dateFormat={"MMMM dd yyyy"}
-        customInput={<DatePickerInput />}
-        todayButton={"Today"} // this week/month
-        popperPlacement="bottom-center"
-      />
+      {/*<DatePicker*/}
+      {/*  selected={tempDate}*/}
+      {/*  onChange={onDateChange}*/}
+      {/*  dateFormat={"MMMM dd yyyy"}*/}
+      {/*  customInput={<DatePickerInput />}*/}
+      {/*  todayButton={"Today"} // this week/month*/}
+      {/*  popperPlacement="bottom-center"*/}
+      {/*/>*/}
+
+      <h3
+        style={{
+          fontSize: "1.25rem",
+          fontWeight: "400",
+          color: "#33425b",
+          textTransform: "uppercase",
+        }}
+      >
+        {/*<FaRegCalendar size={"1.25rem"} style={{ marginRight: "8px" }} />*/}
+        {displayDateStr}
+      </h3>
 
       <PagerButton
         onClick={() => goToDate(nextPeriod)}
         style={{ marginLeft: "auto" }}
       >
         {moment(nextPeriod).format("MMM")}
-        <FaCaretRight size={"1.25rem"} />
+        <FaAngleRight style={{ marginRight: "-4px" }} />
       </PagerButton>
     </Wrap>
   );
