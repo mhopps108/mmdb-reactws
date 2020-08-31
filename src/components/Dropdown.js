@@ -38,7 +38,9 @@ const Button = styled.button`
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   border: none;
   //border-radius: 90px; // basically 50%
-  border-radius: 0.5rem;
+
+  //border-radius: 0.5rem;
+  border-radius: 0.25rem;
 
   transition: box-shadow 0.4s ease;
 

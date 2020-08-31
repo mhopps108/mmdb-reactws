@@ -68,7 +68,7 @@ const ListInfo = styled.div`
     font-size: 1.1rem;
     background: #eee;
     color: #33425b;
-    border-radius: 10px;
+    border-radius: 26px;
     height: 26px;
     padding: 0 0.5rem;
     display: flex;
