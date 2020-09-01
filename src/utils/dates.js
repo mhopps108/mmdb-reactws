@@ -30,18 +30,7 @@ const dateUtil = {
       return moment(date).twix(endDate, { allDay: true }).format();
     }
   },
-  // formatPeriod: (date, period) => {
-  //   // const periodFormat = period === "month" ? "MMMM y" : "";
-  //   if (period === "month") {
-  //     // return moment(date).format("MMMM y");
-  //     return moment(date).format("MMM 'YY");
-  //   } else {
-  //     const endDate = moment(date).endOf(period);
-  //     return moment(date).twix(endDate, { allDay: true }).format();
-  //   }
-  // },
   startOf: (date, period) => {
-    // console.log("date/period: ", date, period);
     const d = (moment(date) || moment()).startOf(period);
     return dateUtil.formatDate(d);
   },

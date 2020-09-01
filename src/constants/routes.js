@@ -24,15 +24,15 @@ export const tmdbLinks = [
 export const releaseDateLinks = [
   {
     name: "Theatrical",
-    path: "/release-dates/theatrical",
+    path: "/release-dates/theatrical/week?sort=release",
   },
   {
     name: "Digital",
-    path: "/release-dates/digital",
+    path: "/release-dates/digital/week?sort=release",
   },
   {
     name: "Physical",
-    path: "/release-dates/physical",
+    path: "/release-dates/physical/week?sort=release",
   },
 ];
 

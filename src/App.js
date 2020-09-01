@@ -68,7 +68,14 @@ export default function App() {
               {/*<List />*/}
               <ListTest />
             </Route>
-            <Route path={"/release-dates"}>{/*<ReleaseDates />*/}</Route>
+            <Route
+              path={"/release-dates/:type/:period"}
+              element={<ReleaseDates />}
+            />
+            <Route
+              path={"/release-dates/:type/:period/:startDate"}
+              element={<ReleaseDates />}
+            />
             {/*<Route*/}
             {/*  path={[*/}
             {/*    "/releases/:type/:period/:startDate",*/}

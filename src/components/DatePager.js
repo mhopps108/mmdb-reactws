@@ -26,10 +26,8 @@ import moment from "moment";
 
 const Wrap = styled.div`
   display: flex;
-  //min-height: 30px;
   justify-content: center;
   align-items: center;
-  //height: 100%;
 
   .react-datepicker-wrapper {
     display: flex;
@@ -59,6 +57,22 @@ const PagerButton = styled.button`
 
   :hover {
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+  }
+`;
+
+const StackedText = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  .top {
+    font-size: 1.15rem;
+    align-self: center;
+    color: #33425b;
+  }
+  .bottom {
+    font-size: 0.75rem;
+    align-self: center;
+    color: #777;
   }
 `;
 
@@ -117,6 +131,11 @@ export default function DatePager({ dateData }) {
         {/*<FaRegCalendar size={"1.25rem"} style={{ marginRight: "8px" }} />*/}
         {displayDateStr}
       </h3>
+
+      {/*<StackedText>*/}
+      {/*  <div className={"top"}>{displayDateStr}</div>*/}
+      {/*  <div className={"bottom"}>{"2020"}</div>*/}
+      {/*</StackedText>*/}
 
       <PagerButton
         onClick={() => goToDate(nextPeriod)}

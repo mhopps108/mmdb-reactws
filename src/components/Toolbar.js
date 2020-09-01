@@ -140,6 +140,16 @@ export default function Toolbar({
         </ListInfo>
 
         <SortWrap>
+          <Button
+            onClick={""}
+            style={{
+              marginRight: "0.5rem",
+              height: "34px",
+              padding: "0px 12px",
+            }}
+          >
+            <FaRegCalendar size={"1rem"} />
+          </Button>
           <Dropdown
             title={"Sort"}
             selected={selected}
@@ -147,9 +157,6 @@ export default function Toolbar({
             items={options}
             icon={<FaSortAmountDownAlt />}
           />
-          <Button onClick={""} style={{ marginLeft: "0.5rem" }}>
-            <FaRegCalendar size={"1rem"} />
-          </Button>
         </SortWrap>
 
         {dateData && (
