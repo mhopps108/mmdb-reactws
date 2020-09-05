@@ -3,14 +3,14 @@ const baseurl = "https://www.matthewhopps.com/api";
 
 export const discoveryQueryString = (queryState) => {
   console.log("discoveryQueryString == ", queryState);
-  const { orderby, genres, certs, ratings, votes, years } = queryState;
+  const { orderby, genres, certification, ratings, votes, years } = queryState;
   const [minRating, maxRating] = ratings;
   const [minYear, maxYear] = years;
   const [minVotes, maxVotes] = votes;
   const queryObj = {
     // orderby: orderby,
     genres: (genres && genres.sort().join(",")) || "",
-    certification: (certs && certs.sort().join(",")) || "",
+    certification: (certification && certification.sort().join(",")) || "",
     rating_min: minRating,
     rating_max: maxRating,
     votes_min: maxVotes,

@@ -7,29 +7,9 @@ import { Header, Toolbar, MovieList } from "../components";
 import { releasesSortOptions } from "../constants";
 import API from "../api/api";
 import { dateUtil } from "../utils/dates";
-import useIntersectionObserver from "../hooks/useIntersectionObserver";
+import { useQueryParams, useIntersectionObserver } from "../hooks";
 
 const { formatPeriod, startOf, endOf, getPrev, getNext, formatDate } = dateUtil;
-
-const releaseTypes = {
-  theatrical: { value: "theatrical", title: "Theaters" },
-  digital: { value: "digital", title: "Digital" },
-  physical: { value: "physical", title: "Physical" },
-};
-
-function useQueryParams() {
-  return new URLSearchParams(useLocation().search);
-}
-
-const paramStateToQuery = (paramState) => {
-  const { page_size, period, sortby, startDate, type } = paramState;
-  return {
-    page_size,
-    sortby,
-    [`${type}_after`]: startDate,
-    [`${type}_before`]: endOf(startDate, period),
-  };
-};
 
 //   release-dates?sort=date&period=week&type=digital&start=2020-08-31
 //   release-dates/digital/month?sort=date&start=2020-08-31
@@ -45,17 +25,17 @@ export default function ReleaseDates() {
 
   let navigate = useNavigate();
   const loc = useLocation();
-  console.log("loc: ", loc);
   let {
     type = "digital",
     period = "week",
     startDate = startOf(moment(), period),
   } = useParams();
 
+  console.log("loc: ", loc);
   console.log("type: ", type);
   console.log("period: ", period);
   console.log("startDate: ", startDate);
-  const page_size = 15;
+
   const sortOptions = releasesSortOptions(type);
 
   const onSortChange = (val) => {
@@ -83,7 +63,14 @@ export default function ReleaseDates() {
     console.log("getMovies(): paramKeys=", paramKeys);
     console.log("getMovies(): nextPage=", nextPage);
 
-    const queryParams = paramStateToQuery(paramKeys);
+    const { type, period, startDate, sortby } = paramKeys;
+    const queryParams = {
+      sortby,
+      [`${type}_after`]: startDate,
+      [`${type}_before`]: endOf(startDate, period),
+      page_size: 15,
+    };
+
     const response = await API.get(`/releases/`, {
       params: { page: nextPage, ...queryParams },
     });
@@ -99,7 +86,7 @@ export default function ReleaseDates() {
     fetchMore,
     canFetchMore,
   } = useInfiniteQuery(
-    ["releases", { page_size, sortby, type, period, startDate }],
+    ["releases", { type, period, startDate, sortby }],
     getMovies,
     {
       getFetchMore: (lastPage, allPages) => lastPage.next_page,
@@ -126,41 +113,11 @@ export default function ReleaseDates() {
     nextPeriod: getNext(startDate, period),
     goToDate,
   };
-  console.log("");
   const sortData = {
     options: sortOptions,
     selected: sortby,
     onChange: onSortChange,
   };
-
-  // toolbar data
-  // const listData = {
-  //   movie_count: data?.count,
-  //   name: `${releaseType.title} Releases`,
-  //   type: releaseType,
-  // };
-  // const dateData = {
-  //   goPrev: goPrevWeek,
-  //   goNext: goNextWeek,
-  //   goToToday: startOfThisWeek,
-  //   displayDateStr: dateStrFormatted(startFrom),
-  // };
-  // const sortData = {
-  //   sortData: sortOptions,
-  //   orderByValue: sort,
-  //   onOrderChange: onSortChange,
-  // };
-
-  // useEffect(() => {
-  //   setStartFrom(startWeek);
-  // }, [startWeek]);
-
-  // sets url and push new state to url on state changes
-  // useEffect(() => {
-  //   console.log(`ReleaseDates: setUrl/history.push(): `, listUrl);
-  //   setUrl(listUrl);
-  //   navigate(`/release-dates/${releaseType.value}/${startFrom}?sortby=${sort}`);
-  // }, [navigate, releaseType, sort, startFrom, listUrl, setUrl]);
 
   return (
     <StyledReleases>
@@ -182,12 +139,6 @@ export default function ReleaseDates() {
       >
         {isFetching ? "Loading..." : "Show More"}
       </LoadMoreButton>
-      {/*<MovieList*/}
-      {/*  movies={data?.results}*/}
-      {/*  isLoading={isLoading}*/}
-      {/*  isError={isError}*/}
-      {/*  dateType={"digital"}*/}
-      {/*/>*/}
     </StyledReleases>
   );
 }

@@ -47,8 +47,8 @@ export default function FilterMenu({
   setQuery,
   filterState = null,
 }) {
-  console.log(`FILTER-MENU: rendered - isOpen (${isOpen})`);
-  console.log("filterState--FILTERMENU: ", filterState);
+  // console.log(`FILTER-MENU: rendered - isOpen (${isOpen})`);
+  // console.log("filterState--FILTERMENU: ", filterState);
 
   const initState = filterState || initFilterState;
   // const initState = initFilterState;
@@ -74,7 +74,7 @@ export default function FilterMenu({
   // const onApplyFilters = () => setQuery(discoveryQueryString(state));
   const onClick = () => {
     const str = discoveryQueryString(state);
-    onApplyFilters(str);
+    onApplyFilters(str, state);
   };
 
   useEffect(() => {

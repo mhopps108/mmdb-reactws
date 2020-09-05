@@ -10,7 +10,6 @@ import {
 import { IconButton, Icon } from "rsuite";
 import { queryToFilterState } from "../pages/Discover";
 import { FaSort, FaSortAmountDownAlt, FaTimes } from "react-icons/fa";
-import SortDropdown from "../old-other/SortDropdown";
 
 const StyledToolbar = styled.div`
   grid-area: toolbar;
@@ -173,11 +172,14 @@ export default function DiscoveryToolbar({
   }
 
   const activeFiltersArr = () => {
-    console.log("DiscoveryToolbar: filterState: ", filterState);
+    // console.log("DiscoveryToolbar: filterState: ", filterState);
     // return "need to clean";
     let filters = {};
-    if (filterState["certs"] && filterState["certs"][0] !== "") {
-      filters["certs"] = filterState["certs"].join(" ");
+    if (
+      filterState["certification"] &&
+      filterState["certification"][0] !== ""
+    ) {
+      filters["certification"] = filterState["certification"].join(" ");
     }
     if (filterState["genres"] && filterState["genres"][0] !== "") {
       filters["genres"] = filterState["genres"].join(" ");
@@ -199,7 +201,7 @@ export default function DiscoveryToolbar({
         "years_str"
       ] = `${filters["years_min"]} - ${filters["years_max"]}`;
     }
-    console.log("DiscoverToolbar: filters obj: ", filters);
+    // console.log("DiscoverToolbar: filters obj: ", filters);
     return filters;
   };
 
@@ -244,25 +246,36 @@ export default function DiscoveryToolbar({
             />
           </FilterButtonWrap>
         </ListNameWrap>
+        {/*<ActiveFiltersBar>*/}
+        {/*  <div style={{ marginRight: "auto" }}>{"Filters"}</div>*/}
+        {/*  <ActiveFilterTag>{activeFor("genres")}</ActiveFilterTag>*/}
+        {/*  <ActiveFilterTag>{activeFor("certification")}</ActiveFilterTag>*/}
+        {/*  <ActiveFilterTag>{activeFor("votes")}</ActiveFilterTag>*/}
+        {/*  <ActiveFilterTag>{activeFor("ratings_str")}</ActiveFilterTag>*/}
+        {/*  <ActiveFilterTag>{activeFor("years_str")}</ActiveFilterTag>*/}
+        {/*</ActiveFiltersBar>*/}
         <ActiveFiltersBar>
           <div style={{ marginRight: "auto" }}>{"Filters"}</div>
-          <ActiveFilterTag>{activeFor("genres")}</ActiveFilterTag>
-          <ActiveFilterTag>{activeFor("certs")}</ActiveFilterTag>
-          <ActiveFilterTag>{activeFor("votes")}</ActiveFilterTag>
-          <ActiveFilterTag>{activeFor("ratings_str")}</ActiveFilterTag>
-          <ActiveFilterTag>{activeFor("years_str")}</ActiveFilterTag>
+          <ActiveFilterTag>{"genres"}</ActiveFilterTag>
+          <ActiveFilterTag>{"certification"}</ActiveFilterTag>
+          <ActiveFilterTag>{"votes"}</ActiveFilterTag>
+          <ActiveFilterTag>{"ratings_str"}</ActiveFilterTag>
+          <ActiveFilterTag>{"years_str"}</ActiveFilterTag>
         </ActiveFiltersBar>
 
+        {/* Tablet/Desktop Filters */}
         <FilterMenuWrap>
-          <FilterMenu
-            isOpen={filterMenuIsOpen}
-            // isOpen={true}
-            toggleOpen={toggleShowFilters}
-            setQuery={setQuery}
-            filterState={filterState}
-            onApplyFilters={onApplyFilters}
-          />
+          {/*<FilterMenu*/}
+          {/*  isOpen={filterMenuIsOpen}*/}
+          {/*  // isOpen={true}*/}
+          {/*  toggleOpen={toggleShowFilters}*/}
+          {/*  setQuery={setQuery}*/}
+          {/*  filterState={filterState}*/}
+          {/*  onApplyFilters={onApplyFilters}*/}
+          {/*/>*/}
         </FilterMenuWrap>
+
+        {/* Mobile Filters */}
         <Portal>
           <FilterMenuSheet
             filterState={filterState}
@@ -271,18 +284,18 @@ export default function DiscoveryToolbar({
           />
         </Portal>
 
-        <SortButton onClick={toggleSortOpen}>
-          <FaSort />
-        </SortButton>
-        <Portal>
-          <ActionMenu
-            isOpen={sortOpen}
-            toggleOpen={toggleSortOpen}
-            sortData={sortData}
-            sortValue={orderByValue}
-            onOrderChange={onOrderChange}
-          />
-        </Portal>
+        {/*<SortButton onClick={toggleSortOpen}>*/}
+        {/*  <FaSort />*/}
+        {/*</SortButton>*/}
+        {/*<Portal>*/}
+        {/*  <ActionMenu*/}
+        {/*    isOpen={sortOpen}*/}
+        {/*    toggleOpen={toggleSortOpen}*/}
+        {/*    sortData={sortData}*/}
+        {/*    sortValue={orderByValue}*/}
+        {/*    onOrderChange={onOrderChange}*/}
+        {/*  />*/}
+        {/*</Portal>*/}
       </DiscoveryToolBarWrap>
     </StyledToolbar>
   );

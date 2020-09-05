@@ -1,7 +1,8 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect, useLayoutEffect } from "react";
 import styled from "styled-components/macro";
 import { device } from "../devices";
 import { RangeSlider, CheckButtonGroup } from "../components";
+import { useLockBodyScroll } from "../hooks";
 import { discoveryQueryString } from "../api";
 import { genreOptions, certOptions } from "../constants";
 import {
@@ -20,25 +21,52 @@ import { FiMenu } from "react-icons/fi";
 const initFilterState = {
   sortby: "-rating,-votes",
   genres: [],
-  certs: [],
+  certification: [],
   ratings: [0, 10],
   votes: [0, 10000],
   years: [1890, 2030],
 };
 
+const defaultFilters = {
+  sortby: "rating",
+  genres: [],
+  certification: [],
+  rating_min: 0.0,
+  rating_max: 10.0,
+  votes_min: 10000,
+  year_min: 1890,
+  year_max: 2030,
+};
+
 const filterReducer = (state, action) => {
   switch (action.type) {
     case "SET_CERTS":
-      return { ...state, certs: action.payload };
+      return { ...state, certification: action.payload };
     case "SET_GENRES":
       return { ...state, genres: action.payload };
+    // case "SET_RATINGS":
+    //   return { ...state, ratings: action.payload };
+    // case "SET_VOTES":
+    //   return { ...state, votes: action.payload };
+    // case "SET_YEARS":
+    //   return { ...state, years: action.payload };
     case "SET_RATINGS":
-      return { ...state, ratings: action.payload };
+      return {
+        ...state,
+        rating_min: action.payload[0],
+        rating_max: action.payload[1],
+      };
     case "SET_VOTES":
-      return { ...state, votes: action.payload };
+      return { ...state, votes_min: action.payload[1] };
     case "SET_YEARS":
-      return { ...state, years: action.payload };
+      return {
+        ...state,
+        year_min: action.payload[0],
+        year_max: action.payload[1],
+      };
     case "FILTER_RESET":
+      return { ...action.payload };
+    case "FILTER_DEFAULTS":
       return { ...initFilterState };
     default:
       throw new Error();
@@ -53,12 +81,18 @@ export default function FilterMenuSheet({
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(!isOpen);
 
-  const initState = filterState || initFilterState;
-  // const initState = initFilterState;
+  const [setIsLocked] = useLockBodyScroll(isOpen);
+
+  // const initState = filterState || initFilterState;
+  const initState = { ...defaultFilters, ...filterState };
   const [state, dispatch] = useReducer(filterReducer, initState);
-  const [queryLink, setQueryLink] = useState("");
 
   const onReset = () => dispatch({ type: "FILTER_RESET" });
+
+  const onCancel = () => {
+    dispatch({ type: "FILTER_RESET", payload: filterState });
+    setIsOpen(false);
+  };
 
   const setCertsChecked = (checked) =>
     dispatch({ type: "SET_CERTS", payload: checked });
@@ -66,8 +100,12 @@ export default function FilterMenuSheet({
   const setGenresChecked = (checked) =>
     dispatch({ type: "SET_GENRES", payload: checked });
 
-  const onRatingChange = (val) =>
+  const onRatingChange = (val) => {
+    // min={defaultFilters.rating_min}
+    // max={defaultFilters.rating_max}
+    console.log("onRatingCahnge: ", val);
     dispatch({ type: "SET_RATINGS", payload: val });
+  };
 
   const onMinVotesChange = (val) =>
     dispatch({ type: "SET_VOTES", payload: val });
@@ -75,11 +113,17 @@ export default function FilterMenuSheet({
   const onYearChange = (val) => dispatch({ type: "SET_YEARS", payload: val });
 
   // const onApplyFilters = () => setQuery(discoveryQueryString(state));
-  const onClick = () => {
-    const str = discoveryQueryString(state);
-    onApplyFilters(str);
+  const onApply = () => {
+    // const str = discoveryQueryString(state);
+    // onApplyFilters(str, state);
+    onApplyFilters("removed this argument", state);
     setIsOpen(false);
+    setIsLocked(false);
   };
+
+  useEffect(() => {
+    setIsLocked(() => isOpen);
+  }, [isOpen, setIsLocked]);
 
   return (
     <>
@@ -88,20 +132,21 @@ export default function FilterMenuSheet({
           <FaFilter />
         </MenuButton>
       </FilterButtonWrap>
-
       <FilterMenuMobileWrap isOpen={isOpen}>
+        {/*<FilterMenuMobileWrap isOpen={true}>*/}
+        {/*  <Menu isOpen={true}>*/}
         <Menu isOpen={isOpen}>
           <FilterSection>
             <CheckButtonGroup
               sectionName="Age Rating"
               options={certOptions}
-              checked={state.certs}
+              checked={state.certification || []}
               setChecked={setCertsChecked}
             />
             <CheckButtonGroup
               sectionName="Genres"
               options={genreOptions.sort()}
-              checked={state.genres}
+              checked={state.genres || []}
               setChecked={setGenresChecked}
             />
           </FilterSection>
@@ -109,12 +154,16 @@ export default function FilterMenuSheet({
             <RangeSliderWrap>
               <SectionHeader>
                 <p>Rating</p>
-                <p>{`${state.ratings[0]} - ${state.ratings[1]}`}</p>
+                {/*<p>{`${state.ratings[0]} - ${state.ratings[1]}`}</p>*/}
+                <p>{`${state.rating_min} - ${state.rating_max}`}</p>
               </SectionHeader>
               <RangeSlider
-                value={state.ratings}
-                min={initFilterState.ratings[0]}
-                max={initFilterState.ratings[1]}
+                // value={state.ratings}
+                // min={initFilterState.ratings[0]}
+                // max={initFilterState.ratings[1]}
+                value={[state.rating_min, state.rating_max]}
+                min={defaultFilters.rating_min}
+                max={defaultFilters.rating_max}
                 step={0.1}
                 onChange={onRatingChange}
                 onFinalChange={onRatingChange}
@@ -123,12 +172,15 @@ export default function FilterMenuSheet({
             <RangeSliderWrap>
               <SectionHeader>
                 <p>Votes</p>
-                <p>{`${state.votes[0]} - ${state.votes[1]}`}</p>
+                <p>{`${0} - ${state.votes_min}`}</p>
               </SectionHeader>
               <RangeSlider
-                value={state.votes}
-                min={initFilterState.votes[0]}
-                max={initFilterState.votes[1]}
+                // value={state.votes}
+                // min={initFilterState.votes[0]}
+                // max={initFilterState.votes[1]}
+                value={[0, state.votes_min]}
+                min={0}
+                max={defaultFilters.votes_min}
                 step={100}
                 onChange={onMinVotesChange}
                 onFinalChange={onMinVotesChange}
@@ -137,51 +189,120 @@ export default function FilterMenuSheet({
             <RangeSliderWrap>
               <SectionHeader>
                 <p>Year</p>
-                <p>{`${state.years[0]} - ${state.years[1]}`}</p>
+                <p>{`${state.year_min} - ${state.year_max}`}</p>
               </SectionHeader>
               <RangeSlider
-                value={state.years}
-                min={initFilterState.years[0]}
-                max={initFilterState.years[1]}
+                // value={state.years}
+                // min={initFilterState.years[0]}
+                // max={initFilterState.years[1]}
+                value={[state.year_min, state.year_max]}
+                min={defaultFilters.year_min}
+                max={defaultFilters.year_max}
                 step={1}
                 onChange={onYearChange}
                 onFinalChange={onYearChange}
               />
             </RangeSliderWrap>
           </FilterSection>
-          <ActionButtonWrap>
-            <button onClick={() => setIsOpen(false)}>Close</button>
-            <button onClick={onClick} primary>
-              Apply Filters
-            </button>
-          </ActionButtonWrap>
         </Menu>
+        <ActionButtonWrap isOpen={isOpen}>
+          <Button onClick={onCancel}>Close</Button>
+          <Button onClick={onApply} primary>
+            Apply
+          </Button>
+        </ActionButtonWrap>
       </FilterMenuMobileWrap>
     </>
   );
 }
 
-const ActionButtonWrap = styled.div`
-  width: 100%;
-  //margin-top: 15px;
+const FilterMenuMobileWrap = styled.div`
+  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1100;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  //background: rgba(0, 0, 0, 0.5);
+  background: ${(props) =>
+    props.isOpen ? "rgba(0, 0, 0, 0.5)" : "rgba(0, 0, 0, 0.0)"};
+
+  //transition: all 150ms ease;
+  transition: opacity 300ms cubic-bezier(0, 1, 0.5, 1),
+    visibility 300ms cubic-bezier(0, 1, 0.5, 1);
+
+  @media ${device.min.desktop} {
+    display: none;
+  }
+`;
+
+const Menu = styled.div`
+  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
+  opacity: ${(props) => (props.isOpen ? 1 : 0)};
+  position: fixed;
+  bottom: 0;
+  // TODO: scroll view for short phones
+  display: flex;
+  flex-direction: column;
+
+  background: whitesmoke;
+  border: 2px solid lightgray;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+
+  max-width: 600px;
+  max-height: calc(100vh - 100px);
+  overflow-y: scroll;
+
+  margin: 5px 0 50px;
+
+  transform: ${(props) =>
+    props.isOpen ? "translateY(0%)" : "translateY(100%)"};
+  //transition: all 200ms ease;
+  transition: transform 300ms cubic-bezier(0, 1, 0.5, 1),
+    opacity 300ms cubic-bezier(0, 1, 0.5, 1),
+    visibility 300ms cubic-bezier(0, 1, 0.5, 1);
+
+  @media ${device.min.desktop} {
+    //display: none;
+  }
+`;
+
+const ActionButtonWrap = styled.div`
+  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
+  opacity: ${(props) => (props.isOpen ? 1 : 0)};
+  transform: ${(props) =>
+    props.isOpen ? "translateY(0%)" : "translateY(100%)"};
+  transition: transform 200ms cubic-bezier(0, 1, 0.5, 1),
+    opacity 300ms cubic-bezier(0, 1, 0.5, 1),
+    visibility 300ms cubic-bezier(0, 1, 0.5, 1);
+
+  box-shadow: 0 -8px 10px 2px rgba(0, 0, 0, 0.1);
+
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: flex-end;
   align-items: center;
-  //background: #282c35;
+  background: white;
   height: 50px;
-  border-top: 2px solid lightgray;
+  border-top: 1px solid lightgray;
 `;
 
 const Button = styled.button`
   font-size: 1.1rem;
-  margin: 0 12px;
-  padding: 4px 8px;
-  //height: 35px;
-  //color: #fff;
-  color: ${(props) => (props.primary ? "#fff" : "#282c35")};
-  background: ${(props) => (props.primary ? "#282c35" : "fff")};
+  margin: 0 0.5rem;
+  padding: 0.25rem 0.5rem;
+  color: ${(props) => (props.primary ? "#fff" : "#33425b")};
+  background: ${(props) => (props.primary ? "#33425b" : "fff")};
   border: 1px solid lightgray;
-  border-radius: 4px;
+  border-radius: 6px;
 `;
 
 const MenuButton = styled.button`
@@ -199,8 +320,8 @@ const MenuButton = styled.button`
   align-items: center;
 
   @media ${device.min.tablet} {
-    //display: none;
-    visibility: hidden;
+    display: none;
+    //visibility: hidden;
   }
 `;
 
@@ -228,52 +349,5 @@ const RangeSliderWrap = styled.div`
 
   & .bp3-slider-progress.bp3-intent-primary {
     background: #2162a4;
-  }
-`;
-
-const FilterMenuMobileWrap = styled.div`
-  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
-  transition: all 100ms ease;
-
-  @media ${device.min.desktop} {
-    display: none;
-  }
-`;
-
-const Menu = styled.div`
-  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
-  opacity: ${(props) => (props.isOpen ? 1 : 0)};
-  position: fixed;
-  bottom: 0;
-  // TODO: scroll view for short phones
-  display: flex;
-  flex-direction: column;
-
-  background: whitesmoke;
-  border: 2px solid lightgray;
-  border-radius: 6px;
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-
-  max-width: 600px;
-  max-height: calc(100vh - 5px);
-  overflow-y: scroll;
-
-  margin: 5px;
-
-  transform: ${(props) =>
-    props.isOpen ? "translateY(0%)" : "translateY(100%)"};
-  transition: all 200ms ease;
-
-  @media ${device.min.desktop} {
-    //display: none;
   }
 `;

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { device } from "../devices";
-import { NavDropdown } from "../components";
+import { NavDropdown, Portal } from "../components";
 import { FaSearch, FaUserAlt } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
 import { GrClose } from "react-icons/gr";
@@ -29,6 +29,7 @@ const NavMenuWrap = styled.div`
   //background: #282c35;
   background: #33425b;
   transition: all 100ms ease-in-out;
+  z-index: 1010;
 
   @media ${device.min.tablet} {
     display: none;
@@ -74,6 +75,7 @@ const MenuButton = styled.button`
   justify-content: center;
   align-items: center;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  z-index: 1011;
 
   :hover {
     //box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
@@ -132,34 +134,37 @@ export default function Header() {
   const toggleNav = () => setShowNav(!showNav);
 
   return (
-    <HeaderWrap>
-      <NavBrand>
-        <Link to="/">MMDb</Link>
-      </NavBrand>
+    <>
+      <HeaderWrap>
+        <NavBrand>
+          <Link to="/">MMDb</Link>
+        </NavBrand>
+        <Nav>
+          {/*<Nav style={{ marginLeft: "auto", marginRight: "auto" }}>*/}
+          <NavDropdown title={"Lists"} items={tmdbLinks} />
+          <NavDropdown
+            title={"Releases"}
+            items={[...releaseDateLinks, ...releasesLinks]}
+          />
+          <NavDropdown title={"Discover"} items={discoveryLinks} />
+        </Nav>
 
-      <Nav>
-        <NavDropdown title={"Lists"} items={tmdbLinks} />
-        <NavDropdown
-          title={"Releases"}
-          items={[...releaseDateLinks, ...releasesLinks]}
-        />
-        <NavDropdown title={"Discover"} items={discoveryLinks} />
-      </Nav>
-
-      <div>
-        <NavButton>
-          <FaSearch />
-        </NavButton>
-        <NavButton>
-          <FaUserAlt />
-        </NavButton>
-      </div>
-
-      <NavMenu isOpen={showNav} toggleNav={toggleNav} />
-      <MenuButton onClick={toggleNav}>
-        {showNav ? <GrClose /> : <FiMenu />}
-      </MenuButton>
-    </HeaderWrap>
+        <div>
+          <NavButton>
+            <FaSearch />
+          </NavButton>
+          <NavButton>
+            <FaUserAlt />
+          </NavButton>
+        </div>
+      </HeaderWrap>
+      <Portal>
+        <MenuButton onClick={toggleNav}>
+          {showNav ? <GrClose /> : <FiMenu />}
+        </MenuButton>
+        <NavMenu isOpen={showNav} toggleNav={toggleNav} />
+      </Portal>
+    </>
   );
 }
 
@@ -178,10 +183,19 @@ const HeaderWrap = styled.header`
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+
+  //display: grid;
+  //grid-template-columns: 1fr 1fr 1fr;
+  //grid-template-rows: auto;
+  //justify-content: center;
+  //align-items: center;
+  //height: 55px;
 `;
 
 const Nav = styled.nav`
   display: none;
+  //margin-right: auto;
+  //margin-left: auto;
 
   a {
     color: white;
@@ -195,7 +209,7 @@ const Nav = styled.nav`
 `;
 
 const NavBrand = styled.h1`
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   //line-height: 1.5rem;
   a {
     color: #fff;
@@ -204,7 +218,7 @@ const NavBrand = styled.h1`
 `;
 
 const NavButton = styled.button`
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   padding-left: 1rem;
   //margin: 0 5px 0 15px;
   color: white;

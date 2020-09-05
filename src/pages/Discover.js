@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
 import {
-  Header,
-  MovieList,
-  MoviePosterList,
-  DiscoveryToolbar,
-} from "../components";
+  useParams,
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
+import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
+import moment from "moment";
+
+import { Header, DiscoveryToolbar, MovieList } from "../components";
 import { useDataApi } from "../useDataApi";
+import API from "../api/api";
+import { useQueryParams, useIntersectionObserver } from "../hooks";
 import { discoverySortOptions } from "../constants";
 
 // TODO: remove filter from url if not used??
-
-function useQueryParams() {
-  return new URLSearchParams(useLocation().search);
-}
 
 export const queryToFilterState = (queryParams) => {
   if (!queryParams) return null;
@@ -38,7 +40,11 @@ export const queryToFilterState = (queryParams) => {
   };
 };
 
-export default function Discover({ navMenuVisible, toggleNavMenu }) {
+export default function Discover() {
+  let renderRef = useRef(0);
+  renderRef.current = renderRef.current + 1;
+  console.log("render: ", renderRef.current);
+
   let navigate = useNavigate();
   let queryParams = useQueryParams();
   const initSort = queryParams.get("sortby") || discoverySortOptions[0].value;

@@ -1,35 +1,15 @@
-import React, { useState, useEffect, useReducer, useRef } from "react";
-import {
-  useNavigate,
-  useMatch,
-  useRoutes,
-  useLocation,
-  useParams,
-} from "react-router-dom";
+import React, { useRef } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
 import moment from "moment";
 import { Header, Toolbar, MovieList } from "../components";
 import { releasesSortOptions } from "../constants";
 import API from "../api/api";
+import { useQueryParams, useIntersectionObserver } from "../hooks";
 import { dateUtil } from "../utils/dates";
-import useIntersectionObserver from "../hooks/useIntersectionObserver";
 
 const { formatPeriod, startOf, endOf, getPrev, getNext, formatDate } = dateUtil;
-
-function useQueryParams() {
-  return new URLSearchParams(useLocation().search);
-}
-
-const paramStateToQuery = (paramState) => {
-  const { page_size, period, sortby, startDate, type } = paramState;
-  return {
-    page_size,
-    sortby,
-    [`${type}_after`]: startDate,
-    [`${type}_before`]: endOf(startDate, period),
-  };
-};
 
 export default function RelTestThree() {
   let renderRef = useRef(0);
@@ -37,8 +17,6 @@ export default function RelTestThree() {
   console.log("render: ", renderRef.current);
   // /releases/:type/:period/:startFrom?sortby=-digital
   // /releases/digital/month/2020-07-01?sortby=-digital
-  // or
-  // /releases/digital/month?start=2020-07-01&sortby=-digital
 
   let navigate = useNavigate();
   const loc = useLocation();
@@ -49,17 +27,11 @@ export default function RelTestThree() {
     startDate = startOf(moment(), period),
   } = useParams();
 
-  console.log("type: ", type);
-  console.log("period: ", period);
-  console.log("startDate: ", startDate);
-  const page_size = 15;
-  const sortOptions = releasesSortOptions(type);
+  console.log("useParams: type: ", type);
+  console.log("useParams: period: ", period);
+  console.log("useParams: startDate: ", startDate);
 
-  const onSortChange = (val) => {
-    console.log("On Sort - Set: ", val);
-    const { value, label } = sortOptions.find((item) => item.value === val);
-    navigate(loc.pathname + `?sort=${label.toLowerCase()}`);
-  };
+  const sortOptions = releasesSortOptions(type);
 
   const getSortValue = (sort) => {
     if (sort) {
@@ -71,6 +43,12 @@ export default function RelTestThree() {
     onSortChange(sortOptions[0].value);
   };
 
+  const onSortChange = (val) => {
+    console.log("On Sort - Set: ", val);
+    const { value, label } = sortOptions.find((item) => item.value === val);
+    navigate(loc.pathname + `?sort=${label.toLowerCase()}`);
+  };
+
   const queryParams = useQueryParams();
   const sortby = getSortValue(queryParams.get("sort"));
   console.log("sortby: ", sortby);
@@ -80,7 +58,14 @@ export default function RelTestThree() {
     console.log("getMovies(): paramKeys=", paramKeys);
     console.log("getMovies(): nextPage=", nextPage);
 
-    const queryParams = paramStateToQuery(paramKeys);
+    const { type, period, startDate, sortby } = paramKeys;
+    const queryParams = {
+      sortby,
+      [`${type}_after`]: startDate,
+      [`${type}_before`]: endOf(startDate, period),
+      page_size: 15,
+    };
+
     const response = await API.get(`/releases/`, {
       params: { page: nextPage, ...queryParams },
     });
@@ -96,7 +81,7 @@ export default function RelTestThree() {
     fetchMore,
     canFetchMore,
   } = useInfiniteQuery(
-    ["releases", { page_size, sortby, type, period, startDate }],
+    ["releases", { type, period, startDate, sortby }],
     getMovies,
     {
       getFetchMore: (lastPage, allPages) => lastPage.next_page,

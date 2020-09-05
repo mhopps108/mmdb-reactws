@@ -20,13 +20,13 @@ export const StyledCheckButtonGroup = styled.div`
 export const StyledCheckButton = styled.button`
   color: ${(props) => (props.checked ? "white" : "#2162a4")};
   background: ${(props) => (props.checked ? "#2162a4" : "white")};
-  padding: 4px 8px;
-  margin: 2px 4px;
+  padding: 2px 6px;
+  margin: 4px 4px;
+  //padding: 4px 8px;
+  //margin: 2px 4px;
   border-radius: 4px;
   border: 1px solid lightgray;
-  //&:active {
-  //  text-decoration: none;
-  //}
+  font-size: 0.9rem;
 `;
 
 export default function CheckButtonGroup({
@@ -35,6 +35,9 @@ export default function CheckButtonGroup({
   checked,
   setChecked,
 }) {
+  console.log("CheckButtonGroup: props");
+  console.log("sectionName: ", sectionName);
+  console.log("checked: ", checked);
   const toggleAll = () => {
     if (checked.length === 0) {
       setChecked(options.map((item) => item.name));
@@ -56,7 +59,8 @@ export default function CheckButtonGroup({
       <SectionTop>
         <SectionHeader>{sectionName}</SectionHeader>
         <SectionButton onClick={toggleAll}>
-          {checked.length === 0 ? "Select All" : "Clear"}
+          {/*{checked.length === 0 ? "Select All" : "Clear"}*/}
+          {checked ? "Select All" : "Clear"}
         </SectionButton>
       </SectionTop>
       <FlexContainer>
@@ -65,7 +69,7 @@ export default function CheckButtonGroup({
             key={name}
             name={name}
             onClick={handleChange}
-            checked={checked.includes(name)}
+            checked={checked?.includes(name)}
             type="button"
           >
             {label}

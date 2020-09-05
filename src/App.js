@@ -5,6 +5,7 @@ import {
   Releases,
   Detail,
   Discover,
+  DiscoverT,
   ReleaseDates,
   RelTest,
   RelTestTwo,
@@ -46,8 +47,7 @@ const GlobalStyle = createGlobalStyle`
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       //background: #282c35;
-      //background: #33425b;
-      //background: yellow;
+      //background: #33425b;      
       background: none;
     }
 `;
@@ -60,9 +60,7 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route exact path={"/"}>
-              {/*<List />*/}
               <Navigate to="/list/tmdb-popular?sort=rank" />
-              {/*<ListTest />*/}
             </Route>
             <Route path={"/list/:slug"}>
               {/*<List />*/}
@@ -76,25 +74,8 @@ export default function App() {
               path={"/release-dates/:type/:period/:startDate"}
               element={<ReleaseDates />}
             />
-            {/*<Route*/}
-            {/*  path={[*/}
-            {/*    "/releases/:type/:period/:startDate",*/}
-            {/*    "/releases/:type/:period",*/}
-            {/*    "/releases/:type",*/}
-            {/*    "/releases",*/}
-            {/*  ]}*/}
-            {/*>*/}
             {/*<Route path={"/releases/:type/:period/:startDate"}>*/}
             {/*<Route path={"/releases/"}>*/}
-            {/*<Releases />*/}
-            {/*<RelTest />*/}
-            {/*<RelTestTwo />*/}
-            {/*</Route>*/}
-            {/*<Route path="releases" element={<RelTestTwo />}>*/}
-            {/*  <Route path=":type" element={<RelTestTwo />} />*/}
-            {/*  <Route path=":type/:period" element={<RelTestTwo />} />*/}
-            {/*  <Route path=":type/:period/:startDate" element={<RelTestTwo />} />*/}
-            {/*</Route>*/}
             <Route path="releases" element={<RelTestThree />} />
             <Route path="releases/:type" element={<RelTestThree />} />
             <Route path="releases/:type/:period" element={<RelTestThree />} />
@@ -102,17 +83,13 @@ export default function App() {
               path="releases/:type/:period/:startDate"
               element={<RelTestThree />}
             />
-
-            <Route path={"/discover"}>
-              <Discover />
-            </Route>
-            <Route path="/movie/:imdbId">
-              <Detail />
-            </Route>
+            {/*<Route path={"/discover"} element={<Discover />} />*/}
+            <Route path={"/discover"} element={<DiscoverT />} />
+            <Route path="/movie/:imdbId" element={<Detail />} />
           </Routes>
         </BrowserRouter>
       </StyledApp>
-      <ReactQueryDevtools />
+      {/*<ReactQueryDevtools />*/}
     </>
   );
 }

@@ -13,6 +13,14 @@ export const discoverySortOptions = [
   { value: "title,year", label: "Title" },
 ];
 
+export const disSortOptions = {
+  rating: "-rating,-votes",
+  // { value: "-rating,-votes", label: "Rating" },
+  // { value: "-votes,-rating", label: "Votes" },
+  // { value: "year,title", label: "Year" },
+  // { value: "title,year", label: "Title" },
+};
+
 export const releasesSortOptions = (type) => {
   // type is a release date from 'theatrical', 'digital', 'physical', 'tv'?
   return [

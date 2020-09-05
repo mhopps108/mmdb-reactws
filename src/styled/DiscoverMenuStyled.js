@@ -68,9 +68,8 @@ export const FilterTitle = styled.h3`
 export const SectionTop = styled.div`
   display: flex;
   justify-content: space-between;
-  //margin: 15px 0;
-  margin: 10px 0 15px;
-  width: 100%;
+  //margin: 10px 4px 15px;
+  margin: 10px 4px;
 `;
 
 export const SectionHeader = styled.p`

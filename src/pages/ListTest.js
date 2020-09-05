@@ -1,46 +1,17 @@
-import React, { useState, useEffect, useReducer, useRef } from "react";
-import {
-  useNavigate,
-  useSearchParams,
-  useLocation,
-  useParams,
-} from "react-router-dom";
-import { Header, Toolbar, MovieList, MoviePosterList } from "../components";
-import styled from "styled-components/macro";
-import { useDataApi } from "../useDataApi";
-
+import React, { useEffect, useRef } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
-import { listSortOptions, releasesSortOptions } from "../constants";
+import styled from "styled-components/macro";
+import { Header, Toolbar, MovieList, MoviePosterList } from "../components";
+import { listSortOptions } from "../constants";
 import API from "../api/api";
-import useIntersectionObserver from "../hooks/useIntersectionObserver";
-
-const useQP = (initParams) => {
-  const [state, setState] = useState(initParams);
-
-  const setValue = () => {};
-
-  return { state, setValue };
-};
-
-function useQueryParams() {
-  return new URLSearchParams(useLocation().search);
-}
-
-const paramStateToQuery = (paramKeys) => {
-  const { page_size, slug, sortby } = paramKeys;
-  return {
-    page_size,
-    sortby,
-    list_slug: slug,
-  };
-};
+import { useQueryParams, useIntersectionObserver } from "../hooks";
 
 export default function ListTest({ view = "list" }) {
   let renderRef = useRef(0);
   renderRef.current = renderRef.current + 1;
   console.log("render: ", renderRef.current);
 
-  const page_size = 15;
   let navigate = useNavigate();
   const loc = useLocation();
   let { slug = "tmdb-popular" } = useParams();
@@ -70,7 +41,13 @@ export default function ListTest({ view = "list" }) {
     console.log("getMovies(): key=", key);
     console.log("getMovies(): paramKeys=", paramKeys);
     console.log("getMovies(): nextPage=", nextPage);
-    const queryParams = paramStateToQuery(paramKeys);
+
+    const { slug, sortby } = paramKeys;
+    const queryParams = {
+      page_size: 15,
+      sortby,
+      list_slug: slug,
+    };
     // console.log("getMovies(): queryParams=", queryParams);
     const response = await API.get(`/movielist/`, {
       params: { page: nextPage, ...queryParams },
@@ -87,14 +64,9 @@ export default function ListTest({ view = "list" }) {
     isFetching,
     fetchMore,
     canFetchMore,
-  } = useInfiniteQuery(
-    // ["movielist", { page_size, slug, searchParams }],
-    ["movielist", { page_size, slug, sortby }],
-    getMovies,
-    {
-      getFetchMore: (lastPage, allPages) => lastPage.next_page,
-    }
-  );
+  } = useInfiniteQuery(["movielist", { slug, sortby }], getMovies, {
+    getFetchMore: (lastPage, allPages) => lastPage.next_page,
+  });
 
   useEffect(() => {
     console.log("effect: slug state: ", slug); // log state
@@ -106,16 +78,6 @@ export default function ListTest({ view = "list" }) {
     movie_count: data ? data[0].count : "#",
     name: `${slug.split("-").slice(1).join(" ")}`,
   };
-
-  const searchObject = (toFind, prop, arr) => {
-    for (let i = 0; i < arr.length; i++) {
-      console.log("arr[i][prop]: ", arr[i][prop], toFind);
-      if (arr[i][prop] === toFind) {
-        return arr[i];
-      }
-    }
-  };
-
   const sortData = {
     options: listSortOptions,
     selected: sortby,
