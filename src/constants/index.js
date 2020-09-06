@@ -7,10 +7,10 @@ export const listSortOptions = [
 ];
 
 export const discoverySortOptions = [
-  { value: "-rating,-votes", label: "Rating" },
-  { value: "-votes,-rating", label: "Votes" },
-  { value: "year,title", label: "Year" },
-  { value: "title,year", label: "Title" },
+  { value: "-rating,-votes,title", label: "rating" },
+  { value: "-votes,-rating,title", label: "votes" },
+  { value: "year,-rating,title", label: "year" },
+  { value: "title,-rating,year", label: "title" },
 ];
 
 export const disSortOptions = {

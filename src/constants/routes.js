@@ -55,7 +55,9 @@ export const releasesLinks = [
 export const discoveryLinks = [
   {
     name: "Top Comedies",
-    path: `/discover/?sortby=-rating,-votes&genres=comedy&certification=&rating_min=5&rating_max=10&votes_min=5000&year_min=1990&year_max=2030`,
+    // path: `/discover/?sortby=rating&genres=comedy&rating_min=5&rating_max=10&votes_min=5000&year_min=1990&year_max=2030`,
+    path:
+      "/discover/?sortby=rating&genres=comedy&rating_min=5&rating_max=10&votes_min=5000&year_min=1990&year_max=2030",
   },
   {
     name: "Top Rated Kids Movies",

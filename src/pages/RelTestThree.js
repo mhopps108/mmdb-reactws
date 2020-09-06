@@ -43,9 +43,9 @@ export default function RelTestThree() {
     onSortChange(sortOptions[0].value);
   };
 
-  const onSortChange = (val) => {
-    console.log("On Sort - Set: ", val);
-    const { value, label } = sortOptions.find((item) => item.value === val);
+  const onSortChange = ({ value, label }) => {
+    console.log("On Sort - Set");
+    // const { value, label } = sortOptions.find((item) => item.value === val);
     navigate(loc.pathname + `?sort=${label.toLowerCase()}`);
   };
 

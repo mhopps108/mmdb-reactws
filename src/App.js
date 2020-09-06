@@ -23,7 +23,8 @@ const GlobalStyle = createGlobalStyle`
     *:after {
       -webkit-box-sizing: inherit;
       -moz-box-sizing: inherit;
-      box-sizing: inherit;
+      //box-sizing: inherit;
+      box-sizing: border-box;
       padding: 0;
       margin: 0;      
     }
@@ -40,9 +41,11 @@ const GlobalStyle = createGlobalStyle`
       //font-family: Geneva, Arial, sans-serif;
       //font-family: Calibri;     
       font-size: 16px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
+      //font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      //'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      //sans-serif;
+      //font-family: 'Roboto', 'Segoe UI', sans-serif;
+      font-family: sans-serif;
       letter-spacing: 0.5px;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;

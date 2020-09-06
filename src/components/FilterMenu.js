@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useReducer, useRef } from "react";
 import { RangeSlider, CheckButtonGroup } from "../components";
 import { discoveryQueryString } from "../api";
 import { genreOptions, certOptions } from "../constants";
@@ -11,30 +11,71 @@ import {
   ApplyButton,
   ApplyButtonWrap,
 } from "../styled/FilterMenuStyled";
+import { useLockBodyScroll, useOnClickOutside } from "../hooks";
 
-const initFilterState = {
-  sortby: "-rating,-votes",
+// const initFilterState = {
+//   sortby: "-rating,-votes",
+//   genres: [],
+//   certs: [],
+//   ratings: [0, 10],
+//   votes: [0, 10000],
+//   years: [1890, 2030],
+// };
+
+// const filterReducer = (state, action) => {
+//   switch (action.type) {
+//     case "SET_CERTS":
+//       return { ...state, certs: action.payload };
+//     case "SET_GENRES":
+//       return { ...state, genres: action.payload };
+//     case "SET_RATINGS":
+//       return { ...state, ratings: action.payload };
+//     case "SET_VOTES":
+//       return { ...state, votes: action.payload };
+//     case "SET_YEARS":
+//       return { ...state, years: action.payload };
+//     case "FILTER_RESET":
+//       return { ...initFilterState };
+//     default:
+//       throw new Error();
+//   }
+// };
+
+const defaultFilters = {
+  sortby: "rating",
   genres: [],
-  certs: [],
-  ratings: [0, 10],
-  votes: [0, 10000],
-  years: [1890, 2030],
+  certification: [],
+  rating_min: 0.0,
+  rating_max: 10.0,
+  votes_min: 10000,
+  year_min: 1890,
+  year_max: 2030,
 };
 
 const filterReducer = (state, action) => {
   switch (action.type) {
     case "SET_CERTS":
-      return { ...state, certs: action.payload };
+      return { ...state, certification: action.payload };
     case "SET_GENRES":
       return { ...state, genres: action.payload };
     case "SET_RATINGS":
-      return { ...state, ratings: action.payload };
+      return {
+        ...state,
+        rating_min: action.payload[0],
+        rating_max: action.payload[1],
+      };
     case "SET_VOTES":
-      return { ...state, votes: action.payload };
+      return { ...state, votes_min: action.payload[1] };
     case "SET_YEARS":
-      return { ...state, years: action.payload };
+      return {
+        ...state,
+        year_min: action.payload[0],
+        year_max: action.payload[1],
+      };
     case "FILTER_RESET":
-      return { ...initFilterState };
+      return { ...action.payload };
+    case "FILTER_DEFAULTS":
+      return { ...defaultFilters };
     default:
       throw new Error();
   }
@@ -44,16 +85,19 @@ export default function FilterMenu({
   isOpen,
   toggleOpen,
   onApplyFilters,
-  setQuery,
   filterState = null,
 }) {
   // console.log(`FILTER-MENU: rendered - isOpen (${isOpen})`);
   // console.log("filterState--FILTERMENU: ", filterState);
 
-  const initState = filterState || initFilterState;
-  // const initState = initFilterState;
+  // const [setIsLocked] = useLockBodyScroll(isOpen);
+  // const ref = useRef();
+  // useOnClickOutside(ref, () => setIsOpen(false));
+
+  // const initState = filterState || initFilterState;
+  // const [state, dispatch] = useReducer(filterReducer, initState);
+  const initState = { ...defaultFilters, ...filterState };
   const [state, dispatch] = useReducer(filterReducer, initState);
-  const [queryLink, setQueryLink] = useState("");
 
   const onReset = () => dispatch({ type: "FILTER_RESET" });
 
@@ -72,10 +116,21 @@ export default function FilterMenu({
   const onYearChange = (val) => dispatch({ type: "SET_YEARS", payload: val });
 
   // const onApplyFilters = () => setQuery(discoveryQueryString(state));
-  const onClick = () => {
-    const str = discoveryQueryString(state);
-    onApplyFilters(str, state);
+  // const onClick = () => {
+  //   const str = discoveryQueryString(state);
+  //   onApplyFilters(str, state);
+  // };
+
+  const onApply = () => {
+    onApplyFilters(state);
+    // setIsOpen(false);
+    toggleOpen();
+    // setIsLocked(false);
   };
+
+  // useEffect(() => {
+  //   setIsLocked(() => isOpen);
+  // }, [isOpen, setIsLocked]);
 
   useEffect(() => {
     // console.dir(`filter_state`, state);
@@ -109,17 +164,17 @@ export default function FilterMenu({
             <ApplyButton reset onClick={""}>
               Reset
             </ApplyButton>
-            <ApplyButton onClick={onClick}>Apply</ApplyButton>
+            <ApplyButton onClick={onApply}>Apply</ApplyButton>
           </ApplyButtonWrap>
           <RangeSliderWrap>
             <SectionHeader>
               <p>Rating</p>
-              <span>{`${state.ratings[0]} - ${state.ratings[1]}`}</span>
+              <p>{`${state.rating_min} - ${state.rating_max}`}</p>
             </SectionHeader>
             <RangeSlider
-              value={state.ratings}
-              min={initFilterState.ratings[0]}
-              max={initFilterState.ratings[1]}
+              value={[state.rating_min, state.rating_max]}
+              min={defaultFilters.rating_min}
+              max={defaultFilters.rating_max}
               step={0.1}
               onChange={onRatingChange}
               onFinalChange={onRatingChange}
@@ -128,12 +183,12 @@ export default function FilterMenu({
           <RangeSliderWrap>
             <SectionHeader>
               <p>Votes</p>
-              <span>{`${state.votes[0]} - ${state.votes[1]}`}</span>
+              <p>{`${0} - ${state.votes_min}`}</p>
             </SectionHeader>
             <RangeSlider
-              value={state.votes}
-              min={initFilterState.votes[0]}
-              max={initFilterState.votes[1]}
+              value={[0, state.votes_min]}
+              min={0}
+              max={defaultFilters.votes_min}
               step={100}
               onChange={onMinVotesChange}
               onFinalChange={onMinVotesChange}
@@ -142,12 +197,12 @@ export default function FilterMenu({
           <RangeSliderWrap>
             <SectionHeader>
               <p>Year</p>
-              <span>{`${state.years[0]} - ${state.years[1]}`}</span>
+              <p>{`${state.year_min} - ${state.year_max}`}</p>
             </SectionHeader>
             <RangeSlider
-              value={state.years}
-              min={initFilterState.years[0]}
-              max={initFilterState.years[1]}
+              value={[state.year_min, state.year_max]}
+              min={defaultFilters.year_min}
+              max={defaultFilters.year_max}
               step={1}
               onChange={onYearChange}
               onFinalChange={onYearChange}
@@ -157,7 +212,7 @@ export default function FilterMenu({
             <ApplyButton reset onClick={""}>
               Reset
             </ApplyButton>
-            <ApplyButton onClick={onClick}>Apply</ApplyButton>
+            <ApplyButton onClick={onApply}>Apply</ApplyButton>
           </ApplyButtonWrap>
         </FilterSection>
       </FilterMenuContentWrap>

@@ -1,7 +1,67 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components/macro";
+import { useOnClickOutside } from "../hooks";
 
 // https://csslayout.io/patterns/dropdown/
+
+export default function Dropdown({
+  title,
+  selected,
+  items,
+  onSelect,
+  icon = null,
+}) {
+  // console.log("Dropdown: selected: ", selected);
+  const ref = useRef();
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleOpen = () => setIsOpen(!isOpen);
+
+  useOnClickOutside(ref, () => setIsOpen(false));
+
+  const onChange = (value) => {
+    onSelect(value);
+    setIsOpen(false);
+  };
+
+  const getSelected = () => {
+    const item =
+      items &&
+      items.find(({ value, label }) => {
+        // console.log(`Dropdown: find: val: ${value} & label: ${label}`);
+        if ([value, label].includes(selected)) {
+          return { value, label };
+        }
+        return null;
+      });
+    return item ? item.label : title;
+  };
+
+  return (
+    <Wrap ref={ref}>
+      {/*<StackedText>*/}
+      {/*  <div className={"top"}>{title}</div>*/}
+      {/*  <div className={"bottom"}>{getSelected()}</div>*/}
+      {/*</StackedText>*/}
+      {/*<div className={"bottom"}>{getSelected()}</div>*/}
+      <Button onClick={toggleOpen}>
+        {getSelected()}
+        {icon}
+      </Button>
+
+      <Menu isOpen={isOpen}>
+        <Arrow />
+        <Title>{title}</Title>
+        {items &&
+          items.map(({ value, label }) => (
+            // <MenuItem key={value} onClick={() => onChange(value)}>
+            <MenuItem key={value} onClick={() => onChange({ value, label })}>
+              <span>{label}</span>
+            </MenuItem>
+          ))}
+      </Menu>
+    </Wrap>
+  );
+}
 
 const Wrap = styled.div`
   position: relative;
@@ -11,6 +71,7 @@ const Wrap = styled.div`
 
 const Button = styled.button`
   font-size: 1rem;
+  text-transform: capitalize;
   padding: 6px 12px;
   background: none;
   color: #33425b;
@@ -60,6 +121,7 @@ const Title = styled.p`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-transform: capitalize;
 `;
 
 const Menu = styled.div`
@@ -83,6 +145,8 @@ const Menu = styled.div`
     props.isOpen ? "translateY(5%)" : "translateY(0)"};
   transition: opacity 300ms cubic-bezier(0, 1, 0.5, 1),
     visibility 250ms cubic-bezier(0, 1, 0.5, 1);
+    
+    text-transform: capitalize;
 `;
 
 const MenuItem = styled.div`
@@ -111,79 +175,3 @@ const Arrow = styled.div`
   height: 12px;
   width: 12px;
 `;
-
-export default function Dropdown({
-  title,
-  selected,
-  items,
-  onSelect,
-  icon = null,
-}) {
-  const ref = useRef();
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleOpen = () => setIsOpen(!isOpen);
-
-  const onOutsideClick = (e) => {
-    if (ref !== null && !ref.current.contains(e.target)) {
-      setIsOpen(false);
-    }
-  };
-
-  const onChange = (value) => {
-    onSelect(value);
-    setIsOpen(false);
-  };
-
-  const getSelected = () => {
-    // let item = items && items.find((item) => item.value === selected);
-    // if (!item) {
-    //   item = items && items.find((item) => item.label === selected);
-    // }
-    const item =
-      items &&
-      items.find(({ value, label }) => {
-        if ([value, label].includes(selected)) {
-          return { value, label };
-        }
-        return null;
-      });
-    return item ? item.label : title;
-  };
-
-  useEffect(() => {
-    if (isOpen) {
-      document.addEventListener("mousedown", onOutsideClick);
-    } else {
-      document.removeEventListener("mousedown", onOutsideClick);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", onOutsideClick);
-    };
-  }, [isOpen]);
-
-  return (
-    <Wrap ref={ref}>
-      {/*<StackedText>*/}
-      {/*  <div className={"top"}>{title}</div>*/}
-      {/*  <div className={"bottom"}>{getSelected()}</div>*/}
-      {/*</StackedText>*/}
-      {/*<div className={"bottom"}>{getSelected()}</div>*/}
-      <Button onClick={toggleOpen}>
-        {getSelected()}
-        {icon}
-      </Button>
-
-      <Menu isOpen={isOpen}>
-        <Arrow />
-        <Title>{title}</Title>
-        {items &&
-          items.map(({ value, label }) => (
-            <MenuItem key={value} onClick={() => onChange(value)}>
-              <span>{label}</span>
-            </MenuItem>
-          ))}
-      </Menu>
-    </Wrap>
-  );
-}

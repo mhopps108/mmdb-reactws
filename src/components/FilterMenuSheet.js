@@ -1,9 +1,8 @@
-import React, { useState, useReducer, useEffect, useLayoutEffect } from "react";
+import React, { useState, useReducer, useEffect, useRef } from "react";
 import styled from "styled-components/macro";
 import { device } from "../devices";
 import { RangeSlider, CheckButtonGroup } from "../components";
-import { useLockBodyScroll } from "../hooks";
-import { discoveryQueryString } from "../api";
+import { useLockBodyScroll, useOnClickOutside } from "../hooks";
 import { genreOptions, certOptions } from "../constants";
 import {
   FilterMenuWrap,
@@ -17,15 +16,6 @@ import {
 import { FaFilter } from "react-icons/fa";
 import { GrClose } from "react-icons/gr";
 import { FiMenu } from "react-icons/fi";
-
-const initFilterState = {
-  sortby: "-rating,-votes",
-  genres: [],
-  certification: [],
-  ratings: [0, 10],
-  votes: [0, 10000],
-  years: [1890, 2030],
-};
 
 const defaultFilters = {
   sortby: "rating",
@@ -44,12 +34,6 @@ const filterReducer = (state, action) => {
       return { ...state, certification: action.payload };
     case "SET_GENRES":
       return { ...state, genres: action.payload };
-    // case "SET_RATINGS":
-    //   return { ...state, ratings: action.payload };
-    // case "SET_VOTES":
-    //   return { ...state, votes: action.payload };
-    // case "SET_YEARS":
-    //   return { ...state, years: action.payload };
     case "SET_RATINGS":
       return {
         ...state,
@@ -67,23 +51,21 @@ const filterReducer = (state, action) => {
     case "FILTER_RESET":
       return { ...action.payload };
     case "FILTER_DEFAULTS":
-      return { ...initFilterState };
+      return { ...defaultFilters };
     default:
       throw new Error();
   }
 };
 
-export default function FilterMenuSheet({
-  setQuery,
-  filterState,
-  onApplyFilters,
-}) {
+export default function FilterMenuSheet({ filterState, onApplyFilters }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(!isOpen);
 
   const [setIsLocked] = useLockBodyScroll(isOpen);
 
-  // const initState = filterState || initFilterState;
+  const ref = useRef();
+  // useOnClickOutside(ref, () => setIsOpen(false));
+
   const initState = { ...defaultFilters, ...filterState };
   const [state, dispatch] = useReducer(filterReducer, initState);
 
@@ -101,9 +83,7 @@ export default function FilterMenuSheet({
     dispatch({ type: "SET_GENRES", payload: checked });
 
   const onRatingChange = (val) => {
-    // min={defaultFilters.rating_min}
-    // max={defaultFilters.rating_max}
-    console.log("onRatingCahnge: ", val);
+    // console.log("onRatingCahnge: ", val);
     dispatch({ type: "SET_RATINGS", payload: val });
   };
 
@@ -112,11 +92,9 @@ export default function FilterMenuSheet({
 
   const onYearChange = (val) => dispatch({ type: "SET_YEARS", payload: val });
 
-  // const onApplyFilters = () => setQuery(discoveryQueryString(state));
-  const onApply = () => {
-    // const str = discoveryQueryString(state);
-    // onApplyFilters(str, state);
-    onApplyFilters("removed this argument", state);
+  const onApply = (state) => {
+    console.log("state: ", state);
+    onApplyFilters(state);
     setIsOpen(false);
     setIsLocked(false);
   };
@@ -133,9 +111,7 @@ export default function FilterMenuSheet({
         </MenuButton>
       </FilterButtonWrap>
       <FilterMenuMobileWrap isOpen={isOpen}>
-        {/*<FilterMenuMobileWrap isOpen={true}>*/}
-        {/*  <Menu isOpen={true}>*/}
-        <Menu isOpen={isOpen}>
+        <Menu ref={ref} isOpen={isOpen}>
           <FilterSection>
             <CheckButtonGroup
               sectionName="Age Rating"
@@ -154,13 +130,9 @@ export default function FilterMenuSheet({
             <RangeSliderWrap>
               <SectionHeader>
                 <p>Rating</p>
-                {/*<p>{`${state.ratings[0]} - ${state.ratings[1]}`}</p>*/}
                 <p>{`${state.rating_min} - ${state.rating_max}`}</p>
               </SectionHeader>
               <RangeSlider
-                // value={state.ratings}
-                // min={initFilterState.ratings[0]}
-                // max={initFilterState.ratings[1]}
                 value={[state.rating_min, state.rating_max]}
                 min={defaultFilters.rating_min}
                 max={defaultFilters.rating_max}
@@ -175,9 +147,6 @@ export default function FilterMenuSheet({
                 <p>{`${0} - ${state.votes_min}`}</p>
               </SectionHeader>
               <RangeSlider
-                // value={state.votes}
-                // min={initFilterState.votes[0]}
-                // max={initFilterState.votes[1]}
                 value={[0, state.votes_min]}
                 min={0}
                 max={defaultFilters.votes_min}
@@ -192,9 +161,6 @@ export default function FilterMenuSheet({
                 <p>{`${state.year_min} - ${state.year_max}`}</p>
               </SectionHeader>
               <RangeSlider
-                // value={state.years}
-                // min={initFilterState.years[0]}
-                // max={initFilterState.years[1]}
                 value={[state.year_min, state.year_max]}
                 min={defaultFilters.year_min}
                 max={defaultFilters.year_max}
@@ -207,7 +173,8 @@ export default function FilterMenuSheet({
         </Menu>
         <ActionButtonWrap isOpen={isOpen}>
           <Button onClick={onCancel}>Close</Button>
-          <Button onClick={onApply} primary>
+          {/*<Button onClick={() => console.log("click")} primary>*/}
+          <Button onClick={() => onApply(state)} primary>
             Apply
           </Button>
         </ActionButtonWrap>

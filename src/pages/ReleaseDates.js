@@ -38,9 +38,9 @@ export default function ReleaseDates() {
 
   const sortOptions = releasesSortOptions(type);
 
-  const onSortChange = (val) => {
-    console.log("On Sort - Set: ", val);
-    const { value, label } = sortOptions.find((item) => item.value === val);
+  const onSortChange = ({ value, label }) => {
+    console.log("On Sort - Set");
+    // const { value, label } = sortOptions.find((item) => item.value === val);
     navigate(loc.pathname + `?sort=${label.toLowerCase()}`);
   };
 

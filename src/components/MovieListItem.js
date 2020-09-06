@@ -29,7 +29,10 @@ const Poster = styled.img`
   width: 76px;
   height: 114px;
   border-radius: 4px;
-  border: 1px solid lightgray;
+  //border: 1px solid lightgray;
+  border: 1px solid whitesmoke;
+  //box-shadow: inset 0 2px 4px 4px rgba(0, 0, 0, 0.2);
+  //box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.2);
 `;
 
 const InfoWrap = styled.div`

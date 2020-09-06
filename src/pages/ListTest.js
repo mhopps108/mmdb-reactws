@@ -17,9 +17,9 @@ export default function ListTest({ view = "list" }) {
   let { slug = "tmdb-popular" } = useParams();
   // console.log(`slug: ${slug}`);
 
-  const onSortChange = (val) => {
-    console.log("On Sort - Set: ", val);
-    const { value, label } = listSortOptions.find((item) => item.value === val);
+  const onSortChange = ({ value, label }) => {
+    console.log("On Sort - Set: ", value, label);
+    // const { value, label } = listSortOptions.find((item) => item.value === val);
     navigate(loc.pathname + `?sort=${label.toLowerCase()}`);
   };
 
