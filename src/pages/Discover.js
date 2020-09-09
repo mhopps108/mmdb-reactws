@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useReducer } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
@@ -6,7 +6,6 @@ import qs from "query-string";
 
 import { Header, DiscoveryToolbar, MovieList } from "../components";
 import API from "../api/api";
-import { useQueryParams, useIntersectionObserver } from "../hooks";
 import { discoverySortOptions } from "../constants";
 
 const qsOptions = {
@@ -31,7 +30,7 @@ export default function DiscoverT() {
   console.log("params: ", params);
 
   const getMovies = async (key, paramKeys, nextPage = 1) => {
-    const { value, label } = getSortObject(paramKeys.sortby, sortOptions);
+    const { value } = getSortObject(paramKeys.sortby, sortOptions);
     const queryParams = { ...paramKeys, sortby: value, page_size: 15 };
 
     console.log("getMovies(): key=", key);
@@ -69,7 +68,7 @@ export default function DiscoverT() {
   };
 
   const onSortChange = ({ value, label }) => {
-    console.log("On Sort - Set: ", value, label);
+    console.log(`On Sort - Set: ${value} (${label})`);
     setParams({ ...params, sortby: label });
   };
 

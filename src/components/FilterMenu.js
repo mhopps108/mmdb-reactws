@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer, useRef } from "react";
+import React, { useReducer } from "react";
 import { RangeSlider, CheckButtonGroup } from "../components";
 import { genreOptions, certOptions } from "../constants";
 import {
@@ -10,7 +10,7 @@ import {
   ApplyButton,
   ApplyButtonWrap,
 } from "../styled/FilterMenuStyled";
-import { useLockBodyScroll, useOnClickOutside } from "../hooks";
+// import { useLockBodyScroll, useOnClickOutside } from "../hooks";
 
 const defaultFilters = {
   sortby: "rating",
@@ -72,11 +72,16 @@ export default function FilterMenu({
 
   const onReset = () => dispatch({ type: "FILTER_RESET" });
 
+  const onCancel = () => {
+    dispatch({ type: "FILTER_RESET", payload: filterState });
+    // setIsOpen(false);
+  };
+
   const setCertsChecked = (checked) =>
-    dispatch({ type: "SET_CERTS", payload: checked });
+    dispatch({ type: "SET_CERTS", payload: checked.sort() });
 
   const setGenresChecked = (checked) =>
-    dispatch({ type: "SET_GENRES", payload: checked });
+    dispatch({ type: "SET_GENRES", payload: checked.sort() });
 
   const onRatingChange = (val) =>
     dispatch({ type: "SET_RATINGS", payload: val });
@@ -85,12 +90,6 @@ export default function FilterMenu({
     dispatch({ type: "SET_VOTES", payload: val });
 
   const onYearChange = (val) => dispatch({ type: "SET_YEARS", payload: val });
-
-  // const onApplyFilters = () => setQuery(discoveryQueryString(state));
-  // const onClick = () => {
-  //   const str = discoveryQueryString(state);
-  //   onApplyFilters(str, state);
-  // };
 
   const onApply = () => {
     onApplyFilters(state);
@@ -103,13 +102,6 @@ export default function FilterMenu({
   //   setIsLocked(() => isOpen);
   // }, [isOpen, setIsLocked]);
 
-  useEffect(() => {
-    // console.dir(`filter_state`, state);
-    // const queryString = discoveryQueryString(state);
-    // console.log(`queryString = ${queryString}`);
-    // setQuery(queryString);
-  }, []);
-
   return (
     <FilterMenuWrap isOpen={isOpen}>
       {/*<ApplyButtonWrap>*/}
@@ -120,7 +112,7 @@ export default function FilterMenu({
           <CheckButtonGroup
             sectionName="Age Rating"
             options={certOptions}
-            checked={state.certs}
+            checked={state.certification}
             setChecked={setCertsChecked}
           />
           <CheckButtonGroup

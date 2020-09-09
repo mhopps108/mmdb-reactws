@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import styled, { css } from "styled-components/macro";
-import { device } from "../devices";
+import styled from "styled-components/macro";
+// import { device } from "../devices";
 import lazySizes from "lazysizes";
 import moment from "moment";
 

@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components/macro";
+import styled from "styled-components/macro";
 import { device } from "../devices";
 
 export const Flex = styled.div`

@@ -69,11 +69,6 @@ export default function App() {
             <Route path={"/discover"} element={<Discover />} />
             {/* Movie Detail */}
             <Route path="/movie/:imdbId" element={<Detail />} />
-
-            {/*OLD*/}
-            {/*<Route path="releases" element={<RelTestThree />} />*/}
-            {/*<Route path="releases/:type" element={<RelTestThree />} />*/}
-            {/*<Route path="releases/:type/:period" element={<RelTestThree />} />*/}
           </Routes>
         </BrowserRouter>
       </StyledApp>

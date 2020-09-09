@@ -18,14 +18,14 @@ export default function List({ view = "list" }) {
   // console.log(`slug: ${slug}`);
 
   const onSortChange = ({ value, label }) => {
-    console.log("On Sort - Set: ", value, label);
+    console.log(`On Sort - Set: ${value} (${label})`);
     // const { value, label } = listSortOptions.find((item) => item.value === val);
     navigate(loc.pathname + `?sort=${label.toLowerCase()}`);
   };
 
   const getSortValue = (sort) => {
     if (sort) {
-      const { value, label } = listSortOptions.find(
+      const { value } = listSortOptions.find(
         (item) => item.label.toLowerCase() === sort
       );
       return value;

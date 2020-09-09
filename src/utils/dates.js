@@ -1,22 +1,6 @@
 import moment from "moment";
 import twix from "twix";
 
-// month
-// const startOfMonth = (date) =>
-//   formatDate((moment(date) || moment()).startOf("month"));
-// const endOfMonth = (date) =>
-//   formatDate((moment(date) || moment()).endOf("month"));
-//
-// const getPrevMonth = (date) => formatDate(moment(date).subtract(1, "months"));
-// const getNextMonth = (date) => formatDate(moment(date).add(1, "months"));
-
-// const formatDate = (date) => moment(date).format("YYYY-MM-DD");
-
-// const dateStrFormatted = (date) => {
-//   const endDate = moment(date).endOf("week");
-//   return moment(date).twix(endDate, { allDay: true }).format();
-// };
-
 const dateUtil = {
   formatDate: (date) => {
     return moment(date).format("YYYY-MM-DD");

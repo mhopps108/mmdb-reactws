@@ -1,26 +1,8 @@
 import React from "react";
 import styled from "styled-components/macro";
-import { device } from "../devices";
-import {
-  FaAngleLeft,
-  FaAngleRight,
-  FaArrowRight,
-  FaArrowLeft,
-  FaCaretSquareLeft,
-  FaCaretSquareRight,
-  FaCaretRight,
-  FaCaretLeft,
-  FaCalendar,
-  FaRegCalendar,
-} from "react-icons/fa";
-import { GoArrowLeft } from "react-icons/go";
-import { FiCalendar, FiArrowLeftCircle } from "react-icons/fi";
-import {
-  IoMdArrowRoundForward,
-  IoMdArrowRoundBack,
-  IoIosCalendar,
-} from "react-icons/io";
-import DatePicker from "react-datepicker";
+// import { device } from "../devices";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 

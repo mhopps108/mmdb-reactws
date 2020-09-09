@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import styled, { css } from "styled-components/macro";
-import { device } from "../devices";
+import styled from "styled-components/macro";
+// import { device } from "../devices";
 
 const NavDropdownWrap = styled.div``;
 

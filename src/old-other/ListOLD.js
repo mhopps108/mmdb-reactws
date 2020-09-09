@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Header, Toolbar, MovieList, MoviePosterList } from "../components";
 import styled, { css } from "styled-components/macro";
-import { useDataApi } from "../useDataApi";
+import { useDataApi } from "../hooks/useDataApi";
 import { device } from "../devices";
 
 // export default function ListOLD({ view = "list" }) {

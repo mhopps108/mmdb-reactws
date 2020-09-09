@@ -8,7 +8,6 @@ import { FiMenu } from "react-icons/fi";
 import { GrClose } from "react-icons/gr";
 import {
   tmdbLinks,
-  releasesLinks,
   discoveryLinks,
   releaseDateLinks,
 } from "../constants/routes";

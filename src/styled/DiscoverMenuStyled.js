@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components/macro";
-import { device } from "../devices";
+// import { device } from "../devices";
 
 export const CenterContentWrap = styled.div`
   display: flex;

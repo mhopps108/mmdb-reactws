@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components/macro";
 import { FilterMenu, FilterMenuSheet, Portal, Dropdown } from "../components";
 import { IconButton, Icon } from "rsuite";
-// import { queryToFilterState } from "../pages/Discover";
-import { FaSort, FaSortAmountDownAlt, FaTimes } from "react-icons/fa";
+import { FaSortAmountDownAlt } from "react-icons/fa";
 
 export default function DiscoveryToolbar({
   listData,

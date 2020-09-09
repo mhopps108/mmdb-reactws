@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer, useRef } from "react";
+import React, { useRef } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
@@ -7,18 +7,12 @@ import { Header, Toolbar, MovieList } from "../components";
 import { releasesSortOptions } from "../constants";
 import API from "../api/api";
 import { dateUtil } from "../utils/dates";
-import { useQueryParams, useIntersectionObserver } from "../hooks";
+import { useQueryParams } from "../hooks";
 
-const { formatPeriod, startOf, endOf, getPrev, getNext, formatDate } = dateUtil;
-
-//   release-dates?sort=date&period=week&type=digital&start=2020-08-31
-//   release-dates/digital/month?sort=date&start=2020-08-31
-//   release-dates/
-
-//   release-dates/:type/:period:/:?startDate
-//   release-dates/digital/week?sort=default
-
+const { formatPeriod, startOf, endOf, getPrev, getNext } = dateUtil;
 export default function ReleaseDates() {
+  //   /release-dates/:type/:period:/:?startDate
+  //   /release-dates/digital/week?sort=default
   let renderRef = useRef(0);
   renderRef.current = renderRef.current + 1;
   console.log("render: ", renderRef.current);
@@ -39,14 +33,13 @@ export default function ReleaseDates() {
   const sortOptions = releasesSortOptions(type);
 
   const onSortChange = ({ value, label }) => {
-    console.log("On Sort - Set");
-    // const { value, label } = sortOptions.find((item) => item.value === val);
+    console.log(`On Sort - Set: ${value} (${label})`);
     navigate(loc.pathname + `?sort=${label.toLowerCase()}`);
   };
 
   const getSortValue = (sort) => {
     if (sort) {
-      const { value, label } = sortOptions.find(
+      const { value } = sortOptions.find(
         (item) => item.label.toLowerCase() === sort
       );
       return value;
@@ -95,7 +88,7 @@ export default function ReleaseDates() {
 
   const goToDate = (newStartDate) => {
     console.log("goToDate - Clicked - newStartDate: ", newStartDate);
-    const { value, label } = sortOptions.find((item) => item.value === sortby);
+    const { label } = sortOptions.find((item) => item.value === sortby);
     const newLoc = `/release-dates/${type}/${period}/${newStartDate}?sort=${label.toLowerCase()}`;
     navigate(newLoc);
   };

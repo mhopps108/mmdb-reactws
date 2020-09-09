@@ -1,15 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components/macro";
 import { device } from "../devices";
 import { DatePager, Dropdown } from "../components";
-import {
-  FaSort,
-  FaTimes,
-  FaSortAmountUpAlt,
-  FaSortAmountDownAlt,
-  FaCalendar,
-  FaRegCalendar,
-} from "react-icons/fa";
+import { FaSortAmountDownAlt, FaRegCalendar } from "react-icons/fa";
 
 export default function Toolbar({
   listData,
@@ -30,18 +23,6 @@ export default function Toolbar({
         </ListInfo>
 
         <SortWrap>
-          <Button
-            onClick={() =>
-              console.log("not implemented - toolbar calendar button")
-            }
-            style={{
-              marginRight: "0.5rem",
-              height: "34px",
-              padding: "0px 12px",
-            }}
-          >
-            <FaRegCalendar size={"1rem"} />
-          </Button>
           <Dropdown
             title={"Sort"}
             selected={selected}
@@ -49,6 +30,20 @@ export default function Toolbar({
             items={options}
             icon={<FaSortAmountDownAlt />}
           />
+          {dateData && (
+            <Button
+              onClick={() =>
+                console.log("not implemented - toolbar calendar button")
+              }
+              style={{
+                marginLeft: "0.5rem",
+                height: "34px",
+                padding: "0px 12px",
+              }}
+            >
+              <FaRegCalendar size={"1rem"} />
+            </Button>
+          )}
         </SortWrap>
 
         {dateData && (

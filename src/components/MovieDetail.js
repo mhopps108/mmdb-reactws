@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import styled, { css } from "styled-components/macro";
-import { device } from "../devices";
-import { useDataApi } from "../useDataApi";
+// import styled from "styled-components/macro";
+// import { device } from "../devices";
+import { useDataApi } from "../hooks";
 import { Progress } from "rsuite";
 import lazySizes from "lazysizes";
 import moment from "moment";
-import twix from "twix";
+// import twix from "twix";
 import { FaTicketAlt, FaCloudDownloadAlt } from "react-icons/fa";
 import { IoMdDisc } from "react-icons/io";
 import {
-  Flex,
+  // Flex,
   StyledMovieDetail,
   MDBasicsWrap,
   BackdropImage,
@@ -22,7 +22,7 @@ import {
   StyledRatings,
   StyledRating,
   Smaller,
-  RatingAvg,
+  // RatingAvg,
   SectionHeader,
   MainWrap,
   StyledReleaseDate,
@@ -43,12 +43,12 @@ import {
   RatingsTitle,
 } from "../styled/MovieDetailStyled";
 
-const BackgroundBlur = styled.div`
-  background-image: url(${(props) => props.url});
-  //background-position: center 25%;
-  background-size: cover;
-  //background-repeat: no-repeat;
-`;
+// const BackgroundBlur = styled.div`
+//   background-image: url(${(props) => props.url});
+//   //background-position: center 25%;
+//   background-size: cover;
+//   //background-repeat: no-repeat;
+// `;
 
 export default function MovieDetail() {
   let { imdbId } = useParams();
@@ -455,7 +455,11 @@ function ExternalLinks({ data }) {
         }}
       >
         {imdb_id && (
-          <a href={`https://www.imdb.com/title/${imdb_id}`} target={"_blank"}>
+          <a
+            href={`https://www.imdb.com/title/${imdb_id}`}
+            target={"_blank"}
+            rel={"noopener noreferrer"}
+          >
             <img
               src={
                 "https://uploads.codesandbox.io/uploads/user/906db8ec-ac6e-47bb-a465-6d94f13116ce/j2yP-imdb-icon.png"
@@ -469,6 +473,7 @@ function ExternalLinks({ data }) {
           <a
             href={`https://www.themoviedb.com/movie/${tmdb_id}`}
             target={"_blank"}
+            rel={"noopener noreferrer"}
           >
             <img
               src={
