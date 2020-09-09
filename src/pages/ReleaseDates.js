@@ -51,7 +51,7 @@ export default function ReleaseDates() {
       );
       return value;
     }
-    onSortChange(sortOptions[0].value);
+    onSortChange(sortOptions[0]);
   };
 
   const queryParams = useQueryParams();
@@ -66,7 +66,7 @@ export default function ReleaseDates() {
     const { type, period, startDate, sortby } = paramKeys;
     const queryParams = {
       sortby,
-      [`${type}_after`]: startDate,
+      [`${type}_after`]: startDate, // TODO: use startOf() here to be sure?
       [`${type}_before`]: endOf(startDate, period),
       page_size: 15,
     };

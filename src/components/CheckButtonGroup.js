@@ -76,8 +76,6 @@ export const StyledCheckButton = styled.button`
   background: ${(props) => (props.checked ? "#2162a4" : "white")};
   padding: 2px 6px;
   margin: 4px 4px;
-  //padding: 4px 8px;
-  //margin: 2px 4px;
   border-radius: 4px;
   border: 1px solid lightgray;
   font-size: 1rem;

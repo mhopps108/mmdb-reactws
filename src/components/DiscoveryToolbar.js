@@ -28,7 +28,7 @@ export default function DiscoveryToolbar({
       year_max: 2030,
     };
     if (filterState[key] === defaultFilters[key]) return "";
-    return filterState[key];
+    return filterState[key] || "";
   };
 
   return (

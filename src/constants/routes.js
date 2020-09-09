@@ -34,23 +34,35 @@ export const releaseDateLinks = [
     name: "Physical",
     path: "/release-dates/physical/week?sort=release",
   },
-];
-
-export const releasesLinks = [
   {
     name: "Theatrical / Month",
-    path: "/releases/theatrical/month",
+    path: "/release-dates/theatrical/month?sort=release",
   },
   {
     name: "Digital / Month",
-    // path: "/releases/digital",
-    path: "/releases/digital/month",
+    path: "/release-dates/digital/month?sort=release",
   },
   {
     name: "Physical / Month",
-    path: "/releases/physical/month",
+    path: "/release-dates/physical/month?sort=release",
   },
 ];
+
+// export const releasesLinks = [
+//   {
+//     name: "Theatrical / Month",
+//     path: "/releases/theatrical/month",
+//   },
+//   {
+//     name: "Digital / Month",
+//     // path: "/releases/digital",
+//     path: "/releases/digital/month",
+//   },
+//   {
+//     name: "Physical / Month",
+//     path: "/releases/physical/month",
+//   },
+// ];
 
 export const discoveryLinks = [
   {

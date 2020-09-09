@@ -1,102 +1,102 @@
-import React, { useState, useEffect, useRef } from "react";
-import {
-  useParams,
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import React, { useState, useEffect, useRef, useReducer } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
-import moment from "moment";
+import qs from "query-string";
 
 import { Header, DiscoveryToolbar, MovieList } from "../components";
-import { useDataApi } from "../useDataApi";
 import API from "../api/api";
 import { useQueryParams, useIntersectionObserver } from "../hooks";
 import { discoverySortOptions } from "../constants";
 
-// TODO: remove filter from url if not used??
-
-export const queryToFilterState = (queryParams) => {
-  if (!queryParams) return null;
-  return {
-    // sortby: queryParams.get("sortby"),
-    genres:
-      (queryParams.get("genres") && queryParams.get("genres").split(",")) || "",
-    certs:
-      (queryParams.get("certification") &&
-        queryParams.get("certification").split(",")) ||
-      "",
-    ratings: [
-      parseFloat(queryParams.get("rating_min") || 0),
-      parseFloat(queryParams.get("rating_max") || 10),
-    ],
-    votes: [0, parseInt(queryParams.get("votes_min") || 0)],
-    years: [
-      parseFloat(queryParams.get("year_min") || 1890),
-      parseFloat(queryParams.get("year_max") || 2030),
-    ],
-  };
+const qsOptions = {
+  arrayFormat: "comma",
+  skipNull: true,
+  skipEmptyString: true,
+  parseNumbers: true,
+  sort: false,
 };
 
-export default function Discover() {
+export default function DiscoverT() {
   let renderRef = useRef(0);
   renderRef.current = renderRef.current + 1;
   console.log("render: ", renderRef.current);
 
   let navigate = useNavigate();
-  let queryParams = useQueryParams();
-  const initSort = queryParams.get("sortby") || discoverySortOptions[0].value;
-  const [sort, setSort] = useState(initSort);
-
+  const location = useLocation();
+  const sortOptions = discoverySortOptions;
   const [showFilterMenu, setShowFilterMenu] = useState(false);
-  // const [showFilterMenu, setShowFilterMenu] = useState(true);
-  const [queryString, setQueryString] = useState(queryParams.toString());
 
-  const listUrl = `https://www.matthewhopps.com/api/discover/?sortby=${sort}&${queryString}`;
-  const [state, setUrl] = useDataApi(listUrl, []);
-  const { data, isLoading, isError } = state;
+  const [params, setParams] = useState(qs.parse(location.search, qsOptions));
+  console.log("params: ", params);
+
+  const getMovies = async (key, paramKeys, nextPage = 1) => {
+    const { value, label } = getSortObject(paramKeys.sortby, sortOptions);
+    const queryParams = { ...paramKeys, sortby: value, page_size: 15 };
+
+    console.log("getMovies(): key=", key);
+    console.log("getMovies(): paramKeys=", paramKeys);
+    console.log("getMovies(): nextPage=", nextPage);
+    console.log("getMovies(): queryParams: ", queryParams);
+
+    const response = await API.get(`/discover/`, {
+      params: { page: nextPage, ...queryParams },
+    });
+    return response.data;
+  };
+
+  const {
+    status,
+    data,
+    error,
+    isFetching,
+    isFetchingMore,
+    fetchMore,
+    canFetchMore,
+  } = useInfiniteQuery(["discover", { ...params }], getMovies, {
+    getFetchMore: (lastPage, allPages) => lastPage.next_page,
+  });
+
+  // TODO: pull out into a constants.js helper function
+  const getSortObject = (toFind, objArry) => {
+    const item = objArry.find(({ value, label }) => {
+      if ([value, label].includes(toFind)) {
+        return { value, label };
+      }
+      return null;
+    });
+    return item ? item : onSortChange(sortOptions[0]);
+  };
+
+  const onSortChange = ({ value, label }) => {
+    console.log("On Sort - Set: ", value, label);
+    setParams({ ...params, sortby: label });
+  };
 
   const toggleShowFilters = () => setShowFilterMenu(!showFilterMenu);
-  const onSortChange = (val) => {
-    setSort(val);
-    // history.push(`/discover/?sortby=${sort}&${queryString}`);
-    queryParams.set("sortby", val);
-    navigate(`/discover/?${queryParams.toString()}`);
-  };
-  const onApplyFilters = (queryString) => {
+
+  const onApplyFilters = (filterState) => {
+    console.log("onApplyFilters: newFilterState: ", filterState);
+    // const updatedParams = { ...params, ...filterState }; // TODO: need to spread together??
+    setParams(filterState);
     setShowFilterMenu(false);
-    navigate(`/discover/?sortby=${sort}&${queryString}`);
   };
 
   useEffect(() => {
-    console.log(
-      "queryToFilterState--DISCOVER",
-      queryToFilterState(queryParams)
-    );
-    setQueryString(queryParams.toString());
-  }, [queryParams]);
+    const { label } = getSortObject(params.sortby, sortOptions);
+    const queryString = qs.stringify({ sortby: label, ...params }, qsOptions);
+    navigate("/discover?" + queryString);
+  }, [navigate, params]); // TODO: need to useCallback or useMemo on getSortObject, sortOptions
 
-  useEffect(() => {
-    setUrl(listUrl);
-  }, [queryString, listUrl, setUrl, sort]);
-
-  useEffect(() => {
-    console.log(`Discovery state data & queryString & sort`);
-    console.log(state);
-    console.log(queryString);
-    console.log(sort);
-  }, [sort, state, queryString]);
-
+  // toolbar data
   const listData = {
-    name: "Discovery",
-    movie_count: data?.count || "-",
+    name: "Discover",
+    movie_count: data ? data[0].count : "#", // data?.count || "-",
+    // type: type,
   };
-
   const sortData = {
     sortData: discoverySortOptions,
-    orderByValue: sort,
+    orderByValue: params.sortby,
     onOrderChange: onSortChange,
   };
 
@@ -107,19 +107,38 @@ export default function Discover() {
         listData={listData}
         filterMenuIsOpen={showFilterMenu}
         toggleShowFilters={toggleShowFilters}
-        setQuery={setQueryString}
-        filterState={queryToFilterState(queryParams)}
+        filterState={params}
         onApplyFilters={onApplyFilters}
         sortOptions={sortData}
       />
       <MovieList
-        movies={data?.results}
-        isLoading={isLoading}
-        isError={isError}
+        movies={
+          data && data.reduce((acc, page) => [...acc, ...page.results], [])
+        }
+        isLoading={status === "loading"}
+        isError={error}
+        // dateType={type}
       />
+      <LoadMoreButton
+        // ref={loadMoreButtonRef}
+        onClick={() => fetchMore()}
+        hidden={!canFetchMore}
+        disabled={isFetchingMore}
+      >
+        {isFetching ? "Loading..." : "Show More"}
+      </LoadMoreButton>
     </StyledDiscover>
   );
 }
+
+const LoadMoreButton = styled.button`
+  height: 40px;
+  width: 90%;
+  max-width: 400px;
+  margin: 10px auto 100px;
+  border-radius: 6px;
+  background: white;
+`;
 
 const StyledDiscover = styled.div`
   max-width: 1000px;

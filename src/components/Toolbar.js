@@ -10,7 +10,56 @@ import {
   FaCalendar,
   FaRegCalendar,
 } from "react-icons/fa";
-import SortDropDown from "../old-other/SortDropdown";
+
+export default function Toolbar({
+  listData,
+  dateData = null,
+  sortOptions = null,
+}) {
+  const { name, movie_count } = listData;
+  // const { goToToday, displayDateStr, prevPeriod, nextPeriod, goToDate } =
+  //   dateData || {};
+  const { options, selected, onChange } = sortOptions || {};
+
+  return (
+    <StyledToolbar>
+      <ToolBarWrap dateData={dateData}>
+        <ListInfo>
+          <p>{name || "Loading..."}</p>
+          <span>{movie_count || "#"}</span>
+        </ListInfo>
+
+        <SortWrap>
+          <Button
+            onClick={() =>
+              console.log("not implemented - toolbar calendar button")
+            }
+            style={{
+              marginRight: "0.5rem",
+              height: "34px",
+              padding: "0px 12px",
+            }}
+          >
+            <FaRegCalendar size={"1rem"} />
+          </Button>
+          <Dropdown
+            title={"Sort"}
+            selected={selected}
+            onSelect={onChange}
+            items={options}
+            icon={<FaSortAmountDownAlt />}
+          />
+        </SortWrap>
+
+        {dateData && (
+          <DatePagerWrap>
+            <DatePager dateData={dateData} />
+          </DatePagerWrap>
+        )}
+      </ToolBarWrap>
+    </StyledToolbar>
+  );
+}
 
 const DatePagerWrap = styled.div`
   grid-area: datepager;
@@ -120,51 +169,3 @@ const Button = styled.button`
     //color: #282c35;
   }
 `;
-
-export default function Toolbar({
-  listData,
-  dateData = null,
-  sortOptions = null,
-}) {
-  const { name, movie_count } = listData;
-  // const { goToToday, displayDateStr, prevPeriod, nextPeriod, goToDate } =
-  //   dateData || {};
-  const { options, selected, onChange } = sortOptions || {};
-
-  return (
-    <StyledToolbar>
-      <ToolBarWrap dateData={dateData}>
-        <ListInfo>
-          <p>{name || "Loading..."}</p>
-          <span>{movie_count || "#"}</span>
-        </ListInfo>
-
-        <SortWrap>
-          <Button
-            onClick={""}
-            style={{
-              marginRight: "0.5rem",
-              height: "34px",
-              padding: "0px 12px",
-            }}
-          >
-            <FaRegCalendar size={"1rem"} />
-          </Button>
-          <Dropdown
-            title={"Sort"}
-            selected={selected}
-            onSelect={onChange}
-            items={options}
-            icon={<FaSortAmountDownAlt />}
-          />
-        </SortWrap>
-
-        {dateData && (
-          <DatePagerWrap>
-            <DatePager dateData={dateData} />
-          </DatePagerWrap>
-        )}
-      </ToolBarWrap>
-    </StyledToolbar>
-  );
-}

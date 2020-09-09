@@ -89,7 +89,6 @@ const MenuButton = styled.button`
 `;
 
 const NavMenu = ({ isOpen, toggleNav }) => {
-  const releaseLinks = [...releaseDateLinks, ...releasesLinks];
   return (
     <NavMenuWrap isOpen={isOpen}>
       <NavBrand style={{ marginLeft: "12px" }}>
@@ -107,7 +106,7 @@ const NavMenu = ({ isOpen, toggleNav }) => {
       </NavSection>
       <NavSection>
         <p>{"Release Dates"}</p>
-        {releaseLinks.map(({ name, path }, index) => {
+        {releaseDateLinks.map(({ name, path }, index) => {
           return (
             <div onClick={toggleNav} key={index}>
               <Link to={path}>{name}</Link>
@@ -142,10 +141,7 @@ export default function Header() {
         <Nav>
           {/*<Nav style={{ marginLeft: "auto", marginRight: "auto" }}>*/}
           <NavDropdown title={"Lists"} items={tmdbLinks} />
-          <NavDropdown
-            title={"Releases"}
-            items={[...releaseDateLinks, ...releasesLinks]}
-          />
+          <NavDropdown title={"Releases"} items={releaseDateLinks} />
           <NavDropdown title={"Discover"} items={discoveryLinks} />
         </Nav>
 

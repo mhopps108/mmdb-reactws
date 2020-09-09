@@ -1,17 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import {
-  List,
-  Releases,
-  Detail,
-  Discover,
-  DiscoverT,
-  ReleaseDates,
-  RelTest,
-  RelTestTwo,
-  RelTestThree,
-  ListTest,
-} from "./pages";
+import { List, Detail, Discover, ReleaseDates } from "./pages";
 import styled from "styled-components/macro";
 import { createGlobalStyle } from "styled-components";
 import "rsuite/dist/styles/rsuite-default.css";
@@ -62,13 +51,12 @@ export default function App() {
         <GlobalStyle />
         <BrowserRouter>
           <Routes>
+            {/* List */}
             <Route exact path={"/"}>
               <Navigate to="/list/tmdb-popular?sort=rank" />
             </Route>
-            <Route path={"/list/:slug"}>
-              {/*<List />*/}
-              <ListTest />
-            </Route>
+            <Route path={"/list/:slug"} element={<List />} />
+            {/* Release Dates */}
             <Route
               path={"/release-dates/:type/:period"}
               element={<ReleaseDates />}
@@ -77,18 +65,15 @@ export default function App() {
               path={"/release-dates/:type/:period/:startDate"}
               element={<ReleaseDates />}
             />
-            {/*<Route path={"/releases/:type/:period/:startDate"}>*/}
-            {/*<Route path={"/releases/"}>*/}
-            <Route path="releases" element={<RelTestThree />} />
-            <Route path="releases/:type" element={<RelTestThree />} />
-            <Route path="releases/:type/:period" element={<RelTestThree />} />
-            <Route
-              path="releases/:type/:period/:startDate"
-              element={<RelTestThree />}
-            />
-            {/*<Route path={"/discover"} element={<Discover />} />*/}
-            <Route path={"/discover"} element={<DiscoverT />} />
+            {/* Discover */}
+            <Route path={"/discover"} element={<Discover />} />
+            {/* Movie Detail */}
             <Route path="/movie/:imdbId" element={<Detail />} />
+
+            {/*OLD*/}
+            {/*<Route path="releases" element={<RelTestThree />} />*/}
+            {/*<Route path="releases/:type" element={<RelTestThree />} />*/}
+            {/*<Route path="releases/:type/:period" element={<RelTestThree />} />*/}
           </Routes>
         </BrowserRouter>
       </StyledApp>

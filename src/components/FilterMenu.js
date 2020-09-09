@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useReducer, useRef } from "react";
 import { RangeSlider, CheckButtonGroup } from "../components";
-import { discoveryQueryString } from "../api";
 import { genreOptions, certOptions } from "../constants";
 import {
   FilterMenuWrap,
@@ -12,34 +11,6 @@ import {
   ApplyButtonWrap,
 } from "../styled/FilterMenuStyled";
 import { useLockBodyScroll, useOnClickOutside } from "../hooks";
-
-// const initFilterState = {
-//   sortby: "-rating,-votes",
-//   genres: [],
-//   certs: [],
-//   ratings: [0, 10],
-//   votes: [0, 10000],
-//   years: [1890, 2030],
-// };
-
-// const filterReducer = (state, action) => {
-//   switch (action.type) {
-//     case "SET_CERTS":
-//       return { ...state, certs: action.payload };
-//     case "SET_GENRES":
-//       return { ...state, genres: action.payload };
-//     case "SET_RATINGS":
-//       return { ...state, ratings: action.payload };
-//     case "SET_VOTES":
-//       return { ...state, votes: action.payload };
-//     case "SET_YEARS":
-//       return { ...state, years: action.payload };
-//     case "FILTER_RESET":
-//       return { ...initFilterState };
-//     default:
-//       throw new Error();
-//   }
-// };
 
 const defaultFilters = {
   sortby: "rating",
@@ -161,7 +132,10 @@ export default function FilterMenu({
         </FilterSection>
         <FilterSection>
           <ApplyButtonWrap>
-            <ApplyButton reset onClick={""}>
+            <ApplyButton
+              reset
+              onClick={() => console.warn("reset not implemented")}
+            >
               Reset
             </ApplyButton>
             <ApplyButton onClick={onApply}>Apply</ApplyButton>
@@ -209,7 +183,10 @@ export default function FilterMenu({
             />
           </RangeSliderWrap>
           <ApplyButtonWrap>
-            <ApplyButton reset onClick={""}>
+            <ApplyButton
+              reset
+              onClick={() => console.warn("reset not implemented")}
+            >
               Reset
             </ApplyButton>
             <ApplyButton onClick={onApply}>Apply</ApplyButton>

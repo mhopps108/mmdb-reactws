@@ -67,6 +67,7 @@ export default function FilterMenuSheet({ filterState, onApplyFilters }) {
   // useOnClickOutside(ref, () => setIsOpen(false));
 
   const initState = { ...defaultFilters, ...filterState };
+  console.info("FilterMenuSheet: initState: ", initState);
   const [state, dispatch] = useReducer(filterReducer, initState);
 
   const onReset = () => dispatch({ type: "FILTER_RESET" });
@@ -77,10 +78,10 @@ export default function FilterMenuSheet({ filterState, onApplyFilters }) {
   };
 
   const setCertsChecked = (checked) =>
-    dispatch({ type: "SET_CERTS", payload: checked });
+    dispatch({ type: "SET_CERTS", payload: checked.sort() });
 
   const setGenresChecked = (checked) =>
-    dispatch({ type: "SET_GENRES", payload: checked });
+    dispatch({ type: "SET_GENRES", payload: checked.sort() });
 
   const onRatingChange = (val) => {
     // console.log("onRatingCahnge: ", val);
@@ -116,13 +117,13 @@ export default function FilterMenuSheet({ filterState, onApplyFilters }) {
             <CheckButtonGroup
               sectionName="Age Rating"
               options={certOptions}
-              checked={state.certification || []}
+              checked={state.certification}
               setChecked={setCertsChecked}
             />
             <CheckButtonGroup
               sectionName="Genres"
               options={genreOptions.sort()}
-              checked={state.genres || []}
+              checked={state.genres}
               setChecked={setGenresChecked}
             />
           </FilterSection>
@@ -197,7 +198,6 @@ const FilterMenuMobileWrap = styled.div`
   background: ${(props) =>
     props.isOpen ? "rgba(0, 0, 0, 0.5)" : "rgba(0, 0, 0, 0.0)"};
 
-  //transition: all 150ms ease;
   transition: opacity 300ms cubic-bezier(0, 1, 0.5, 1),
     visibility 300ms cubic-bezier(0, 1, 0.5, 1);
 
