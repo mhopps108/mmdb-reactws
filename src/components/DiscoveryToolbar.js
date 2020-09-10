@@ -2,7 +2,12 @@ import React from "react";
 import styled from "styled-components/macro";
 import { FilterMenu, FilterMenuSheet, Portal, Dropdown } from "../components";
 import { IconButton, Icon } from "rsuite";
-import { FaSortAmountDownAlt } from "react-icons/fa";
+import {
+  FaSortAmountDownAlt,
+  FaRegCheckSquare,
+  FaRegStar,
+  FaRegCalendar,
+} from "react-icons/fa";
 
 export default function DiscoveryToolbar({
   listData,
@@ -27,6 +32,10 @@ export default function DiscoveryToolbar({
       year_max: 2030,
     };
     if (filterState[key] === defaultFilters[key]) return "";
+    if (Array.isArray(filterState[key])) {
+      return filterState[key].join(", ");
+    }
+
     return filterState[key] || "";
   };
 
@@ -58,26 +67,22 @@ export default function DiscoveryToolbar({
             />
           </FilterButtonWrap>
         </ListNameWrap>
-        {/*<ActiveFiltersBar>*/}
-        {/*  <div style={{ marginRight: "auto" }}>{"Filters"}</div>*/}
-        {/*  <ActiveFilterTag>{filterState.genres}</ActiveFilterTag>*/}
-        {/*  <ActiveFilterTag>{filterState.certification}</ActiveFilterTag>*/}
-        {/*  <ActiveFilterTag>{filterState.votes}</ActiveFilterTag>*/}
-        {/*  <ActiveFilterTag>{`${filterState.rating_min} - ${filterState.rating_max}`}</ActiveFilterTag>*/}
-        {/*  <ActiveFilterTag>{`${filterState.votes_min}`}</ActiveFilterTag>*/}
-        {/*  <ActiveFilterTag>{`${filterState.year_min} - ${filterState.year_max}`}</ActiveFilterTag>*/}
-        {/*</ActiveFiltersBar>*/}
         <ActiveFiltersBar>
           <div style={{ marginRight: "auto" }}>{"Filters"}</div>
           <ActiveFilterTag>{displayFilter("genres")}</ActiveFilterTag>
           <ActiveFilterTag>{displayFilter("certification")}</ActiveFilterTag>
-          <ActiveFilterTag>{`${displayFilter("rating_min")} - ${displayFilter(
-            "rating_max"
-          )}`}</ActiveFilterTag>
-          <ActiveFilterTag>{displayFilter("votes_min")}</ActiveFilterTag>
-          <ActiveFilterTag>{`${displayFilter("year_min")} - ${displayFilter(
-            "year_max"
-          )}`}</ActiveFilterTag>
+          <ActiveFilterTag>
+            <FaRegStar />{" "}
+            {`${displayFilter("rating_min")} - ${displayFilter("rating_max")}`}
+          </ActiveFilterTag>
+          <ActiveFilterTag>
+            <FaRegCheckSquare />
+            {displayFilter("votes_min")}
+          </ActiveFilterTag>
+          <ActiveFilterTag>
+            <FaRegCalendar />
+            {`${displayFilter("year_min")} - ${displayFilter("year_max")}`}
+          </ActiveFilterTag>
         </ActiveFiltersBar>
 
         {/* Tablet/Desktop Filters */}
@@ -122,7 +127,7 @@ const StyledToolbar = styled.div`
   position: sticky; // TODO: make Header and Toolbar fixed
   //min-height: 40px;
   top: 55px;
-  padding: 8px 16px;
+  padding: 0.5rem 0.75rem;
   box-shadow: 0 5px 25px 6px rgba(0, 0, 0, 0.2);
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
@@ -141,23 +146,27 @@ const ListNameWrap = styled.div`
 const ListName = styled.p`
   font-size: 1.25rem;
   font-weight: 600;
-  margin-right: 12px;
-  color: rgba(35, 35, 39, 0.9);
+  margin-right: 0.5rem;
+  color: #33425b;
+  //text-transform: uppercase;
 `;
 
 const MovieCountTag = styled.div`
   font-size: 1.1rem;
   border: 1px solid lightgray;
   background: whitesmoke;
-  color: #282c35;
-  border-radius: 10px;
-  height: 28px;
-  min-width: 28px;
-  padding: 0 4px;
+  color: #33425b;
+  //border-radius: 10px;
+  //height: 28px;
+  border-radius: 26px;
+  height: 26px;
+  //min-width: 28px;
+  //padding: 0 4px;
+  padding: 0 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: auto;
+  //margin-right: auto;
 `;
 
 // TODO END: make the following styled components shared between Toolbars
@@ -221,8 +230,8 @@ const ActiveFiltersBar = styled.div`
   margin-top: 8px;
   display: flex;
   flex-wrap: wrap;
+  //row-gap: 0.5rem;
   justify-content: flex-end;
-  //justify-content: flex-start;
   align-items: center;
 `;
 
@@ -235,7 +244,17 @@ const ActiveFilterTag = styled.div`
   color: #333;
   //color: #1f4b99;
   //border: 1px solid lightgray;
-  margin-right: 8px;
+  //margin-right: 8px;
+  margin: 4px 8px;
   padding: 2px 4px;
   border-radius: 4px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+
+  svg {
+    color: #666;
+    margin-right: 0.25rem;
+  }
 `;

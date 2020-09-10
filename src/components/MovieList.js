@@ -49,19 +49,13 @@ export default function MovieList({
 
 const StyledMovieList = styled.div`
   grid-area: main;
-  //background-color: lightgray;
-  //background: #282c35;
   background: #33425b;
   display: grid;
-  //box-shadow: 0 0 25px 20px lightgrey;
-  //height: calc(100vh - 100px);
-  //overflow: scroll;
 `;
 
 const MovieListLayout = styled.div`
   display: grid;
   grid-gap: 10px;
-  //grid-template-columns: repeat(auto-fill, minmax(333px, 1fr));
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   justify-content: center;
   padding: 10px;

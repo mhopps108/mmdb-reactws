@@ -5,71 +5,6 @@ import styled from "styled-components/macro";
 import lazySizes from "lazysizes";
 import moment from "moment";
 
-const StyledMovieListItem = styled.div`
-  background: white;
-  max-width: 400px;
-  height: 120px;
-  border-radius: 4px;
-`;
-
-const MovieListItemLayout = styled.div`
-  display: grid;
-  grid-template-areas: "poster infowrap";
-  grid-template-columns: 80px 1fr;
-  grid-template-rows: 1fr;
-  grid-column-gap: 8px;
-  width: 100%;
-  height: 100%;
-`;
-
-const Poster = styled.img`
-  grid-area: poster;
-  align-self: center;
-  margin-left: 3px;
-  width: 76px;
-  height: 114px;
-  border-radius: 4px;
-  //border: 1px solid lightgray;
-  border: 1px solid whitesmoke;
-  //box-shadow: inset 0 2px 4px 4px rgba(0, 0, 0, 0.2);
-  //box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.2);
-`;
-
-const InfoWrap = styled.div`
-  grid-area: infowrap;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 6px 0 4px;
-`;
-
-const Title = styled.h3`
-  font-size: 1.1rem;
-  line-height: 1.2rem;
-  max-height: 2.4rem;
-  overflow: hidden;
-  white-space: normal;
-  margin-bottom: 12px;
-  & a {
-    text-decoration: none;
-    //color: #282c35;
-    color: #33425b;
-  }
-`;
-
-const InfoRow = styled.div`
-  display: flex;
-  //color: rgba(40, 44, 53, 0.75);
-  color: #33425b;
-  margin-bottom: 4px;
-  font-size: 0.9rem;
-  padding-left: 4px;
-`;
-
-const InfoItem = styled.div`
-  padding-right: 12px;
-`;
-
 const formatVoteCount = (votes) => {
   if (!votes) return null;
   if (votes > 9999) {
@@ -94,14 +29,28 @@ const InfoList = ({ release, runtime, certification, rating, votes }) => {
   );
 };
 
+// const GenreList = ({ genres }) => {
+//   genres = genres || [];
+//   if (Array.isArray(genres) && genres.length > 3) {
+//     genres = genres.splice(0, 3);
+//   }
+//   return (
+//     genres &&
+//     genres.map((genre, index) => {
+//       return <InfoItem key={genre}>{genre}</InfoItem>;
+//     })
+//   );
+// };
+
 const GenreList = ({ genres }) => {
-  genres = genres || [];
-  if (Array.isArray(genres) && genres.length > 3) {
-    genres = genres.splice(0, 3);
+  // if (!genres) return [];
+  let genreList = genres || [];
+  if (Array.isArray(genreList) && genreList.length > 3) {
+    genreList = genres.splice(0, 3);
   }
   return (
-    genres &&
-    genres.map((genre, index) => {
+    genreList &&
+    genreList.map((genre, index) => {
       return <InfoItem key={genre}>{genre}</InfoItem>;
     })
   );
@@ -172,5 +121,70 @@ function MovieListItem({ movie, dateType }) {
     </StyledMovieListItem>
   );
 }
+
+const StyledMovieListItem = styled.div`
+  background: white;
+  max-width: 400px;
+  height: 120px;
+  border-radius: 4px;
+`;
+
+const MovieListItemLayout = styled.div`
+  display: grid;
+  grid-template-areas: "poster infowrap";
+  grid-template-columns: 80px 1fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 8px;
+  width: 100%;
+  height: 100%;
+`;
+
+const Poster = styled.img`
+  grid-area: poster;
+  align-self: center;
+  margin-left: 3px;
+  width: 76px;
+  height: 114px;
+  border-radius: 4px;
+  //border: 1px solid lightgray;
+  border: 1px solid whitesmoke;
+  //box-shadow: inset 0 2px 4px 4px rgba(0, 0, 0, 0.2);
+  //box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.2);
+`;
+
+const InfoWrap = styled.div`
+  grid-area: infowrap;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 6px 0 4px;
+`;
+
+const Title = styled.h3`
+  font-size: 1.1rem;
+  line-height: 1.2rem;
+  max-height: 2.4rem;
+  overflow: hidden;
+  white-space: normal;
+  margin-bottom: 12px;
+  & a {
+    text-decoration: none;
+    //color: #282c35;
+    color: #33425b;
+  }
+`;
+
+const InfoRow = styled.div`
+  display: flex;
+  //color: rgba(40, 44, 53, 0.75);
+  color: #33425b;
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+  padding-left: 4px;
+`;
+
+const InfoItem = styled.div`
+  padding-right: 12px;
+`;
 
 export default MovieListItem;

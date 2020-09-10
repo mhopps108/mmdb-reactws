@@ -41,11 +41,6 @@ export const FilterMenuWrap = styled.div`
 `;
 
 export const FilterMenuContentWrap = styled.div`
-  //border: 1px solid red;
-  //padding: 20px 30px;
-  //width: 100%;
-  //transition: opacity 200ms ease;
-  //transition: all 400ms linear;
   transition: all 350ms cubic-bezier(0, 1, 0.5, 1);
   opacity: ${(props) => (props.isOpen ? 1 : 0)};
   visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};

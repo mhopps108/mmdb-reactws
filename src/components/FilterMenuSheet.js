@@ -40,8 +40,10 @@ const filterReducer = (state, action) => {
         rating_min: action.payload[0],
         rating_max: action.payload[1],
       };
+    // case "SET_VOTES":
+    //   return { ...state, votes_min: action.payload[1] };
     case "SET_VOTES":
-      return { ...state, votes_min: action.payload[1] };
+      return { ...state, votes_min: action.payload };
     case "SET_YEARS":
       return {
         ...state,
@@ -145,10 +147,12 @@ export default function FilterMenuSheet({ filterState, onApplyFilters }) {
             <RangeSliderWrap>
               <SectionHeader>
                 <p>Votes</p>
-                <p>{`${0} - ${state.votes_min}`}</p>
+                {/*<p>{`${0} - ${state.votes_min}`}</p>*/}
+                <p>{state.votes_min}</p>
               </SectionHeader>
               <RangeSlider
-                value={[0, state.votes_min]}
+                // value={[0, state.votes_min]}
+                value={[state.votes_min]}
                 min={0}
                 max={defaultFilters.votes_min}
                 step={100}
@@ -194,7 +198,6 @@ const FilterMenuMobileWrap = styled.div`
   z-index: 1100;
   display: flex;
   justify-content: center;
-  //background: rgba(0, 0, 0, 0.5);
   background: ${(props) =>
     props.isOpen ? "rgba(0, 0, 0, 0.5)" : "rgba(0, 0, 0, 0.0)"};
 
