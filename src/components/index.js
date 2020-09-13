@@ -20,7 +20,14 @@ import MovieDetail from "./MovieDetail";
 
 import Dropdown from "./Dropdown";
 
+import DiscoverToolbarTwo from "./DiscoverToolbarTwo";
+import FilterMenuTwo from "./FilterMenuTwo";
+import FilterMenuMain from "./FilterMenuMain";
+
 export {
+  FilterMenuMain,
+  DiscoverToolbarTwo,
+  FilterMenuTwo,
   Dropdown,
   Portal,
   ActionMenu,

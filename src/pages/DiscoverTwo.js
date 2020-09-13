@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
 import qs from "query-string";
 
-import { Header, DiscoveryToolbar, MovieList } from "../components";
+import { Header, DiscoverToolbarTwo, MovieList } from "../components";
 import API from "../api/api";
 import { discoverySortOptions } from "../constants";
 
@@ -16,7 +16,7 @@ const qsOptions = {
   sort: false,
 };
 
-export default function Discover() {
+export default function DiscoverTwo() {
   let renderRef = useRef(0);
   renderRef.current = renderRef.current + 1;
   console.log("render: ", renderRef.current);
@@ -24,7 +24,6 @@ export default function Discover() {
   let navigate = useNavigate();
   const location = useLocation();
   const sortOptions = discoverySortOptions;
-  const [showFilterMenu, setShowFilterMenu] = useState(false);
 
   const [params, setParams] = useState(qs.parse(location.search, qsOptions));
   console.log("params: ", params);
@@ -58,6 +57,7 @@ export default function Discover() {
 
   // TODO: pull out into a constants.js helper function
   const getSortObject = (toFind, objArry) => {
+    // console.log("func - sortObj - called");
     const item = objArry.find(({ value, label }) => {
       if ([value, label].includes(toFind)) {
         return { value, label };
@@ -66,31 +66,45 @@ export default function Discover() {
     });
     return item ? item : onSortChange(sortOptions[0]);
   };
+  // console.log(
+  //   `${renderRef.current}: func - sortObj: `,
+  //   getSortObject(params.sortby, sortOptions)
+  // );
+
+  // const sortObj = useMemo(() => {
+  //   console.log("useMemo - sortObj - called");
+  //   const item = sortOptions.find(({ value, label }) => {
+  //     if ([value, label].includes(params.sortby)) {
+  //       return { value, label };
+  //     }
+  //     return null;
+  //   });
+  //   return item ? item : "default";
+  // }, [params.sortby]);
+  //
+  // console.log(`${renderRef.current}: useMemo - sortObj: `, sortObj);
 
   const onSortChange = ({ value, label }) => {
     console.log(`On Sort - Set: ${value} (${label})`);
     setParams({ ...params, sortby: label });
   };
 
-  const toggleShowFilters = () => setShowFilterMenu(!showFilterMenu);
-
   const onApplyFilters = (filterState) => {
     console.log("onApplyFilters: newFilterState: ", filterState);
     // const updatedParams = { ...params, ...filterState }; // TODO: need to spread together??
     setParams(filterState);
-    setShowFilterMenu(false);
   };
 
   useEffect(() => {
     const { label } = getSortObject(params.sortby, sortOptions);
     const queryString = qs.stringify({ sortby: label, ...params }, qsOptions);
-    navigate("/discover?" + queryString);
+    navigate("/discover-two?" + queryString);
   }, [navigate, params]); // TODO: need to useCallback or useMemo on getSortObject, sortOptions
 
   // toolbar data
   const listData = {
     name: "Discover",
-    movie_count: data ? data[0].count : "#", // data?.count || "-",
+    movie_count: data ? data[0].count : "#",
     // type: type,
   };
   const sortData = {
@@ -102,13 +116,11 @@ export default function Discover() {
   return (
     <StyledDiscover>
       <Header />
-      <DiscoveryToolbar
+      <DiscoverToolbarTwo
         listData={listData}
-        filterMenuIsOpen={showFilterMenu}
-        toggleShowFilters={toggleShowFilters}
+        sortOptions={sortData}
         filterState={params}
         onApplyFilters={onApplyFilters}
-        sortOptions={sortData}
       />
       <MovieList
         movies={

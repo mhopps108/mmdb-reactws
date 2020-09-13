@@ -54,7 +54,7 @@ const filterReducer = (state, action) => {
 
 export default function FilterMenu({
   isOpen,
-  toggleOpen,
+  setIsOpen,
   onApplyFilters,
   filterState = null,
 }) {
@@ -65,8 +65,6 @@ export default function FilterMenu({
   // const ref = useRef();
   // useOnClickOutside(ref, () => setIsOpen(false));
 
-  // const initState = filterState || initFilterState;
-  // const [state, dispatch] = useReducer(filterReducer, initState);
   const initState = { ...defaultFilters, ...filterState };
   const [state, dispatch] = useReducer(filterReducer, initState);
 
@@ -74,7 +72,7 @@ export default function FilterMenu({
 
   const onCancel = () => {
     dispatch({ type: "FILTER_RESET", payload: filterState });
-    // setIsOpen(false);
+    setIsOpen(false);
   };
 
   const setCertsChecked = (checked) =>
@@ -93,8 +91,7 @@ export default function FilterMenu({
 
   const onApply = () => {
     onApplyFilters(state);
-    // setIsOpen(false);
-    toggleOpen();
+    setIsOpen(false);
     // setIsLocked(false);
   };
 
@@ -180,6 +177,9 @@ export default function FilterMenu({
               onClick={() => console.warn("reset not implemented")}
             >
               Reset
+            </ApplyButton>
+            <ApplyButton reset onClick={onCancel}>
+              Cancel
             </ApplyButton>
             <ApplyButton onClick={onApply}>Apply</ApplyButton>
           </ApplyButtonWrap>
