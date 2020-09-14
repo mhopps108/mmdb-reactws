@@ -2,14 +2,13 @@ import Header from "./Header";
 import NavDropdown from "./NavDropdown";
 
 import Toolbar from "./Toolbar";
-import DiscoveryToolbar from "./DiscoveryToolbar";
+import DiscoverToolbar from "./DiscoverToolbar";
 
 import DatePager from "./DatePager";
 import FilterMenu from "./FilterMenu";
 import CheckButtonGroup from "./CheckButtonGroup";
 import RangeSlider from "./RangeSlider";
 
-import FilterMenuSheet from "./FilterMenuSheet";
 import ActionMenu from "./ActionMenu";
 import Portal from "./Portal";
 
@@ -20,28 +19,20 @@ import MovieDetail from "./MovieDetail";
 
 import Dropdown from "./Dropdown";
 
-import DiscoverToolbarTwo from "./DiscoverToolbarTwo";
-import FilterMenuTwo from "./FilterMenuTwo";
-import FilterMenuMain from "./FilterMenuMain";
-
 export {
-  FilterMenuMain,
-  DiscoverToolbarTwo,
-  FilterMenuTwo,
-  Dropdown,
-  Portal,
-  ActionMenu,
-  FilterMenuSheet,
-  NavDropdown,
   Header,
   Toolbar,
+  DiscoverToolbar,
+  MovieDetail,
   MovieList,
   MovieListItem,
   MoviePosterList,
-  MovieDetail,
-  CheckButtonGroup,
+  Dropdown,
+  NavDropdown,
   FilterMenu,
+  CheckButtonGroup,
   DatePager,
-  DiscoveryToolbar,
   RangeSlider,
+  Portal,
+  ActionMenu,
 };

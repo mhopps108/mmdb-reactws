@@ -1,11 +1,20 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
 import { Header, Toolbar, MovieList, MoviePosterList } from "../components";
 import { listSortOptions } from "../constants";
 import API from "../api/api";
-import { useQueryParams, useIntersectionObserver } from "../hooks";
+// import { useQueryParams, useIntersectionObserver } from "../hooks";
+import qs from "query-string";
+
+const qsOptions = {
+  arrayFormat: "comma",
+  skipNull: true,
+  skipEmptyString: true,
+  parseNumbers: true,
+  sort: false,
+};
 
 export default function List({ view = "list" }) {
   let renderRef = useRef(0);
@@ -13,42 +22,32 @@ export default function List({ view = "list" }) {
   console.log("render: ", renderRef.current);
 
   let navigate = useNavigate();
-  const loc = useLocation();
+  const location = useLocation();
   let { slug = "tmdb-popular" } = useParams();
-  // console.log(`slug: ${slug}`);
+  const sortOptions = listSortOptions;
 
-  const onSortChange = ({ value, label }) => {
-    console.log(`On Sort - Set: ${value} (${label})`);
-    // const { value, label } = listSortOptions.find((item) => item.value === val);
-    navigate(loc.pathname + `?sort=${label.toLowerCase()}`);
-  };
-
-  const getSortValue = (sort) => {
-    if (sort) {
-      const { value } = listSortOptions.find(
-        (item) => item.label.toLowerCase() === sort
-      );
-      return value;
-    }
-    onSortChange(listSortOptions[0].value);
-  };
-
-  const queryParams = useQueryParams();
-  const sortby = getSortValue(queryParams.get("sort"));
-  console.log("sortby: ", sortby);
+  const [params, setParams] = useState(qs.parse(location.search, qsOptions));
+  console.log("params: ", params);
 
   const getMovies = async (key, paramKeys, nextPage = 1) => {
+    if (!paramKeys.sort) {
+      onSortChange(sortOptions[0]);
+    }
+    const sortby = paramKeys.sort || sortOptions[0].label;
+    const { value } = sortOptions.find(({ value, label }) => {
+      return [value, label].includes(sortby);
+    });
+    const queryParams = {
+      list_slug: paramKeys.slug,
+      sortby: value,
+      page_size: 15,
+    };
+
     console.log("getMovies(): key=", key);
     console.log("getMovies(): paramKeys=", paramKeys);
     console.log("getMovies(): nextPage=", nextPage);
+    console.log("getMovies(): queryParams=", queryParams);
 
-    const { slug, sortby } = paramKeys;
-    const queryParams = {
-      page_size: 15,
-      sortby,
-      list_slug: slug,
-    };
-    // console.log("getMovies(): queryParams=", queryParams);
     const response = await API.get(`/movielist/`, {
       params: { page: nextPage, ...queryParams },
     });
@@ -56,22 +55,24 @@ export default function List({ view = "list" }) {
   };
 
   const {
+    status,
     data,
-    isLoading,
-    isError,
     error,
-    isSuccess,
     isFetching,
     fetchMore,
     canFetchMore,
-  } = useInfiniteQuery(["movielist", { slug, sortby }], getMovies, {
+  } = useInfiniteQuery(["movielist", { slug, ...params }], getMovies, {
     getFetchMore: (lastPage, allPages) => lastPage.next_page,
   });
 
+  const onSortChange = ({ value, label }) => {
+    console.log(`On Sort - Set: ${value} (${label})`);
+    setParams({ ...params, sort: label });
+  };
+
   useEffect(() => {
-    console.log("effect: slug state: ", slug); // log state
-    console.log("effect: sort state: ", sortby); // log state
-  }, [slug, sortby]);
+    navigate(location.pathname + "?" + qs.stringify({ ...params }, qsOptions));
+  }, [navigate, slug, params]);
 
   // toolbar data
   const listData = {
@@ -80,7 +81,7 @@ export default function List({ view = "list" }) {
   };
   const sortData = {
     options: listSortOptions,
-    selected: sortby,
+    selected: params.sort,
     onChange: onSortChange,
   };
 
@@ -92,7 +93,7 @@ export default function List({ view = "list" }) {
         movies={
           data && data.reduce((acc, page) => [...acc, ...page.results], [])
         }
-        isLoading={isLoading}
+        isLoading={status === "loading"}
         isError={error}
       />
       <LoadMoreButton

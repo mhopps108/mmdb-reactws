@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
 import qs from "query-string";
 
-import { Header, DiscoveryToolbar, MovieList } from "../components";
+import { Header, DiscoverToolbar, MovieList } from "../components";
 import API from "../api/api";
 import { discoverySortOptions } from "../constants";
 
@@ -24,13 +24,18 @@ export default function Discover() {
   let navigate = useNavigate();
   const location = useLocation();
   const sortOptions = discoverySortOptions;
-  const [showFilterMenu, setShowFilterMenu] = useState(false);
 
   const [params, setParams] = useState(qs.parse(location.search, qsOptions));
   console.log("params: ", params);
 
   const getMovies = async (key, paramKeys, nextPage = 1) => {
-    const { value } = getSortObject(paramKeys.sortby, sortOptions);
+    if (!paramKeys.sortby) {
+      onSortChange(sortOptions[0]);
+    }
+    const sortby = paramKeys.sortby || sortOptions[0].label;
+    const { value } = sortOptions.find(({ value, label }) => {
+      return [value, label].includes(sortby);
+    });
     const queryParams = { ...paramKeys, sortby: value, page_size: 15 };
 
     console.log("getMovies(): key=", key);
@@ -48,7 +53,6 @@ export default function Discover() {
     status,
     data,
     error,
-    isFetching,
     isFetchingMore,
     fetchMore,
     canFetchMore,
@@ -56,41 +60,24 @@ export default function Discover() {
     getFetchMore: (lastPage, allPages) => lastPage.next_page,
   });
 
-  // TODO: pull out into a constants.js helper function
-  const getSortObject = (toFind, objArry) => {
-    const item = objArry.find(({ value, label }) => {
-      if ([value, label].includes(toFind)) {
-        return { value, label };
-      }
-      return null;
-    });
-    return item ? item : onSortChange(sortOptions[0]);
-  };
-
   const onSortChange = ({ value, label }) => {
     console.log(`On Sort - Set: ${value} (${label})`);
     setParams({ ...params, sortby: label });
   };
 
-  const toggleShowFilters = () => setShowFilterMenu(!showFilterMenu);
-
   const onApplyFilters = (filterState) => {
     console.log("onApplyFilters: newFilterState: ", filterState);
-    // const updatedParams = { ...params, ...filterState }; // TODO: need to spread together??
     setParams(filterState);
-    setShowFilterMenu(false);
   };
 
   useEffect(() => {
-    const { label } = getSortObject(params.sortby, sortOptions);
-    const queryString = qs.stringify({ sortby: label, ...params }, qsOptions);
-    navigate("/discover?" + queryString);
-  }, [navigate, params]); // TODO: need to useCallback or useMemo on getSortObject, sortOptions
+    navigate(location.pathname + "?" + qs.stringify({ ...params }, qsOptions));
+  }, [navigate, location.pathname, params]);
 
   // toolbar data
   const listData = {
     name: "Discover",
-    movie_count: data ? data[0].count : "#", // data?.count || "-",
+    movie_count: data ? data[0].count : "#",
     // type: type,
   };
   const sortData = {
@@ -102,13 +89,11 @@ export default function Discover() {
   return (
     <StyledDiscover>
       <Header />
-      <DiscoveryToolbar
+      <DiscoverToolbar
         listData={listData}
-        filterMenuIsOpen={showFilterMenu}
-        toggleShowFilters={toggleShowFilters}
+        sortOptions={sortData}
         filterState={params}
         onApplyFilters={onApplyFilters}
-        sortOptions={sortData}
       />
       <MovieList
         movies={
@@ -118,13 +103,14 @@ export default function Discover() {
         isError={error}
         // dateType={type}
       />
+      {/*TODO: move to MovieList?*/}
       <LoadMoreButton
         // ref={loadMoreButtonRef}
         onClick={() => fetchMore()}
         hidden={!canFetchMore}
         disabled={isFetchingMore}
       >
-        {isFetching ? "Loading..." : "Show More"}
+        {isFetchingMore ? "Loading More..." : "Show More"}
       </LoadMoreButton>
     </StyledDiscover>
   );

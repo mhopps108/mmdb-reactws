@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/macro";
-import {
-  FilterMenuMain,
-  FilterMenu,
-  FilterMenuTwo,
-  Portal,
-  Dropdown,
-} from "../components";
-import { IconButton, Icon } from "rsuite";
+import { FilterMenu, Portal, Dropdown } from "../components";
 import {
   FaSortAmountDownAlt,
   FaRegCheckSquare,
@@ -18,7 +11,7 @@ import {
 import { IoMdClose } from "react-icons/io";
 import { device } from "../devices";
 
-export default function DiscoverToolbarTwo({
+export default function DiscoverToolbar({
   listData,
   sortOptions,
   filterState,
@@ -90,18 +83,9 @@ export default function DiscoverToolbarTwo({
           </ActiveFilterTag>
         </ActiveFiltersBar>
 
-        {/*<FilterMenuTogether isOpen={showFilters}>*/}
-        {/*  <FilterMenuMain*/}
-        {/*    isOpen={showFilters}*/}
-        {/*    setIsOpen={setShowFilters}*/}
-        {/*    filterState={filterState}*/}
-        {/*    onApplyFilters={onApplyFilters}*/}
-        {/*  />*/}
-        {/*</FilterMenuTogether>*/}
-
         {/* Tablet/Desktop Filters */}
         <FilterMenuWrapLarge isOpen={showFilters}>
-          <FilterMenuMain
+          <FilterMenu
             isOpen={showFilters}
             setIsOpen={setShowFilters}
             filterState={filterState}
@@ -111,14 +95,14 @@ export default function DiscoverToolbarTwo({
 
         {/* Mobile Filters */}
         <Portal>
-          <FilterMeuWrapSmall isOpen={showFilters}>
-            <FilterMenuMain
+          <FilterMenuWrapSmall isOpen={showFilters}>
+            <FilterMenu
               isOpen={showFilters}
               setIsOpen={setShowFilters}
               filterState={filterState}
               onApplyFilters={onApplyFilters}
             />
-          </FilterMeuWrapSmall>
+          </FilterMenuWrapSmall>
         </Portal>
       </DiscoveryToolBarWrap>
     </StyledToolbar>
@@ -138,7 +122,7 @@ const FilterMenuWrapLarge = styled.div`
   }
 `;
 
-const FilterMeuWrapSmall = styled.div`
+const FilterMenuWrapSmall = styled.div`
   visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
   position: fixed;
   bottom: 0;
@@ -170,7 +154,6 @@ const FilterMeuWrapSmall = styled.div`
 `;
 
 const DiscoveryToolBarWrap = styled.div`
-  // width: 100%;
   display: grid;
   // grid-row-gap: 12px;  // TODO: use breakpoint for setting grid-gap ??
   grid-template-areas:
@@ -184,8 +167,6 @@ const DiscoveryToolBarWrap = styled.div`
 const StyledToolbar = styled.div`
   grid-area: toolbar;
   background-color: white;
-  //color: #333;
-  //color: var(--color-charcoal);
   position: sticky; // TODO: make Header and Toolbar fixed
   //min-height: 40px;
   top: 55px;
@@ -200,13 +181,10 @@ const Button = styled.button`
   font-size: 1rem;
   padding: 6px 12px;
   background: white;
-  //color: #33425b;
   //display: flex;
   //justify-content: space-between;
   //align-items: center;
-
-  //box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.1);
   //border: none;
   border-radius: 0.25rem;
 
@@ -230,7 +208,6 @@ const ListName = styled.p`
   font-size: 1.25rem;
   font-weight: 600;
   margin-right: 0.5rem;
-  //color: #33425b;
   //text-transform: uppercase;
 `;
 
@@ -238,21 +215,14 @@ const MovieCountTag = styled.div`
   font-size: 1.1rem;
   border: 1px solid lightgray;
   background: whitesmoke;
-  //color: #33425b;
-  //border-radius: 10px;
-  //height: 28px;
   border-radius: 26px;
   height: 26px;
   //min-width: 28px;
-  //padding: 0 4px;
   padding: 0 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  //margin-right: auto;
 `;
-
-// TODO END: make the following styled components shared between Toolbars
 
 const SortWrap = styled.div`
   grid-area: sort;
@@ -266,7 +236,6 @@ const SortWrap = styled.div`
 const ActiveFiltersBar = styled.div`
   grid-area: activefiltersbar;
   color: gray;
-  //padding-top: 4px;
   margin-top: 8px;
   display: flex;
   flex-wrap: wrap;

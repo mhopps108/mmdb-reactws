@@ -48,32 +48,16 @@ export const releaseDateLinks = [
   },
 ];
 
-// export const releasesLinks = [
-//   {
-//     name: "Theatrical / Month",
-//     path: "/releases/theatrical/month",
-//   },
-//   {
-//     name: "Digital / Month",
-//     // path: "/releases/digital",
-//     path: "/releases/digital/month",
-//   },
-//   {
-//     name: "Physical / Month",
-//     path: "/releases/physical/month",
-//   },
-// ];
-
 export const discoveryLinks = [
   {
     name: "Top Comedies",
     // path: `/discover/?sortby=rating&genres=comedy&rating_min=5&rating_max=10&votes_min=5000&year_min=1990&year_max=2030`,
     path:
-      "/discover/?sortby=rating&genres=comedy&rating_min=5&rating_max=10&votes_min=5000&year_min=1990&year_max=2030",
+      "/discover?sortby=rating&genres=comedy&rating_min=5&rating_max=10&votes_min=5000&year_min=1990&year_max=2030",
   },
   {
     name: "Top Rated Kids Movies",
-    path: `/discover/?
+    path: `/discover?
     sortby=-rating,-votes
     &genres=animation
     &certification=G,PG
@@ -82,8 +66,8 @@ export const discoveryLinks = [
     &year_min=1990&year_max=2030`,
   },
   {
-    name: "Top Comedies Two",
+    name: "Best Action Movies from the 2000's",
     path:
-      "/discover-two/?sortby=rating&genres=comedy&rating_min=5&rating_max=10&votes_min=5000&year_min=1990&year_max=2030",
+      "/discover?sortby=rating&genres=action&rating_min=5&rating_max=10&votes_min=5000&year_min=2000&year_max=2010",
   },
 ];

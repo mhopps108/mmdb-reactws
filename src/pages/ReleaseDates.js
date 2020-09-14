@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
@@ -7,59 +7,59 @@ import { Header, Toolbar, MovieList } from "../components";
 import { releasesSortOptions } from "../constants";
 import API from "../api/api";
 import { dateUtil } from "../utils/dates";
-import { useQueryParams } from "../hooks";
+import qs from "query-string";
+
+const qsOptions = {
+  arrayFormat: "comma",
+  skipNull: true,
+  skipEmptyString: true,
+  parseNumbers: true,
+  sort: false,
+};
 
 const { formatPeriod, startOf, endOf, getPrev, getNext } = dateUtil;
 
 export default function ReleaseDates() {
-  //   /release-dates/:type/:period:/:?startDate
-  //   /release-dates/digital/week?sort=default
   let renderRef = useRef(0);
   renderRef.current = renderRef.current + 1;
   console.log("render: ", renderRef.current);
 
   let navigate = useNavigate();
-  const loc = useLocation();
+  const location = useLocation();
   let {
     type = "digital",
     period = "week",
     startDate = startOf(moment(), period),
   } = useParams();
+  // TODO: pull startDate out into
+  //  const [startDate, setStartDate] = useState(startFrom || startOf(moment(), period))
 
-  console.log("loc: ", loc);
+  console.log("loc: ", location);
   console.log("type: ", type);
   console.log("period: ", period);
   console.log("startDate: ", startDate);
 
   const sortOptions = releasesSortOptions(type);
 
-  const onSortChange = ({ value, label }) => {
-    console.log(`On Sort - Set: ${value} (${label})`);
-    navigate(loc.pathname + `?sort=${label.toLowerCase()}`);
-  };
-
-  const getSortValue = (sort) => {
-    if (sort) {
-      const { value } = sortOptions.find(
-        (item) => item.label.toLowerCase() === sort
-      );
-      return value;
-    }
-    onSortChange(sortOptions[0]);
-  };
-
-  const queryParams = useQueryParams();
-  const sortby = getSortValue(queryParams.get("sort"));
-  console.log("sortby: ", sortby);
+  const [params, setParams] = useState(qs.parse(location.search, qsOptions));
+  console.log("params: ", params);
 
   const getMovies = async (key, paramKeys, nextPage = 1) => {
+    const { type, period, startDate, sort } = paramKeys;
+    if (!sort) {
+      onSortChange(sortOptions[0]);
+    }
+    const sortby = sort || sortOptions[0].label;
+    const { value } = sortOptions.find(({ value, label }) => {
+      return [value, label].includes(sortby);
+    });
+
     console.log("getMovies(): key=", key);
     console.log("getMovies(): paramKeys=", paramKeys);
     console.log("getMovies(): nextPage=", nextPage);
 
-    const { type, period, startDate, sortby } = paramKeys;
     const queryParams = {
-      sortby,
+      sortby: value,
       [`${type}_after`]: startDate, // TODO: use startOf() here to be sure?
       [`${type}_before`]: endOf(startDate, period),
       page_size: 15,
@@ -80,18 +80,27 @@ export default function ReleaseDates() {
     fetchMore,
     canFetchMore,
   } = useInfiniteQuery(
-    ["releases", { type, period, startDate, sortby }],
+    ["releases", { type, period, startDate, ...params }],
     getMovies,
     {
       getFetchMore: (lastPage, allPages) => lastPage.next_page,
     }
   );
 
+  const onSortChange = ({ value, label }) => {
+    console.log(`On Sort - Set: ${value} (${label})`);
+    setParams({ ...params, sort: label });
+  };
+
+  useEffect(() => {
+    navigate(location.pathname + "?" + qs.stringify({ ...params }, qsOptions));
+  }, [navigate, params, location.pathname]);
+
   const goToDate = (newStartDate) => {
     console.log("goToDate - Clicked - newStartDate: ", newStartDate);
-    const { label } = sortOptions.find((item) => item.value === sortby);
-    const newLoc = `/release-dates/${type}/${period}/${newStartDate}?sort=${label.toLowerCase()}`;
-    navigate(newLoc);
+    navigate(
+      `/release-dates/${type}/${period}/${newStartDate}?sort=${params.sort}`
+    );
   };
 
   // toolbar data
@@ -101,7 +110,7 @@ export default function ReleaseDates() {
     type: type,
   };
   const dateData = {
-    goToToday: () => console.log("not implemented"), // resetStartFrom,
+    goToToday: () => goToDate(startOf(moment(), period)),
     displayDateStr: formatPeriod(startDate, period),
     prevPeriod: getPrev(startDate, period),
     nextPeriod: getNext(startDate, period),
@@ -109,7 +118,7 @@ export default function ReleaseDates() {
   };
   const sortData = {
     options: sortOptions,
-    selected: sortby,
+    selected: params.sort,
     onChange: onSortChange,
   };
 
@@ -156,5 +165,4 @@ const StyledReleases = styled.div`
   grid-template-columns: 1fr;
   grid-template-rows: 55px auto 1fr;
   margin: 0 auto;
-  //background: #33425b;
 `;

@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { List, Detail, Discover, ReleaseDates, DiscoverTwo } from "./pages";
+import { List, Detail, Discover, ReleaseDates } from "./pages";
 import styled from "styled-components/macro";
 import { createGlobalStyle } from "styled-components";
 import "rsuite/dist/styles/rsuite-default.css";
@@ -24,7 +24,9 @@ const GlobalStyle = createGlobalStyle`
       //font-size: 16px;  // TODO: use?? mess with browser resizing?      
       //background: #282c35;
       //background: #33425b;
-      --color-charcoal: #353C45;       
+      --color-charcoal: #353C45;
+      //--color-charcoal: #2c3e50;
+      //--color-charcoal: #232F49;
       --color-primary-blue: #2C97DE;
       --color-grey: #EEEEEE;
       --color-white: #FFFFFF;
@@ -32,12 +34,15 @@ const GlobalStyle = createGlobalStyle`
         
     body {
       overflow-x: hidden;
-      width: 100vw;      
+      overflow-y: scroll;
+      width: 100vw;     
+      height: 100vh;
       font-size: 16px;
       //font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       //'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       //sans-serif;
-      font-family: 'Roboto', sans-serif;
+      //font-family: 'Roboto', sans-serif;
+      font-family: 'Ubuntu', sans-serif;
       letter-spacing: 0.5px;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;            
@@ -70,7 +75,6 @@ export default function App() {
             />
             {/* Discover */}
             <Route path={"/discover"} element={<Discover />} />
-            <Route path={"/discover-two"} element={<DiscoverTwo />} />
             {/* Movie Detail */}
             <Route path="/movie/:imdbId" element={<Detail />} />
           </Routes>

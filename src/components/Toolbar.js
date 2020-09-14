@@ -22,6 +22,11 @@ export default function Toolbar({
           <span>{movie_count || "#"}</span>
         </ListInfo>
 
+        {/*<ButtonGroup>
+          <Dropdown />
+          <Button />
+        </ButtonGroup>*/}
+
         <SortWrap>
           <Dropdown
             title={"Sort"}
@@ -39,6 +44,8 @@ export default function Toolbar({
                 marginLeft: "0.5rem",
                 height: "34px",
                 padding: "0px 12px",
+                boxShadow:
+                  "rgba(0, 0, 0, 0.1) 0px 2px 0px 0px, rgba(0, 0, 0, 0.04) 0px 0px 0px 1px",
               }}
             >
               <FaRegCalendar size={"1rem"} />

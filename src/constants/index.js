@@ -1,9 +1,9 @@
 export const listSortOptions = [
-  { value: "rank", label: "Rank" },
-  { value: "-movie_rating,-movie_votes,movie_title", label: "Rating" },
-  { value: "-movie_votes,-movie_rating,movie_title", label: "Votes" },
-  { value: "-movie_year,-movie_rating,movie_title", label: "Year" },
-  { value: "movie_title,-movie_year,-movie_rating", label: "Title" },
+  { value: "rank", label: "rank" },
+  { value: "-movie_rating,-movie_votes,movie_title", label: "rating" },
+  { value: "-movie_votes,-movie_rating,movie_title", label: "votes" },
+  { value: "-movie_year,-movie_rating,movie_title", label: "year" },
+  { value: "movie_title,-movie_year,-movie_rating", label: "title" },
 ];
 
 export const discoverySortOptions = [
@@ -24,11 +24,11 @@ export const disSortOptions = {
 export const releasesSortOptions = (type) => {
   // type is a release date from 'theatrical', 'digital', 'physical', 'tv'?
   return [
-    { value: `${type},-rating,title`, label: "Release" },
+    { value: `${type},-rating,title`, label: "release" },
     // { value: "release_date", label: "Release Date" },
-    { value: `-rating,${type},title`, label: "Rating" },
-    { value: `-votes,${type},title`, label: "Votes" },
-    { value: `title,${type}`, label: "Title" },
+    { value: `-rating,${type},title`, label: "rating" },
+    { value: `-votes,${type},title`, label: "votes" },
+    { value: `title,${type}`, label: "title" },
   ];
 };
 

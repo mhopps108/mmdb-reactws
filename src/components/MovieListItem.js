@@ -130,6 +130,7 @@ const StyledMovieListItem = styled.div`
 `;
 
 const MovieListItemLayout = styled.div`
+  // TODO: use display: flex; flex: 1 for infowrap
   display: grid;
   grid-template-areas: "poster infowrap";
   grid-template-columns: 80px 1fr;
@@ -162,6 +163,7 @@ const InfoWrap = styled.div`
 
 const Title = styled.h3`
   font-size: 1.1rem;
+  //font-size: 1rem;
   line-height: 1.2rem;
   max-height: 2.4rem;
   overflow: hidden;
@@ -169,7 +171,8 @@ const Title = styled.h3`
   margin-bottom: 12px;
   & a {
     text-decoration: none;
-    color: var(--color-charcoal);
+    //color: var(--color-charcoal);
+    color: inherit;
   }
 `;
 
@@ -178,7 +181,7 @@ const InfoRow = styled.div`
   font-size: 0.9rem;
   margin-bottom: 4px;
   padding-left: 4px;
-  color: var(--color-charcoal);
+  //color: var(--color-charcoal);
 `;
 
 const InfoItem = styled.div`
