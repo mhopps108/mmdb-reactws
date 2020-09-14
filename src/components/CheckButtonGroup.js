@@ -1,10 +1,5 @@
 import React from "react";
 import styled from "styled-components/macro";
-import {
-  SectionTop,
-  SectionHeader,
-  SectionButton,
-} from "../styled/DiscoverMenuStyled";
 
 export default function CheckButtonGroup({
   sectionName,
@@ -36,13 +31,17 @@ export default function CheckButtonGroup({
   };
   return (
     <StyledCheckButtonGroup>
-      <SectionTop>
-        <SectionHeader>{sectionName}</SectionHeader>
-        <SectionButton onClick={toggleAll}>
-          {/*{checked.length === 0 ? "Select All" : "Clear"}*/}
-          {checked ? "Select All" : "Clear"}
-        </SectionButton>
-      </SectionTop>
+      {/*<SectionTop>*/}
+      {/*  <SectionHeader>{sectionName}</SectionHeader>*/}
+      {/*  <SectionButton onClick={toggleAll}>*/}
+      {/*{checked.length === 0 ? "Select All" : "Clear"}*/}
+      {/*{checked ? "Select All" : "Clear"}*/}
+      {/*</SectionButton>*/}
+      {/*</SectionTop>*/}
+      <SectionHeader>
+        <p>{sectionName}</p>
+        <button onClick={toggleAll}>{checked ? "Select All" : "Clear"}</button>
+      </SectionHeader>
       <FlexContainer>
         {options.map(({ name, label }) => (
           <StyledCheckButton
@@ -60,6 +59,25 @@ export default function CheckButtonGroup({
   );
 }
 
+const SectionHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0 0.5rem;
+
+  & p {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  & button {
+    border: 1px solid lightgray;
+    background: white;
+    padding: 2px 4px;
+    border-radius: 4px;
+  }
+`;
+
 export const FlexContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -72,8 +90,8 @@ export const StyledCheckButtonGroup = styled.div`
 `;
 
 export const StyledCheckButton = styled.button`
-  color: ${(props) => (props.checked ? "white" : "#2162a4")};
-  background: ${(props) => (props.checked ? "#2162a4" : "white")};
+  color: ${(props) => (props.checked ? "white" : "var(--color-charcoal)")};
+  background: ${(props) => (props.checked ? "var(--color-charcoal)" : "white")};
   padding: 2px 6px;
   margin: 4px 4px;
   border-radius: 4px;

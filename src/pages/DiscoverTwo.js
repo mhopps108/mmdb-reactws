@@ -29,7 +29,13 @@ export default function DiscoverTwo() {
   console.log("params: ", params);
 
   const getMovies = async (key, paramKeys, nextPage = 1) => {
-    const { value } = getSortObject(paramKeys.sortby, sortOptions);
+    if (!paramKeys.sortby) {
+      onSortChange(sortOptions[0]);
+    }
+    const sortby = paramKeys.sortby || sortOptions[0].label;
+    const { value } = sortOptions.find(({ value, label }) => {
+      return [value, label].includes(sortby);
+    });
     const queryParams = { ...paramKeys, sortby: value, page_size: 15 };
 
     console.log("getMovies(): key=", key);
@@ -47,42 +53,12 @@ export default function DiscoverTwo() {
     status,
     data,
     error,
-    isFetching,
     isFetchingMore,
     fetchMore,
     canFetchMore,
   } = useInfiniteQuery(["discover", { ...params }], getMovies, {
     getFetchMore: (lastPage, allPages) => lastPage.next_page,
   });
-
-  // TODO: pull out into a constants.js helper function
-  const getSortObject = (toFind, objArry) => {
-    // console.log("func - sortObj - called");
-    const item = objArry.find(({ value, label }) => {
-      if ([value, label].includes(toFind)) {
-        return { value, label };
-      }
-      return null;
-    });
-    return item ? item : onSortChange(sortOptions[0]);
-  };
-  // console.log(
-  //   `${renderRef.current}: func - sortObj: `,
-  //   getSortObject(params.sortby, sortOptions)
-  // );
-
-  // const sortObj = useMemo(() => {
-  //   console.log("useMemo - sortObj - called");
-  //   const item = sortOptions.find(({ value, label }) => {
-  //     if ([value, label].includes(params.sortby)) {
-  //       return { value, label };
-  //     }
-  //     return null;
-  //   });
-  //   return item ? item : "default";
-  // }, [params.sortby]);
-  //
-  // console.log(`${renderRef.current}: useMemo - sortObj: `, sortObj);
 
   const onSortChange = ({ value, label }) => {
     console.log(`On Sort - Set: ${value} (${label})`);
@@ -91,14 +67,11 @@ export default function DiscoverTwo() {
 
   const onApplyFilters = (filterState) => {
     console.log("onApplyFilters: newFilterState: ", filterState);
-    // const updatedParams = { ...params, ...filterState }; // TODO: need to spread together??
     setParams(filterState);
   };
 
   useEffect(() => {
-    const { label } = getSortObject(params.sortby, sortOptions);
-    const queryString = qs.stringify({ sortby: label, ...params }, qsOptions);
-    navigate("/discover-two?" + queryString);
+    navigate("/discover-two?" + qs.stringify({ ...params }, qsOptions));
   }, [navigate, params]); // TODO: need to useCallback or useMemo on getSortObject, sortOptions
 
   // toolbar data
@@ -136,7 +109,7 @@ export default function DiscoverTwo() {
         hidden={!canFetchMore}
         disabled={isFetchingMore}
       >
-        {isFetching ? "Loading..." : "Show More"}
+        {isFetchingMore ? "Loading More..." : "Show More"}
       </LoadMoreButton>
     </StyledDiscover>
   );

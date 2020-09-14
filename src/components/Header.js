@@ -11,22 +11,22 @@ import {
   discoveryLinks,
   releaseDateLinks,
 } from "../constants/routes";
+// import { colors } from "../theme";
+import { theme } from "../theme";
 
 const NavMenuWrap = styled.div`
-  //display: ${(props) => (props.isOpen ? "flex" : "none")};
   display: flex;
-  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};  
+  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
   flex-direction: column;
   opacity: ${(props) => (props.isOpen ? "1" : "0")};
-  position: fixed;  
+  position: fixed;
   top: 0;
   bottom: 0;
   right: 0;
   left: 0;
   border: 2px solid lightgray;
   border-radius: 6px;
-  //background: #282c35;
-  background: #33425b;
+  background: var(--color-charcoal);
   transition: all 100ms ease-in-out;
   z-index: 1010;
 
@@ -47,7 +47,7 @@ const NavSection = styled.div`
     margin: 4px 0;
   }
   p {
-    color: lightgray;
+    color: var(--color-grey);
     opacity: 0.5;
     font-size: 2rem;
     font-weight: 600;
@@ -65,8 +65,7 @@ const MenuButton = styled.button`
   right: 1.5rem;
   font-size: 1.4rem;
   padding: 6px 12px;
-  //color: #282c35;
-  color: #33425b;
+  //color: var(--color-charcoal);
   background: whitesmoke;
   border: 1px solid lightgray;
   border-radius: 4px;
@@ -165,8 +164,7 @@ export default function Header() {
 
 const HeaderWrap = styled.header`
   grid-area: header;
-  //background: #282c35;
-  background: #33425b;
+  background: var(--color-charcoal);
   position: sticky;
   top: 0;
   z-index: 10;

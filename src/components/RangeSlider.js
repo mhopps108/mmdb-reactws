@@ -9,6 +9,10 @@ export default function RangeSlider({
   onChange,
   onFinalChange,
 }) {
+  const colors =
+    value.length === 1
+      ? ["var(--color-charcoal)", "#ccc"]
+      : ["#ccc", "var(--color-charcoal)", "#ccc"];
   return (
     <Range
       min={min}
@@ -36,7 +40,7 @@ export default function RangeSlider({
               borderRadius: "4px",
               background: getTrackBackground({
                 values: value,
-                colors: ["#ccc", "#2162a4", "#ccc"],
+                colors: colors,
                 min: min,
                 max: max,
               }),
@@ -83,7 +87,7 @@ export default function RangeSlider({
             style={{
               height: "16px",
               width: "5px",
-              backgroundColor: isDragged ? "#2162a4" : "#ccc",
+              backgroundColor: isDragged ? "var(--color-charcoal)" : "#ccc",
             }}
           />
         </div>

@@ -1,4 +1,4 @@
-const theme = {
+export const theme = {
   possibleColors: {
     color: "#282c35",
     // background: repeating-linear-gradient(
@@ -18,6 +18,8 @@ const theme = {
     small: "4px",
   },
   colors: {
+    // charcoal: "#353C45",
+    charcoal: "#acaeca",
     darkGrey: "#222",
     powderWhite: "#FFFDF9",
     persianGreen: "#06B49A",
@@ -30,4 +32,12 @@ const theme = {
     medium: "2em",
     large: "3em",
   },
+  // Charcoal
+  // 353C45
+  // Primary Blue
+  // 2C97DE
+  // Grey
+  // EEEEEE
+  // White
+  // FFFFFF
 };

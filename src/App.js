@@ -10,37 +10,40 @@ const GlobalStyle = createGlobalStyle`
     *,
     *:before,
     *:after {
-      -webkit-box-sizing: inherit;
-      -moz-box-sizing: inherit;
+      //-webkit-box-sizing: inherit;
+      //-moz-box-sizing: inherit;
       //box-sizing: inherit;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
       box-sizing: border-box;
       padding: 0;
       margin: 0;      
     }
     
     :root {
-      //font-size: 16px;  // TODO: use?? mess with browser resizing?
+      //font-size: 16px;  // TODO: use?? mess with browser resizing?      
+      //background: #282c35;
+      //background: #33425b;
+      --color-charcoal: #353C45;       
+      --color-primary-blue: #2C97DE;
+      --color-grey: #EEEEEE;
+      --color-white: #FFFFFF;
     }
         
     body {
       overflow-x: hidden;
       width: 100vw;      
-      //font-family: 'Source Sans Pro', Arial, sans-serif;
-      //font-family: Candara, Arial, sans-serif;
-      //font-family: Geneva, Arial, sans-serif;
-      //font-family: Calibri;     
       font-size: 16px;
       //font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       //'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       //sans-serif;
       font-family: 'Roboto', sans-serif;
-      //font-family: sans-serif;
-      //letter-spacing: 0.5px;
+      letter-spacing: 0.5px;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      //background: #282c35;
-      //background: #33425b;      
+      -moz-osx-font-smoothing: grayscale;            
       background: none;
+      color: var(--color-charcoal);
+      //color: red;
     }
 `;
 

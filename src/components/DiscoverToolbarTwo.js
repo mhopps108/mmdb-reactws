@@ -71,6 +71,7 @@ export default function DiscoverToolbarTwo({
             {showFilters ? <IoMdClose size={18} /> : <FaFilter size={14} />}
           </Button>
         </ListNameWrap>
+        {/*TODO: move to own component*/}
         <ActiveFiltersBar>
           <div style={{ marginRight: "auto" }}>{"Filters"}</div>
           <ActiveFilterTag>{displayFilter("genres")}</ActiveFilterTag>
@@ -183,7 +184,8 @@ const DiscoveryToolBarWrap = styled.div`
 const StyledToolbar = styled.div`
   grid-area: toolbar;
   background-color: white;
-  color: #333;
+  //color: #333;
+  //color: var(--color-charcoal);
   position: sticky; // TODO: make Header and Toolbar fixed
   //min-height: 40px;
   top: 55px;
@@ -198,7 +200,7 @@ const Button = styled.button`
   font-size: 1rem;
   padding: 6px 12px;
   background: white;
-  color: #33425b;
+  //color: #33425b;
   //display: flex;
   //justify-content: space-between;
   //align-items: center;
@@ -228,7 +230,7 @@ const ListName = styled.p`
   font-size: 1.25rem;
   font-weight: 600;
   margin-right: 0.5rem;
-  color: #33425b;
+  //color: #33425b;
   //text-transform: uppercase;
 `;
 
@@ -236,7 +238,7 @@ const MovieCountTag = styled.div`
   font-size: 1.1rem;
   border: 1px solid lightgray;
   background: whitesmoke;
-  color: #33425b;
+  //color: #33425b;
   //border-radius: 10px;
   //height: 28px;
   border-radius: 26px;
@@ -258,8 +260,6 @@ const SortWrap = styled.div`
   justify-content: center;
   align-items: center;
   margin-left: auto;
-  //height: 30px;
-  color: #33425b;
   margin-right: 0.5rem;
 `;
 
@@ -278,9 +278,7 @@ const ActiveFiltersBar = styled.div`
 const ActiveFilterTag = styled.div`
   background: whitesmoke;
   color: #333;
-  //color: #1f4b99;
   //border: 1px solid lightgray;
-  //margin-right: 8px;
   margin: 4px 8px;
   padding: 2px 4px;
   border-radius: 4px;

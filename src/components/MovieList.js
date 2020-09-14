@@ -49,8 +49,8 @@ export default function MovieList({
 
 const StyledMovieList = styled.div`
   grid-area: main;
-  background: #33425b;
   display: grid;
+  color: var(--color-charcoal);
 `;
 
 const MovieListLayout = styled.div`

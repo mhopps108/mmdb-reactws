@@ -74,7 +74,7 @@ const Button = styled.button`
   text-transform: capitalize;
   padding: 6px 12px;
   background: none;
-  color: #33425b;
+  color: var(--color-charcoal);
   display: flex;
   justify-content: space-between;
   align-items: center;

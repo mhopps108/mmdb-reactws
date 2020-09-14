@@ -176,7 +176,8 @@ const Menu = styled.div`
   opacity: ${(props) => (props.isOpen ? 1 : 0)};
   display: flex;
   flex-direction: column;
-  background: whitesmoke;
+  //background: whitesmoke;
+  background: white;
   border-radius: 6px;
   border: 1px solid lightgray;
   transition: opacity 300ms cubic-bezier(0, 1, 0.5, 1),
@@ -223,7 +224,7 @@ const SectionHeader = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 1rem -0.5rem 0.5rem;
-  color: #2162a4;
+  //color: #2162a4;
 
   & p {
     font-size: 1.1rem;
@@ -232,7 +233,7 @@ const SectionHeader = styled.div`
   }
 
   & span {
-    color: #2162a4;
+    //color: #2162a4;
     font-size: 1rem;
     font-weight: 400;
     margin: 0;
@@ -240,10 +241,12 @@ const SectionHeader = styled.div`
 `;
 
 const RangeSliderWrap = styled.div`
-  background: whitesmoke;
+  //background: whitesmoke;
   margin: 0 15px;
 
   & .bp3-slider-progress.bp3-intent-primary {
-    background: #2162a4;
+    //background: #2162a4;
+    //background: var(--color-charcoal);
+    //background: red;
   }
 `;

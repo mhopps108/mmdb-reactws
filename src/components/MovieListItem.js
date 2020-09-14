@@ -169,18 +169,16 @@ const Title = styled.h3`
   margin-bottom: 12px;
   & a {
     text-decoration: none;
-    //color: #282c35;
-    color: #33425b;
+    color: var(--color-charcoal);
   }
 `;
 
 const InfoRow = styled.div`
   display: flex;
-  //color: rgba(40, 44, 53, 0.75);
-  color: #33425b;
-  margin-bottom: 4px;
   font-size: 0.9rem;
+  margin-bottom: 4px;
   padding-left: 4px;
+  color: var(--color-charcoal);
 `;
 
 const InfoItem = styled.div`
