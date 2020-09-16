@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components/macro";
+import { RiCloseLine } from "react-icons/ri";
 
 export default function CheckButtonGroup({
   sectionName,
@@ -7,28 +8,55 @@ export default function CheckButtonGroup({
   checked,
   setChecked,
 }) {
-  // console.log("CheckButtonGroup: sectionName: ", sectionName);
-  // console.log("CheckButtonGroup: checked: ", checked);
-  const toggleAll = () => {
-    if (checked.length === 0) {
-      setChecked(options.map((item) => item.name));
-    } else {
-      setChecked([]);
-    }
+  console.log(`CheckButtonGroup: checked - ${sectionName}`, checked);
+  // const toggleAll = () => {
+  //   if (checked.length === 0) {
+  //     setChecked(options.map((item) => item.name));
+  //   } else {
+  //     setChecked([]);
+  //   }
+  // };
+
+  const onClear = () => {
+    setChecked([]);
   };
 
   const handleChange = (event) => {
     const name = event.target.name;
-    if (checked.includes(name)) {
-      setChecked(checked.filter((item) => item !== name));
+
+    const selected =
+      checked && Array.isArray(checked) ? [...checked] : [checked];
+    if (selected.includes(name)) {
+      setChecked(selected.filter((item) => item !== name));
     } else {
-      if (!Array.isArray(checked)) {
-        setChecked([checked, name]);
+      if (selected) {
+        setChecked([...selected, name]);
       } else {
-        setChecked([...checked, name]);
+        setChecked([name]);
       }
+
+      // if (!Array.isArray(checked)) {
+      //   setChecked([checked, name]);
+      // } else {
+      //   setChecked([...checked, name]);
+      // }
     }
   };
+
+  // const handleChange = (event) => {
+  //   const selected = Array.isArray(checked) ? [...checked] : [checked];
+  //   const name = event.target.name;
+  //   if (checked.includes(name)) {
+  //     setChecked(checked.filter((item) => item !== name));
+  //   } else {
+  //     if (!Array.isArray(checked)) {
+  //       setChecked([checked, name]);
+  //     } else {
+  //       setChecked([...checked, name]);
+  //     }
+  //   }
+  // };
+
   return (
     <StyledCheckButtonGroup>
       {/*<SectionTop>*/}
@@ -40,7 +68,13 @@ export default function CheckButtonGroup({
       {/*</SectionTop>*/}
       <SectionHeader>
         <p>{sectionName}</p>
-        <button onClick={toggleAll}>{checked ? "Select All" : "Clear"}</button>
+        {/*<button onClick={toggleAll}>{checked ? "Select All" : "Clear"}</button>*/}
+        {/*{checked && <button onClick={onClear}>{"Clear"}</button>}*/}
+        {checked && (
+          <button onClick={onClear}>
+            <RiCloseLine />
+          </button>
+        )}
       </SectionHeader>
       <FlexContainer>
         {options.map(({ name, label }) => (
@@ -62,7 +96,7 @@ export default function CheckButtonGroup({
 const SectionHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 1rem 0 0.5rem;
+  margin: 0.5rem 0 0.5rem;
 
   & p {
     font-size: 1.1rem;
@@ -92,9 +126,10 @@ export const StyledCheckButtonGroup = styled.div`
 export const StyledCheckButton = styled.button`
   color: ${(props) => (props.checked ? "white" : "var(--color-charcoal)")};
   background: ${(props) => (props.checked ? "var(--color-charcoal)" : "white")};
+  min-width: 28px;
   padding: 2px 6px;
-  margin: 4px 4px;
-  border-radius: 4px;
+  margin: 3px;
+  border-radius: 0.25rem;
   border: 1px solid lightgray;
   font-size: 1rem;
 `;

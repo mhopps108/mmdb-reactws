@@ -61,16 +61,11 @@ export default function FilterMenu({
   // useOnClickOutside(ref, () => setIsOpen(false));
 
   const initState = { ...defaultFilters, ...filterState };
-  // console.info("FilterMenuSheet: initState: ", initState);
+  console.info("FilterMenuSheet: initState: ", initState);
   const [state, dispatch] = useReducer(filterReducer, initState);
 
   const onReset = () =>
     dispatch({ type: "FILTER_RESET", payload: defaultFilters });
-
-  const onCancel = () => {
-    dispatch({ type: "FILTER_RESET", payload: filterState });
-    setIsOpen(false);
-  };
 
   const setCertsChecked = (checked) =>
     dispatch({ type: "SET_CERTS", payload: checked.sort() });
@@ -92,11 +87,13 @@ export default function FilterMenu({
     console.log("state: ", state);
     onApplyFilters(state);
     setIsOpen(false);
-    setIsLocked(false);
   };
 
   useEffect(() => {
-    // setIsLocked((isOpen) => isOpen);
+    dispatch({ type: "FILTER_RESET", payload: filterState });
+  }, [filterState]);
+
+  useEffect(() => {
     setIsLocked(isOpen);
   }, [isOpen, setIsLocked]);
 
@@ -112,7 +109,7 @@ export default function FilterMenu({
         <CheckButtonGroup
           sectionName="Genres"
           options={genreOptions.sort()}
-          checked={state.genres}
+          checked={state.genres || []}
           setChecked={setGenresChecked}
         />
       </FilterSection>
@@ -162,7 +159,7 @@ export default function FilterMenu({
           />
         </RangeSliderWrap>
         <ActionButtonWrap>
-          <Button onClick={onCancel}>Close</Button>
+          {/*<Button onClick={onCancel}>Close</Button>*/}
           <Button onClick={() => onApply(state)} primary>
             Apply
           </Button>
@@ -179,12 +176,12 @@ const Menu = styled.div`
   flex-direction: column;
   //background: whitesmoke;
   background: white;
-  border-radius: 6px;
-  border: 1px solid lightgray;
+  //border-radius: 6px;
+  //border: 1px solid lightgray;
   transition: opacity 300ms cubic-bezier(0, 1, 0.5, 1),
     visibility 300ms cubic-bezier(0, 1, 0.5, 1);
   max-width: 900px;
-  margin: 0.25rem;
+  //margin: 0.25rem;
 
   @media ${device.min.tablet} {
     flex-direction: row;
@@ -193,21 +190,27 @@ const Menu = styled.div`
 
 const ActionButtonWrap = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
-  margin-top: 10px;
-  padding: 15px 0 10px;
+  margin-top: 1rem;
+  padding: 1rem 0 0.5rem;
   border-top: 1px solid lightgray;
+  background: white;
+
+  position: sticky;
+  bottom: 0;
 `;
 
 const Button = styled.button`
-  font-size: 1.1rem;
-  margin: 0 0.5rem;
-  padding: 0.25rem 0.5rem;
+  //font-size: 1.1rem;
+  //margin: 0 0.5rem;
+  padding: 0.5rem 0.5rem;
+  //padding: 1rem;
   color: ${(props) => (props.primary ? "#fff" : "#33425b")};
   background: ${(props) => (props.primary ? "#33425b" : "fff")};
   border: 1px solid lightgray;
-  border-radius: 6px;
+  border-radius: 0.25rem;
+  width: 75%;
 `;
 
 const FilterSection = styled.div`

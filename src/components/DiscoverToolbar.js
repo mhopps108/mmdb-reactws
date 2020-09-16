@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/macro";
-import { FilterMenu, Portal, Dropdown } from "../components";
+import { FilterMenu, Portal, Dropdown, Modal } from "../components";
 import {
   FaSortAmountDownAlt,
   FaRegCheckSquare,
@@ -94,16 +94,28 @@ export default function DiscoverToolbar({
         </FilterMenuWrapLarge>
 
         {/* Mobile Filters */}
-        <Portal>
-          <FilterMenuWrapSmall isOpen={showFilters}>
-            <FilterMenu
-              isOpen={showFilters}
-              setIsOpen={setShowFilters}
-              filterState={filterState}
-              onApplyFilters={onApplyFilters}
-            />
-          </FilterMenuWrapSmall>
-        </Portal>
+        <Modal
+          title={"Filters"}
+          isOpen={showFilters}
+          onClose={() => setShowFilters(false)}
+        >
+          <FilterMenu
+            isOpen={showFilters}
+            setIsOpen={setShowFilters}
+            filterState={filterState}
+            onApplyFilters={onApplyFilters}
+          />
+        </Modal>
+        {/*<Portal>*/}
+        {/*  <FilterMenuWrapSmall isOpen={showFilters}>*/}
+        {/*    <FilterMenu*/}
+        {/*      isOpen={showFilters}*/}
+        {/*      setIsOpen={setShowFilters}*/}
+        {/*      filterState={filterState}*/}
+        {/*      onApplyFilters={onApplyFilters}*/}
+        {/*    />*/}
+        {/*  </FilterMenuWrapSmall>*/}
+        {/*</Portal>*/}
       </DiscoveryToolBarWrap>
     </StyledToolbar>
   );
@@ -141,8 +153,9 @@ const FilterMenuWrapSmall = styled.div`
   // background: ${(props) =>
     props.isOpen ? "rgba(0, 0, 0, 0.5)" : "rgba(0, 0, 0, 0.0)"};
 
-  transform: ${(props) =>
+  //transform: ${(props) =>
     props.isOpen ? "translateY(0%)" : "translateY(100%)"};
+  opacity: ${(props) => (props.isOpen ? "1" : "0")};
 
   transition: transform 300ms cubic-bezier(0, 1, 0.5, 1),
     opacity 300ms cubic-bezier(0, 1, 0.5, 1),

@@ -49,7 +49,7 @@ export default function Dropdown({
       </Button>
 
       <Menu isOpen={isOpen}>
-        <Arrow />
+        {/*<Arrow />*/}
         <Title>{title}</Title>
         {items &&
           items.map(({ value, label }) => (
@@ -81,8 +81,8 @@ const Button = styled.button`
   //box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.1);
   border: none;
-  border-radius: 0.5rem;
-  //border-radius: 0.25rem;
+  //border-radius: 0.5rem;
+  border-radius: 0.25rem;
 
   transition: box-shadow 0.4s ease;
 
@@ -110,8 +110,9 @@ const Menu = styled.div`
 
   position: absolute;
   right: 0;
-  top: 120%;
-  min-width: 100px;
+  //top: 120%;
+  top: 85%;
+  min-width: 120px;
   width: max-content;
 
   display: flex;
@@ -121,7 +122,7 @@ const Menu = styled.div`
   border: 1px solid lightgray;
   border-radius: 0.5rem;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  transform: ${(props) => (props.isOpen ? "translateY(5%)" : "translateY(0)")};
+  transform: ${(props) => (props.isOpen ? "translateY(10%)" : "translateY(0)")};
   transition: opacity 300ms cubic-bezier(0, 1, 0.5, 1),
     transform 300ms cubic-bezier(0, 1, 0.5, 1),
     visibility 250ms cubic-bezier(0, 1, 0.5, 1);
@@ -131,7 +132,7 @@ const Menu = styled.div`
 
 const MenuItem = styled.div`
   padding: 0.5rem 1rem;
-  font-size: 0.9rem;
+  //font-size: 0.9rem;
 
   &:hover {
     color: red;
