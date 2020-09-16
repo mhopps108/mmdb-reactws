@@ -14,9 +14,9 @@ export default function DatePager({ dateData }) {
     nextPeriod,
     goToDate,
   } = dateData;
-  console.log("prevPeriod: ", prevPeriod);
-  console.log("displayDateStr: ", displayDateStr);
-  console.log("nextPeriod: ", nextPeriod);
+  // console.log("prevPeriod: ", prevPeriod);
+  // console.log("displayDateStr: ", displayDateStr);
+  // console.log("nextPeriod: ", nextPeriod);
 
   return (
     <Wrap>

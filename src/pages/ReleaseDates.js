@@ -19,6 +19,8 @@ const qsOptions = {
 
 const { formatPeriod, startOf, endOf, getPrev, getNext } = dateUtil;
 
+// TODO: weekOf=, month= --- query params? instead of startFrom
+
 export default function ReleaseDates() {
   let renderRef = useRef(0);
   renderRef.current = renderRef.current + 1;
@@ -26,42 +28,38 @@ export default function ReleaseDates() {
 
   let navigate = useNavigate();
   const location = useLocation();
-  let {
-    type = "digital",
-    period = "week",
-    startDate = startOf(moment(), period),
-  } = useParams();
-  // TODO: pull startDate out into
-  //  const [startDate, setStartDate] = useState(startFrom || startOf(moment(), period))
+  let { type = "digital", period = "week" } = useParams();
 
   console.log("loc: ", location);
-  console.log("type: ", type);
-  console.log("period: ", period);
-  console.log("startDate: ", startDate);
+  console.log(`type / period: ${type} / ${period}`);
 
   const sortOptions = releasesSortOptions(type);
-
-  const [params, setParams] = useState(qs.parse(location.search, qsOptions));
+  // merging with params causes a rerender and sets the browsers url
+  const defaultParams = {
+    sort: sortOptions[0].label,
+    startFrom: startOf(moment(), period),
+  };
+  const [params, setParams] = useState({
+    ...defaultParams,
+    ...qs.parse(location.search, qsOptions),
+  });
   console.log("params: ", params);
 
   const getMovies = async (key, paramKeys, nextPage = 1) => {
-    const { type, period, startDate, sort } = paramKeys;
-    if (!sort) {
-      onSortChange(sortOptions[0]);
-    }
-    const sortby = sort || sortOptions[0].label;
-    const { value } = sortOptions.find(({ value, label }) => {
-      return [value, label].includes(sortby);
-    });
-
+    const { type, period, startFrom, sort } = paramKeys;
     console.log("getMovies(): key=", key);
     console.log("getMovies(): paramKeys=", paramKeys);
     console.log("getMovies(): nextPage=", nextPage);
 
+    // const sortby = sort || sortOptions[0].label;
+    const { value } = sortOptions.find(({ value, label }) => {
+      return [value, label].includes(sort);
+    });
+
     const queryParams = {
       sortby: value,
-      [`${type}_after`]: startDate, // TODO: use startOf() here to be sure?
-      [`${type}_before`]: endOf(startDate, period),
+      [`${type}_after`]: startOf(startFrom, period),
+      [`${type}_before`]: endOf(startFrom, period),
       page_size: 15,
     };
 
@@ -79,29 +77,30 @@ export default function ReleaseDates() {
     isFetchingMore,
     fetchMore,
     canFetchMore,
-  } = useInfiniteQuery(
-    ["releases", { type, period, startDate, ...params }],
-    getMovies,
-    {
-      getFetchMore: (lastPage, allPages) => lastPage.next_page,
-    }
-  );
+  } = useInfiniteQuery(["releases", { type, period, ...params }], getMovies, {
+    getFetchMore: (lastPage, allPages) => lastPage.next_page,
+  });
 
   const onSortChange = ({ value, label }) => {
     console.log(`On Sort - Set: ${value} (${label})`);
     setParams({ ...params, sort: label });
   };
 
-  useEffect(() => {
-    navigate(location.pathname + "?" + qs.stringify({ ...params }, qsOptions));
-  }, [navigate, params, location.pathname]);
-
   const goToDate = (newStartDate) => {
     console.log("goToDate - Clicked - newStartDate: ", newStartDate);
-    navigate(
-      `/release-dates/${type}/${period}/${newStartDate}?sort=${params.sort}`
-    );
+    setParams({ ...params, startFrom: newStartDate });
   };
+
+  useEffect(() => {
+    setParams({
+      ...params,
+      startFrom: startOf(moment(), period),
+    });
+  }, [period, type]);
+
+  useEffect(() => {
+    navigate(location.pathname + "?" + qs.stringify(params, qsOptions));
+  }, [navigate, location.pathname, params]);
 
   // toolbar data
   const listData = {
@@ -111,9 +110,9 @@ export default function ReleaseDates() {
   };
   const dateData = {
     goToToday: () => goToDate(startOf(moment(), period)),
-    displayDateStr: formatPeriod(startDate, period),
-    prevPeriod: getPrev(startDate, period),
-    nextPeriod: getNext(startDate, period),
+    displayDateStr: formatPeriod(params.startFrom, period),
+    prevPeriod: getPrev(params.startFrom, period),
+    nextPeriod: getNext(params.startFrom, period),
     goToDate,
   };
   const sortData = {

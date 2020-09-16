@@ -136,8 +136,7 @@ const MovieListItemLayout = styled.div`
   grid-template-columns: 80px 1fr;
   grid-template-rows: 1fr;
   grid-column-gap: 8px;
-  width: 100%;
-  height: 100%;
+  height: 100%; // needed with grid, flex use align-items
 `;
 
 const Poster = styled.img`

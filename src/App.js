@@ -69,10 +69,10 @@ export default function App() {
               path={"/release-dates/:type/:period"}
               element={<ReleaseDates />}
             />
-            <Route
-              path={"/release-dates/:type/:period/:startDate"}
-              element={<ReleaseDates />}
-            />
+            {/*<Route*/}
+            {/*  path={"/release-dates/:type/:period/:startDate"}*/}
+            {/*  element={<ReleaseDates />}*/}
+            {/*/>*/}
             {/* Discover */}
             <Route path={"/discover"} element={<Discover />} />
             {/* Movie Detail */}
