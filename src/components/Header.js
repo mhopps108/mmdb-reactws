@@ -144,9 +144,9 @@ export default function Header() {
         </Nav>
 
         <div>
-          <NavButton>
+          <Link to={"/search?search=avengers"}>
             <FaSearch />
-          </NavButton>
+          </Link>
           <NavButton>
             <FaUserAlt />
           </NavButton>

@@ -80,7 +80,7 @@ export const discoveryLinks = [
     name: "Top Comedies",
     // path: `/discover/?sortby=rating&genres=comedy&rating_min=5&rating_max=10&votes_min=5000&year_min=1990&year_max=2030`,
     path:
-      "/discover?sortby=rating&genres=comedy&rating_min=5&rating_max=10&votes_min=5000&year_min=1990&year_max=2030",
+      "/discover?sortby=rating&genres=comedy&rating_min=5&rating_max=10&votes_min=5000&year_min=1990&year_max=2025",
   },
   {
     name: "Top Rated Kids Movies",
@@ -90,7 +90,7 @@ export const discoveryLinks = [
     &certification=G,PG
     &rating_min=5&rating_max=10
     &votes_min=2500
-    &year_min=1990&year_max=2030`,
+    &year_min=1990&year_max=2025`,
   },
   {
     name: "Best Action Movies from the 2000's",

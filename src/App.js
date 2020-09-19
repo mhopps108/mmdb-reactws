@@ -1,6 +1,14 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { List, Detail, Discover, ReleaseDates } from "./pages";
+import {
+  List,
+  Detail,
+  Discover,
+  ReleaseDates,
+  Search,
+  RDWithToolbar,
+  LWithToolbar,
+} from "./pages";
 import styled from "styled-components/macro";
 import { createGlobalStyle } from "styled-components";
 import "rsuite/dist/styles/rsuite-default.css";
@@ -59,23 +67,21 @@ export default function App() {
         <GlobalStyle />
         <BrowserRouter>
           <Routes>
-            {/* List */}
             <Route exact path={"/"}>
               <Navigate to="/list/tmdb-popular?sort=rank" />
             </Route>
-            <Route path={"/list/:slug"} element={<List />} />
-            {/* Release Dates */}
-            <Route
-              path={"/release-dates/:type/:period"}
-              element={<ReleaseDates />}
-            />
+            {/*<Route path={"/list/:slug"} element={<List />} />*/}
+            <Route path={"/list/:slug"} element={<LWithToolbar />} />
             {/*<Route*/}
-            {/*  path={"/release-dates/:type/:period/:startDate"}*/}
+            {/*  path={"/release-dates/:type/:period"}*/}
             {/*  element={<ReleaseDates />}*/}
             {/*/>*/}
-            {/* Discover */}
+            <Route
+              path={"/release-dates/:type/:period"}
+              element={<RDWithToolbar />}
+            />
             <Route path={"/discover"} element={<Discover />} />
-            {/* Movie Detail */}
+            <Route path={"/search"} element={<Search />} />
             <Route path="/movie/:imdbId" element={<Detail />} />
           </Routes>
         </BrowserRouter>

@@ -124,7 +124,7 @@ function MovieListItem({ movie, dateType }) {
 
 const StyledMovieListItem = styled.div`
   background: white;
-  max-width: 400px;
+  //max-width: 400px;
   height: 120px;
   border-radius: 4px;
 `;

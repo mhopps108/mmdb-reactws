@@ -3,10 +3,11 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
 import { Header, Toolbar, MovieList, MoviePosterList } from "../components";
-import { listSortOptions } from "../constants";
 import API from "../api/api";
-// import { useQueryParams, useIntersectionObserver } from "../hooks";
 import qs from "query-string";
+
+// TODO: save recent searches to local storage?
+//  clear from settings? bottom of list?
 
 const qsOptions = {
   arrayFormat: "comma",
@@ -16,42 +17,30 @@ const qsOptions = {
   sort: false,
 };
 
-export default function List({ view = "list" }) {
+export default function Search() {
   let renderRef = useRef(0);
   renderRef.current = renderRef.current + 1;
   console.log("render: ", renderRef.current);
 
   let navigate = useNavigate();
   const location = useLocation();
-  let { slug = "tmdb-popular" } = useParams();
-  const sortOptions = listSortOptions;
 
   const [params, setParams] = useState(qs.parse(location.search, qsOptions));
   console.log("params: ", params);
 
-  const printGetsMovieData = (key, paramKeys, nextPage, queryParams) => {
+  const getMovies = async (key, paramKeys, nextPage = 1) => {
+    const queryParams = {
+      /*sortby: value,*/
+      search: paramKeys.search,
+      page_size: 15,
+    };
+
     console.log("getMovies(): key=", key);
     console.log("getMovies(): paramKeys=", paramKeys);
     console.log("getMovies(): nextPage=", nextPage);
-    console.log("getMovies(): queryParams: ", queryParams);
-  };
+    console.log("getMovies(): queryParams=", queryParams);
 
-  const getMovies = async (key, paramKeys, nextPage = 1) => {
-    if (!paramKeys.sort) {
-      onSortChange(sortOptions[0]);
-    }
-    const sortby = paramKeys.sort || sortOptions[0].label;
-    const { value } = sortOptions.find(({ value, label }) => {
-      return [value, label].includes(sortby);
-    });
-    const queryParams = {
-      list_slug: paramKeys.slug,
-      sortby: value,
-      page_size: 15,
-    };
-    printGetsMovieData(key, paramKeys, nextPage, queryParams);
-
-    const response = await API.get(`/movielist/`, {
+    const response = await API.get(`/search/`, {
       params: { page: nextPage, ...queryParams },
     });
     return response.data;
@@ -64,34 +53,24 @@ export default function List({ view = "list" }) {
     isFetching,
     fetchMore,
     canFetchMore,
-  } = useInfiniteQuery(["movielist", { slug, ...params }], getMovies, {
+  } = useInfiniteQuery(["movielist", { ...params }], getMovies, {
     getFetchMore: (lastPage, allPages) => lastPage.next_page,
   });
 
-  const onSortChange = ({ value, label }) => {
-    console.log(`On Sort - Set: ${value} (${label})`);
-    setParams({ ...params, sort: label });
-  };
-
   useEffect(() => {
     navigate(location.pathname + "?" + qs.stringify({ ...params }, qsOptions));
-  }, [navigate, location.pathname, slug, params]);
+  }, [navigate, location.pathname, params]);
 
   // toolbar data
   const listData = {
     movie_count: data ? data[0].count : "#",
-    name: `${slug.split("-").slice(1).join(" ")}`,
-  };
-  const sortData = {
-    options: listSortOptions,
-    selected: params.sort,
-    onChange: onSortChange,
+    name: `Search`,
   };
 
   return (
     <StyledList>
       <Header />
-      <Toolbar listData={listData} sortOptions={sortData} />
+      <Toolbar listData={listData} />
       <MovieList
         movies={
           data && data.reduce((acc, page) => [...acc, ...page.results], [])
@@ -107,20 +86,6 @@ export default function List({ view = "list" }) {
       >
         {isFetching ? "Loading..." : "Show More"}
       </LoadMoreButton>
-      {/*{view === "poster" && (*/}
-      {/*  <MoviePosterList*/}
-      {/*    movies={(data?.movielistitems || []).map((item) => item.movie)}*/}
-      {/*    isLoading={isLoading}*/}
-      {/*    isError={isError}*/}
-      {/*  />*/}
-      {/*)}*/}
-      {/*{view === "list" && (*/}
-      {/*  <MovieList*/}
-      {/*    movies={(data?.movielistitems || []).map((item) => item.movie)}*/}
-      {/*    isLoading={isLoading}*/}
-      {/*    isError={isError}*/}
-      {/*  />*/}
-      {/*)}*/}
     </StyledList>
   );
 }

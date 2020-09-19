@@ -28,6 +28,13 @@ export default function Discover() {
   const [params, setParams] = useState(qs.parse(location.search, qsOptions));
   console.log("params: ", params);
 
+  const printGetsMovieData = (key, paramKeys, nextPage, queryParams) => {
+    console.log("getMovies(): key=", key);
+    console.log("getMovies(): paramKeys=", paramKeys);
+    console.log("getMovies(): nextPage=", nextPage);
+    console.log("getMovies(): queryParams: ", queryParams);
+  };
+
   const getMovies = async (key, paramKeys, nextPage = 1) => {
     if (!paramKeys.sortby) {
       onSortChange(sortOptions[0]);
@@ -37,11 +44,7 @@ export default function Discover() {
       return [value, label].includes(sortby);
     });
     const queryParams = { ...paramKeys, sortby: value, page_size: 15 };
-
-    console.log("getMovies(): key=", key);
-    console.log("getMovies(): paramKeys=", paramKeys);
-    console.log("getMovies(): nextPage=", nextPage);
-    console.log("getMovies(): queryParams: ", queryParams);
+    printGetsMovieData(key, paramKeys, nextPage, queryParams);
 
     const response = await API.get(`/discover/`, {
       params: { page: nextPage, ...queryParams },

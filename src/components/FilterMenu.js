@@ -11,9 +11,9 @@ const defaultFilters = {
   certification: [],
   rating_min: 0.0,
   rating_max: 10.0,
-  votes_min: 10000, // TODO: 100,000; with stepSize=1,000?
+  votes_min: 100000,
   year_min: 1890,
-  year_max: 2030, // TODO: new Date() -> year + 5?
+  year_max: 2025, // TODO: new Date() -> year + 5?
 };
 
 const filterReducer = (state, action) => {
@@ -28,8 +28,6 @@ const filterReducer = (state, action) => {
         rating_min: action.payload[0],
         rating_max: action.payload[1],
       };
-    // case "SET_VOTES":
-    //   return { ...state, votes_min: action.payload[1] };
     case "SET_VOTES":
       return { ...state, votes_min: action.payload };
     case "SET_YEARS":
@@ -55,17 +53,14 @@ export default function FilterMenu({
 }) {
   // console.log("FilterMenuMain: isOpen: ", isOpen);
   const [setIsLocked] = useLockBodyScroll(isOpen);
-  // const [isLocked, setIsLocked] = useLockBodyScroll(isOpen);
-  // console.log("FilterMenuMain: isLocked: ", isLocked);
   const ref = useRef();
   // useOnClickOutside(ref, () => setIsOpen(false));
 
   const initState = { ...defaultFilters, ...filterState };
-  console.info("FilterMenuSheet: initState: ", initState);
+  console.info("FilterMenu: initState: ", initState);
   const [state, dispatch] = useReducer(filterReducer, initState);
 
-  const onReset = () =>
-    dispatch({ type: "FILTER_RESET", payload: defaultFilters });
+  const onReset = (state) => dispatch({ type: "FILTER_RESET", payload: state });
 
   const setCertsChecked = (checked) =>
     dispatch({ type: "SET_CERTS", payload: checked.sort() });
@@ -73,25 +68,24 @@ export default function FilterMenu({
   const setGenresChecked = (checked) =>
     dispatch({ type: "SET_GENRES", payload: checked.sort() });
 
-  const onRatingChange = (val) => {
-    // console.log("onRatingCahnge: ", val);
-    dispatch({ type: "SET_RATINGS", payload: val });
-  };
+  const onRatingChange = (values) =>
+    dispatch({ type: "SET_RATINGS", payload: values });
 
   const onMinVotesChange = (val) =>
     dispatch({ type: "SET_VOTES", payload: val });
 
   const onYearChange = (val) => dispatch({ type: "SET_YEARS", payload: val });
 
-  const onApply = (state) => {
-    console.log("state: ", state);
+  // const onApply = (state) => {
+  const onApply = () => {
+    console.log("FilterMenu: state onApply(): ", state);
     onApplyFilters(state);
     setIsOpen(false);
   };
 
   useEffect(() => {
-    dispatch({ type: "FILTER_RESET", payload: filterState });
-  }, [filterState]);
+    onReset(filterState);
+  }, [isOpen, filterState]);
 
   useEffect(() => {
     setIsLocked(isOpen);
@@ -139,7 +133,7 @@ export default function FilterMenu({
             value={[state.votes_min]}
             min={0}
             max={defaultFilters.votes_min}
-            step={100}
+            step={1000}
             onChange={onMinVotesChange}
             onFinalChange={onMinVotesChange}
           />
@@ -159,8 +153,11 @@ export default function FilterMenu({
           />
         </RangeSliderWrap>
         <ActionButtonWrap>
-          {/*<Button onClick={onCancel}>Close</Button>*/}
-          <Button onClick={() => onApply(state)} primary>
+          <Button
+            // onClick={() => onApply(state)}
+            onClick={onApply}
+            // disabled={defaultFilters === state}
+          >
             Apply
           </Button>
         </ActionButtonWrap>
@@ -202,12 +199,9 @@ const ActionButtonWrap = styled.div`
 `;
 
 const Button = styled.button`
-  //font-size: 1.1rem;
-  //margin: 0 0.5rem;
   padding: 0.5rem 0.5rem;
-  //padding: 1rem;
-  color: ${(props) => (props.primary ? "#fff" : "#33425b")};
-  background: ${(props) => (props.primary ? "#33425b" : "fff")};
+  color: #fff;
+  background: var(--color-charcoal);
   border: 1px solid lightgray;
   border-radius: 0.25rem;
   width: 75%;
@@ -231,16 +225,16 @@ const SectionHeader = styled.div`
   //color: #2162a4;
 
   & p {
-    font-size: 1.1rem;
+    //font-size: 1.1rem;
     font-weight: 500;
-    margin: 0;
+    //margin: 0;
   }
 
   & span {
     //color: #2162a4;
-    font-size: 1rem;
-    font-weight: 400;
-    margin: 0;
+    //font-size: 1rem;
+    //font-weight: 400;
+    //margin: 0;
   }
 `;
 

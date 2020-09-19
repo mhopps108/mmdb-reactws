@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components/macro";
 import { RiCloseLine } from "react-icons/ri";
 
+// TODO: adding first value to an empty genres or certifications adds 'undefinded' to array
+
 export default function CheckButtonGroup({
   sectionName,
   options,
@@ -9,13 +11,6 @@ export default function CheckButtonGroup({
   setChecked,
 }) {
   console.log(`CheckButtonGroup: checked - ${sectionName}`, checked);
-  // const toggleAll = () => {
-  //   if (checked.length === 0) {
-  //     setChecked(options.map((item) => item.name));
-  //   } else {
-  //     setChecked([]);
-  //   }
-  // };
 
   const onClear = () => {
     setChecked([]);
@@ -68,12 +63,8 @@ export default function CheckButtonGroup({
       {/*</SectionTop>*/}
       <SectionHeader>
         <p>{sectionName}</p>
-        {/*<button onClick={toggleAll}>{checked ? "Select All" : "Clear"}</button>*/}
-        {/*{checked && <button onClick={onClear}>{"Clear"}</button>}*/}
-        {checked && (
-          <button onClick={onClear}>
-            <RiCloseLine />
-          </button>
+        {checked && checked.length !== 0 && (
+          <button onClick={onClear}>Clear</button>
         )}
       </SectionHeader>
       <FlexContainer>
@@ -99,16 +90,16 @@ const SectionHeader = styled.div`
   margin: 0.5rem 0 0.5rem;
 
   & p {
-    font-size: 1.1rem;
+    //font-size: 1.1rem;
     font-weight: 500;
-    margin: 0;
+    //margin: 0;
   }
 
   & button {
     border: 1px solid lightgray;
     background: white;
-    padding: 2px 4px;
-    border-radius: 4px;
+    padding: 2px 6px;
+    border-radius: 0.25rem;
   }
 `;
 
@@ -131,5 +122,5 @@ export const StyledCheckButton = styled.button`
   margin: 3px;
   border-radius: 0.25rem;
   border: 1px solid lightgray;
-  font-size: 1rem;
+  //font-size: 1rem;
 `;

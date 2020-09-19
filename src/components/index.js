@@ -19,6 +19,7 @@ import MovieDetail from "./MovieDetail";
 
 import Dropdown from "./Dropdown";
 import Modal from "./Modal";
+import ActiveFilters from "./ActiveFilters";
 
 export {
   Header,
@@ -37,4 +38,5 @@ export {
   Portal,
   ActionMenu,
   Modal,
+  ActiveFilters,
 };

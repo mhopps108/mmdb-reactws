@@ -14,6 +14,8 @@ export default function Toolbar({
   //   dateData || {};
   const { options, selected, onChange } = sortOptions || {};
 
+  const [search, setSearch] = React.useState("");
+
   return (
     <StyledToolbar>
       <ToolBarWrap dateData={dateData}>
@@ -22,19 +24,24 @@ export default function Toolbar({
           <span>{movie_count || "#"}</span>
         </ListInfo>
 
-        {/*<ButtonGroup>
-          <Dropdown />
-          <Button />
-        </ButtonGroup>*/}
+        {name === "Search" && (
+          <input
+            name="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        )}
 
         <SortWrap>
-          <Dropdown
-            title={"Sort"}
-            selected={selected}
-            onSelect={onChange}
-            items={options}
-            icon={<FaSortAmountDownAlt />}
-          />
+          {sortOptions && (
+            <Dropdown
+              title={"Sort"}
+              selected={selected}
+              onSelect={onChange}
+              items={options}
+              icon={<FaSortAmountDownAlt />}
+            />
+          )}
           {dateData && (
             <Button
               onClick={() =>

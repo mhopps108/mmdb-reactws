@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/macro";
-import { FilterMenu, Portal, Dropdown, Modal } from "../components";
 import {
-  FaSortAmountDownAlt,
-  FaRegCheckSquare,
-  FaRegStar,
-  FaRegCalendar,
-  FaFilter,
-} from "react-icons/fa";
+  FilterMenu,
+  Portal,
+  Dropdown,
+  Modal,
+  ActiveFilters,
+} from "../components";
+import { FaSortAmountDownAlt, FaFilter } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { device } from "../devices";
 
@@ -26,24 +26,16 @@ export default function DiscoverToolbar({
     setShowFilters(!showFilters);
   };
 
-  const displayFilter = (key) => {
-    const defaultFilters = {
-      sortby: "rating",
-      genres: [],
-      certification: [],
-      rating_min: 0.0,
-      rating_max: 10.0,
-      votes_min: 10000,
-      year_min: 1890,
-      year_max: 2030,
-    };
-    if (filterState[key] === defaultFilters[key]) return "";
-    if (Array.isArray(filterState[key])) {
-      return filterState[key].join(", ");
-    }
-
-    return filterState[key] || "";
-  };
+  // const defaultFilters = {
+  //   sortby: "rating",
+  //   genres: [],
+  //   certification: [],
+  //   rating_min: 0.0,
+  //   rating_max: 10.0,
+  //   votes_min: 10000,
+  //   year_min: 1890,
+  //   year_max: 2030,
+  // };
 
   return (
     <StyledToolbar>
@@ -64,24 +56,8 @@ export default function DiscoverToolbar({
             {showFilters ? <IoMdClose size={18} /> : <FaFilter size={14} />}
           </Button>
         </ListNameWrap>
-        {/*TODO: move to own component*/}
-        <ActiveFiltersBar>
-          <div style={{ marginRight: "auto" }}>{"Filters"}</div>
-          <ActiveFilterTag>{displayFilter("genres")}</ActiveFilterTag>
-          <ActiveFilterTag>{displayFilter("certification")}</ActiveFilterTag>
-          <ActiveFilterTag>
-            <FaRegStar />{" "}
-            {`${displayFilter("rating_min")} - ${displayFilter("rating_max")}`}
-          </ActiveFilterTag>
-          <ActiveFilterTag>
-            <FaRegCheckSquare />
-            {displayFilter("votes_min")}
-          </ActiveFilterTag>
-          <ActiveFilterTag>
-            <FaRegCalendar />
-            {`${displayFilter("year_min")} - ${displayFilter("year_max")}`}
-          </ActiveFilterTag>
-        </ActiveFiltersBar>
+
+        <ActiveFilters filters={filterState} />
 
         {/* Tablet/Desktop Filters */}
         <FilterMenuWrapLarge isOpen={showFilters}>
@@ -166,6 +142,8 @@ const FilterMenuWrapSmall = styled.div`
   }
 `;
 
+// TODO: make the following styled components shared between Toolbars
+
 const DiscoveryToolBarWrap = styled.div`
   display: grid;
   // grid-row-gap: 12px;  // TODO: use breakpoint for setting grid-gap ??
@@ -208,8 +186,6 @@ const Button = styled.button`
   }
 `;
 
-// TODO: make the following styled components shared between Toolbars
-
 const ListNameWrap = styled.div`
   grid-area: discoverytoolbar;
   display: flex;
@@ -244,33 +220,4 @@ const SortWrap = styled.div`
   align-items: center;
   margin-left: auto;
   margin-right: 0.5rem;
-`;
-
-const ActiveFiltersBar = styled.div`
-  grid-area: activefiltersbar;
-  color: gray;
-  margin-top: 8px;
-  display: flex;
-  flex-wrap: wrap;
-  //row-gap: 0.5rem;
-  justify-content: flex-end;
-  align-items: center;
-`;
-
-const ActiveFilterTag = styled.div`
-  background: whitesmoke;
-  color: #333;
-  //border: 1px solid lightgray;
-  margin: 4px 8px;
-  padding: 2px 4px;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  text-transform: capitalize;
-
-  svg {
-    color: #666;
-    margin-right: 0.25rem;
-  }
 `;
