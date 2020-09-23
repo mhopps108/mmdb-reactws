@@ -248,18 +248,16 @@ const Menu = styled.div`
   visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
   opacity: ${(props) => (props.isOpen ? 1 : 0)};
   display: flex;
-  //flex-direction: column;
-  //background: whitesmoke;
-  background: white;
-  //border-radius: 6px;
-  //border: 1px solid lightgray;
+
   transition: opacity 400ms cubic-bezier(0, 1, 0.5, 1),
     visibility 400ms cubic-bezier(0, 1, 0.5, 1);
   max-width: 900px;
   //margin: 0.25rem;
 
   width: 100%;
-  border: 1px solid red;
+  //border: 1px solid red;
+  margin-top: 0.5rem;
+  border-top: 1px solid lightgray;
 
   @media ${device.min.tablet} {
     //flex-direction: row;
@@ -272,7 +270,7 @@ const ActionButtonWrap = styled.div`
   align-items: center;
   margin-top: 1rem;
   padding: 0.5rem 0 0.5rem;
-  border-top: 1px solid lightgray;
+  //border-top: 1px solid lightgray;
   background: white;
 
   position: sticky;

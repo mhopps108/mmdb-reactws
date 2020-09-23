@@ -49,13 +49,13 @@ const MenuLink = styled.div`
   padding: 4px 8px;
 
   // TODO: selector not working, fix it
-  :hover {
+  &:hover {
     color: red;
     background: whitesmoke;
   }
 
   & a {
-    color: #282c35;
+    color: var(--color-charcol);
     text-decoration: none;
     font-size: 1rem;
     padding: 4px 12px;
