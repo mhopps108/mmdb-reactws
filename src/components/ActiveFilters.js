@@ -40,12 +40,22 @@ export default function ActiveFilters({ filters }) {
       }
     },
     ratings: () => {
+      const formatRating = (number) => {
+        // const n = Number.parseFloat(number).toFixed(1);
+        const n = Number.parseFloat(number).toPrecision(2);
+
+        console.log(`formatNumbers: ${number} as ${n}`);
+        return n;
+      };
       if (filters.rating_max === defaultFilters.rating_max) {
-        return `${filters.rating_min}+`;
+        const minRating = Number.parseFloat(filters.rating_min).toPrecision(2);
+        return `${minRating}+`;
         // } else if (filters.rating_min === defaultFilters.rating_min) {
         //   return `${filters.rating_min} - ${filters.rating_max}`;
       } else {
-        return `${filters.rating_min} - ${filters.rating_max}`;
+        const minRating = Number.parseFloat(filters.rating_min).toPrecision(2);
+        const maxRating = Number.parseFloat(filters.rating_max).toPrecision(2);
+        return `${minRating} - ${maxRating}`;
       }
     },
     years: () => {
@@ -61,7 +71,7 @@ export default function ActiveFilters({ filters }) {
       if (filters.votes_min === 0) {
         return ``;
       } else {
-        return `${filters.votes_min}+`;
+        return `${filters.votes_min.toLocaleString()}+`;
       }
     },
   };

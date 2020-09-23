@@ -64,8 +64,10 @@ export default function DiscoverToolbar({
 
         {/* Tablet/Desktop Filters */}
         <FilterMenuWrapLarge isOpen={showFilters}>
+          {/*<FilterMenuWrapLarge isOpen={true}>*/}
           <FilterMenuSelect
             isOpen={showFilters}
+            // isOpen={true}
             setIsOpen={setShowFilters}
             filterState={filterState}
             onApplyFilters={onApplyFilters}
@@ -79,24 +81,18 @@ export default function DiscoverToolbar({
         </FilterMenuWrapLarge>
 
         {/* Mobile Filters */}
-        <Modal
-          title={"Filters"}
-          isOpen={showFilters}
-          onClose={() => setShowFilters(false)}
-        >
-          <FilterMenuSelect
-            isOpen={showFilters}
-            setIsOpen={setShowFilters}
-            filterState={filterState}
-            onApplyFilters={onApplyFilters}
-          />
-          {/*<FilterMenu*/}
-          {/*  isOpen={showFilters}*/}
-          {/*  setIsOpen={setShowFilters}*/}
-          {/*  filterState={filterState}*/}
-          {/*  onApplyFilters={onApplyFilters}*/}
-          {/*/>*/}
-        </Modal>
+        {/*<Modal*/}
+        {/*  title={"Filters"}*/}
+        {/*  isOpen={showFilters}*/}
+        {/*  onClose={() => setShowFilters(false)}*/}
+        {/*>*/}
+        {/*  <FilterMenuSelect*/}
+        {/*    isOpen={showFilters}*/}
+        {/*    setIsOpen={setShowFilters}*/}
+        {/*    filterState={filterState}*/}
+        {/*    onApplyFilters={onApplyFilters}*/}
+        {/*  />*/}
+        {/*</Modal>*/}
         {/*<Portal>*/}
         {/*  <FilterMenuWrapSmall isOpen={showFilters}>*/}
         {/*    <FilterMenu*/}
@@ -114,14 +110,19 @@ export default function DiscoverToolbar({
 
 const FilterMenuWrapLarge = styled.div`
   grid-area: filtermenu;
-  display: none;
+  //display: none;
+  display: flex;
+  justify-content: center;
+  border-radius: 6px;
+  max-height: ${(props) => (props.isOpen ? "750px" : 0)};
+  transition: max-height 300ms cubic-bezier(0, 1, 0.5, 1);
 
   @media ${device.min.tablet} {
-    display: flex;
-    justify-content: center;
-    border-radius: 6px;
-    max-height: ${(props) => (props.isOpen ? "600px" : 0)};
-    transition: max-height 350ms cubic-bezier(0, 1, 0.5, 1);
+    //display: flex;
+    //justify-content: center;
+    //border-radius: 6px;
+    // max-height: ${(props) => (props.isOpen ? "600px" : 0)};
+    //transition: max-height 300ms cubic-bezier(0, 1, 0.5, 1);
   }
 `;
 

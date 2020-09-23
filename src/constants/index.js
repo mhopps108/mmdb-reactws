@@ -128,3 +128,11 @@ export const certOptions = [
   { name: "R", label: "R" },
   { name: "Unrated", label: "Unrated" },
 ];
+
+export const certSelectOptions = [
+  { value: "G", label: "G" },
+  { value: "PG", label: "PG" },
+  { value: "PG-13", label: "PG-13" },
+  { value: "R", label: "R" },
+  { value: "Unrated", label: "Unrated" },
+];
