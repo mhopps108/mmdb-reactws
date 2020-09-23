@@ -20,6 +20,9 @@ import MovieDetail from "./MovieDetail";
 import Dropdown from "./Dropdown";
 import Modal from "./Modal";
 import ActiveFilters from "./ActiveFilters";
+import NavMenuMobile from "./NavMenuMobile";
+import HeaderWithSearch from "./HeaderWithSearch";
+import FilterMenuSelect from "./FilterMenuSelect";
 
 export {
   Header,
@@ -39,4 +42,7 @@ export {
   ActionMenu,
   Modal,
   ActiveFilters,
+  NavMenuMobile,
+  HeaderWithSearch,
+  FilterMenuSelect,
 };

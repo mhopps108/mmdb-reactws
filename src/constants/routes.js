@@ -21,6 +21,37 @@ export const tmdbLinks = [
   },
 ];
 
+export const releaseDateLinksByPeriod = {
+  week: [
+    {
+      name: "Theatrical",
+      path: "/release-dates/theatrical/week?sort=release",
+    },
+    {
+      name: "Digital",
+      path: "/release-dates/digital/week?sort=release",
+    },
+    {
+      name: "Physical",
+      path: "/release-dates/physical/week?sort=release",
+    },
+  ],
+  month: [
+    {
+      name: "Theatrical",
+      path: "/release-dates/theatrical/month?sort=release",
+    },
+    {
+      name: "Digital",
+      path: "/release-dates/digital/month?sort=release",
+    },
+    {
+      name: "Physical",
+      path: "/release-dates/physical/month?sort=release",
+    },
+  ],
+};
+
 export const releaseDateLinks = [
   {
     name: "Theatrical | Week",

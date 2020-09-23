@@ -12,6 +12,7 @@ import qs from "query-string";
 import { device } from "../devices";
 import { Header, Toolbar, MovieList, DatePager, Dropdown } from "../components";
 import { FaSortAmountDownAlt, FaRegCalendar } from "react-icons/fa";
+import { BsArrowDownShort, BsArrowDown } from "react-icons/bs";
 
 import {
   StyledToolbar,
@@ -136,7 +137,8 @@ export default function RDWithToolbar() {
               selected={params.sort}
               onSelect={onSortChange}
               items={sortOptions}
-              icon={<FaSortAmountDownAlt />}
+              // icon={<FaSortAmountDownAlt />}
+              icon={<BsArrowDown />}
             />
             <Button onClick={() => console.log("not implemented")}>
               <FaRegCalendar size={"1rem"} />

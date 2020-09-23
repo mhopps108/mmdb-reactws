@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components/macro";
 import { useOnClickOutside } from "../hooks";
+import { BsArrowDownShort, BsArrowDown } from "react-icons/bs";
 
 // https://csslayout.io/patterns/dropdown/
 
@@ -11,15 +12,16 @@ export default function Dropdown({
   onSelect,
   icon = null,
 }) {
-  // console.log("Dropdown: selected: ", selected);
+  console.log("Dropdown: selected: ", selected);
   const ref = useRef();
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(!isOpen);
 
   useOnClickOutside(ref, () => setIsOpen(false));
 
-  const onChange = (value) => {
-    onSelect(value);
+  const onChange = ({ value, label }) => {
+    console.log(`Dropdown: onChange(value): ${value} - ${label}`);
+    onSelect({ value, label });
     setIsOpen(false);
   };
 
@@ -53,9 +55,9 @@ export default function Dropdown({
         <Title>{title}</Title>
         {items &&
           items.map(({ value, label }) => (
-            // <MenuItem key={value} onClick={() => onChange(value)}>
             <MenuItem key={value} onClick={() => onChange({ value, label })}>
               <span>{label}</span>
+              {selected === label && <span>{<BsArrowDown />}</span>}
             </MenuItem>
           ))}
       </Menu>
@@ -70,28 +72,25 @@ const Wrap = styled.div`
 `;
 
 const Button = styled.button`
-  font-size: 1rem;
   text-transform: capitalize;
-  padding: 6px 12px;
-  background: none;
-  color: var(--color-charcoal);
+  padding: 4px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: none;
   //box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.1);
   border: none;
-  //border-radius: 0.5rem;
   border-radius: 0.25rem;
 
   transition: box-shadow 0.4s ease;
 
   :hover {
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   }
 
   svg {
-    margin-left: 0.5rem;
+    margin-left: 0.25rem;
   }
 `;
 
@@ -110,8 +109,8 @@ const Menu = styled.div`
 
   position: absolute;
   right: 0;
-  //top: 120%;
-  top: 85%;
+  //top: 120%; // with arrow
+  top: 50%;
   min-width: 120px;
   width: max-content;
 
@@ -131,6 +130,8 @@ const Menu = styled.div`
 `;
 
 const MenuItem = styled.div`
+  display: flex;
+  justify-content: space-between;
   padding: 0.5rem 1rem;
   //font-size: 0.9rem;
 

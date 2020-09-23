@@ -1,3 +1,7 @@
+export const searchSortOptions = [
+  { value: "-votes,-rating,title", label: "votes" },
+];
+
 export const listSortOptions = [
   { value: "rank", label: "rank" },
   { value: "-movie_rating,-movie_votes,movie_title", label: "rating" },
@@ -56,6 +60,57 @@ export const genreOptions = [
   { name: "thriller", label: "Thriller" },
   { name: "war", label: "War" },
   { name: "western", label: "Western" },
+
+  // TODO: remove from db
+  // { name: "reality-tv", label: "Reality-TV" },
+
+  // { name: "game-show", label: "Game-Show" },
+  // { name: "talk-Show", label: "Talk-Show" },
+  // { name: "news", label: "News" },
+  // { name: "short", label: "Short" },
+];
+
+export const genreSelectOptions = [
+  // "Action",
+  // "Adventure",
+  // "Animation",
+  // "Comedy",
+  // "Crime",
+  // "Fantasy",
+  // "History",
+  // "Horror",
+  // "Music",
+  // "Musical",
+  // "Mystery",
+  // "Sci-Fi",
+  // "Sport",
+  // "Thriller",
+  // "War",
+  // "Western",
+
+  { value: "action", label: "Action" },
+  { value: "adventure", label: "Adventure" },
+  { value: "animation", label: "Animation" },
+  { value: "biography", label: "Biography" },
+  { value: "comedy", label: "Comedy" },
+  { value: "crime", label: "Crime" },
+  { value: "documentary", label: "Documentary" },
+  { value: "drama", label: "Drama" },
+  { value: "family", label: "Family" },
+  { value: "film-noir", label: "Film-Noir" },
+  { value: "fantasy", label: "Fantasy" },
+  { value: "history", label: "History" },
+  { value: "horror", label: "Horror" },
+  { value: "music", label: "Music" },
+  { value: "musical", label: "Musical" },
+  { value: "mystery", label: "Mystery" },
+
+  { value: "romance", label: "Romance" },
+  { value: "science fiction", label: "Sci-Fi" },
+  { value: "sport", label: "Sport" },
+  { value: "thriller", label: "Thriller" },
+  { value: "war", label: "War" },
+  { value: "western", label: "Western" },
 
   // TODO: remove from db
   // { name: "reality-tv", label: "Reality-TV" },

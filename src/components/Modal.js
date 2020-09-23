@@ -64,6 +64,7 @@ const ModalWrap = styled.div`
   flex-direction: column;
   max-height: 100%;
   //height: 100%;
+  width: 100%;
   margin: 5px;
   background: white;
   border-radius: 6px;

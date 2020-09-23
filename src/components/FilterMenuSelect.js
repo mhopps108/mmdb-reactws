@@ -3,7 +3,8 @@ import styled from "styled-components/macro";
 import { device } from "../devices";
 import { RangeSlider, CheckButtonGroup } from "../components";
 import { useLockBodyScroll, useOnClickOutside } from "../hooks";
-import { genreOptions, certOptions } from "../constants";
+import { genreOptions, certOptions, genreSelectOptions } from "../constants";
+import Select from "react-select";
 
 const defaultFilters = {
   sortby: "rating",
@@ -78,12 +79,33 @@ export default function FilterMenu({
 
   const onYearChange = (val) => dispatch({ type: "SET_YEARS", payload: val });
 
+  const onSelectChange = (value, o) => {
+    console.log(`onSelectChange: value `, value);
+    console.log(`onSelectChange: o `, o);
+    const selected = value.map((item) => item.value);
+    console.log(`onSelectChange: selected: `, selected);
+    // dispatch({ type: "SET_GENRES", payload: value });
+    dispatch({ type: "SET_GENRES", payload: selected });
+  };
+
+  const onGetOptionValue = (v, arr) => {
+    console.log("FilterMenuSelect: onGetOptionValue: ", v);
+    console.log("FilterMenuSelect: onGetOptionValue: ", typeof v);
+    console.log("FilterMenuSelect: onGetOptionValue: ", arr);
+    console.log("FilterMenuSelect: onGetOptionValue: ", typeof arr);
+    return arr.includes(v.value);
+  };
+
   // const onApply = (state) => {
   const onApply = () => {
     console.log("FilterMenu: state onApply(): ", state);
     onApplyFilters(state);
     setIsOpen(false);
   };
+
+  useEffect(() => {
+    console.log("FilterMenuSelect: state ", state);
+  }, [state]);
 
   useEffect(() => {
     onReset(filterState);
@@ -102,11 +124,25 @@ export default function FilterMenu({
           checked={state.certification}
           setChecked={setCertsChecked}
         />
-        <CheckButtonGroup
-          sectionName="Genres"
-          options={genreOptions.sort()}
-          checked={state.genres || []}
-          setChecked={setGenresChecked}
+        {/*<CheckButtonGroup*/}
+        {/*  sectionName="Genres"*/}
+        {/*  options={genreOptions.sort()}*/}
+        {/*  checked={state.genres || []}*/}
+        {/*  setChecked={setGenresChecked}*/}
+        {/*/>*/}
+        <SectionHeader>
+          <p>Genres</p>
+          {/*<p>{`${state.rating_min} - ${state.rating_max}`}</p>*/}
+        </SectionHeader>
+        <Select
+          isMulti
+          isSearchable={false}
+          options={genreSelectOptions}
+          // value={state.genres || []}
+          onChange={(v, o) => onSelectChange(v, o)}
+          getOptionsLabel={(option) => option}
+          getOptionsValue={(option) => option}
+          // isOptionSelected={onGetOptionValue}
         />
       </FilterSection>
       <FilterSection>

@@ -9,7 +9,7 @@ import API from "../api/api";
 import qs from "query-string";
 
 import { device } from "../devices";
-import { Header, MovieList, Dropdown } from "../components";
+import { Header, MovieList, Dropdown, HeaderWithSearch } from "../components";
 import { FaSortAmountDownAlt } from "react-icons/fa";
 
 import {
@@ -90,7 +90,8 @@ export default function LWithToolbar({ view = "list" }) {
 
   return (
     <StyledList>
-      <Header />
+      {/*<Header />*/}
+      <HeaderWithSearch />
       <StyledToolbar>
         <ListToolBar>
           <ListInfo>

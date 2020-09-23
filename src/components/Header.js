@@ -2,62 +2,16 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { device } from "../devices";
-import { NavDropdown, Portal } from "../components";
+import { NavDropdown, Portal, NavMenuMobile } from "../components";
 import { FaSearch, FaUserAlt } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
 import { GrClose } from "react-icons/gr";
 import {
   tmdbLinks,
   discoveryLinks,
+  releaseDateLinksByPeriod,
   releaseDateLinks,
 } from "../constants/routes";
-// import { colors } from "../theme";
-import { theme } from "../theme";
-
-const NavMenuWrap = styled.div`
-  display: flex;
-  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
-  flex-direction: column;
-  opacity: ${(props) => (props.isOpen ? "1" : "0")};
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  border: 2px solid lightgray;
-  border-radius: 6px;
-  background: var(--color-charcoal);
-  transition: all 100ms ease-in-out;
-  z-index: 1010;
-
-  @media ${device.min.tablet} {
-    display: none;
-    //visibility: hidden;
-    opacity: 0;
-  }
-`;
-
-const NavSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 10px 0;
-  div {
-    margin: 4px 0;
-  }
-  p {
-    color: var(--color-grey);
-    opacity: 0.5;
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-  a {
-    color: whitesmoke;
-    font-size: 1.2rem;
-  }
-`;
 
 const MenuButton = styled.button`
   position: fixed;
@@ -83,6 +37,51 @@ const MenuButton = styled.button`
   @media ${device.min.tablet} {
     //display: none;
     visibility: hidden;
+  }
+`;
+
+const NavMenuWrap = styled.div`
+  display: flex;
+  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
+  flex-direction: column;
+  opacity: ${(props) => (props.isOpen ? "1" : "0")};
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  border: 2px solid lightgray;
+  border-radius: 6px;
+  background: var(--color-charcoal);
+  transition: all 100ms ease-in-out;
+  z-index: 1010;
+
+  @media ${device.min.tablet} {
+    display: none;
+    //visibility: hidden;
+    //opacity: 0;
+  }
+`;
+
+const NavSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+  div {
+    margin: 4px 0;
+  }
+  p {
+    color: var(--color-grey);
+    opacity: 0.5;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  a {
+    color: whitesmoke;
+    font-size: 1.2rem;
   }
 `;
 
@@ -137,13 +136,21 @@ export default function Header() {
           <Link to="/">MMDb</Link>
         </NavBrand>
         <Nav>
-          {/*<Nav style={{ marginLeft: "auto", marginRight: "auto" }}>*/}
           <NavDropdown title={"Lists"} items={tmdbLinks} />
           <NavDropdown title={"Releases"} items={releaseDateLinks} />
           <NavDropdown title={"Discover"} items={discoveryLinks} />
         </Nav>
 
         <div>
+          {/*<SearchWrap>*/}
+          {/*    <Input*/}
+          {/*        type="text"*/}
+          {/*        // type="search"*/}
+          {/*        name="search"*/}
+          {/*        value={search}*/}
+          {/*        onChange={(e) => setSearch(e.target.value)}*/}
+          {/*    />*/}
+          {/*</SearchWrap>*/}
           <Link to={"/search?search=avengers"}>
             <FaSearch />
           </Link>
@@ -156,11 +163,26 @@ export default function Header() {
         <MenuButton onClick={toggleNav}>
           {showNav ? <GrClose /> : <FiMenu />}
         </MenuButton>
-        <NavMenu isOpen={showNav} toggleNav={toggleNav} />
+        <NavMenuMobile isOpen={showNav} toggleNav={toggleNav} />
+        {/*<NavMenu isOpen={showNav} toggleNav={toggleNav} />*/}
       </Portal>
     </>
   );
 }
+
+const SearchWrap = styled.div`
+  background: #232323;
+  height: 35px;
+`;
+
+const Input = styled.input`
+  //appearance: none;
+  //border: none;
+  //outline: none;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  //overflow: hidden;
+`;
 
 const HeaderWrap = styled.header`
   grid-area: header;

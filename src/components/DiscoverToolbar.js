@@ -6,9 +6,12 @@ import {
   Dropdown,
   Modal,
   ActiveFilters,
+  FilterMenuSelect,
 } from "../components";
 import { FaSortAmountDownAlt, FaFilter } from "react-icons/fa";
+import { FiFilter } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
+import { BsArrowDownShort, BsArrowDown } from "react-icons/bs";
 import { device } from "../devices";
 
 export default function DiscoverToolbar({
@@ -49,11 +52,11 @@ export default function DiscoverToolbar({
               selected={orderByValue}
               onSelect={onOrderChange}
               items={sortData}
-              icon={<FaSortAmountDownAlt />}
+              icon={<BsArrowDown />}
             />
           </SortWrap>
           <Button onClick={toggleShowFilters}>
-            {showFilters ? <IoMdClose size={18} /> : <FaFilter size={14} />}
+            {showFilters ? <IoMdClose size={18} /> : <FiFilter size={14} />}
           </Button>
         </ListNameWrap>
 
@@ -61,12 +64,18 @@ export default function DiscoverToolbar({
 
         {/* Tablet/Desktop Filters */}
         <FilterMenuWrapLarge isOpen={showFilters}>
-          <FilterMenu
+          <FilterMenuSelect
             isOpen={showFilters}
             setIsOpen={setShowFilters}
             filterState={filterState}
             onApplyFilters={onApplyFilters}
           />
+          {/*<FilterMenu*/}
+          {/*  isOpen={showFilters}*/}
+          {/*  setIsOpen={setShowFilters}*/}
+          {/*  filterState={filterState}*/}
+          {/*  onApplyFilters={onApplyFilters}*/}
+          {/*/>*/}
         </FilterMenuWrapLarge>
 
         {/* Mobile Filters */}
@@ -75,12 +84,18 @@ export default function DiscoverToolbar({
           isOpen={showFilters}
           onClose={() => setShowFilters(false)}
         >
-          <FilterMenu
+          <FilterMenuSelect
             isOpen={showFilters}
             setIsOpen={setShowFilters}
             filterState={filterState}
             onApplyFilters={onApplyFilters}
           />
+          {/*<FilterMenu*/}
+          {/*  isOpen={showFilters}*/}
+          {/*  setIsOpen={setShowFilters}*/}
+          {/*  filterState={filterState}*/}
+          {/*  onApplyFilters={onApplyFilters}*/}
+          {/*/>*/}
         </Modal>
         {/*<Portal>*/}
         {/*  <FilterMenuWrapSmall isOpen={showFilters}>*/}
@@ -169,8 +184,8 @@ const StyledToolbar = styled.div`
 `;
 
 const Button = styled.button`
-  font-size: 1rem;
-  padding: 6px 12px;
+  //font-size: 1rem;
+  padding: 4px 12px;
   background: white;
   //display: flex;
   //justify-content: space-between;

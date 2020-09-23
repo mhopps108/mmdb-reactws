@@ -1,10 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
-import { Header, Toolbar, MovieList, MoviePosterList } from "../components";
+import { device } from "../devices";
+import { Header, Toolbar, MovieList, Dropdown } from "../components";
 import API from "../api/api";
 import qs from "query-string";
+
+import {
+  StyledToolbar,
+  ReleaseDatesToolBar,
+  ListInfo,
+  ButtonWrap,
+  Button,
+  DatePagerWrap,
+  ListToolBar,
+} from "../styled/ToolbarStyled";
+import { searchSortOptions } from "../constants";
+import { FaSortAmountDownAlt } from "react-icons/fa";
 
 // TODO: save recent searches to local storage?
 //  clear from settings? bottom of list?
@@ -25,20 +38,25 @@ export default function Search() {
   let navigate = useNavigate();
   const location = useLocation();
 
+  const [search, setSearch] = React.useState("");
+
   const [params, setParams] = useState(qs.parse(location.search, qsOptions));
   console.log("params: ", params);
 
-  const getMovies = async (key, paramKeys, nextPage = 1) => {
-    const queryParams = {
-      /*sortby: value,*/
-      search: paramKeys.search,
-      page_size: 15,
-    };
-
+  const printGetsMovieData = (key, paramKeys, nextPage, queryParams) => {
     console.log("getMovies(): key=", key);
     console.log("getMovies(): paramKeys=", paramKeys);
     console.log("getMovies(): nextPage=", nextPage);
-    console.log("getMovies(): queryParams=", queryParams);
+    console.log("getMovies(): queryParams: ", queryParams);
+  };
+
+  const getMovies = async (key, paramKeys, nextPage = 1) => {
+    const queryParams = {
+      search: paramKeys.search,
+      sortby: searchSortOptions[0].value,
+      page_size: 15,
+    };
+    printGetsMovieData(key, paramKeys, nextPage, queryParams);
 
     const response = await API.get(`/search/`, {
       params: { page: nextPage, ...queryParams },
@@ -53,7 +71,7 @@ export default function Search() {
     isFetching,
     fetchMore,
     canFetchMore,
-  } = useInfiniteQuery(["movielist", { ...params }], getMovies, {
+  } = useInfiniteQuery(["search", { ...params }], getMovies, {
     getFetchMore: (lastPage, allPages) => lastPage.next_page,
   });
 
@@ -61,16 +79,18 @@ export default function Search() {
     navigate(location.pathname + "?" + qs.stringify({ ...params }, qsOptions));
   }, [navigate, location.pathname, params]);
 
-  // toolbar data
-  const listData = {
-    movie_count: data ? data[0].count : "#",
-    name: `Search`,
-  };
-
   return (
     <StyledList>
       <Header />
-      <Toolbar listData={listData} />
+      <StyledToolbar>
+        <ListToolBar>
+          <ListInfo>
+            <p>{"Search" || "Loading..."}</p>
+            <span>{data ? data[0].count : "#"}</span>
+          </ListInfo>
+        </ListToolBar>
+      </StyledToolbar>
+
       <MovieList
         movies={
           data && data.reduce((acc, page) => [...acc, ...page.results], [])
