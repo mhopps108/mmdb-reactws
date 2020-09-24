@@ -3,7 +3,13 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
 import { device } from "../devices";
-import { Header, Toolbar, MovieList, Dropdown } from "../components";
+import {
+  Header,
+  Toolbar,
+  MovieList,
+  Dropdown,
+  HeaderWithSearch,
+} from "../components";
 import API from "../api/api";
 import qs from "query-string";
 
@@ -81,7 +87,8 @@ export default function Search() {
 
   return (
     <StyledList>
-      <Header />
+      {/*<Header />*/}
+      <HeaderWithSearch />
       <StyledToolbar>
         <ListToolBar>
           <ListInfo>

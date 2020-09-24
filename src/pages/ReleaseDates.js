@@ -3,11 +3,32 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
 import moment from "moment";
-import { Header, Toolbar, MovieList } from "../components";
+// import { Header, Toolbar, MovieList } from "../components";
 import { releasesSortOptions } from "../constants";
 import API from "../api/api";
 import { dateUtil } from "../utils/dates";
 import qs from "query-string";
+
+import { device } from "../devices";
+import {
+  Header,
+  Toolbar,
+  MovieList,
+  DatePager,
+  Dropdown,
+  HeaderWithSearch,
+} from "../components";
+import { FaSortAmountDownAlt, FaRegCalendar } from "react-icons/fa";
+import { BsArrowDownShort, BsArrowDown } from "react-icons/bs";
+
+import {
+  StyledToolbar,
+  ReleaseDatesToolBar,
+  ListInfo,
+  ButtonWrap,
+  Button,
+  DatePagerWrap,
+} from "../styled/ToolbarStyled";
 
 const qsOptions = {
   arrayFormat: "comma",
@@ -21,7 +42,7 @@ const { formatPeriod, startOf, endOf, getPrev, getNext } = dateUtil;
 
 // TODO: weekOf=, month= --- query params? instead of startFrom
 
-export default function ReleaseDates() {
+export default function RDWithToolbar() {
   let renderRef = useRef(0);
   renderRef.current = renderRef.current + 1;
   console.log("render: ", renderRef.current);
@@ -101,35 +122,48 @@ export default function ReleaseDates() {
       ...params,
       startFrom: startOf(moment(), period),
     });
-  }, [period, type]);
+  }, [period, type]); // TODO: use location.pathname ??
 
   useEffect(() => {
     navigate(location.pathname + "?" + qs.stringify(params, qsOptions));
   }, [navigate, location.pathname, params]);
 
-  // toolbar data
-  const listData = {
-    movie_count: data ? data[0].count : "#",
-    name: type,
-    type: type,
-  };
-  const dateData = {
-    goToToday: () => goToDate(startOf(moment(), period)),
-    displayDateStr: formatPeriod(params.startFrom, period),
-    prevPeriod: getPrev(params.startFrom, period),
-    nextPeriod: getNext(params.startFrom, period),
-    goToDate,
-  };
-  const sortData = {
-    options: sortOptions,
-    selected: params.sort,
-    onChange: onSortChange,
-  };
-
   return (
     <StyledReleases>
-      <Header />
-      <Toolbar listData={listData} dateData={dateData} sortOptions={sortData} />
+      {/*<Header />*/}
+      <HeaderWithSearch />
+      <StyledToolbar>
+        <ReleaseDatesToolBar>
+          <ListInfo>
+            <p>{type || "Loading..."}</p>
+            <span>{data ? data[0].count : "#"}</span>
+          </ListInfo>
+
+          <ButtonWrap>
+            <Dropdown
+              title={"Sort"}
+              selected={params.sort}
+              onSelect={onSortChange}
+              items={sortOptions}
+              // icon={<FaSortAmountDownAlt />}
+              icon={<BsArrowDown />}
+            />
+            <Button onClick={() => console.log("not implemented")}>
+              <FaRegCalendar size={"1rem"} />
+            </Button>
+          </ButtonWrap>
+
+          <DatePagerWrap>
+            <DatePager
+              goToToday={() => goToDate(startOf(moment(), period))}
+              displayDateStr={formatPeriod(params.startFrom, period)}
+              prevPeriod={getPrev(params.startFrom, period)}
+              nextPeriod={getNext(params.startFrom, period)}
+              goToDate={goToDate}
+            />
+          </DatePagerWrap>
+        </ReleaseDatesToolBar>
+      </StyledToolbar>
       <MovieList
         movies={
           data && data.reduce((acc, page) => [...acc, ...page.results], [])
@@ -149,6 +183,8 @@ export default function ReleaseDates() {
     </StyledReleases>
   );
 }
+
+// ----
 
 const LoadMoreButton = styled.button`
   height: 40px;

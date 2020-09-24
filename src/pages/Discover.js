@@ -2,16 +2,35 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
+import { device } from "../devices";
 import qs from "query-string";
 
 import {
   Header,
-  DiscoverToolbar,
-  MovieList,
   HeaderWithSearch,
+  MovieList,
+  FilterMenu,
+  // Portal,
+  Dropdown,
+  // Modal,
+  ActiveFilters,
 } from "../components";
+
+import {
+  StyledToolbar,
+  DiscoveryToolBar,
+  FilterMenuWrap,
+  ListInfo,
+  ButtonWrap,
+  Button,
+} from "../styled/ToolbarStyled";
+
 import API from "../api/api";
 import { discoverySortOptions } from "../constants";
+import { FaSortAmountDownAlt, FaFilter } from "react-icons/fa";
+import { FiFilter } from "react-icons/fi";
+import { IoMdClose } from "react-icons/io";
+import { BsArrowDownShort, BsArrowDown } from "react-icons/bs";
 
 const qsOptions = {
   arrayFormat: "comma",
@@ -78,32 +97,54 @@ export default function Discover() {
     setParams(filterState);
   };
 
+  const [showFilters, setShowFilters] = useState(false);
+  const toggleShowFilters = () => {
+    console.log("clicked - toggleShowFilters - ", showFilters);
+    setShowFilters(!showFilters);
+  };
+
   useEffect(() => {
     navigate(location.pathname + "?" + qs.stringify({ ...params }, qsOptions));
   }, [navigate, location.pathname, params]);
-
-  // toolbar data
-  const listData = {
-    name: "Discover",
-    movie_count: data ? data[0].count : "#",
-    // type: type,
-  };
-  const sortData = {
-    sortData: discoverySortOptions,
-    orderByValue: params.sortby,
-    onOrderChange: onSortChange,
-  };
 
   return (
     <StyledDiscover>
       {/*<Header />*/}
       <HeaderWithSearch />
-      <DiscoverToolbar
-        listData={listData}
-        sortOptions={sortData}
-        filterState={params}
-        onApplyFilters={onApplyFilters}
-      />
+      <StyledToolbar>
+        <DiscoveryToolBar>
+          <ListInfo>
+            <p>{"Discover" || "Loading..."}</p>
+            <span>{data ? data[0].count : "#"}</span>
+          </ListInfo>
+
+          <ButtonWrap>
+            <Dropdown
+              title={"Sort"}
+              selected={params.sortby}
+              onSelect={onSortChange}
+              items={discoverySortOptions}
+              // icon={<FaSortAmountDownAlt />}
+              icon={<BsArrowDown />}
+            />
+            <Button onClick={toggleShowFilters}>
+              {showFilters ? <IoMdClose size={18} /> : <FiFilter size={14} />}
+            </Button>
+          </ButtonWrap>
+
+          <ActiveFilters filters={params} />
+
+          <FilterMenuWrap isOpen={showFilters}>
+            <FilterMenu
+              isOpen={showFilters}
+              setIsOpen={setShowFilters}
+              filterState={params}
+              onApplyFilters={onApplyFilters}
+            />
+          </FilterMenuWrap>
+        </DiscoveryToolBar>
+      </StyledToolbar>
+
       <MovieList
         movies={
           data && data.reduce((acc, page) => [...acc, ...page.results], [])

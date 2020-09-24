@@ -71,6 +71,7 @@ const Wrap = styled.div`
   flex-direction: row;
 `;
 
+// TODO: use toolbar 'Button' styled component
 const Button = styled.button`
   text-transform: capitalize;
   padding: 4px 12px;

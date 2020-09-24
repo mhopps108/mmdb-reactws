@@ -70,16 +70,16 @@ export default function App() {
             <Route exact path={"/"}>
               <Navigate to="/list/tmdb-popular?sort=rank" />
             </Route>
-            {/*<Route path={"/list/:slug"} element={<List />} />*/}
-            <Route path={"/list/:slug"} element={<LWithToolbar />} />
-            {/*<Route*/}
-            {/*  path={"/release-dates/:type/:period"}*/}
-            {/*  element={<ReleaseDates />}*/}
-            {/*/>*/}
+            <Route path={"/list/:slug"} element={<List />} />
+
             <Route
               path={"/release-dates/:type/:period"}
-              element={<RDWithToolbar />}
+              element={<ReleaseDates />}
             />
+            {/*<Route*/}
+            {/*  path={"/release-dates/:type/:period"}*/}
+            {/*  element={<RDWithToolbar />}*/}
+            {/*/>*/}
             <Route path={"/discover"} element={<Discover />} />
             <Route path={"/search"} element={<Search />} />
             <Route path="/movie/:imdbId" element={<Detail />} />

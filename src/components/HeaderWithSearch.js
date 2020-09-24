@@ -22,11 +22,6 @@ export default function HeaderWithSearch() {
 
   useOnClickOutside(searchRef, () => setShowSearch(false));
 
-  const onSearch = () => {
-    console.log("Header: showSearch clicked");
-    setShowSearch(true);
-  };
-
   return (
     <>
       <HeaderWrap>
@@ -40,23 +35,24 @@ export default function HeaderWithSearch() {
         </Nav>
 
         <ButtonWrap>
-          {/* TODO: pull this out (into a portal?) */}
-          <SearchWrap isOpen={showSearch} ref={searchRef}>
-            <NavButton onClick={onSearch}>
-              <FaSearch />
-            </NavButton>
-            <Input
-              isOpen={showSearch}
-              type="text"
-              // type="search"
-              name="search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </SearchWrap>
-          {/*<Link to={"/search?search=avengers"}>*/}
-          {/*  <FaSearch />*/}
-          {/*</Link>*/}
+          <Portal>
+            <SearchWrap isOpen={showSearch} ref={searchRef}>
+              <FaSearch size={30} />
+              <input
+                type="text"
+                name="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <button>
+                <Link to={`/search/?search=${search}`}>Search</Link>
+              </button>
+            </SearchWrap>
+            <Backdrop isOpen={showSearch} />
+          </Portal>
+          <NavButton onClick={() => setShowSearch(true)}>
+            <FaSearch />
+          </NavButton>
           <NavButton>
             <FaUserAlt />
           </NavButton>
@@ -73,33 +69,67 @@ export default function HeaderWithSearch() {
   );
 }
 
-const SearchWrap = styled.div`
-  background: #232323;
-  height: 35px;
-  display: flex;
-  flex-direction: row;
-  //flex-wrap: nowrap;
-  border: 1px solid red;
-  background: yellow;
-
-  width: ${(p) => (p.isOpen ? "100%" : "auto")};
-  //opacity: ${(p) => (p.isOpen ? "1" : "0")};
-  opacity: 1;
-  transition: width 300ms ease-in-out, opacity 300ms ease-in-out;
+const Backdrop = styled.div`
+  display: ${(p) => (p.isOpen ? "flex" : "none")};
+  opacity: ${(p) => (p.isOpen ? "0.8" : "0")};
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: var(--color-charcoal);
+  z-index: 1199;
 `;
 
-const Input = styled.input`
-  //appearance: none;
-  border: none;
-  outline: none;
-  border-radius: 0.25rem;
-  font-size: 1rem;
-  //overflow: hidden;
+const SearchWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  //flex-wrap: nowrap;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1200;
+  height: 45px;
+  margin: 5px;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
 
-  width: ${(p) => (p.isOpen ? "100%" : "0")};
+  width: ${(p) => (p.isOpen ? "calc(100vw - 10px)" : "0")};
+  max-width: 500px;
   opacity: ${(p) => (p.isOpen ? "1" : "0")};
-
   transition: width 300ms ease-in-out, opacity 300ms ease-in-out;
+
+  border: 1px solid lightgray;
+  background: white;
+  box-shadow: 0px 2px 4px 0px rgba(255, 255, 255, 0.5);
+
+  svg {
+  }
+
+  input {
+    appearance: none; // TODO: does?
+    //border: none;
+    border: 1px solid whitesmoke;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+    outline: none;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    //overflow: hidden;
+    height: 30px;
+    width: 100%;
+    margin: 0 1rem;
+  }
+
+  button {
+    height: 30px;
+    padding: 0 0.5rem;
+    border-radius: 0.25rem;
+    background: var(--color-charcoal);
+    a {
+      color: white;
+    }
+  }
 `;
 
 const HeaderWrap = styled.header`

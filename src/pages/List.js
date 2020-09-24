@@ -2,11 +2,22 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
-import { Header, Toolbar, MovieList, MoviePosterList } from "../components";
+// import { Header, Toolbar, MovieList, MoviePosterList } from "../components";
 import { listSortOptions } from "../constants";
 import API from "../api/api";
 // import { useQueryParams, useIntersectionObserver } from "../hooks";
 import qs from "query-string";
+
+import { device } from "../devices";
+import { Header, MovieList, Dropdown, HeaderWithSearch } from "../components";
+import { FaSortAmountDownAlt } from "react-icons/fa";
+
+import {
+  StyledToolbar,
+  ListToolBar,
+  ListInfo,
+  ButtonWrap,
+} from "../styled/ToolbarStyled";
 
 const qsOptions = {
   arrayFormat: "comma",
@@ -16,7 +27,7 @@ const qsOptions = {
   sort: false,
 };
 
-export default function List({ view = "list" }) {
+export default function LWithToolbar({ view = "list" }) {
   let renderRef = useRef(0);
   renderRef.current = renderRef.current + 1;
   console.log("render: ", renderRef.current);
@@ -77,21 +88,30 @@ export default function List({ view = "list" }) {
     navigate(location.pathname + "?" + qs.stringify({ ...params }, qsOptions));
   }, [navigate, location.pathname, slug, params]);
 
-  // toolbar data
-  const listData = {
-    movie_count: data ? data[0].count : "#",
-    name: `${slug.split("-").slice(1).join(" ")}`,
-  };
-  const sortData = {
-    options: listSortOptions,
-    selected: params.sort,
-    onChange: onSortChange,
-  };
-
   return (
     <StyledList>
-      <Header />
-      <Toolbar listData={listData} sortOptions={sortData} />
+      {/*<Header />*/}
+      <HeaderWithSearch />
+      <StyledToolbar>
+        <ListToolBar>
+          <ListInfo>
+            <p>{slug.split("-").slice(1).join(" ") || "Loading..."}</p>
+            <span>{data ? data[0].count : "#"}</span>
+          </ListInfo>
+
+          <ButtonWrap>
+            <Dropdown
+              title={"Sort"}
+              selected={params.sort}
+              onSelect={onSortChange}
+              items={listSortOptions}
+              icon={<FaSortAmountDownAlt />}
+            />
+          </ButtonWrap>
+        </ListToolBar>
+      </StyledToolbar>
+
+      {/* TODO: useMemo on movies using dependency [data] */}
       <MovieList
         movies={
           data && data.reduce((acc, page) => [...acc, ...page.results], [])
@@ -99,6 +119,8 @@ export default function List({ view = "list" }) {
         isLoading={status === "loading"}
         isError={error}
       />
+
+      {/* TODO: make own component or useIntersectionObserver */}
       <LoadMoreButton
         // ref={loadMoreButtonRef}
         onClick={() => fetchMore()}
@@ -107,6 +129,8 @@ export default function List({ view = "list" }) {
       >
         {isFetching ? "Loading..." : "Show More"}
       </LoadMoreButton>
+
+      {/* TODO: move poster or list option to MovieList component */}
       {/*{view === "poster" && (*/}
       {/*  <MoviePosterList*/}
       {/*    movies={(data?.movielistitems || []).map((item) => item.movie)}*/}
