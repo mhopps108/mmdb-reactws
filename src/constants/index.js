@@ -114,7 +114,6 @@ export const genreSelectOptions = [
 
   // TODO: remove from db
   // { name: "reality-tv", label: "Reality-TV" },
-
   // { name: "game-show", label: "Game-Show" },
   // { name: "talk-Show", label: "Talk-Show" },
   // { name: "news", label: "News" },

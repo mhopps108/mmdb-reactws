@@ -132,13 +132,13 @@ export default function FilterMenu({
             options={genreSelectOptions}
             value={getSelectObjs(state.genres, genreSelectOptions)}
             onChange={onGenreChange}
-            isSearchable={false}
-            closeMenuOnSelect={false}
+            // isSearchable={false}
             maxMenuHeight={250} // default=300
             name={"genreSelectName"} // needed?
             // minMenuHeight={} // default=140
             // menuShouldBlockScroll={} // default=false
             // placeholder={}
+            closeMenuOnSelect={false}
           />
         </SectionWrap>
         <SectionWrap>
@@ -214,7 +214,8 @@ export default function FilterMenu({
 }
 
 const FilterWrap = styled.div`
-  display: flex;
+  // if displayed it stretches out the width of the page while only visible: hidden
+  display: ${(props) => (props.isOpen ? "flex" : "none")};
   flex-direction: column;
   flex-wrap: wrap;
   width: 100%;

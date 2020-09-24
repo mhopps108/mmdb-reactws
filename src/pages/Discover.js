@@ -4,7 +4,12 @@ import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
 import qs from "query-string";
 
-import { Header, DiscoverToolbar, MovieList } from "../components";
+import {
+  Header,
+  DiscoverToolbar,
+  MovieList,
+  HeaderWithSearch,
+} from "../components";
 import API from "../api/api";
 import { discoverySortOptions } from "../constants";
 
@@ -91,7 +96,8 @@ export default function Discover() {
 
   return (
     <StyledDiscover>
-      <Header />
+      {/*<Header />*/}
+      <HeaderWithSearch />
       <DiscoverToolbar
         listData={listData}
         sortOptions={sortData}

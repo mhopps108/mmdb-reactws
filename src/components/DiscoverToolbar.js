@@ -118,43 +118,6 @@ const FilterMenuWrapLarge = styled.div`
   transition: max-height 300ms cubic-bezier(0, 1, 0.5, 1);
 
   @media ${device.min.tablet} {
-    //display: flex;
-    //justify-content: center;
-    //border-radius: 6px;
-    // max-height: ${(props) => (props.isOpen ? "600px" : 0)};
-    //transition: max-height 300ms cubic-bezier(0, 1, 0.5, 1);
-  }
-`;
-
-const FilterMenuWrapSmall = styled.div`
-  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  width: 100vw;
-  //height: 100vh;
-  max-width: 600px;
-  max-height: calc(100vh - 100px);
-  overflow-y: scroll;
-  z-index: 1100;
-  display: flex;
-  justify-content: center;
-  //border-top-left-radius: 6px;
-  //border-top-right-radius: 6px;
-  //box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  // background: ${(props) =>
-    props.isOpen ? "rgba(0, 0, 0, 0.5)" : "rgba(0, 0, 0, 0.0)"};
-
-  //transform: ${(props) =>
-    props.isOpen ? "translateY(0%)" : "translateY(100%)"};
-  opacity: ${(props) => (props.isOpen ? "1" : "0")};
-
-  transition: transform 300ms cubic-bezier(0, 1, 0.5, 1),
-    opacity 300ms cubic-bezier(0, 1, 0.5, 1),
-    visibility 300ms cubic-bezier(0, 1, 0.5, 1);
-
-  @media ${device.min.tablet} {
-    display: none;
   }
 `;
 
@@ -198,7 +161,12 @@ const Button = styled.button`
   transition: box-shadow 0.4s ease;
 
   :hover {
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
   }
 `;
 

@@ -13,117 +13,117 @@ import {
   releaseDateLinks,
 } from "../constants/routes";
 
-const MenuButton = styled.button`
-  position: fixed;
-  bottom: 2rem;
-  right: 1.5rem;
-  font-size: 1.4rem;
-  padding: 6px 12px;
-  //color: var(--color-charcoal);
-  background: whitesmoke;
-  border: 1px solid lightgray;
-  border-radius: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  z-index: 1011;
+// const MenuButton = styled.button`
+//   position: fixed;
+//   bottom: 2rem;
+//   right: 1.5rem;
+//   font-size: 1.4rem;
+//   padding: 6px 12px;
+//   //color: var(--color-charcoal);
+//   background: whitesmoke;
+//   border: 1px solid lightgray;
+//   border-radius: 4px;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+//   z-index: 1011;
+//
+//   :hover {
+//     //box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+//     box-shadow: 0 1px 8px rgba(255, 255, 255, 0.3);
+//   }
+//
+//   @media ${device.min.tablet} {
+//     display: none;
+//     //visibility: hidden;
+//   }
+// `;
 
-  :hover {
-    //box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 1px 8px rgba(255, 255, 255, 0.3);
-  }
+// const NavMenuWrap = styled.div`
+//   display: flex;
+//   visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
+//   flex-direction: column;
+//   opacity: ${(props) => (props.isOpen ? "1" : "0")};
+//   position: fixed;
+//   top: 0;
+//   bottom: 0;
+//   right: 0;
+//   left: 0;
+//   border: 2px solid lightgray;
+//   border-radius: 6px;
+//   background: var(--color-charcoal);
+//   transition: all 100ms ease-in-out;
+//   z-index: 1010;
+//
+//   @media ${device.min.tablet} {
+//     display: none;
+//     //visibility: hidden;
+//     //opacity: 0;
+//   }
+// `;
 
-  @media ${device.min.tablet} {
-    //display: none;
-    visibility: hidden;
-  }
-`;
+// const NavSection = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   margin: 10px 0;
+//   div {
+//     margin: 4px 0;
+//   }
+//   p {
+//     color: var(--color-grey);
+//     opacity: 0.5;
+//     font-size: 2rem;
+//     font-weight: 600;
+//     margin-bottom: 1rem;
+//   }
+//   a {
+//     color: whitesmoke;
+//     font-size: 1.2rem;
+//   }
+// `;
 
-const NavMenuWrap = styled.div`
-  display: flex;
-  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
-  flex-direction: column;
-  opacity: ${(props) => (props.isOpen ? "1" : "0")};
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  border: 2px solid lightgray;
-  border-radius: 6px;
-  background: var(--color-charcoal);
-  transition: all 100ms ease-in-out;
-  z-index: 1010;
-
-  @media ${device.min.tablet} {
-    display: none;
-    //visibility: hidden;
-    //opacity: 0;
-  }
-`;
-
-const NavSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 10px 0;
-  div {
-    margin: 4px 0;
-  }
-  p {
-    color: var(--color-grey);
-    opacity: 0.5;
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-  a {
-    color: whitesmoke;
-    font-size: 1.2rem;
-  }
-`;
-
-const NavMenu = ({ isOpen, toggleNav }) => {
-  return (
-    <NavMenuWrap isOpen={isOpen}>
-      <NavBrand style={{ marginLeft: "12px" }}>
-        <Link to="/">MMDb</Link>
-      </NavBrand>
-      <NavSection>
-        <p>{"List"}</p>
-        {tmdbLinks.map(({ name, path, sort }, index) => {
-          return (
-            <div onClick={toggleNav} key={index}>
-              <Link to={path}>{name}</Link>
-            </div>
-          );
-        })}
-      </NavSection>
-      <NavSection>
-        <p>{"Release Dates"}</p>
-        {releaseDateLinks.map(({ name, path }, index) => {
-          return (
-            <div onClick={toggleNav} key={index}>
-              <Link to={path}>{name}</Link>
-            </div>
-          );
-        })}
-      </NavSection>
-      <NavSection>
-        <p>{"Discover"}</p>
-        {discoveryLinks.map(({ name, path }, index) => {
-          return (
-            <div onClick={toggleNav} key={index}>
-              <Link to={path}>{name}</Link>
-            </div>
-          );
-        })}
-      </NavSection>
-    </NavMenuWrap>
-  );
-};
+// const NavMenu = ({ isOpen, toggleNav }) => {
+//   return (
+//     <NavMenuWrap isOpen={isOpen}>
+//       <NavBrand style={{ marginLeft: "12px" }}>
+//         <Link to="/">MMDb</Link>
+//       </NavBrand>
+//       <NavSection>
+//         <p>{"List"}</p>
+//         {tmdbLinks.map(({ name, path, sort }, index) => {
+//           return (
+//             <div onClick={toggleNav} key={index}>
+//               <Link to={path}>{name}</Link>
+//             </div>
+//           );
+//         })}
+//       </NavSection>
+//       <NavSection>
+//         <p>{"Release Dates"}</p>
+//         {releaseDateLinks.map(({ name, path }, index) => {
+//           return (
+//             <div onClick={toggleNav} key={index}>
+//               <Link to={path}>{name}</Link>
+//             </div>
+//           );
+//         })}
+//       </NavSection>
+//       <NavSection>
+//         <p>{"Discover"}</p>
+//         {discoveryLinks.map(({ name, path }, index) => {
+//           return (
+//             <div onClick={toggleNav} key={index}>
+//               <Link to={path}>{name}</Link>
+//             </div>
+//           );
+//         })}
+//       </NavSection>
+//     </NavMenuWrap>
+//   );
+// };
 
 export default function Header() {
   const [showNav, setShowNav] = useState(false);
@@ -142,15 +142,6 @@ export default function Header() {
         </Nav>
 
         <div>
-          {/*<SearchWrap>*/}
-          {/*    <Input*/}
-          {/*        type="text"*/}
-          {/*        // type="search"*/}
-          {/*        name="search"*/}
-          {/*        value={search}*/}
-          {/*        onChange={(e) => setSearch(e.target.value)}*/}
-          {/*    />*/}
-          {/*</SearchWrap>*/}
           <Link to={"/search?search=avengers"}>
             <FaSearch />
           </Link>
@@ -160,29 +151,15 @@ export default function Header() {
         </div>
       </HeaderWrap>
       <Portal>
-        <MenuButton onClick={toggleNav}>
-          {showNav ? <GrClose /> : <FiMenu />}
-        </MenuButton>
+        {/*<MenuButton onClick={toggleNav}>*/}
+        {/*  {showNav ? <GrClose /> : <FiMenu />}*/}
+        {/*</MenuButton>*/}
         <NavMenuMobile isOpen={showNav} toggleNav={toggleNav} />
         {/*<NavMenu isOpen={showNav} toggleNav={toggleNav} />*/}
       </Portal>
     </>
   );
 }
-
-const SearchWrap = styled.div`
-  background: #232323;
-  height: 35px;
-`;
-
-const Input = styled.input`
-  //appearance: none;
-  //border: none;
-  //outline: none;
-  border-radius: 0.25rem;
-  font-size: 1rem;
-  //overflow: hidden;
-`;
 
 const HeaderWrap = styled.header`
   grid-area: header;

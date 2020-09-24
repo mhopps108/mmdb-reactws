@@ -11,60 +11,67 @@ import {
   releaseDateLinksByPeriod,
   releaseDateLinks,
 } from "../constants/routes";
+import { GrClose } from "react-icons/gr";
+import { FiMenu } from "react-icons/fi";
 
 export default function NavMenuMobile({ isOpen, toggleNav }) {
   return (
-    <NavMenuWrap isOpen={isOpen}>
-      <NavBrand style={{ marginLeft: "12px" }}>
-        <Link to="/">MMDb</Link>
-      </NavBrand>
+    <>
+      <NavMenuWrap isOpen={isOpen}>
+        <NavBrand style={{ marginLeft: "12px" }}>
+          <Link to="/">MMDb</Link>
+        </NavBrand>
 
-      <SectionHeader>Lists</SectionHeader>
-      <Section>
-        {tmdbLinks.map(({ name, path, sort }, index) => {
-          return (
-            <div onClick={toggleNav} key={index}>
-              <Link to={path}>{name}</Link>
-            </div>
-          );
-        })}
-      </Section>
-
-      <SectionHeader>Release Dates</SectionHeader>
-      <Section>
-        <FlexContainer column>
-          <h6>By Week</h6>
-          {releaseDateLinksByPeriod.week.map(({ name, path }, index) => {
+        <SectionHeader>Lists</SectionHeader>
+        <Section>
+          {tmdbLinks.map(({ name, path, sort }, index) => {
             return (
               <div onClick={toggleNav} key={index}>
                 <Link to={path}>{name}</Link>
               </div>
             );
           })}
-        </FlexContainer>
-        <FlexContainer column>
-          <h6>By Month</h6>
-          {releaseDateLinksByPeriod.month.map(({ name, path }, index) => {
+        </Section>
+
+        <SectionHeader>Release Dates</SectionHeader>
+        <Section>
+          <FlexContainer column>
+            <h6>By Week</h6>
+            {releaseDateLinksByPeriod.week.map(({ name, path }, index) => {
+              return (
+                <div onClick={toggleNav} key={index}>
+                  <Link to={path}>{name}</Link>
+                </div>
+              );
+            })}
+          </FlexContainer>
+          <FlexContainer column>
+            <h6>By Month</h6>
+            {releaseDateLinksByPeriod.month.map(({ name, path }, index) => {
+              return (
+                <div onClick={toggleNav} key={index}>
+                  <Link to={path}>{name}</Link>
+                </div>
+              );
+            })}
+          </FlexContainer>
+        </Section>
+
+        <NavSection>
+          <p>{"Discover"}</p>
+          {discoveryLinks.map(({ name, path }, index) => {
             return (
               <div onClick={toggleNav} key={index}>
                 <Link to={path}>{name}</Link>
               </div>
             );
           })}
-        </FlexContainer>
-      </Section>
-
-      <NavSection>
-        <p>{"Discover"}</p>
-        {discoveryLinks.map(({ name, path }, index) => {
-          return (
-            <div onClick={toggleNav} key={index}>
-              <Link to={path}>{name}</Link>
-            </div>
-          );
-        })}
-      </NavSection>
-    </NavMenuWrap>
+        </NavSection>
+      </NavMenuWrap>
+      {/*<MenuButton onClick={toggleNav}>*/}
+      {/*  {isOpen ? <GrClose /> : <FiMenu />}*/}
+      {/*</MenuButton>*/}
+    </>
   );
 }
 
@@ -100,7 +107,7 @@ const Section = styled.div`
 const FlexContainer = styled.div`
   display: flex;
   flex-direction: ${(p) => (p.column ? "column" : "row")};
-  max-width: ${(p) => (p.maxWidth ? p.width : "100%")};
+  //max-width: ${(p) => (p.maxWidth ? p.width : "100%")};
 `;
 
 const NavMenuWrap = styled.div`
@@ -110,9 +117,12 @@ const NavMenuWrap = styled.div`
   opacity: ${(props) => (props.isOpen ? "1" : "0")};
   position: fixed;
   top: 0;
-  bottom: 0;
-  right: 0;
   left: 0;
+  width: 100vw;
+  max-width: 100%;
+  height: 100vh;
+  //bottom: 0;
+  //left: 0;
   border: 2px solid lightgray;
   border-radius: 6px;
   background: var(--color-charcoal);
@@ -163,7 +173,6 @@ const MenuButton = styled.button`
   right: 1.5rem;
   font-size: 1.4rem;
   padding: 6px 12px;
-  //color: var(--color-charcoal);
   background: whitesmoke;
   border: 1px solid lightgray;
   border-radius: 4px;
@@ -174,12 +183,11 @@ const MenuButton = styled.button`
   z-index: 1011;
 
   :hover {
-    //box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 1px 8px rgba(255, 255, 255, 0.3);
+    box-shadow: 0 1px 6px rgba(255, 255, 255, 0.3);
   }
 
   @media ${device.min.tablet} {
-    //display: none;
-    visibility: hidden;
+    display: none;
+    //visibility: hidden;
   }
 `;
