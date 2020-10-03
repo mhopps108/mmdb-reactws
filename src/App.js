@@ -6,8 +6,7 @@ import {
   Discover,
   ReleaseDates,
   Search,
-  RDWithToolbar,
-  LWithToolbar,
+  DiscoveryWithHook,
 } from "./pages";
 import styled from "styled-components/macro";
 import { createGlobalStyle } from "styled-components";
@@ -80,7 +79,8 @@ export default function App() {
             {/*  path={"/release-dates/:type/:period"}*/}
             {/*  element={<RDWithToolbar />}*/}
             {/*/>*/}
-            <Route path={"/discover"} element={<Discover />} />
+            {/*<Route path={"/discover"} element={<Discover />} />*/}
+            <Route path={"/discover"} element={<DiscoveryWithHook />} />
             <Route path={"/search"} element={<Search />} />
             <Route path="/movie/:imdbId" element={<Detail />} />
           </Routes>

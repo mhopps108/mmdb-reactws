@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components/macro";
 import { useOnClickOutside } from "../hooks";
 import { BsArrowDownShort, BsArrowDown } from "react-icons/bs";
@@ -38,7 +38,13 @@ export default function Dropdown({
     return item ? item.label : title;
   };
 
+  useEffect(() => {
+    console.log("Dropdown: MOUNTED");
+    return () => console.log("Dropdown: UN-MOUNTED");
+  }, []);
+
   return (
+    // <Wrap>
     <Wrap ref={ref}>
       {/*<StackedText>*/}
       {/*  <div className={"top"}>{title}</div>*/}
@@ -49,6 +55,8 @@ export default function Dropdown({
         {getSelected()}
         {icon}
       </Button>
+
+      {/*{isOpen && (*/}
 
       <Menu isOpen={isOpen}>
         {/*<Arrow />*/}
@@ -61,6 +69,7 @@ export default function Dropdown({
             </MenuItem>
           ))}
       </Menu>
+      {/*)}*/}
     </Wrap>
   );
 }
@@ -108,6 +117,8 @@ const Menu = styled.div`
   visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
   opacity: ${(props) => (props.isOpen ? 1 : 0)};
 
+  //visibility: visible;
+  //opacity: 1;
   position: absolute;
   right: 0;
   //top: 120%; // with arrow

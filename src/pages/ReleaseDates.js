@@ -5,10 +5,9 @@ import styled from "styled-components/macro";
 import moment from "moment";
 // import { Header, Toolbar, MovieList } from "../components";
 import { releasesSortOptions } from "../constants";
+import { useQueryParams } from "../hooks";
 import API from "../api/api";
 import { dateUtil } from "../utils/dates";
-import qs from "query-string";
-
 import { device } from "../devices";
 import {
   Header,
@@ -30,14 +29,6 @@ import {
   DatePagerWrap,
 } from "../styled/ToolbarStyled";
 
-const qsOptions = {
-  arrayFormat: "comma",
-  skipNull: true,
-  skipEmptyString: true,
-  parseNumbers: true,
-  sort: false,
-};
-
 const { formatPeriod, startOf, endOf, getPrev, getNext } = dateUtil;
 
 // TODO: weekOf=, month= --- query params? instead of startFrom
@@ -47,24 +38,16 @@ export default function RDWithToolbar() {
   renderRef.current = renderRef.current + 1;
   console.log("render: ", renderRef.current);
 
-  let navigate = useNavigate();
-  const location = useLocation();
   let { type = "digital", period = "week" } = useParams();
-
-  console.log("loc: ", location);
   console.log(`type / period: ${type} / ${period}`);
 
   const sortOptions = releasesSortOptions(type);
-  // merging with params causes a rerender and sets the browsers url
-  const defaultParams = {
+
+  const [queryParams, updateQueryParams] = useQueryParams({
     sort: sortOptions[0].label,
     startFrom: startOf(moment(), period),
-  };
-  const [params, setParams] = useState({
-    ...defaultParams,
-    ...qs.parse(location.search, qsOptions),
   });
-  console.log("params: ", params);
+  console.log("ReleaseDates: useQueryParams: ", queryParams);
 
   const printGetsMovieData = (key, paramKeys, nextPage, queryParams) => {
     console.log("getMovies(): key=", key);
@@ -81,16 +64,16 @@ export default function RDWithToolbar() {
       return [value, label].includes(sort);
     });
 
-    const queryParams = {
+    const qParams = {
       sortby: value,
       [`${type}_after`]: startOf(startFrom, period),
       [`${type}_before`]: endOf(startFrom, period),
       page_size: 15,
     };
-    printGetsMovieData(key, paramKeys, nextPage, queryParams);
+    printGetsMovieData(key, paramKeys, nextPage, qParams);
 
     const response = await API.get(`/releases/`, {
-      params: { page: nextPage, ...queryParams },
+      params: { page: nextPage, ...qParams },
     });
     return response.data;
   };
@@ -103,30 +86,23 @@ export default function RDWithToolbar() {
     isFetchingMore,
     fetchMore,
     canFetchMore,
-  } = useInfiniteQuery(["releases", { type, period, ...params }], getMovies, {
-    getFetchMore: (lastPage, allPages) => lastPage.next_page,
-  });
+  } = useInfiniteQuery(
+    ["releases", { type, period, ...queryParams }],
+    getMovies,
+    {
+      getFetchMore: (lastPage, allPages) => lastPage.next_page,
+    }
+  );
 
   const onSortChange = ({ value, label }) => {
     console.log(`On Sort - Set: ${value} (${label})`);
-    setParams({ ...params, sort: label });
+    updateQueryParams({ ...queryParams, sort: label });
   };
 
   const goToDate = (newStartDate) => {
     console.log("goToDate - Clicked - newStartDate: ", newStartDate);
-    setParams({ ...params, startFrom: newStartDate });
+    updateQueryParams({ ...queryParams, startFrom: newStartDate });
   };
-
-  useEffect(() => {
-    setParams({
-      ...params,
-      startFrom: startOf(moment(), period),
-    });
-  }, [period, type]); // TODO: use location.pathname ??
-
-  useEffect(() => {
-    navigate(location.pathname + "?" + qs.stringify(params, qsOptions));
-  }, [navigate, location.pathname, params]);
 
   return (
     <StyledReleases>
@@ -142,7 +118,7 @@ export default function RDWithToolbar() {
           <ButtonWrap>
             <Dropdown
               title={"Sort"}
-              selected={params.sort}
+              selected={queryParams.sort}
               onSelect={onSortChange}
               items={sortOptions}
               // icon={<FaSortAmountDownAlt />}
@@ -156,9 +132,9 @@ export default function RDWithToolbar() {
           <DatePagerWrap>
             <DatePager
               goToToday={() => goToDate(startOf(moment(), period))}
-              displayDateStr={formatPeriod(params.startFrom, period)}
-              prevPeriod={getPrev(params.startFrom, period)}
-              nextPeriod={getNext(params.startFrom, period)}
+              displayDateStr={formatPeriod(queryParams.startFrom, period)}
+              prevPeriod={getPrev(queryParams.startFrom, period)}
+              nextPeriod={getNext(queryParams.startFrom, period)}
               goToDate={goToDate}
             />
           </DatePagerWrap>

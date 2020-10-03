@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { device } from "../devices";
@@ -13,14 +13,38 @@ import {
   releaseDateLinks,
 } from "../constants/routes";
 
+const useFocus = () => {
+  const htmlElRef = useRef(null);
+  const setFocus = () => {
+    htmlElRef.current && htmlElRef.current.focus();
+  };
+
+  return [htmlElRef, setFocus];
+};
+
 export default function HeaderWithSearch() {
   const [showNav, setShowNav] = useState(false);
   const toggleNav = () => setShowNav(!showNav);
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const searchRef = useRef(null);
+  // const searchInputRef = useRef(null);
+
+  const [inputRef, setInputFocus] = useFocus();
 
   useOnClickOutside(searchRef, () => setShowSearch(false));
+
+  useEffect(() => {
+    // searchInputRef.current.focus();
+    // if (showSearch) {
+    //
+    // }
+  }, []);
+
+  const show = () => {
+    setShowSearch(true);
+    setInputFocus();
+  };
 
   return (
     <>
@@ -39,6 +63,9 @@ export default function HeaderWithSearch() {
             <SearchWrap isOpen={showSearch} ref={searchRef}>
               <FaSearch size={30} />
               <input
+                // ref={searchInputRef}
+                ref={inputRef}
+                autoFocus={true}
                 type="text"
                 name="search"
                 value={search}
@@ -50,7 +77,8 @@ export default function HeaderWithSearch() {
             </SearchWrap>
             <Backdrop isOpen={showSearch} />
           </Portal>
-          <NavButton onClick={() => setShowSearch(true)}>
+          {/*<NavButton onClick={() => setShowSearch(true)}>*/}
+          <NavButton onClick={show}>
             <FaSearch />
           </NavButton>
           <NavButton>
@@ -108,7 +136,7 @@ const SearchWrap = styled.div`
   }
 
   input {
-    appearance: none; // TODO: does?
+    appearance: none; // TODO: //for iOS input[type="search"] roundedness issue. border-radius alone doesn't work
     //border: none;
     border: 1px solid whitesmoke;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);

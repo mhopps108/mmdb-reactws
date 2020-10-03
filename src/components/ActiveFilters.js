@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useCallback } from "react";
 import { FaRegCalendar, FaRegCheckSquare, FaRegStar } from "react-icons/fa";
 // import styled from "styled-components/dist/styled-components-macro.esm";
 import styled from "styled-components/macro";
@@ -76,6 +76,11 @@ export default function ActiveFilters({ filters }) {
     },
   };
 
+  const ratingsString = useMemo(f.ratings, [
+    filters.rating_min,
+    filters.rating_max,
+  ]);
+
   return (
     <ActiveFiltersBar>
       <div style={{ marginRight: "auto" }}>{"Filters"}</div>
@@ -85,8 +90,12 @@ export default function ActiveFilters({ filters }) {
       )}
       <ActiveFilterTag>
         <FaRegStar />
-        {f.ratings()}
+        {ratingsString}
       </ActiveFilterTag>
+      {/*<ActiveFilterTag>*/}
+      {/*  <FaRegStar />*/}
+      {/*  {f.ratings()}*/}
+      {/*</ActiveFilterTag>*/}
       <ActiveFilterTag>
         <FaRegCheckSquare />
         {f.votes()}

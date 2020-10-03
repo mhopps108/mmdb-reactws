@@ -41,20 +41,15 @@ const qsOptions = {
   sort: false,
 };
 
-export default function Discover() {
+export default function DiscoveryWithHook() {
   let renderRef = useRef(0);
   renderRef.current = renderRef.current + 1;
   console.log("render: ", renderRef.current);
 
-  let navigate = useNavigate();
-  const location = useLocation();
   const sortOptions = discoverySortOptions;
 
   const [queryParams, updateQueryParams] = useQueryParams();
   console.log("useQueryParams: ", queryParams);
-
-  const [params, setParams] = useState(qs.parse(location.search, qsOptions));
-  console.log("params: ", params);
 
   const printGetsMovieData = (key, paramKeys, nextPage, queryParams) => {
     console.log("getMovies(): key=", key);
@@ -71,11 +66,11 @@ export default function Discover() {
     const { value } = sortOptions.find(({ value, label }) => {
       return [value, label].includes(sortby);
     });
-    const queryParams = { ...paramKeys, sortby: value, page_size: 15 };
-    printGetsMovieData(key, paramKeys, nextPage, queryParams);
+    const qParams = { ...paramKeys, sortby: value, page_size: 15 };
+    printGetsMovieData(key, paramKeys, nextPage, qParams);
 
     const response = await API.get(`/discover/`, {
-      params: { page: nextPage, ...queryParams },
+      params: { page: nextPage, ...qParams },
     });
     return response.data;
   };
@@ -87,18 +82,18 @@ export default function Discover() {
     isFetchingMore,
     fetchMore,
     canFetchMore,
-  } = useInfiniteQuery(["discover", { ...params }], getMovies, {
+  } = useInfiniteQuery(["discover", { ...queryParams }], getMovies, {
     getFetchMore: (lastPage, allPages) => lastPage.next_page,
   });
 
   const onSortChange = ({ value, label }) => {
     console.log(`On Sort - Set: ${value} (${label})`);
-    setParams({ ...params, sortby: label });
+    // setParams({ ...params, sortby: label });
+    updateQueryParams({ ...queryParams, sortby: label });
   };
 
   const onApplyFilters = (filterState) => {
     console.log("onApplyFilters: newFilterState: ", filterState);
-    // setParams(filterState);
     updateQueryParams(filterState);
   };
 
@@ -107,10 +102,6 @@ export default function Discover() {
     console.log("clicked - toggleShowFilters - ", showFilters);
     setShowFilters(!showFilters);
   };
-
-  // useEffect(() => {
-  // navigate(location.pathname + "?" + qs.stringify({ ...params }, qsOptions));
-  // }, [navigate, location.pathname, params]);
 
   return (
     <StyledDiscover>
@@ -126,7 +117,7 @@ export default function Discover() {
           <ButtonWrap>
             <Dropdown
               title={"Sort"}
-              selected={params.sortby}
+              selected={queryParams.sortby}
               onSelect={onSortChange}
               items={discoverySortOptions}
               // icon={<FaSortAmountDownAlt />}
@@ -137,13 +128,13 @@ export default function Discover() {
             </Button>
           </ButtonWrap>
 
-          <ActiveFilters filters={params} />
+          <ActiveFilters filters={queryParams} />
 
           <FilterMenuWrap isOpen={showFilters}>
             <FilterMenu
               isOpen={showFilters}
               setIsOpen={setShowFilters}
-              filterState={params}
+              filterState={queryParams}
               onApplyFilters={onApplyFilters}
             />
           </FilterMenuWrap>

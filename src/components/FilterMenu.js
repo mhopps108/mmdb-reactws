@@ -59,7 +59,7 @@ export default function FilterMenu({
   onApplyFilters,
 }) {
   // console.log("FilterMenuMain: isOpen: ", isOpen);
-  console.log("FilterMenuMain: defaultFilters: ", defaultFilters);
+  // console.log("FilterMenu: defaultFilters: ", defaultFilters);
   // const [setIsLocked] = useLockBodyScroll(isOpen);
   const ref = useRef();
   // useOnClickOutside(ref, () => setIsOpen(false));
@@ -110,13 +110,13 @@ export default function FilterMenu({
   };
 
   const getSelectObjs = (selected, options) => {
-    console.log("getSelectDefaults: selected: ", selected);
+    // console.log("getSelectDefaults: selected: ", selected);
     if (!selected) return [];
-    const selectedObjs = Array.isArray(selected) ? [...selected] : [selected];
-    const found = selectedObjs.map((value) =>
+    const selectedList = Array.isArray(selected) ? [...selected] : [selected];
+    const found = selectedList.map((value) =>
       options.find((item) => item.value === value)
     );
-    console.log("FoundDefaults: found: ", found);
+    // console.log("FoundDefaults: found: ", found);
     return found;
   };
 
