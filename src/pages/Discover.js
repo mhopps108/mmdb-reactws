@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
-import { device } from "../devices";
-import qs from "query-string";
+// import { device } from "../devices";
 import { useQueryParams } from "../hooks";
 
 import {
-  Header,
+  // Header,
   HeaderWithSearch,
   MovieList,
   FilterMenu,
@@ -33,28 +31,23 @@ import { FiFilter } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
 import { BsArrowDownShort, BsArrowDown } from "react-icons/bs";
 
-const qsOptions = {
-  arrayFormat: "comma",
-  skipNull: true,
-  skipEmptyString: true,
-  parseNumbers: true,
-  sort: false,
-};
-
-export default function Discover() {
+export default function Discovery() {
   let renderRef = useRef(0);
   renderRef.current = renderRef.current + 1;
   console.log("render: ", renderRef.current);
 
-  let navigate = useNavigate();
-  const location = useLocation();
   const sortOptions = discoverySortOptions;
-
-  const [queryParams, updateQueryParams] = useQueryParams();
-  console.log("useQueryParams: ", queryParams);
-
-  const [params, setParams] = useState(qs.parse(location.search, qsOptions));
-  console.log("params: ", params);
+  const [queryParams, updateQueryParams] = useQueryParams({
+    sort: "votes",
+    genres: [],
+    certification: [],
+    rating_min: 0.0,
+    rating_max: 10.0,
+    votes_min: 0,
+    year_min: 1890,
+    year_max: new Date().getFullYear() + 5,
+  });
+  console.log("Discover: useQueryParams: ", queryParams);
 
   const printGetsMovieData = (key, paramKeys, nextPage, queryParams) => {
     console.log("getMovies(): key=", key);
@@ -64,18 +57,14 @@ export default function Discover() {
   };
 
   const getMovies = async (key, paramKeys, nextPage = 1) => {
-    if (!paramKeys.sortby) {
-      onSortChange(sortOptions[0]);
-    }
-    const sortby = paramKeys.sortby || sortOptions[0].label;
     const { value } = sortOptions.find(({ value, label }) => {
-      return [value, label].includes(sortby);
+      return [value, label].includes(paramKeys.sort);
     });
-    const queryParams = { ...paramKeys, sortby: value, page_size: 15 };
-    printGetsMovieData(key, paramKeys, nextPage, queryParams);
+    const qParams = { ...paramKeys, sortby: value, page_size: 15 };
+    printGetsMovieData(key, paramKeys, nextPage, qParams);
 
     const response = await API.get(`/discover/`, {
-      params: { page: nextPage, ...queryParams },
+      params: { page: nextPage, ...qParams },
     });
     return response.data;
   };
@@ -87,18 +76,17 @@ export default function Discover() {
     isFetchingMore,
     fetchMore,
     canFetchMore,
-  } = useInfiniteQuery(["discover", { ...params }], getMovies, {
+  } = useInfiniteQuery(["discover", { ...queryParams }], getMovies, {
     getFetchMore: (lastPage, allPages) => lastPage.next_page,
   });
 
   const onSortChange = ({ value, label }) => {
     console.log(`On Sort - Set: ${value} (${label})`);
-    setParams({ ...params, sortby: label });
+    updateQueryParams({ ...queryParams, sort: label });
   };
 
   const onApplyFilters = (filterState) => {
     console.log("onApplyFilters: newFilterState: ", filterState);
-    // setParams(filterState);
     updateQueryParams(filterState);
   };
 
@@ -107,10 +95,6 @@ export default function Discover() {
     console.log("clicked - toggleShowFilters - ", showFilters);
     setShowFilters(!showFilters);
   };
-
-  // useEffect(() => {
-  // navigate(location.pathname + "?" + qs.stringify({ ...params }, qsOptions));
-  // }, [navigate, location.pathname, params]);
 
   return (
     <StyledDiscover>
@@ -126,7 +110,7 @@ export default function Discover() {
           <ButtonWrap>
             <Dropdown
               title={"Sort"}
-              selected={params.sortby}
+              selected={queryParams.sort}
               onSelect={onSortChange}
               items={discoverySortOptions}
               // icon={<FaSortAmountDownAlt />}
@@ -137,13 +121,13 @@ export default function Discover() {
             </Button>
           </ButtonWrap>
 
-          <ActiveFilters filters={params} />
+          <ActiveFilters filters={queryParams} />
 
           <FilterMenuWrap isOpen={showFilters}>
             <FilterMenu
               isOpen={showFilters}
               setIsOpen={setShowFilters}
-              filterState={params}
+              filterState={queryParams}
               onApplyFilters={onApplyFilters}
             />
           </FilterMenuWrap>

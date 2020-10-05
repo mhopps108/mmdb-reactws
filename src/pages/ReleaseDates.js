@@ -33,7 +33,7 @@ const { formatPeriod, startOf, endOf, getPrev, getNext } = dateUtil;
 
 // TODO: weekOf=, month= --- query params? instead of startFrom
 
-export default function RDWithToolbar() {
+export default function ReleaseDates() {
   let renderRef = useRef(0);
   renderRef.current = renderRef.current + 1;
   console.log("render: ", renderRef.current);

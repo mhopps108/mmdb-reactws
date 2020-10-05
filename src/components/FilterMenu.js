@@ -11,16 +11,27 @@ import {
 } from "../constants";
 import Select from "react-select";
 
+// const defaultFilters = {
+//   sortby: "rating",
+//   genres: [],
+//   certification: [],
+//   rating_min: 0.0,
+//   rating_max: 10.0,
+//   votes_min: 100000,
+//   year_min: 1890,
+//   year_max: 2025, // TODO: new Date() -> year + 5?
+//   // y: new Date().getFullYear() + 5,
+// };
+
 const defaultFilters = {
-  sortby: "rating",
+  sort: "votes",
   genres: [],
   certification: [],
   rating_min: 0.0,
   rating_max: 10.0,
-  votes_min: 100000,
+  votes_min: 0.0,
   year_min: 1890,
-  year_max: 2025, // TODO: new Date() -> year + 5?
-  // y: new Date().getFullYear() + 5,
+  year_max: new Date().getFullYear() + 5,
 };
 
 const filterReducer = (state, action) => {
@@ -175,12 +186,13 @@ export default function FilterMenu({
         <SectionWrap>
           <SectionHeader>
             <p>Votes</p>
-            <span>{state.votes_min.toLocaleString()}</span>
+            <span>{state.votes_min?.toLocaleString()}</span>
           </SectionHeader>
           <RangeSlider
             value={[state.votes_min]}
             min={0}
-            max={defaultFilters.votes_min}
+            // max={defaultFilters.votes_min}
+            max={100000}
             step={1000}
             onChange={onMinVotesChange}
             onFinalChange={onMinVotesChange}

@@ -1,13 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import {
-  List,
-  Detail,
-  Discover,
-  ReleaseDates,
-  Search,
-  DiscoveryWithHook,
-} from "./pages";
+import { List, Detail, Discover, ReleaseDates, Search } from "./pages";
 import styled from "styled-components/macro";
 import { createGlobalStyle } from "styled-components";
 import "rsuite/dist/styles/rsuite-default.css";
@@ -70,17 +63,11 @@ export default function App() {
               <Navigate to="/list/tmdb-popular?sort=rank" />
             </Route>
             <Route path={"/list/:slug"} element={<List />} />
-
             <Route
               path={"/release-dates/:type/:period"}
               element={<ReleaseDates />}
             />
-            {/*<Route*/}
-            {/*  path={"/release-dates/:type/:period"}*/}
-            {/*  element={<RDWithToolbar />}*/}
-            {/*/>*/}
-            {/*<Route path={"/discover"} element={<Discover />} />*/}
-            <Route path={"/discover"} element={<DiscoveryWithHook />} />
+            <Route path={"/discover"} element={<Discover />} />
             <Route path={"/search"} element={<Search />} />
             <Route path="/movie/:imdbId" element={<Detail />} />
           </Routes>

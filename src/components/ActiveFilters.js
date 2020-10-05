@@ -47,7 +47,17 @@ export default function ActiveFilters({ filters }) {
         console.log(`formatNumbers: ${number} as ${n}`);
         return n;
       };
-      if (filters.rating_max === defaultFilters.rating_max) {
+      if (
+        filters.rating_min === undefined ||
+        filters.rating_max === undefined
+      ) {
+        return "";
+      } else if (
+        filters.rating_min === defaultFilters.rating_min &&
+        filters.rating_max === defaultFilters.rating_max
+      ) {
+        return "";
+      } else if (filters.rating_max === defaultFilters.rating_max) {
         const minRating = Number.parseFloat(filters.rating_min).toPrecision(2);
         return `${minRating}+`;
         // } else if (filters.rating_min === defaultFilters.rating_min) {
@@ -59,16 +69,26 @@ export default function ActiveFilters({ filters }) {
       }
     },
     years: () => {
-      if (filters.year_max === defaultFilters.year_max) {
+      if (
+        filters.year_min === defaultFilters.year_min &&
+        filters.year_max === defaultFilters.year_max
+      ) {
+        return "";
+      } else if (filters.year_max === defaultFilters.year_max) {
         return `${filters.year_min}+`;
         // } else if (filters.rating_min === defaultFilters.rating_min) {
         //   return `${filters.rating_min} - ${filters.rating_max}`;
+      } else if (
+        filters.year_min === undefined ||
+        filters.year_max === undefined
+      ) {
+        return "";
       } else {
         return `${filters.year_min} - ${filters.year_max}`;
       }
     },
     votes: () => {
-      if (filters.votes_min === 0) {
+      if (filters.votes_min === 0 || filters.votes_min === undefined) {
         return ``;
       } else {
         return `${filters.votes_min.toLocaleString()}+`;
@@ -76,34 +96,59 @@ export default function ActiveFilters({ filters }) {
     },
   };
 
+  const genresString = useMemo(f.genres, [filters.genres]);
+  const certificationString = useMemo(f.certifications, [
+    filters.certification,
+  ]);
   const ratingsString = useMemo(f.ratings, [
     filters.rating_min,
     filters.rating_max,
+  ]);
+  const votesString = useMemo(f.votes, [filters.votes_min]);
+  const yearsString = useMemo(f.years, [filters.year_min, filters.year_max]);
+
+  const noFilters = useMemo(() => {
+    return (
+      !genresString &&
+      !certificationString &&
+      !ratingsString &&
+      !votesString &&
+      !yearsString
+    );
+  }, [
+    genresString,
+    certificationString,
+    ratingsString,
+    votesString,
+    yearsString,
   ]);
 
   return (
     <ActiveFiltersBar>
       <div style={{ marginRight: "auto" }}>{"Filters"}</div>
-      {filters.genres && <ActiveFilterTag>{f.genres()}</ActiveFilterTag>}
-      {filters.certification && (
-        <ActiveFilterTag>{f.certifications()}</ActiveFilterTag>
+      {noFilters && <ActiveFilterTag>No Filters</ActiveFilterTag>}
+      {genresString && <ActiveFilterTag>{genresString}</ActiveFilterTag>}
+      {certificationString && (
+        <ActiveFilterTag>{certificationString}</ActiveFilterTag>
       )}
-      <ActiveFilterTag>
-        <FaRegStar />
-        {ratingsString}
-      </ActiveFilterTag>
-      {/*<ActiveFilterTag>*/}
-      {/*  <FaRegStar />*/}
-      {/*  {f.ratings()}*/}
-      {/*</ActiveFilterTag>*/}
-      <ActiveFilterTag>
-        <FaRegCheckSquare />
-        {f.votes()}
-      </ActiveFilterTag>
-      <ActiveFilterTag>
-        <FaRegCalendar />
-        {f.years()}
-      </ActiveFilterTag>
+      {ratingsString && (
+        <ActiveFilterTag>
+          <FaRegStar />
+          {ratingsString}
+        </ActiveFilterTag>
+      )}
+      {votesString && (
+        <ActiveFilterTag>
+          <FaRegCheckSquare />
+          {f.votes()}
+        </ActiveFilterTag>
+      )}
+      {yearsString && (
+        <ActiveFilterTag>
+          <FaRegCalendar />
+          {f.years()}
+        </ActiveFilterTag>
+      )}
     </ActiveFiltersBar>
   );
 }
