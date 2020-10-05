@@ -44,7 +44,7 @@ function useQueryParams(requiredParams = null) {
     }
   }, []);
 
-  console.log("useQueryParams: params: ", queryParams);
+  // console.log("useQueryParams: params: ", queryParams);
   return [queryParams, updateQueryParams];
 }
 

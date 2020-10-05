@@ -1,17 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import React from "react";
+import { useParams } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
-// import { Header, Toolbar, MovieList, MoviePosterList } from "../components";
+import { Header, HeaderWithSearch, MovieList, Dropdown } from "../components";
+import { useQueryParams, useRenderCount } from "../hooks";
 import { listSortOptions } from "../constants";
 import API from "../api/api";
-// import { useQueryParams, useIntersectionObserver } from "../hooks";
-import qs from "query-string";
-
-import { device } from "../devices";
-import { Header, MovieList, Dropdown, HeaderWithSearch } from "../components";
 import { FaSortAmountDownAlt } from "react-icons/fa";
-
 import {
   StyledToolbar,
   ListToolBar,
@@ -19,26 +14,15 @@ import {
   ButtonWrap,
 } from "../styled/ToolbarStyled";
 
-const qsOptions = {
-  arrayFormat: "comma",
-  skipNull: true,
-  skipEmptyString: true,
-  parseNumbers: true,
-  sort: false,
-};
-
-export default function LWithToolbar({ view = "list" }) {
-  let renderRef = useRef(0);
-  renderRef.current = renderRef.current + 1;
-  console.log("render: ", renderRef.current);
-
-  let navigate = useNavigate();
-  const location = useLocation();
+export default function List({ view = "list" }) {
+  useRenderCount();
   let { slug = "tmdb-popular" } = useParams();
+  document.title = `${slug} Movies - MMDb`;
   const sortOptions = listSortOptions;
-
-  const [params, setParams] = useState(qs.parse(location.search, qsOptions));
-  console.log("params: ", params);
+  const [queryParams, updateQueryParams] = useQueryParams({
+    sort: sortOptions[0].label,
+  });
+  console.log("List: useQueryParams: ", queryParams);
 
   const printGetsMovieData = (key, paramKeys, nextPage, queryParams) => {
     console.log("getMovies(): key=", key);
@@ -48,22 +32,18 @@ export default function LWithToolbar({ view = "list" }) {
   };
 
   const getMovies = async (key, paramKeys, nextPage = 1) => {
-    if (!paramKeys.sort) {
-      onSortChange(sortOptions[0]);
-    }
-    const sortby = paramKeys.sort || sortOptions[0].label;
     const { value } = sortOptions.find(({ value, label }) => {
-      return [value, label].includes(sortby);
+      return [value, label].includes(paramKeys.sort);
     });
-    const queryParams = {
+    const qParams = {
       list_slug: paramKeys.slug,
       sortby: value,
       page_size: 15,
     };
-    printGetsMovieData(key, paramKeys, nextPage, queryParams);
+    printGetsMovieData(key, paramKeys, nextPage, qParams);
 
     const response = await API.get(`/movielist/`, {
-      params: { page: nextPage, ...queryParams },
+      params: { page: nextPage, ...qParams },
     });
     return response.data;
   };
@@ -75,18 +55,14 @@ export default function LWithToolbar({ view = "list" }) {
     isFetching,
     fetchMore,
     canFetchMore,
-  } = useInfiniteQuery(["movielist", { slug, ...params }], getMovies, {
+  } = useInfiniteQuery(["movielist", { slug, ...queryParams }], getMovies, {
     getFetchMore: (lastPage, allPages) => lastPage.next_page,
   });
 
   const onSortChange = ({ value, label }) => {
     console.log(`On Sort - Set: ${value} (${label})`);
-    setParams({ ...params, sort: label });
+    updateQueryParams({ ...queryParams, sort: label });
   };
-
-  useEffect(() => {
-    navigate(location.pathname + "?" + qs.stringify({ ...params }, qsOptions));
-  }, [navigate, location.pathname, slug, params]);
 
   return (
     <StyledList>
@@ -96,13 +72,13 @@ export default function LWithToolbar({ view = "list" }) {
         <ListToolBar>
           <ListInfo>
             <p>{slug.split("-").slice(1).join(" ") || "Loading..."}</p>
-            <span>{data ? data[0].count : "#"}</span>
+            <span>{data && data[0].count}</span>
           </ListInfo>
 
           <ButtonWrap>
             <Dropdown
               title={"Sort"}
-              selected={params.sort}
+              selected={queryParams.sort}
               onSelect={onSortChange}
               items={listSortOptions}
               icon={<FaSortAmountDownAlt />}

@@ -61,6 +61,12 @@ export default function MovieDetail() {
   }, [imdbId, movieUrl, setUrl]);
 
   useEffect(() => {
+    if (data?.title && data?.year) {
+      document.title = `${data.title} (${data.year}) - MMDb`;
+    }
+  }, [imdbId, data]);
+
+  useEffect(() => {
     console.log(`State - (MovieDetail) - useParams= ${imdbId}`);
     console.log(state);
   }, [state, imdbId]);

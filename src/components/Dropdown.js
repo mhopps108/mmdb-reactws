@@ -12,7 +12,7 @@ export default function Dropdown({
   onSelect,
   icon = null,
 }) {
-  console.log("Dropdown: selected: ", selected);
+  // console.log("Dropdown: selected: ", selected);
   const ref = useRef();
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(!isOpen);
@@ -20,7 +20,6 @@ export default function Dropdown({
   useOnClickOutside(ref, () => setIsOpen(false));
 
   const onChange = ({ value, label }) => {
-    console.log(`Dropdown: onChange(value): ${value} - ${label}`);
     onSelect({ value, label });
     setIsOpen(false);
   };
@@ -38,10 +37,10 @@ export default function Dropdown({
     return item ? item.label : title;
   };
 
-  useEffect(() => {
-    console.log("Dropdown: MOUNTED");
-    return () => console.log("Dropdown: UN-MOUNTED");
-  }, []);
+  // useEffect(() => {
+  //   console.log("Dropdown: MOUNTED");
+  //   return () => console.log("Dropdown: UN-MOUNTED");
+  // }, []);
 
   return (
     // <Wrap>
@@ -56,8 +55,6 @@ export default function Dropdown({
         {icon}
       </Button>
 
-      {/*{isOpen && (*/}
-
       <Menu isOpen={isOpen}>
         {/*<Arrow />*/}
         <Title>{title}</Title>
@@ -69,7 +66,6 @@ export default function Dropdown({
             </MenuItem>
           ))}
       </Menu>
-      {/*)}*/}
     </Wrap>
   );
 }

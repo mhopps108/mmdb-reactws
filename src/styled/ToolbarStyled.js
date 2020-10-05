@@ -13,8 +13,8 @@ export const DiscoveryToolBar = styled.div`
     "filtermenu filtermenu";
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr auto auto;
-
   padding: 0.5rem 0.75rem;
+  align-items: center;
 `;
 
 export const FilterMenuWrap = styled.div`
@@ -36,6 +36,7 @@ export const ListToolBar = styled.div`
   grid-template-columns: auto auto;
   grid-template-rows: 40px;
   padding: 0.5rem 0.75rem;
+  align-items: center;
 `;
 
 export const ReleaseDatesToolBar = styled.div`
@@ -47,8 +48,8 @@ export const ReleaseDatesToolBar = styled.div`
     "datepager datepager";
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 40px 40px;
-  
   padding: 0.5rem 0.75rem;
+  align-items: center;
   
   @media ${device.min.tablet} {
     grid-template-areas: "listinfo datepager buttons";

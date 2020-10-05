@@ -1,6 +1,5 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo } from "react";
 import { FaRegCalendar, FaRegCheckSquare, FaRegStar } from "react-icons/fa";
-// import styled from "styled-components/dist/styled-components-macro.esm";
 import styled from "styled-components/macro";
 
 const defaultFilters = {
@@ -126,7 +125,7 @@ export default function ActiveFilters({ filters }) {
   return (
     <ActiveFiltersBar>
       <div style={{ marginRight: "auto" }}>{"Filters"}</div>
-      {noFilters && <ActiveFilterTag>No Filters</ActiveFilterTag>}
+      {noFilters && <ActiveFilterTag>{"No Filters"}</ActiveFilterTag>}
       {genresString && <ActiveFilterTag>{genresString}</ActiveFilterTag>}
       {certificationString && (
         <ActiveFilterTag>{certificationString}</ActiveFilterTag>
@@ -140,13 +139,13 @@ export default function ActiveFilters({ filters }) {
       {votesString && (
         <ActiveFilterTag>
           <FaRegCheckSquare />
-          {f.votes()}
+          {votesString}
         </ActiveFilterTag>
       )}
       {yearsString && (
         <ActiveFilterTag>
           <FaRegCalendar />
-          {f.years()}
+          {yearsString}
         </ActiveFilterTag>
       )}
     </ActiveFiltersBar>

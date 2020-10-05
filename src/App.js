@@ -41,7 +41,7 @@ const GlobalStyle = createGlobalStyle`
       //font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       //'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       //sans-serif;
-      //font-family: 'Roboto', sans-serif;
+      //font-family: 'Roboto', sans-serif; 
       font-family: 'Ubuntu', sans-serif;
       letter-spacing: 0.5px;
       -webkit-font-smoothing: antialiased;

@@ -5,17 +5,15 @@ import styled from "styled-components/macro";
 import moment from "moment";
 // import { Header, Toolbar, MovieList } from "../components";
 import { releasesSortOptions } from "../constants";
-import { useQueryParams } from "../hooks";
+import { useQueryParams, useRenderCount } from "../hooks";
 import API from "../api/api";
 import { dateUtil } from "../utils/dates";
-import { device } from "../devices";
 import {
   Header,
-  Toolbar,
+  HeaderWithSearch,
   MovieList,
   DatePager,
   Dropdown,
-  HeaderWithSearch,
 } from "../components";
 import { FaSortAmountDownAlt, FaRegCalendar } from "react-icons/fa";
 import { BsArrowDownShort, BsArrowDown } from "react-icons/bs";
@@ -34,19 +32,17 @@ const { formatPeriod, startOf, endOf, getPrev, getNext } = dateUtil;
 // TODO: weekOf=, month= --- query params? instead of startFrom
 
 export default function ReleaseDates() {
-  let renderRef = useRef(0);
-  renderRef.current = renderRef.current + 1;
-  console.log("render: ", renderRef.current);
-
+  useRenderCount();
   let { type = "digital", period = "week" } = useParams();
   console.log(`type / period: ${type} / ${period}`);
+  document.title = `${type} releases by ${period} - MMdb`;
 
   const sortOptions = releasesSortOptions(type);
-
   const [queryParams, updateQueryParams] = useQueryParams({
     sort: sortOptions[0].label,
     startFrom: startOf(moment(), period),
   });
+
   console.log("ReleaseDates: useQueryParams: ", queryParams);
 
   const printGetsMovieData = (key, paramKeys, nextPage, queryParams) => {
@@ -58,8 +54,6 @@ export default function ReleaseDates() {
 
   const getMovies = async (key, paramKeys, nextPage = 1) => {
     const { type, period, startFrom, sort } = paramKeys;
-
-    // const sortby = sort || sortOptions[0].label;
     const { value } = sortOptions.find(({ value, label }) => {
       return [value, label].includes(sort);
     });
@@ -112,7 +106,7 @@ export default function ReleaseDates() {
         <ReleaseDatesToolBar>
           <ListInfo>
             <p>{type || "Loading..."}</p>
-            <span>{data ? data[0].count : "#"}</span>
+            <span>{data && data[0].count}</span>
           </ListInfo>
 
           <ButtonWrap>

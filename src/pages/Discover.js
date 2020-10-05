@@ -1,17 +1,15 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState } from "react";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
-// import { device } from "../devices";
-import { useQueryParams } from "../hooks";
-
+import { useQueryParams, useRenderCount } from "../hooks";
+import { discoverySortOptions } from "../constants";
+import API from "../api/api";
 import {
   // Header,
   HeaderWithSearch,
   MovieList,
   FilterMenu,
-  // Portal,
   Dropdown,
-  // Modal,
   ActiveFilters,
 } from "../components";
 
@@ -24,21 +22,17 @@ import {
   Button,
 } from "../styled/ToolbarStyled";
 
-import API from "../api/api";
-import { discoverySortOptions } from "../constants";
 import { FaSortAmountDownAlt, FaFilter } from "react-icons/fa";
 import { FiFilter } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
 import { BsArrowDownShort, BsArrowDown } from "react-icons/bs";
 
 export default function Discovery() {
-  let renderRef = useRef(0);
-  renderRef.current = renderRef.current + 1;
-  console.log("render: ", renderRef.current);
-
+  document.title = "Discover Movies - MMDb";
+  useRenderCount();
   const sortOptions = discoverySortOptions;
   const [queryParams, updateQueryParams] = useQueryParams({
-    sort: "votes",
+    sort: sortOptions[1].label,
     genres: [],
     certification: [],
     rating_min: 0.0,
@@ -91,10 +85,7 @@ export default function Discovery() {
   };
 
   const [showFilters, setShowFilters] = useState(false);
-  const toggleShowFilters = () => {
-    console.log("clicked - toggleShowFilters - ", showFilters);
-    setShowFilters(!showFilters);
-  };
+  const toggleShowFilters = () => setShowFilters(!showFilters);
 
   return (
     <StyledDiscover>
@@ -104,7 +95,7 @@ export default function Discovery() {
         <DiscoveryToolBar>
           <ListInfo>
             <p>{"Discover" || "Loading..."}</p>
-            <span>{data ? data[0].count : "#"}</span>
+            <span>{data && data[0].count}</span>
           </ListInfo>
 
           <ButtonWrap>

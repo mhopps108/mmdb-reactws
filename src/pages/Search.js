@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import styled from "styled-components/macro";
-import { device } from "../devices";
+import { useQueryParams, useRenderCount } from "../hooks";
 import {
   Header,
   Toolbar,
@@ -37,15 +37,11 @@ const qsOptions = {
 };
 
 export default function Search() {
-  let renderRef = useRef(0);
-  renderRef.current = renderRef.current + 1;
-  console.log("render: ", renderRef.current);
-
+  useRenderCount();
   let navigate = useNavigate();
   const location = useLocation();
 
   const [search, setSearch] = React.useState("");
-
   const [params, setParams] = useState(qs.parse(location.search, qsOptions));
   console.log("params: ", params);
 
