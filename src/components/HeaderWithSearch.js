@@ -8,7 +8,7 @@ import { FaSearch, FaUserAlt } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
 import { GrClose } from "react-icons/gr";
 import {
-  tmdbLinks,
+  listLinks,
   discoveryLinks,
   releaseDateLinks,
 } from "../constants/routes";
@@ -53,7 +53,7 @@ export default function HeaderWithSearch() {
           <Link to="/">MMDb</Link>
         </NavBrand>
         <Nav>
-          <NavDropdown title={"Lists"} items={tmdbLinks} />
+          <NavDropdown title={"Lists"} items={listLinks} />
           <NavDropdown title={"Releases"} items={releaseDateLinks} />
           <NavDropdown title={"Discover"} items={discoveryLinks} />
         </Nav>

@@ -6,7 +6,7 @@ import { device } from "../devices";
 // import { FiMenu } from "react-icons/fi";
 // import { GrClose } from "react-icons/gr";
 import {
-  tmdbLinks,
+  listLinks,
   discoveryLinks,
   releaseDateLinksByPeriod,
   releaseDateLinks,
@@ -24,7 +24,7 @@ export default function NavMenuMobile({ isOpen, toggleNav }) {
 
         <SectionHeader>Lists</SectionHeader>
         <Section>
-          {tmdbLinks.map(({ name, path, sort }, index) => {
+          {listLinks.map(({ name, path, sort }, index) => {
             return (
               <div onClick={toggleNav} key={index}>
                 <Link to={path}>{name}</Link>

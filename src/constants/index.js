@@ -71,23 +71,6 @@ export const genreOptions = [
 ];
 
 export const genreSelectOptions = [
-  // "Action",
-  // "Adventure",
-  // "Animation",
-  // "Comedy",
-  // "Crime",
-  // "Fantasy",
-  // "History",
-  // "Horror",
-  // "Music",
-  // "Musical",
-  // "Mystery",
-  // "Sci-Fi",
-  // "Sport",
-  // "Thriller",
-  // "War",
-  // "Western",
-
   { value: "action", label: "Action" },
   { value: "adventure", label: "Adventure" },
   { value: "animation", label: "Animation" },
