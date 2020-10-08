@@ -54,8 +54,8 @@ const MenuLink = styled.div`
     background: whitesmoke;
   }
 
-  & a {
-    color: var(--color-charcol);
+  a {
+    color: var(--color-charcol) !important;
     text-decoration: none;
     font-size: 1rem;
     padding: 4px 12px;
