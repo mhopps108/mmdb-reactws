@@ -26,7 +26,7 @@ export default function NavMenuMobile({ isOpen, toggleNav }) {
         <Section>
           {listLinks.map(({ name, path, sort }, index) => {
             return (
-              <div onClick={toggleNav} key={index}>
+              <div onClick={toggleNav} key={path}>
                 <Link to={path}>{name}</Link>
               </div>
             );

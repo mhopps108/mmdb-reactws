@@ -27,6 +27,27 @@ export const listLinks = [
     name: "Watched",
     path: "/list/trakt-watched?sort=rank",
   },
+
+  {
+    name: "Popular",
+    path: "/list/trakt-popular?sort=rank",
+  },
+  {
+    name: "Recommended",
+    path: "/list/trakt-recommended?sort=rank",
+  },
+  {
+    name: "Played",
+    path: "/list/trakt-played?sort=rank",
+  },
+  {
+    name: "Anticipated",
+    path: "/list/trakt-anticipated?sort=rank",
+  },
+  {
+    name: "Box Office",
+    path: "/list/trakt-boxoffice?sort=rank",
+  },
 ];
 
 export const releaseDateLinksByPeriod = {
